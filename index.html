@@ -470,6 +470,139 @@ public class LogUtil {
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/08/16/MainActivity框架/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/08/16/MainActivity框架/" itemprop="url">NewsApp编码分析</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-08-16T23:14:09+08:00">
+                2018-08-16
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="MainActivity"><a href="#MainActivity" class="headerlink" title="MainActivity"></a>MainActivity</h2><h3 id="1-要利用SlidingMenu实现侧滑功能，需要先导入第三方库SlidingMenu库，具体操作如以下链接"><a href="#1-要利用SlidingMenu实现侧滑功能，需要先导入第三方库SlidingMenu库，具体操作如以下链接" class="headerlink" title="1.要利用SlidingMenu实现侧滑功能，需要先导入第三方库SlidingMenu库，具体操作如以下链接"></a>1.要利用SlidingMenu实现侧滑功能，需要先导入第三方库SlidingMenu库，具体操作如以下链接</h3><p><a href="https://feishengqiu.github.io/2018/07/08/SlidingMenu/" title="SlidingMenu库的导入" target="_blank" rel="noopener">https://feishengqiu.github.io/2018/07/08/SlidingMenu/</a></p>
+<h3 id="2-修改："><a href="#2-修改：" class="headerlink" title="2.修改："></a>2.修改：</h3><ul>
+<li><p>MainActivity extends SlidingFragmentActivity：才能直接调用SlidingMenu的API</p>
+</li>
+<li><p>public void onCreate(Bundle savedInstanceState)：因为SlingMenu继承的Activity是public,所以protected要改成public保持一致</p>
+</li>
+</ul>
+<h3 id="3-MainActivity的框架要放两个碎片，数据域写两个静态常量来标签这两个碎片，后面可以直接索引到，非常方便"><a href="#3-MainActivity的框架要放两个碎片，数据域写两个静态常量来标签这两个碎片，后面可以直接索引到，非常方便" class="headerlink" title="3.MainActivity的框架要放两个碎片，数据域写两个静态常量来标签这两个碎片，后面可以直接索引到，非常方便"></a>3.MainActivity的框架要放两个碎片，<strong>数据域</strong>写两个静态常量来标签这两个碎片，后面可以直接索引到，非常方便</h3><pre>    public static final String MAIN_CONTENT_TAG = "MainContentTag";
+    public static final String LEFT_MENU_TAG = "LeftMenuTag";
+</pre>
+
+<ul>
+<li>static静态的好处是不需要实例化，用类就可以直接调用，class.LEFT_MENU_TAG,非常方便好用！缺点是占用内存，不过静态常量占用很小，不影响,要记住格式：public static final String(int)</li>
+</ul>
+<h3 id="4"><a href="#4" class="headerlink" title="4."></a>4.</h3>
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/08/SlidingMenu/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -932,7 +1065,7 @@ public class LogUtil {
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-count">5</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
