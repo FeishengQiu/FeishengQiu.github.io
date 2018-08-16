@@ -300,50 +300,48 @@
       
         
           
-            <h2 id="SlidingMenu库的导入"><a href="#SlidingMenu库的导入" class="headerlink" title="SlidingMenu库的导入"></a>SlidingMenu库的导入</h2><p>1.github下载SlidingMenu的demo</p>
-<blockquote>
+            <h2 id="下载第三方库，导入库，关联库"><a href="#下载第三方库，导入库，关联库" class="headerlink" title="下载第三方库，导入库，关联库"></a>下载第三方库，导入库，关联库</h2><h3 id="1-github下载SlidingMenu的demo"><a href="#1-github下载SlidingMenu的demo" class="headerlink" title="1.github下载SlidingMenu的demo"></a>1.github下载SlidingMenu的demo</h3><blockquote>
 <p><a href="https://github.com/jfeinstein10/SlidingMenu" target="_blank" rel="noopener">https://github.com/jfeinstein10/SlidingMenu</a></p>
 </blockquote>
-<p>2.解压进入该文件的libray目录，复制本地存放地址</p>
-<blockquote>
+<h3 id="2-解压进入该文件的libray目录，复制本地存放地址"><a href="#2-解压进入该文件的libray目录，复制本地存放地址" class="headerlink" title="2.解压进入该文件的libray目录，复制本地存放地址"></a>2.解压进入该文件的libray目录，复制本地存放地址</h3><blockquote>
 <p>E:\安卓参考的demo资料\北京新闻\1.上课资源\day1\资料\SlidingMenu-master\library</p>
 </blockquote>
-<p>3.Android studio:  New—&gt;Import Moudle—&gt;粘贴库的本地地址<br>—&gt;改Module name(就是导入后库的名称) :SlidingMenu_library<br>—&gt;点击Ok即可</p>
-<p>4.修改SlidingMenu_library的build.gradle：<br>首先注释掉最上面的buidscript结构体，用不上；修改SDK和support库的版本即可，点击try again，出现一个bug：retrun (float)FloatMath.sin(f), 直接把FloatMath改成Math即可，修改完毕</p>
-<p>5.关联库： 目录app右键—&gt;Open Moudle Settings—&gt;（右上）Dependencies—&gt;(右上)绿色+号—&gt;选择SlidingMenu_library，点击Ok,OK</p>
-<p>6.finish();</p>
-<p>7.API介绍：<br>SlidingMenu<br>    第一种形式<br>    直接通过 new 的形式 获取 SlidingMenu<br><span style="white-space:pre">    </span>SlidingMenu mSlidingMenu = new SlidingMenu(this);<br>    设置 SlidingMenu 的属性    设置菜单的滑出形式 右 左 左右(存在二级菜单)    setMode<br><span style="white-space:pre">    </span>mSlidingMenu.setMode(SlidingMenu.LEFT_RIGHT);<br>    设置手势控制菜单的模式<br>    TOUCHMODE_MARGIN 边缘<br>    TOUCHMODE_FULLSCREEN 整个屏幕<br>    TOUCHMODE_NONE 禁止通过手势控制菜单显示/隐藏<br>    setTouchModeAbove<br><span style="white-space:pre">    </span>mSlidingMenu.setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);<br>    设置菜单的宽度 推荐使用下面俩个方法 可以通过在配置文件中设置值单位为dp    1.setBehindOffsetRes    2.setBehindWidthRes    区别        第一个方法是设置菜单距离屏幕的偏移量 （菜单宽度 = 屏幕宽度 - 偏移量）        第二个方法是直接设置菜单宽度<br><span style="white-space:pre">    </span>mSlidingMenu.setBehindWidthRes(R.dimen.slidingmenu_width);<br>    将菜单添加到Activity指定菜单的区域    SLIDING_CONTENT 菜单在内容区域    SLIDING_WINDOW 菜单在整个屏幕    不存在ActionBar的时候 没有区别    attachToActivity<br><span style="white-space:pre">    </span>mSlidingMenu.attachToActivity(this, SlidingMenu.SLIDING_CONTENT);<br>    设置菜单 可以指定 id 后者是 View    setMenu<br><span style="white-space:pre">    </span>mSlidingMenu.setMenu(R.layout.sliding_menu_left);</p>
-<pre><code>菜单布局 sliding_menu_left
-</code></pre><p>&lt;?xml version=”1.0” encoding=”utf-8”?&gt;</p>
-<linearlayout xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent" android:layout_height="match_parent" android:background="#cccccc" android:orientation="vertical"><br><br>    <textview android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="我是左边菜单"><br><br></textview></linearlayout>
+<h3 id="3-Android-studio"><a href="#3-Android-studio" class="headerlink" title="3.Android studio:"></a>3.Android studio:</h3><p>New—&gt;Import Moudle—&gt;粘贴库的本地地址<br>—&gt;改Module name(就是导入后库的名称) :SlidingMenu_library<br>—&gt;点击Ok即可</p>
+<h3 id="4-修改SlidingMenu-library的build-gradle："><a href="#4-修改SlidingMenu-library的build-gradle：" class="headerlink" title="4.修改SlidingMenu_library的build.gradle："></a>4.修改SlidingMenu_library的build.gradle：</h3><p>首先注释掉最上面的buidscript结构体，用不上；修改SDK和support库的版本即可，点击try again，出现一个bug：retrun (float)FloatMath.sin(f), 直接把FloatMath改成Math即可，修改完毕</p>
+<h3 id="5-关联库："><a href="#5-关联库：" class="headerlink" title="5.关联库："></a>5.关联库：</h3><p>目录app右键—&gt;Open Moudle Settings—&gt;（右上）Dependencies—&gt;(右上)绿色+号—&gt;选择SlidingMenu_library，点击Ok,OK</p>
+<h3 id="6-finish"><a href="#6-finish" class="headerlink" title="6.finish();"></a>6.finish();</h3><h3 id="7-API介绍："><a href="#7-API介绍：" class="headerlink" title="7.API介绍："></a>7.API介绍：</h3><ul>
+<li><p>获取SlidingMenu实例，第一种形式直接通过 new 的形式获取SlidingMenu</p>
+  <figure class="highlight plain"><figcaption><span>mSlidingMenu </span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">* 设置 SlidingMenu 的属性,设置菜单的滑出形式 右 左 左右(存在二级菜单),调用API：setMode</span><br><span class="line"></span><br><span class="line">    ```mSlidingMenu.setMode(SlidingMenu.LEFT_RIGHT);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>设置手势控制菜单的模式:调用API：setTouchModeAbove</p>
+<p>  1.TOUCHMODE_MARGIN 边缘</p>
+<p>  2.TOUCHMODE_FULLSCREEN 整个屏幕</p>
+<p>  3.TOUCHMODE_NONE 禁止通过手势控制菜单显示/隐藏</p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">* 设置菜单的宽度 推荐使用下面俩个方法 可以通过在配置文件中设置值单位为dp </span><br><span class="line"></span><br><span class="line">    1.setBehindOffsetRes</span><br><span class="line"></span><br><span class="line">    2.setBehindWidthRes</span><br><span class="line"></span><br><span class="line">   区别：第一个方法是设置菜单距离屏幕的偏移量 （菜单宽度 = 屏幕宽度 - 偏移量），第二个方法是直接设置菜单宽度</span><br><span class="line"></span><br><span class="line">   ```mSlidingMenu.setBehindWidthRes(R.dimen.slidingmenu_width);</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>   说明：将菜单添加到Activity指定菜单的区域，SLIDING_CONTENT 菜单在内容区域    SLIDING_WINDOW 菜单在整个屏幕，不存在ActionBar的时候 没有区别</p>
+<ul>
+<li><p>设置二级菜单 可以指定 id 或者是 View</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"> </span><br></pre></td></tr></table></figure>
+</li>
+<li><p>设置菜单阴影背景</p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">* 设置菜单阴影背景宽度</span><br><span class="line"></span><br><span class="line">    ```  setShadowWidth</span><br><span class="line">    setShadowWidthRes</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>设置二级菜单阴影背景</p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">* 控制一级菜单隐藏/显示</span><br><span class="line"></span><br><span class="line">    ```toggle</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>开启淡入淡出效果</p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">* 设置淡入淡出效果 0.0f - 1.0f 值越大效果越明显</span><br><span class="line"></span><br><span class="line">    ```setFadeDegree</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>菜单关闭监听</p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">* 菜单打开监听</span><br><span class="line"></span><br><span class="line">    ```setOnOpenedListener</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>控制菜单和视图之间的移动速度比</p>
+<p>  <code>setBehindScrollScale</code></p>
+</li>
+</ul>
 
-<pre><code>设置二级菜单 可以指定 id 或者是 View
-setSecondaryMenu
-显示菜单
-showMenu
-显示二级菜单
-showSecondaryMenu
-设置菜单阴影背景
-setShadowDrawable
-设置菜单阴影背景宽度
-setShadowWidth
-setShadowWidthRes
-设置二级菜单阴影背景
-setSecondaryShadowDrawable
-控制一级菜单隐藏/显示
-toggle
-开启淡入淡出效果
-setFadeEnabled
-设置淡入淡出效果 0.0f - 1.0f 值越大效果越明显
-setFadeDegree
-菜单关闭监听
-setOnClosedListener
-菜单打开监听
-setOnOpenedListener
-控制菜单和视图之间的移动速度比
-0.0f - 1.0f
-setBehindScrollScale
-</code></pre>
           
         
       
@@ -506,6 +504,147 @@ setBehindScrollScale
 
 
     
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/08/Hexo基本操作/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/07/08/Hexo基本操作/" itemprop="url">Hexo基本操作</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-07-08T00:30:35+08:00">
+                2018-07-08
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="Markdown书写"><a href="#Markdown书写" class="headerlink" title="Markdown书写"></a>Markdown书写</h2><ul>
+<li><p>复制粘贴Markdown模板</p>
+</li>
+<li><p>修改：文件名 title，date</p>
+</li>
+<li><p>子标题##号 然后” “(英文,不能是中文)不能忘记，否则Hexo解析不了</p>
+</li>
+<li><p>子子标题用 ###号</p>
+</li>
+<li><p>任意内容之间的间距都是一个Enter,因为hexo会根据#自动调节间距，所以只需要一个Enter即可</p>
+</li>
+<li><p>这是根据官方Hello world的写法而做，排版很精致</p>
+</li>
+</ul>
+<h2 id="Markdown提交到Hexo"><a href="#Markdown提交到Hexo" class="headerlink" title="Markdown提交到Hexo"></a>Markdown提交到Hexo</h2><ul>
+<li><p>复制粘贴md文件到blog的source—&gt;_posts—&gt;回到blog目录打开cmd窗口—&gt;hexo g（生成静态文本）—&gt;hexo s（本地预览）—&gt;hexo d（提交到github的hexo）</p>
+</li>
+<li><p>修改文章内容：到post里面直接修改文件—&gt;然后hexo g,d即可</p>
+</li>
+<li><p>其它感想，再更。</p>
+</li>
+</ul>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
   </section>
 
   
@@ -552,7 +691,7 @@ setBehindScrollScale
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-count">3</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
