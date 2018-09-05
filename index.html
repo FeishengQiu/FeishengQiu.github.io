@@ -2116,7 +2116,178 @@ private int currentStatus = PULL_DOWN_REFRESH;
 <li><p>3.之后上传的文件就在upload目录下可查看</p>
 </li>
 </ul>
-<h3 id="24-POST和GET都可以请求数据获得服务器的文本数据，但是上传提交数据给服务器，只能用POST"><a href="#24-POST和GET都可以请求数据获得服务器的文本数据，但是上传提交数据给服务器，只能用POST" class="headerlink" title="24. POST和GET都可以请求数据获得服务器的文本数据，但是上传提交数据给服务器，只能用POST"></a>24. POST和GET都可以请求数据获得服务器的文本数据，但是上传提交数据给服务器，只能用POST</h3><h3 id="25-Share到不同的平台，是通过每个平台的jar包来实现的"><a href="#25-Share到不同的平台，是通过每个平台的jar包来实现的" class="headerlink" title="25.Share到不同的平台，是通过每个平台的jar包来实现的"></a>25.Share到不同的平台，是通过每个平台的jar包来实现的</h3><h3 id="26"><a href="#26" class="headerlink" title="26."></a>26.</h3>
+<h3 id="24-POST和GET都可以请求数据获得服务器的文本数据，但是上传提交数据给服务器，只能用POST"><a href="#24-POST和GET都可以请求数据获得服务器的文本数据，但是上传提交数据给服务器，只能用POST" class="headerlink" title="24. POST和GET都可以请求数据获得服务器的文本数据，但是上传提交数据给服务器，只能用POST"></a>24. POST和GET都可以请求数据获得服务器的文本数据，但是上传提交数据给服务器，只能用POST</h3><h3 id="25-Share到不同的平台，是通过每个平台的jar包来实现的"><a href="#25-Share到不同的平台，是通过每个平台的jar包来实现的" class="headerlink" title="25.Share到不同的平台，是通过每个平台的jar包来实现的"></a>25.Share到不同的平台，是通过每个平台的jar包来实现的</h3><h3 id="26-碎片的生命周期"><a href="#26-碎片的生命周期" class="headerlink" title="26.碎片的生命周期"></a>26.碎片的生命周期</h3><ul>
+<li>Fragment类提供了一系列的回调方法，以覆盖碎片的每个环节，主要的回调方法有： </li>
+<li>1、onAttach()：当碎片和活动建立关联的时候调用。 </li>
+<li>2、onCreateView()：为碎片创建视图（加载布局）时调用。 </li>
+<li>3、onActivityCreated()：确保与碎片相关联的活动一定已经创建完毕的时候调用。 </li>
+<li>4、onDestroyView()：当与碎片关联的视图被移除的时候调用。 </li>
+<li>5、onDetach()：当碎片和活动解除关联的时候调用。</li>
+</ul>
+<p><img src="https://i.imgur.com/IAVJyAe.png" alt=""></p>
+<h3 id="setSelection-int-position-方法"><a href="#setSelection-int-position-方法" class="headerlink" title="setSelection(int position)方法"></a>setSelection(int position)方法</h3><ul>
+<li>这个方法的作用就是将第position个item显示在listView的最上面一项，假如有一个ListView控件，其一次只能显示10个item，但现在有20个数据项，设置好adapter以后，默认是第一个数据项显示在最上面，如果我现在调用setSelection(2),则第3个数据项会显示在最上面，调用setSelection(9),则第10个数据项会显示在最上面。但需要注意的是，如果我调用setSelection(19),第20个数据项不会显示在最上面，因为其可以显示10个数据项，最上面的一个最大只可能是11，也就是说如果setSelection传入参数大于10，都只会显示11；如果小于11，则传入参数是几最上面一项显示的就是几.</li>
+</ul>
+<h3 id="for循环的遍历写法"><a href="#for循环的遍历写法" class="headerlink" title="for循环的遍历写法"></a>for循环的遍历写法</h3><ul>
+<li>不严格的说，Java的第二种for循环基本是这样的格式：</li>
+<li><p>for (循环变量类型 循环变量名称 : 要被遍历的对象) 循环体</p>
+</li>
+<li><pre>
+
+    for (Province province: provinceList){
+          dataList.add(province.getProvinceName());
+
+      }
+</pre>
+
+</li>
+</ul>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/08/S英库/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="FeishengQiu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="FeishengQiu">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/07/08/S英库/" itemprop="url">EnglishWorld</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-07-08T00:30:35+08:00">
+                2018-07-08
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="S英库，随意走遍英语的世界"><a href="#S英库，随意走遍英语的世界" class="headerlink" title="S英库，随意走遍英语的世界"></a>S英库，随意走遍英语的世界</h2><h2 id="Day-2018-9-4"><a href="#Day-2018-9-4" class="headerlink" title="Day:2018-9-4"></a>Day:2018-9-4</h2><ul>
+<li><p>I assure you that you will feel no pain at all. //我保证你根本不会觉得疼的</p>
+</li>
+<li><p>expandable：adj：可扩张的，可膨胀的</p>
+</li>
+<li><p>expand: vt vi: 扩张，膨胀</p>
+</li>
+<li><p>Refactor: n: 重构</p>
+</li>
+<li><p>Rendering Engine(渲染引擎)</p>
+</li>
+<li><p>Trident:三叉戟</p>
+</li>
+<li><p>gecko:壁虎</p>
+</li>
+<li><p>alternative： n: 可选择的事物  adj：替代的</p>
+</li>
+<li><p>gallery： n:画廊，走廊</p>
+</li>
+</ul>
+<hr>
+<h2 id="Day-2018-9-5"><a href="#Day-2018-9-5" class="headerlink" title="Day:2018-9-5"></a>Day:2018-9-5</h2><ul>
+<li><p>It’s a turning point in my life. //这是我人生的转折点</p>
+</li>
+<li></li>
+</ul>
+
           
         
       
@@ -2342,7 +2513,7 @@ private int currentStatus = PULL_DOWN_REFRESH;
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-count">8</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
