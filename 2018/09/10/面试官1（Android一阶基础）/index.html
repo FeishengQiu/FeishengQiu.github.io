@@ -1,0 +1,850 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="Android一阶1.请简要介绍Android的四大组件（定义是什么，功能是什么）/Android中Activity, Intent, Content Provider, Service各有什么区别(说出他们各自的定义和功能即可) Activity：一种可以包含用户界面的组件，主要和用户进行交互 Service: 一种可以在后台执行长时间运行操作而没有用户界面的应用组件 Broadcast Rec">
+<meta name="keywords" content="Android Developer">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android一阶">
+<meta property="og:url" content="http://yoursite.com/2018/09/10/面试官1（Android一阶基础）/index.html">
+<meta property="og:site_name" content="FeishengQiu">
+<meta property="og:description" content="Android一阶1.请简要介绍Android的四大组件（定义是什么，功能是什么）/Android中Activity, Intent, Content Provider, Service各有什么区别(说出他们各自的定义和功能即可) Activity：一种可以包含用户界面的组件，主要和用户进行交互 Service: 一种可以在后台执行长时间运行操作而没有用户界面的应用组件 Broadcast Rec">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-09-25T17:46:59.744Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Android一阶">
+<meta name="twitter:description" content="Android一阶1.请简要介绍Android的四大组件（定义是什么，功能是什么）/Android中Activity, Intent, Content Provider, Service各有什么区别(说出他们各自的定义和功能即可) Activity：一种可以包含用户界面的组件，主要和用户进行交互 Service: 一种可以在后台执行长时间运行操作而没有用户界面的应用组件 Broadcast Rec">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/09/10/面试官1（Android一阶基础）/"/>
+
+
+
+
+
+  <title>Android一阶 | FeishengQiu</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">FeishengQiu</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">Keep learning all the time</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/09/10/面试官1（Android一阶基础）/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="FeishengQiu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="FeishengQiu">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Android一阶</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-09-10T00:30:35+08:00">
+                2018-09-10
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="Android一阶"><a href="#Android一阶" class="headerlink" title="Android一阶"></a>Android一阶</h2><h3 id="1-请简要介绍Android的四大组件（定义是什么，功能是什么）-Android中Activity-Intent-Content-Provider-Service各有什么区别-说出他们各自的定义和功能即可"><a href="#1-请简要介绍Android的四大组件（定义是什么，功能是什么）-Android中Activity-Intent-Content-Provider-Service各有什么区别-说出他们各自的定义和功能即可" class="headerlink" title="1.请简要介绍Android的四大组件（定义是什么，功能是什么）/Android中Activity, Intent, Content Provider, Service各有什么区别(说出他们各自的定义和功能即可)"></a>1.请简要介绍Android的四大组件（定义是什么，功能是什么）/Android中Activity, Intent, Content Provider, Service各有什么区别(说出他们各自的定义和功能即可)</h3><ul>
+<li>Activity：一种可以包含用户界面的组件，主要和用户进行交互</li>
+<li>Service: 一种可以在后台执行长时间运行操作而没有用户界面的应用组件</li>
+<li>Broadcast Receive:可以在应用程序之间传输信息，通过发送Intent来传送我们的目标数据</li>
+<li>Content Provider:内容提供者，它是用在不同的应用程序之间共享数据时，可以把一个应用的数据提供给其他的应用使用。</li>
+<li>(常 见 的 Activity 类 型 有 FragmentActivitiy ， ListActivity ，TabAcitivty 等)</li>
+</ul>
+<h3 id="2-描述一下Activity的生命周期"><a href="#2-描述一下Activity的生命周期" class="headerlink" title="2.描述一下Activity的生命周期"></a>2.描述一下Activity的生命周期</h3><ul>
+<li>Activity的生命周期有4种状态</li>
+<li>运行状态：活动处于返回栈的栈顶，完全可见</li>
+<li>暂停状态：活动不处于栈顶，但仍然可见，例如切换的活动B是一个对话框形式的活动，活动A不会被完全覆盖</li>
+<li>停止状态：活动不在栈顶，完全不可见</li>
+<li>销毁状态：活动从返回栈移除</li>
+<li>然后Activity的生命周期对应着7大回调方法： onCreate(),onStart(),onResume(),onPause(),onStop(),OnRestart(),onDestroy()</li>
+<li>(完整生存期，可见生存期，前台生存期)</li>
+</ul>
+<h3 id="3-如何保存-Activity-的状态-内存不足时系统会杀掉后台的Activity，若需要进行一些临时状态的保存，在哪个方法进行？（内存不足、用户直接按Home键）"><a href="#3-如何保存-Activity-的状态-内存不足时系统会杀掉后台的Activity，若需要进行一些临时状态的保存，在哪个方法进行？（内存不足、用户直接按Home键）" class="headerlink" title="3.如何保存 Activity 的状态/内存不足时系统会杀掉后台的Activity，若需要进行一些临时状态的保存，在哪个方法进行？（内存不足、用户直接按Home键）"></a>3.如何保存 Activity 的状态/内存不足时系统会杀掉后台的Activity，若需要进行一些临时状态的保存，在哪个方法进行？（内存不足、用户直接按Home键）</h3><ul>
+<li>可以重写 onSaveInstanceState()这个方 法，onSaveInstanceState()方法接受一个 Bundle 类型的参数, 我们可以将状态数据存储到这个Bundle对象中，（键值对的形式）即使Activity被摧毁了，在onCreate方法重新被调用的时候，我们可以从savedInstanceState中取出保存的数据，恢复状态</li>
+</ul>
+<h3 id="4-两个-Activity-之间跳转时必然会执行的是哪几个方法"><a href="#4-两个-Activity-之间跳转时必然会执行的是哪几个方法" class="headerlink" title="4.两个 Activity 之间跳转时必然会执行的是哪几个方法"></a>4.两个 Activity 之间跳转时必然会执行的是哪几个方法</h3><ul>
+<li>例如活动 A跳转到 活动 B，首先活动A会调用onPause()方法，然后B调用onCreate()，onStart(),onResume();如果活动B完全覆盖了窗体，A完全不可见，就会调用onStop（）方法，如果B没有完全覆盖，例如是一个对话框形式的活动，A就不会调用onStop()方法，根据情况而定</li>
+</ul>
+<h3 id="5-横竖屏切换时-Activity-的生命周期"><a href="#5-横竖屏切换时-Activity-的生命周期" class="headerlink" title="5.横竖屏切换时 Activity 的生命周期"></a>5.横竖屏切换时 Activity 的生命周期</h3><ul>
+<li>不设置 Activity 的 android:configChanges 时，切屏默认首先销毁当前Activity，然后重新加载，回调各个生命周期方法；设置 Activity android:configChanges=”orientation|keyboardHiddenscreenSize”时，切屏不会重新调用各个生命周期，只会执行 onConfigurationChanged 方法。</li>
+</ul>
+<h3 id="6-如何将一个-Activity-设置成窗口的样式"><a href="#6-如何将一个-Activity-设置成窗口的样式" class="headerlink" title="6.如何将一个 Activity 设置成窗口的样式"></a>6.如何将一个 Activity 设置成窗口的样式</h3><ul>
+<li>只需要给我们的 Activity 配置如下属性即可，android:theme=”@android:style/Theme.Dialog”</li>
+</ul>
+<h3 id="7-如-何-退-出-Activity-？-如-何-安-全-退-出-已-调-用-多-个-Activity-的Application？"><a href="#7-如-何-退-出-Activity-？-如-何-安-全-退-出-已-调-用-多-个-Activity-的Application？" class="headerlink" title="7.如 何 退 出 Activity ？ 如 何 安 全 退 出 已 调 用 多 个 Activity 的Application？"></a>7.如 何 退 出 Activity ？ 如 何 安 全 退 出 已 调 用 多 个 Activity 的Application？</h3><ul>
+<li>1.首先最简单的当然是直接调用finish（）方法，back键</li>
+<li>2.记录打开的Activity:我们可以创建一个ActivityCollector的类，然后里面创建一个Activity的集合，然后把所有的Activity添加进去，再写一个总的finishAll()方法，里面是一个for循环来finish所有的Activity</li>
+<li>3.发送特定广播：在需要结束应用时，发送一个特定的广播，每个 Activity 收到广播后，调用finish（）方法，关闭活动即可</li>
+</ul>
+<h3 id="8-Activity的启动模式有？-Activity-的四种启动模式，singletop-和-singletask-区别是什么？-介绍Activity的几中启动模式，并简单说说自己的理解或者使用场景"><a href="#8-Activity的启动模式有？-Activity-的四种启动模式，singletop-和-singletask-区别是什么？-介绍Activity的几中启动模式，并简单说说自己的理解或者使用场景" class="headerlink" title="8.Activity的启动模式有？/Activity 的四种启动模式，singletop 和 singletask 区别是什么？/介绍Activity的几中启动模式，并简单说说自己的理解或者使用场景"></a>8.Activity的启动模式有？/Activity 的四种启动模式，singletop 和 singletask 区别是什么？/介绍Activity的几中启动模式，并简单说说自己的理解或者使用场景</h3><ul>
+<li>standard：默认模式，在这个模式下，都会默认创建一个新的实例，因此可以有多个相同的实例，也允许多个相同Activity叠加。</li>
+<li>singleTop：如果Activity在栈顶的时候，启动相同的Activity，不会创建新的实例，而会调用onNewIntent方法</li>
+<li>singleTask：只有一个实例。在同一个应用程序中启动他的时候，若Activity不存在，则会在当前task创建一个新的实例，若存在，则会把task中在其之上的其它Activity destory掉并调用它的onNewIntent方法。（主页的Activity很常用）</li>
+<li>singleInstance：只有一个实例，并且这个实例独立运行在一个task中，这个task只有这个实例，不允许有别的Activity存在。</li>
+</ul>
+<h3 id="9-Android-中的-Context-Activity，Appliction-有什么区别"><a href="#9-Android-中的-Context-Activity，Appliction-有什么区别" class="headerlink" title="9.Android 中的 Context, Activity，Appliction 有什么区别"></a>9.Android 中的 Context, Activity，Appliction 有什么区别</h3><ul>
+<li>Activity 和 Application 都是 Context 的子类；</li>
+<li>Context是一个抽象类，从字面上理解就是上下文的意思，在实际应用中它也确实是起到了管理上下文环境中各个参数和变量的作用，方便我们可以简单的访问到各种资源。具体实现类是（ContextIml）</li>
+<li>不同：维护的生命周期不同。 Context 维护的是当前的 Activity 的生命周期，Application 维护<br>的是整个应用程序的生命周期。</li>
+<li>（使用 context 的时候，小心内存泄露，防止内存泄露，注意一下几个方面；不要让生命周期长的对象引用 activity context，即保证引用 activity 的对象要与 activity 本身生命周期是一样的；对于生命周期长的对象，可以使用 application，context）</li>
+</ul>
+<h3 id="10-两个-Activity-之间传递数据，除了-intent，广播接收者，contentprovider-还有啥？"><a href="#10-两个-Activity-之间传递数据，除了-intent，广播接收者，contentprovider-还有啥？" class="headerlink" title="10.两个 Activity 之间传递数据，除了 intent，广播接收者，contentprovider 还有啥？"></a>10.两个 Activity 之间传递数据，除了 intent，广播接收者，contentprovider 还有啥？</h3><ul>
+<li>利用 static 静态数据，public static 成员变量</li>
+<li>外部存储：File 文件存储；SharedPreferences ；Sqlite 数据库</li>
+</ul>
+<h3 id="11-你知道onNewIntent吗"><a href="#11-你知道onNewIntent吗" class="headerlink" title="11.*你知道onNewIntent吗"></a>11.*你知道onNewIntent吗</h3><ul>
+<li>活动B是之前打开过的Activity，现在处于onPause、onStop 状态的话，其他应用再发送Intent的话，执行顺序为：onNewIntent，onRestart，onStart，onResume。</li>
+</ul>
+<h3 id="12-除了用Intent-去启动一个Activity，还有其他方法吗"><a href="#12-除了用Intent-去启动一个Activity，还有其他方法吗" class="headerlink" title="12.*除了用Intent 去启动一个Activity，还有其他方法吗"></a>12.*除了用Intent 去启动一个Activity，还有其他方法吗</h3><ul>
+<li>使用adb shell am 命令启动一个activity；am发送一个广播，使用action</li>
+</ul>
+<h3 id="13-Service-Service-是否在-main-thread-中执行-service-里面是否能执行耗时的操作"><a href="#13-Service-Service-是否在-main-thread-中执行-service-里面是否能执行耗时的操作" class="headerlink" title="13.Service:Service 是否在 main thread 中执行, service 里面是否能执行耗时的操作?"></a>13.Service:Service 是否在 main thread 中执行, service 里面是否能执行耗时的操作?</h3><ul>
+<li>Service 和 activity 是运行在当前应用程序所在进程的 main thread(UI 主线程)里面。</li>
+<li>service 里面不能执行耗时的操作(网络请求,拷贝数据库,大文件 )</li>
+<li>特殊情况下可以去AndroidManifest里面去配置它的进程</li>
+</ul>
+<h3 id="14-Activity-怎么和-Service-绑定，怎么在-Activity-中启动自己对应的Service？"><a href="#14-Activity-怎么和-Service-绑定，怎么在-Activity-中启动自己对应的Service？" class="headerlink" title="14.Activity 怎么和 Service 绑定，怎么在 Activity 中启动自己对应的Service？"></a>14.Activity 怎么和 Service 绑定，怎么在 Activity 中启动自己对应的Service？</h3><ul>
+<li>Activity 通过 bindService(Intent service, ServiceConnection conn, BIND_AUTO_CREATE)跟 Service 进行绑定，当绑定成功的时候 （Service 会将代理对象通过回调的形式传给 conn，这样我们就拿到了Service 提供的服务代理对象。）绑定成功的话就会回调onServiceConnected这个方法</li>
+<li>般情况下如果想获取Service 的服务对象那么肯定需要通过 bindService（）方法；如果仅仅只是为了开启一个后台任务那么可以使用 startService（）方法。</li>
+</ul>
+<h3 id="15-比较两种开启服务的区别"><a href="#15-比较两种开启服务的区别" class="headerlink" title="15.比较两种开启服务的区别"></a>15.比较两种开启服务的区别</h3><ul>
+<li>startService:如果服务已经开启，不会重复的执行onCreate(), 而是会调用onStartCommand()。服务停止的时候调用 onDestory()。一旦服务开启跟调用者(开启者)就没有任何关系了。Activity退出了，销毁了，服务还在后台长期的运行。而且Activity不能调用服务里面的方法。</li>
+<li>bind的方式开启服务，绑定服务，调用者挂了，服务也会跟着挂掉。绑定者可以调用服务里面的方法</li>
+</ul>
+<h3 id="16-请描述一下-Service-的生命周期"><a href="#16-请描述一下-Service-的生命周期" class="headerlink" title="16.请描述一下 Service 的生命周期"></a>16.请描述一下 Service 的生命周期</h3><ul>
+<li>非 绑 定 模 式 ： 当 第 一 次 调 用 startService 的 时 候 执 行 的 方 法 依 次 为 onCreate() 、onStartCommand()，当 Service 关闭的时候调用 onDestory 方法。</li>
+<li>第一次 bindService（）的时候，执行的方法为 onCreate()、onBind(）解除绑定的时候会执行 onUnbind()、onDestory()。</li>
+<li>我们在开发的过程中还必须注意 Service 实例只会有一个，也就是说如果当前要启动的 Service 已经存在了那么就不会再次创建该 Service 当然也不会调用 onCreate（）方法。一个 Service 可以被多个客户进行绑定，只有所有的绑定对象都执行了 onUnBind（）方法后该Service 才会销毁</li>
+</ul>
+<h3 id="17-什么是-IntentService？有何优点？"><a href="#17-什么是-IntentService？有何优点？" class="headerlink" title="17.什么是 IntentService？有何优点？"></a>17.什么是 IntentService？有何优点？</h3><ul>
+<li>因为Service是运行在主线程的，所以当我们需要在Service里面执行一些耗时的操作，我们就必须要开启线程，在onStartCommand()回调方法里开启线程和重写run方法.start;然后还需要在里面加stopSelf()让服务执行完毕后自动停止（所以总共2步）</li>
+<li>为了更加方便的开启线程和自动停止服务，我们就可以使用IntentService；创建独立的 worker 线程来处理所有的 Intent 请求和onHandleIntent()方法实现的代码；我们只要重写onHandleIntent()方法即可，执行完毕后会自动停止服务（没看过源码，但是有用打印日志的方式验证了一下线程不一样，执行完毕后就自动停止服务，无需调用 stopSelf()方法停止 Service），可以避免ANR问题，又方便开线程和自动停止服务</li>
+</ul>
+<h3 id="18-说说-Activity、Intent、Service-是什么关系"><a href="#18-说说-Activity、Intent、Service-是什么关系" class="headerlink" title="18.说说 Activity、Intent、Service 是什么关系"></a>18.说说 Activity、Intent、Service 是什么关系</h3><ul>
+<li>其中 Activity 和 Service 都是 Android 四大组件<br>之一。他俩都是 Context 类的子类 ContextWrapper 的子类，因此他俩可以算是兄弟关系吧。不过<br>兄弟俩各有各自的本领，Activity 负责用户界面的显示和交互，Service 负责后台任务的处理。Activity<br>和 Service 之间可以通过 Intent 传递数据，因此可以把 Intent 看作是通信使者。</li>
+</ul>
+<h3 id="19-Service-里面可以弹吐司么"><a href="#19-Service-里面可以弹吐司么" class="headerlink" title="19.Service 里面可以弹吐司么"></a>19.Service 里面可以弹吐司么</h3><ul>
+<li>可以的。弹吐司有个条件就是得有一个 Context 上下文，而 Service 本身就是 Context 的子类，因<br>此在 Service 里面弹吐司是完全可以的。比如我们在 Service 中完成下载任务后可以弹一个吐司通知<br>用户。</li>
+</ul>
+<h3 id="20-什么是-Service？为什么需要Service"><a href="#20-什么是-Service？为什么需要Service" class="headerlink" title="20.什么是 Service？为什么需要Service"></a>20.什么是 Service？为什么需要Service</h3><ul>
+<li>Service的出现可以理解为是Activity的补充，实现Activity实现不了的功能，即使应用关闭和切换应用B，应用A的Service还能继续运行，从而执行一些耗时，长期运行的后台任务，例如下载,播放音乐（我们打开应用B做别的操作）音乐播放、下载、上传大文件、定时关闭应用等功能。这些功能如果放到Activity中做的话，那Activity退出被销毁了的话，那这些功能也就停止了，这显然是不符合我们的设计要求的，所以要将他们放在Service中去执行。</li>
+</ul>
+<h3 id="21-在-service-的生命周期方法-onstartConmand-可不可以执行网络操作？如何在-service-中执行网络操作？"><a href="#21-在-service-的生命周期方法-onstartConmand-可不可以执行网络操作？如何在-service-中执行网络操作？" class="headerlink" title="21.在 service 的生命周期方法 onstartConmand()可不可以执行网络操作？如何在 service 中执行网络操作？"></a>21.在 service 的生命周期方法 onstartConmand()可不可以执行网络操作？如何在 service 中执行网络操作？</h3><ul>
+<li>可以直接在 Service 中执行网络操作,在 onStartCommand()方法中可以执行网络操作</li>
+<li>如果需要在服务中进行耗时操作，可以选择IntentService， IntentService是Service的子类，用来处理异步请求。</li>
+</ul>
+<h3 id="22-注册Service需要注意什么"><a href="#22-注册Service需要注意什么" class="headerlink" title="22.注册Service需要注意什么"></a>22.注册Service需要注意什么</h3><ul>
+<li>ervice还是运行在主线程当中的，所以如果需要执行一些复杂的逻辑操作，最好在服务的内部手动创建子线程进行处理，否则会出现UI线程被阻塞的问题，出现ANR的问题</li>
+</ul>
+<h3 id="23-Service与Activity怎么实现通信"><a href="#23-Service与Activity怎么实现通信" class="headerlink" title="23.Service与Activity怎么实现通信"></a>23.Service与Activity怎么实现通信</h3><ul>
+<li>service里面添加一个继承Binder的内部类，并添加相应的逻辑方法；重写Service的onBind方法，返回我们刚刚定义的那个内部类实例；重写onServiceConnection，onServiceConnected时调用逻辑方法 绑定服务</li>
+</ul>
+<h3 id="24-Broadcast-Receiver-请描述一下-BroadcastReceiver"><a href="#24-Broadcast-Receiver-请描述一下-BroadcastReceiver" class="headerlink" title="24.Broadcast Receiver:请描述一下 BroadcastReceiver"></a>24.Broadcast Receiver:请描述一下 BroadcastReceiver</h3><ul>
+<li>BroadCastReceiver 是 Android 四大组件之一，主要用于接收系统或者应用程序发送的广播事件</li>
+<li>广播分两种：标准广播和有序广播；标准异步执行，效率高，无法截断；有序同步执行，优先级高的广播可以先接收到，可以截断广播；</li>
+<li>在我们的项目中经常使用广播接收者接收系统通知，比如开机启动、sd 挂载、低电量、监听网络情况</li>
+</ul>
+<h3 id="25-在-manifest-和代码中如何静态注册和使用-BroadcastReceiver"><a href="#25-在-manifest-和代码中如何静态注册和使用-BroadcastReceiver" class="headerlink" title="25.在 manifest 和代码中如何静态注册和使用 BroadcastReceiver"></a>25.在 manifest 和代码中如何静态注册和使用 BroadcastReceiver</h3><ul>
+<li>在清单文件中注册广播接收者称为静态注册，在代码中注册称为动态注册。静态注册的广播接收者只要 app 在系统中运行则一直可以接收到广播消息，动态注册的广播接收者当注册的 Activity 或者 Service 销毁了那么就接收不到广播了。这就是静态注册和动态注册的区别</li>
+<li>静态注册的过程：在清单文件里的application标签内进行注册，AS自动生成&lt;receiver标签，然后在里面加入<intent-filter>标签，再嵌套一个目标广播的action值，例如开机是BOOT_COMPLETED,然后再加相对应的监听广播的权限</intent-filter></li>
+<li>动态注册的过程：新建一个类继承BroadcastReceiver,然后重写onReceive方法，然后在Activity里面创建这个类的实例，再调用registerReceiver（实例，intentFilter）就可以完成注册，不过记得要手动取消注册，调用unregisterReceiver（实例）方法，一般写在onDestroy方法里</li>
+</ul>
+<h3 id="26-BroadCastReceiver-的生命周期"><a href="#26-BroadCastReceiver-的生命周期" class="headerlink" title="26.BroadCastReceiver 的生命周期"></a>26.BroadCastReceiver 的生命周期</h3><ul>
+<li>广播接收者的生命周期非常短暂的，在接收到广播的时候创建，onReceive()方法结束之后销毁；</li>
+<li>广播接收者中不要做一些耗时的工作，否则会弹出 Application No Response 错误对话框；不能超过10秒</li>
+<li>最好也不要在广播接收者中创建子线程做耗时的工作，因为广播接收者被销毁后进程就成为了空进程，很容易被系统杀掉；（耗时的放在服务里比较好）</li>
+</ul>
+<h3 id="27-Android-引入广播机制的用意"><a href="#27-Android-引入广播机制的用意" class="headerlink" title="27.Android 引入广播机制的用意"></a>27.Android 引入广播机制的用意</h3><ul>
+<li>首先Android的四大组件之间，有时候是相互依存的关系，例如Activity绑定服务，有时候又是一种补充关系，Service我们可以理解为是对Activity的补充，引入广播机制可以方便四大组件的信息和数据交互。</li>
+<li>程序间互通消息(例如在自己的应用程序内监听系统的网络变换)</li>
+</ul>
+<h3 id="28-怎么发送广播"><a href="#28-怎么发送广播" class="headerlink" title="28.怎么发送广播"></a>28.怎么发送广播</h3><ul>
+<li>发送标准广播：Intent intent =new Intent(“自定义广播值/或者已存在的广播值”)；sendBroadcast(intent);</li>
+<li>发送有序广播：Intent intent =new Intent(“自定义广播值/或者已存在的广播值”)；sendOrderedBroadcast(intent);</li>
+<li>即：把广播值存储到intent中，然后调用sendBroadcast或者sendOrderedBroadcast</li>
+</ul>
+<h3 id="29-使用本地广播"><a href="#29-使用本地广播" class="headerlink" title="29.使用本地广播"></a>29.使用本地广播</h3><ul>
+<li>为了本程序携带关键性数据的广播不被其他程序获取，解决安全问题，我们将使用本地广播</li>
+<li>一样是新建一个类继承自BroadcastReceiver作为广播接收器才能接收广播（本质上是重写onReceive方法，执行接收到广播之后的逻辑），然后静态注册，清单文件里加入广播的action值即可</li>
+<li>再在Activity里面加一个LocalBroadcastManager的实例（LocalBroadcastManager.getInstance(this)）,用这个本地广播的实例来发送含有广播action值的intent即可；</li>
+<li>反正一个要send（intent(广播值)）,一个要接收，注册那个广播值，onReceiver来执行目标动作</li>
+</ul>
+<h3 id="30-请介绍下-ContentProvider-是如何实现数据共享的"><a href="#30-请介绍下-ContentProvider-是如何实现数据共享的" class="headerlink" title="30.请介绍下 ContentProvider 是如何实现数据共享的"></a>30.请介绍下 ContentProvider 是如何实现数据共享的</h3><ul>
+<li>在 Android 中如果想将自己应用的数据（一般多为数据库中的数据）提供给第三发应用，那么<br>我们可以通过 ContentProvider 来实现了。使用的时候首先自定义一个类继承ContentProvider，然后覆写 query、insert、update、delete 等方法。因为其是四大组件之一因此必须在 AndroidManifest 文件中进行注册。参数uri由两部分组成：authority,一般取包名；path：数据库的表来代替，然后Uri.parse成uri对象</li>
+<li>访问内容提供器的数据时：需要借助ContentResolver类，getContentResolver可以得到这个实例；然后调用query(),insert（）进行CRUD操作</li>
+</ul>
+<h3 id="31-为什么要用-ContentProvider？它和-sql-的实现上有什么差别？"><a href="#31-为什么要用-ContentProvider？它和-sql-的实现上有什么差别？" class="headerlink" title="31.为什么要用 ContentProvider？它和 sql 的实现上有什么差别？"></a>31.为什么要用 ContentProvider？它和 sql 的实现上有什么差别？</h3><ul>
+<li>ContentProvider 屏蔽了数据存储的细节,内部实现对用户完全透明,用户只需要关心操作数据的uri 就可以了，ContentProvider 可以实现不同 app 之间共享。</li>
+<li>区别：Sql 也有增删改查的方法，但是 sql 只能查询本应用下的数据库。而 ContentProvider 还可<br>以去增删改查本地文件，跨程序共享数据</li>
+</ul>
+<h3 id="32-说说-ContentProvider、ContentResolver、ContentObserver-之间的关系"><a href="#32-说说-ContentProvider、ContentResolver、ContentObserver-之间的关系" class="headerlink" title="32.说说 ContentProvider、ContentResolver、ContentObserver 之间的关系"></a>32.说说 ContentProvider、ContentResolver、ContentObserver 之间的关系</h3><ul>
+<li>ContentProvider 内容提供者，<strong>用于对外提供数据</strong></li>
+<li>ContentResolver 内容解析者，用于<strong>获取</strong>内容提供者提供的数据</li>
+<li>ContentObserver 内容监听器，可以监听数据的改变状态</li>
+</ul>
+<h3 id="33-请介绍下-Android-的数据存储方式（要去大概看一下）"><a href="#33-请介绍下-Android-的数据存储方式（要去大概看一下）" class="headerlink" title="33.请介绍下 Android 的数据存储方式（要去大概看一下）"></a>33.请介绍下 Android 的数据存储方式（要去大概看一下）</h3><ul>
+<li>File 存储；SharedPreference 存储；SQLiteDataBase 存储；ContentProvider 存储；网络存储</li>
+</ul>
+<h3 id="34-Intent-Intent-传递数据时，可以传递哪些类型数据"><a href="#34-Intent-Intent-传递数据时，可以传递哪些类型数据" class="headerlink" title="34.Intent:Intent 传递数据时，可以传递哪些类型数据"></a>34.Intent:Intent 传递数据时，可以传递哪些类型数据</h3><ul>
+<li>8种基本数据类型及其数组</li>
+<li>String及其数组</li>
+<li>实现了Parcelable接口的对象及其数组 </li>
+<li>实现了 Serializable接口的对象及其数组</li>
+</ul>
+<h3 id="35-Serializable-和-Parcelable-的区别"><a href="#35-Serializable-和-Parcelable-的区别" class="headerlink" title="35.Serializable 和 Parcelable 的区别"></a>35.Serializable 和 Parcelable 的区别</h3><ul>
+<li>在使用内存的时候，Parcelable 类比 Serializable 性能高，所以推荐使用 Parcelable 类</li>
+<li>Parcelable 不能使用在要将数据存储在磁盘上的情况。尽管 Serializable 效率低点，但在这<br>种情况下，还是建议你用 Serializable 。</li>
+<li>Serializable 的实现，只需要实现 Serializable 即可。这只是给对象打了一个标记，系统会<br>自动将其序列化。</li>
+<li>Parcelabel 的实现，需要在类中添加一个静态成员变量 CREATOR，这个变量需要继承<br>Parcelable.Creator 接口。</li>
+<li>所谓序列化：可以形象的把它理解为把Java对象内存中的数据采编成一串二进制的数据，然后把这些数据存放在可以可以持久化的数据设备上，如磁盘。当需要还原这些数据的时候，在通过反序列化的过程，把对象又重新还原到内存中。</li>
+</ul>
+<h3 id="36-请描述一下-Intent-和-IntentFilter"><a href="#36-请描述一下-Intent-和-IntentFilter" class="headerlink" title="36.请描述一下 Intent 和 IntentFilter"></a>36.请描述一下 Intent 和 IntentFilter</h3><ul>
+<li>Intent我们可以理解为消息，主要作用是实现Activity间的切换，也可以实现四大组件之间的通信，传递数据，非常有用</li>
+<li>IntentFilter可以理解为一个匹配系统，主要由三个参数：Action: 动作，Data: 数据，Category : 而外的附加信息；而且Android系统预定义了一些Action值，以大写的ACTION开头；</li>
+</ul>
+<h3 id="37-Fragment-Fragment-跟-Activity-之间是如何传值的"><a href="#37-Fragment-Fragment-跟-Activity-之间是如何传值的" class="headerlink" title="37.Fragment:Fragment 跟 Activity 之间是如何传值的"></a>37.Fragment:Fragment 跟 Activity 之间是如何传值的</h3><ul>
+<li>使用fragment：首先自定义fragment的类继承Fragment，然后view=inflater.inflate来加载碎片的布局，之后类和布局绑定成功，碎片（控件完成），然后再当成控件嵌套到activity.xml里面去，android:name=””写的就是类名</li>
+<li>在 Fragment 中可以直接通过 getActivity（）方法获取到其绑定的 Activity 对象，这样就可以调用 Activity 的方法了</li>
+<li>在 Activity 中可以通过如下方法获取到：得到实例后就可以通信了<br>Fragment 实例<br>FragmentManager fragmentManager = getFragmentManager();<br>Fragment fragment = fragmentManager.findFragmentByTag(tag);<br>Fragment fragment = fragmentManager.findFragmentById(id);</li>
+</ul>
+<h3 id="38-描述一下-Fragment-的生命周期"><a href="#38-描述一下-Fragment-的生命周期" class="headerlink" title="38.描述一下 Fragment 的生命周期"></a>38.描述一下 Fragment 的生命周期</h3><ul>
+<li>onAttach()—onCreate()—onCreateView()—onActivityCreated()—onStart()—onResume()—onStop()—onDestroyView()—onDestroy()—onDetach()</li>
+</ul>
+<h3 id="39-Fragment-的-replace-和-add-方法的区别"><a href="#39-Fragment-的-replace-和-add-方法的区别" class="headerlink" title="39.Fragment 的 replace 和 add 方法的区别"></a>39.Fragment 的 replace 和 add 方法的区别</h3><ul>
+<li>Fragment 的容器一个 FrameLayout，add 的时候是把所有的 Fragment 一层一层的叠加到了<br>FrameLayout 上了，而 replace 的话首先将该容器中的其他 Fragment 去除掉然后将当前 Fragment<br>添加到容器中。</li>
+<li>add方法的fragment的生命周期不会变化，relpace会变，每次都会执行上一个 Fragment 的 onDestroyView，新 Fragment的 onCreateView、onStart、onResume 方法。</li>
+</ul>
+<h3 id="40-Fragment的好处"><a href="#40-Fragment的好处" class="headerlink" title="40.Fragment的好处"></a>40.Fragment的好处</h3><ul>
+<li>Fragment 可以使你能够将 activity 分离成多个可重用的组件，每个都有它自己的生命周期和UI。</li>
+<li>Fragment 可以轻松得创建动态灵活的 UI 设计，可以适应于不同的屏幕尺寸。从手机到平板电<br>脑。</li>
+<li>Fragment 解决 Activity 间的切换不流畅，轻量切换。</li>
+</ul>
+<h3 id="41-如何切换-fragement-不重新实例化"><a href="#41-如何切换-fragement-不重新实例化" class="headerlink" title="41. 如何切换 fragement,不重新实例化"></a>41. 如何切换 fragement,不重新实例化</h3><ul>
+<li>正确的切换方式是 add()，切换时 hide()，add()另一个 Fragment；再次切换时，只需 hide()当前，<br>show()另一个。</li>
+</ul>
+<h3 id="42-ListView-如何提高其效率？"><a href="#42-ListView-如何提高其效率？" class="headerlink" title="42.ListView 如何提高其效率？"></a>42.ListView 如何提高其效率？</h3><ul>
+<li>如果convertView为null,则使用LayoutInflater去加载布局</li>
+<li>convertView 不为空，重复利用已经创建的 view</li>
+<li>自定义静态类 ViewHolder，减少 findViewById 的次数</li>
+</ul>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/09/10/Android选择题/" rel="next" title="Android选择题">
+                <i class="fa fa-chevron-left"></i> Android选择题
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpg"
+                alt="FeishengQiu" />
+            
+              <p class="site-author-name" itemprop="name">FeishengQiu</p>
+              <p class="site-description motion-element" itemprop="description">Android Java</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">14</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Android一阶"><span class="nav-number">1.</span> <span class="nav-text">Android一阶</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-请简要介绍Android的四大组件（定义是什么，功能是什么）-Android中Activity-Intent-Content-Provider-Service各有什么区别-说出他们各自的定义和功能即可"><span class="nav-number">1.1.</span> <span class="nav-text">1.请简要介绍Android的四大组件（定义是什么，功能是什么）/Android中Activity, Intent, Content Provider, Service各有什么区别(说出他们各自的定义和功能即可)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-描述一下Activity的生命周期"><span class="nav-number">1.2.</span> <span class="nav-text">2.描述一下Activity的生命周期</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-如何保存-Activity-的状态-内存不足时系统会杀掉后台的Activity，若需要进行一些临时状态的保存，在哪个方法进行？（内存不足、用户直接按Home键）"><span class="nav-number">1.3.</span> <span class="nav-text">3.如何保存 Activity 的状态/内存不足时系统会杀掉后台的Activity，若需要进行一些临时状态的保存，在哪个方法进行？（内存不足、用户直接按Home键）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-两个-Activity-之间跳转时必然会执行的是哪几个方法"><span class="nav-number">1.4.</span> <span class="nav-text">4.两个 Activity 之间跳转时必然会执行的是哪几个方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-横竖屏切换时-Activity-的生命周期"><span class="nav-number">1.5.</span> <span class="nav-text">5.横竖屏切换时 Activity 的生命周期</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-如何将一个-Activity-设置成窗口的样式"><span class="nav-number">1.6.</span> <span class="nav-text">6.如何将一个 Activity 设置成窗口的样式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-如-何-退-出-Activity-？-如-何-安-全-退-出-已-调-用-多-个-Activity-的Application？"><span class="nav-number">1.7.</span> <span class="nav-text">7.如 何 退 出 Activity ？ 如 何 安 全 退 出 已 调 用 多 个 Activity 的Application？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8-Activity的启动模式有？-Activity-的四种启动模式，singletop-和-singletask-区别是什么？-介绍Activity的几中启动模式，并简单说说自己的理解或者使用场景"><span class="nav-number">1.8.</span> <span class="nav-text">8.Activity的启动模式有？/Activity 的四种启动模式，singletop 和 singletask 区别是什么？/介绍Activity的几中启动模式，并简单说说自己的理解或者使用场景</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#9-Android-中的-Context-Activity，Appliction-有什么区别"><span class="nav-number">1.9.</span> <span class="nav-text">9.Android 中的 Context, Activity，Appliction 有什么区别</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#10-两个-Activity-之间传递数据，除了-intent，广播接收者，contentprovider-还有啥？"><span class="nav-number">1.10.</span> <span class="nav-text">10.两个 Activity 之间传递数据，除了 intent，广播接收者，contentprovider 还有啥？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#11-你知道onNewIntent吗"><span class="nav-number">1.11.</span> <span class="nav-text">11.*你知道onNewIntent吗</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#12-除了用Intent-去启动一个Activity，还有其他方法吗"><span class="nav-number">1.12.</span> <span class="nav-text">12.*除了用Intent 去启动一个Activity，还有其他方法吗</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#13-Service-Service-是否在-main-thread-中执行-service-里面是否能执行耗时的操作"><span class="nav-number">1.13.</span> <span class="nav-text">13.Service:Service 是否在 main thread 中执行, service 里面是否能执行耗时的操作?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#14-Activity-怎么和-Service-绑定，怎么在-Activity-中启动自己对应的Service？"><span class="nav-number">1.14.</span> <span class="nav-text">14.Activity 怎么和 Service 绑定，怎么在 Activity 中启动自己对应的Service？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#15-比较两种开启服务的区别"><span class="nav-number">1.15.</span> <span class="nav-text">15.比较两种开启服务的区别</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#16-请描述一下-Service-的生命周期"><span class="nav-number">1.16.</span> <span class="nav-text">16.请描述一下 Service 的生命周期</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#17-什么是-IntentService？有何优点？"><span class="nav-number">1.17.</span> <span class="nav-text">17.什么是 IntentService？有何优点？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#18-说说-Activity、Intent、Service-是什么关系"><span class="nav-number">1.18.</span> <span class="nav-text">18.说说 Activity、Intent、Service 是什么关系</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#19-Service-里面可以弹吐司么"><span class="nav-number">1.19.</span> <span class="nav-text">19.Service 里面可以弹吐司么</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#20-什么是-Service？为什么需要Service"><span class="nav-number">1.20.</span> <span class="nav-text">20.什么是 Service？为什么需要Service</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#21-在-service-的生命周期方法-onstartConmand-可不可以执行网络操作？如何在-service-中执行网络操作？"><span class="nav-number">1.21.</span> <span class="nav-text">21.在 service 的生命周期方法 onstartConmand()可不可以执行网络操作？如何在 service 中执行网络操作？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#22-注册Service需要注意什么"><span class="nav-number">1.22.</span> <span class="nav-text">22.注册Service需要注意什么</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#23-Service与Activity怎么实现通信"><span class="nav-number">1.23.</span> <span class="nav-text">23.Service与Activity怎么实现通信</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#24-Broadcast-Receiver-请描述一下-BroadcastReceiver"><span class="nav-number">1.24.</span> <span class="nav-text">24.Broadcast Receiver:请描述一下 BroadcastReceiver</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#25-在-manifest-和代码中如何静态注册和使用-BroadcastReceiver"><span class="nav-number">1.25.</span> <span class="nav-text">25.在 manifest 和代码中如何静态注册和使用 BroadcastReceiver</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#26-BroadCastReceiver-的生命周期"><span class="nav-number">1.26.</span> <span class="nav-text">26.BroadCastReceiver 的生命周期</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#27-Android-引入广播机制的用意"><span class="nav-number">1.27.</span> <span class="nav-text">27.Android 引入广播机制的用意</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#28-怎么发送广播"><span class="nav-number">1.28.</span> <span class="nav-text">28.怎么发送广播</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#29-使用本地广播"><span class="nav-number">1.29.</span> <span class="nav-text">29.使用本地广播</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#30-请介绍下-ContentProvider-是如何实现数据共享的"><span class="nav-number">1.30.</span> <span class="nav-text">30.请介绍下 ContentProvider 是如何实现数据共享的</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#31-为什么要用-ContentProvider？它和-sql-的实现上有什么差别？"><span class="nav-number">1.31.</span> <span class="nav-text">31.为什么要用 ContentProvider？它和 sql 的实现上有什么差别？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#32-说说-ContentProvider、ContentResolver、ContentObserver-之间的关系"><span class="nav-number">1.32.</span> <span class="nav-text">32.说说 ContentProvider、ContentResolver、ContentObserver 之间的关系</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#33-请介绍下-Android-的数据存储方式（要去大概看一下）"><span class="nav-number">1.33.</span> <span class="nav-text">33.请介绍下 Android 的数据存储方式（要去大概看一下）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#34-Intent-Intent-传递数据时，可以传递哪些类型数据"><span class="nav-number">1.34.</span> <span class="nav-text">34.Intent:Intent 传递数据时，可以传递哪些类型数据</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#35-Serializable-和-Parcelable-的区别"><span class="nav-number">1.35.</span> <span class="nav-text">35.Serializable 和 Parcelable 的区别</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#36-请描述一下-Intent-和-IntentFilter"><span class="nav-number">1.36.</span> <span class="nav-text">36.请描述一下 Intent 和 IntentFilter</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#37-Fragment-Fragment-跟-Activity-之间是如何传值的"><span class="nav-number">1.37.</span> <span class="nav-text">37.Fragment:Fragment 跟 Activity 之间是如何传值的</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#38-描述一下-Fragment-的生命周期"><span class="nav-number">1.38.</span> <span class="nav-text">38.描述一下 Fragment 的生命周期</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#39-Fragment-的-replace-和-add-方法的区别"><span class="nav-number">1.39.</span> <span class="nav-text">39.Fragment 的 replace 和 add 方法的区别</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#40-Fragment的好处"><span class="nav-number">1.40.</span> <span class="nav-text">40.Fragment的好处</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#41-如何切换-fragement-不重新实例化"><span class="nav-number">1.41.</span> <span class="nav-text">41. 如何切换 fragement,不重新实例化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#42-ListView-如何提高其效率？"><span class="nav-number">1.42.</span> <span class="nav-text">42.ListView 如何提高其效率？</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">FeishengQiu</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
