@@ -1,0 +1,724 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="Android二阶1.自定义View的流程 首先创建一个类继承View或者ViewGroup,重载构造方法，做一些初始化操作并获取自定义属性，通过AttributeSet对象attrs获取他们的值（4个构造方法） 其次重写onMeasure()方法，设置自定义View的宽高，如果自定义view属于ViewGroup，还会设置及测量子View的宽高；此时会涉及到类MeasureSpec，有三种测量模">
+<meta name="keywords" content="Android Developer">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android二阶">
+<meta property="og:url" content="http://yoursite.com/2018/09/10/面试官2（Android二阶高级）/index.html">
+<meta property="og:site_name" content="FeishengQiu">
+<meta property="og:description" content="Android二阶1.自定义View的流程 首先创建一个类继承View或者ViewGroup,重载构造方法，做一些初始化操作并获取自定义属性，通过AttributeSet对象attrs获取他们的值（4个构造方法） 其次重写onMeasure()方法，设置自定义View的宽高，如果自定义view属于ViewGroup，还会设置及测量子View的宽高；此时会涉及到类MeasureSpec，有三种测量模">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://i.imgur.com/qUGrXhO.jpg">
+<meta property="og:image" content="https://i.imgur.com/K31bi71.jpg">
+<meta property="og:updated_time" content="2018-09-26T02:42:06.830Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Android二阶">
+<meta name="twitter:description" content="Android二阶1.自定义View的流程 首先创建一个类继承View或者ViewGroup,重载构造方法，做一些初始化操作并获取自定义属性，通过AttributeSet对象attrs获取他们的值（4个构造方法） 其次重写onMeasure()方法，设置自定义View的宽高，如果自定义view属于ViewGroup，还会设置及测量子View的宽高；此时会涉及到类MeasureSpec，有三种测量模">
+<meta name="twitter:image" content="https://i.imgur.com/qUGrXhO.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/09/10/面试官2（Android二阶高级）/"/>
+
+
+
+
+
+  <title>Android二阶 | FeishengQiu</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">FeishengQiu</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">Keep learning all the time</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/09/10/面试官2（Android二阶高级）/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="FeishengQiu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="FeishengQiu">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Android二阶</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-09-10T00:30:35+08:00">
+                2018-09-10
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="Android二阶"><a href="#Android二阶" class="headerlink" title="Android二阶"></a>Android二阶</h2><h3 id="1-自定义View的流程"><a href="#1-自定义View的流程" class="headerlink" title="1.自定义View的流程"></a>1.自定义View的流程</h3><ul>
+<li>首先创建一个类继承View或者ViewGroup,重载构造方法，做一些初始化操作并获取自定义属性，通过AttributeSet对象attrs获取他们的值（4个构造方法）</li>
+<li>其次重写onMeasure()方法，设置自定义View的宽高，如果自定义view属于ViewGroup，还会设置及测量子View的宽高；此时会涉及到类MeasureSpec，有三种测量模式，EXACTLY：设置了精确值；AT_MOST，布局被限定在一个最大值内；UNSPECIFIED：布局要多大就有多大，ScrollView的childView的heightMode中；此种模式比较少见。</li>
+<li>再重写onLayout（）方法：主要是用于确定子View的具体布局位置，一般是在继承了ViewGroup的时候需要重写这个方法，（一般都是在onLayout中获取所有的子类，然后根据需求计算出子View的位置参数，再通过调用子View的layout(l,t, r, b)方法设置子View的位置。）</li>
+<li><p>重写onDraw方法：绘制内容，这部分也决定了自定义View的具体效果</p>
+</li>
+<li><p>继承View/ViewGroup—重载构造方法，进行初始化操作和获取自定义属性—重写onMeasure()方法，测量View自身的大小（利用MeasureSpec类.getMode,getSize和三种模式值）—重写onSizeChanged方法（View大小确定的时候回调）—重写onLayout方法确定子View的位置参数—重写onDraw方法：绘制内容，这部分也决定了自定义View的具体效果</p>
+</li>
+</ul>
+<h3 id="2-事件触发机制：-onTouch-和-onTouchEvent-有什么区别，又该如何使用"><a href="#2-事件触发机制：-onTouch-和-onTouchEvent-有什么区别，又该如何使用" class="headerlink" title="2.事件触发机制： onTouch 和 onTouchEvent 有什么区别，又该如何使用"></a>2.事件触发机制： onTouch 和 onTouchEvent 有什么区别，又该如何使用</h3><ul>
+<li>这两个方法都是在 View 的 dispatchTouchEvent 中调用的，onTouch 优先于 onTouchEvent执行。如果在 onTouch 方法中通过返回 true 将事件消费掉，onTouchEvent 将不会再执行。（ mOnTouchListener 的值<br>不能为空，控件enable）</li>
+</ul>
+<h3 id="3-请描述一下-Android-的事件分发机制"><a href="#3-请描述一下-Android-的事件分发机制" class="headerlink" title="3.请描述一下 Android 的事件分发机制"></a>3.请描述一下 Android 的事件分发机制</h3><ul>
+<li><p>首先，事件分发的顺序是从：Activity到ViewGroup到View; 当一个点击事件发生时，事件最先传到Activity的dispatchTouchEvent()进行事件分发，（true和false都消费掉事件）然后默认传递到ViewGroup的dispatchTouchEvent()，此时return true就会消费掉事件，return false就会返回到Activity的onTouchEvent进行处理，默认是传给ViewGroup的拦截器onIntercreptTouchEvent,拦截器return true则就会把事件传给viewgroup的onTouchEvent自己处理，return false或者默认状态下都传递给view的dispatchTouchEvent,return false的话就会传递给viewgroup的onTouchEvent，return true 就会消费掉，默认就会传递给view的onTouchEvent,false和默认都是往上一层的onTouchEvent传递，true就会消费掉事件</p>
+</li>
+<li><p>只有ViewGroup有拦截器onIntercreptTouchEvent，viewgroup是一组viw的集合，本质是view，是layout的父类</p>
+</li>
+</ul>
+<h3 id="4-理解Http-TCP-UDP-IP-TCP-IP的关系"><a href="#4-理解Http-TCP-UDP-IP-TCP-IP的关系" class="headerlink" title="4.理解Http,TCP,UDP,IP,TCP/IP的关系"></a>4.理解Http,TCP,UDP,IP,TCP/IP的关系</h3><ul>
+<li>首先，TCP/IP协议是一个协议族的总称，是一个四层结构的协议： 有数据—&gt;才有网络(IP)—&gt;才能传输（TCP UDP）—&gt;才能应用</li>
+<li>每个层次都有相对应的功能和协议，例如Http协议：超文本传输协议，就是应用层的协议，用于实现互联网中的 WWW 服务，使用端口 80；Tcp,UDP都是传输层的协议，区别如下：</li>
+<li>HTTP连接最显著的特点是客户端发送的每次请求都需要服务器回送响应，在请求结束后，会主动释放连接。从建立连接到关闭连接的过程称为“一次连接”。</li>
+<li><img src="https://i.imgur.com/qUGrXhO.jpg" alt=""></li>
+</ul>
+<h3 id="5-对Socket的理解"><a href="#5-对Socket的理解" class="headerlink" title="5.对Socket的理解"></a>5.对Socket的理解</h3><ul>
+<li><p>socket很直白的翻译是：套接字；套接字就是ip地址和端口号的组合，网络通信的本质就是socket通信；通信就需要客户端和服务端，两端都需要有一个socket,一个发送，一个接收；socket之间的数据传输是以IO流的形式进行的； 客户端发送完之后write  需要加一句shutdownOutput();就不会一直阻塞，可以让服务端知道已经发送完了，我可以响应和回复你了</p>
+</li>
+<li><p><img src="https://i.imgur.com/K31bi71.jpg" alt=""></p>
+</li>
+</ul>
+<h3 id="6-Android如何避免OOM"><a href="#6-Android如何避免OOM" class="headerlink" title="6.Android如何避免OOM"></a>6.Android如何避免OOM</h3><ul>
+<li>OOM内存溢出就是你要求被分配的内存超出了系统能给你的内存，系统不能满足你的需求，于是产生溢出。</li>
+<li>内存泄漏指的是无法释放申请到的内存空间</li>
+<li>要避免内存溢出，就应该要知道哪些情况下会导致内存溢出</li>
+<li>图片过大导致 OOM，此时我们可以等比例缩小图片，调用BitmapFactory.decodeResource方法，和options</li>
+<li>可以对图片采用软引用，内存不足的时候会自动回收</li>
+<li>使用封装好的第三方框架，例如Glide和Picasso来加载图片</li>
+<li>Bitmap 对象不再使用时调用 recycle()释放内存</li>
+<li>避免XML的重复加载，横竖屏，</li>
+<li>构造 Adapter 时，没有使用缓存的 convertView，应该要复用convertView，提高性能</li>
+</ul>
+<h3 id="7-Android近几年新版本的特性和怎么看待kotlin"><a href="#7-Android近几年新版本的特性和怎么看待kotlin" class="headerlink" title="7.Android近几年新版本的特性和怎么看待kotlin"></a>7.Android近几年新版本的特性和怎么看待kotlin</h3><ul>
+<li>Android5系列，加入了material design,UI风格非常舒服好看；同时改善了通知栏，锁屏的时候也可以接受到通知</li>
+<li>Android6系列，新增运行时权限概念，用户可以对app控制应用权限；还要瞌睡模式，待机模式，可以提高电池性能</li>
+<li>Android7系列，通知栏快捷回复，加入原生分屏多任务功能，多任务快速切换</li>
+<li>Android8系列O，画中画模式，就是应用的悬浮窗口，跟微信的悬浮窗很像</li>
+<li>自动填充，快速登录；后台进程限制，最大程度减小后台应用对电池的消耗和对资源的占用</li>
+<li>Android P(pie):Android P 增加对凹口屏幕的支持,刘海屏</li>
+<li>新的菜单，    铃声滑块；以机器学习为核心，自适应电源管理，自适应亮度调节，应用操作预测；</li>
+<li>Kotlin是一种基于JVM的静态类型编程语言；语法简洁不啰嗦（学习起来很快）；与Java（以及JVM）的完全互操作性；Kotlin 和java的交互性很好，java的很多框架库都可以无缝连接；Kotlin 每个句子都不需要加分号 ；还有解决了空指针安全问题；性能高；个人转OK，团队转，还需要一些时间，毕竟需要学习成本和编程习惯的改变</li>
+</ul>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/09/10/面试官1（Android一阶基础）/" rel="next" title="Android一阶">
+                <i class="fa fa-chevron-left"></i> Android一阶
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/09/10/Android选择题/" rel="prev" title="Android选择题">
+                Android选择题 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpg"
+                alt="FeishengQiu" />
+            
+              <p class="site-author-name" itemprop="name">FeishengQiu</p>
+              <p class="site-description motion-element" itemprop="description">Android Java</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">15</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Android二阶"><span class="nav-number">1.</span> <span class="nav-text">Android二阶</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-自定义View的流程"><span class="nav-number">1.1.</span> <span class="nav-text">1.自定义View的流程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-事件触发机制：-onTouch-和-onTouchEvent-有什么区别，又该如何使用"><span class="nav-number">1.2.</span> <span class="nav-text">2.事件触发机制： onTouch 和 onTouchEvent 有什么区别，又该如何使用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-请描述一下-Android-的事件分发机制"><span class="nav-number">1.3.</span> <span class="nav-text">3.请描述一下 Android 的事件分发机制</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-理解Http-TCP-UDP-IP-TCP-IP的关系"><span class="nav-number">1.4.</span> <span class="nav-text">4.理解Http,TCP,UDP,IP,TCP/IP的关系</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-对Socket的理解"><span class="nav-number">1.5.</span> <span class="nav-text">5.对Socket的理解</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-Android如何避免OOM"><span class="nav-number">1.6.</span> <span class="nav-text">6.Android如何避免OOM</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-Android近几年新版本的特性和怎么看待kotlin"><span class="nav-number">1.7.</span> <span class="nav-text">7.Android近几年新版本的特性和怎么看待kotlin</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">FeishengQiu</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
