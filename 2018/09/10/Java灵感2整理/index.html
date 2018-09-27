@@ -1,0 +1,1406 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="Java灵感2整理1.Java的版本 Java SE：Java标准版，主要用来开发widnow桌面应用软件和Android应用或者我学的就是JavaSE Java EE:Java企业版，主要用来开发Java Web应用的后台 Java ME：Java小型版，开发消费类电子设备和嵌入式设备软件  2.Java语言的特点 面向对象：封装继承多态 健壮性：安全的内存管理与访问机制 跨平台性：JVM来实现">
+<meta name="keywords" content="Android Developer">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java灵感2整理">
+<meta property="og:url" content="http://yoursite.com/2018/09/10/Java灵感2整理/index.html">
+<meta property="og:site_name" content="FeishengQiu">
+<meta property="og:description" content="Java灵感2整理1.Java的版本 Java SE：Java标准版，主要用来开发widnow桌面应用软件和Android应用或者我学的就是JavaSE Java EE:Java企业版，主要用来开发Java Web应用的后台 Java ME：Java小型版，开发消费类电子设备和嵌入式设备软件  2.Java语言的特点 面向对象：封装继承多态 健壮性：安全的内存管理与访问机制 跨平台性：JVM来实现">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://i.imgur.com/m5LaQbG.png">
+<meta property="og:image" content="https://i.imgur.com/TrKPUUW.png">
+<meta property="og:image" content="https://i.imgur.com/BW7p0kF.png">
+<meta property="og:image" content="https://i.imgur.com/VbXooQB.png">
+<meta property="og:image" content="https://i.imgur.com/f79Ow0v.png">
+<meta property="og:image" content="https://i.imgur.com/jvnEBwQ.png">
+<meta property="og:image" content="https://i.imgur.com/rAHEzPA.png">
+<meta property="og:image" content="https://i.imgur.com/1ogQpfT.png">
+<meta property="og:image" content="https://i.imgur.com/aUjMJ2Z.jpg">
+<meta property="og:image" content="https://i.imgur.com/ar2hKm3.jpg">
+<meta property="og:image" content="https://i.imgur.com/E6b0sWv.jpg">
+<meta property="og:image" content="https://i.imgur.com/H4OoSJE.jpg">
+<meta property="og:image" content="https://i.imgur.com/oCNpy5w.jpg">
+<meta property="og:image" content="https://i.imgur.com/ekLP21V.png">
+<meta property="og:image" content="https://i.imgur.com/vvPuhDQ.png">
+<meta property="og:image" content="https://i.imgur.com/U8gEkBF.jpg">
+<meta property="og:image" content="https://i.imgur.com/YilayIA.jpg">
+<meta property="og:image" content="https://i.imgur.com/Yh762LP.jpg">
+<meta property="og:image" content="https://i.imgur.com/RhTd7OE.jpg">
+<meta property="og:image" content="https://i.imgur.com/S3R7G86.jpg">
+<meta property="og:image" content="https://i.imgur.com/FW3Wd7x.jpg">
+<meta property="og:image" content="https://i.imgur.com/8eOUDwH.png">
+<meta property="og:image" content="https://i.imgur.com/TR3J5GG.jpg">
+<meta property="og:image" content="https://i.imgur.com/C7k27gt.jpg">
+<meta property="og:image" content="https://i.imgur.com/zjXiqls.jpg">
+<meta property="og:image" content="https://i.imgur.com/enBNUOR.jpg">
+<meta property="og:image" content="https://i.imgur.com/eDQZHFs.jpg">
+<meta property="og:image" content="https://i.imgur.com/5Y2NttU.jpg">
+<meta property="og:image" content="https://i.imgur.com/xtEGOwR.jpg">
+<meta property="og:image" content="https://i.imgur.com/7OCe4fO.jpg">
+<meta property="og:image" content="https://i.imgur.com/gQXeQC4.jpg">
+<meta property="og:image" content="https://i.imgur.com/UP549YT.jpg">
+<meta property="og:image" content="https://i.imgur.com/56hgv1j.jpg">
+<meta property="og:image" content="https://i.imgur.com/oyIf3R7.jpg">
+<meta property="og:image" content="https://i.imgur.com/02fs4PF.jpg">
+<meta property="og:image" content="https://i.imgur.com/S4tq17m.jpg">
+<meta property="og:image" content="https://i.imgur.com/THtqeG1.jpg">
+<meta property="og:image" content="https://i.imgur.com/brZZDAE.jpg">
+<meta property="og:image" content="https://i.imgur.com/FGfXMby.jpg">
+<meta property="og:image" content="https://i.imgur.com/BxP6mYr.jpg">
+<meta property="og:image" content="https://i.imgur.com/U9hkKl1.jpg">
+<meta property="og:image" content="https://i.imgur.com/54uILXD.jpg">
+<meta property="og:image" content="https://i.imgur.com/AcEgNei.jpg">
+<meta property="og:image" content="https://i.imgur.com/D63irhf.jpg">
+<meta property="og:image" content="https://i.imgur.com/4tHfKZ2.jpg">
+<meta property="og:image" content="https://i.imgur.com/pEIA5Bh.jpg">
+<meta property="og:image" content="https://i.imgur.com/bthKoee.jpg">
+<meta property="og:image" content="https://i.imgur.com/v7emsOI.jpg">
+<meta property="og:image" content="https://i.imgur.com/I5DAijT.jpg">
+<meta property="og:image" content="https://i.imgur.com/vqhihSa.jpg">
+<meta property="og:image" content="https://i.imgur.com/4gC0fPJ.jpg">
+<meta property="og:image" content="https://i.imgur.com/NB98GcQ.jpg">
+<meta property="og:image" content="https://i.imgur.com/WgaW330.jpg">
+<meta property="og:image" content="https://i.imgur.com/HrNwsNE.jpg">
+<meta property="og:image" content="https://i.imgur.com/1onTNed.jpg">
+<meta property="og:image" content="https://i.imgur.com/6S2tZ9v.jpg">
+<meta property="og:image" content="https://i.imgur.com/iRnspoQ.jpg">
+<meta property="og:image" content="https://i.imgur.com/g5jOtMx.jpg">
+<meta property="og:image" content="https://i.imgur.com/L5pacaz.jpg">
+<meta property="og:image" content="https://i.imgur.com/kJUDFzo.jpg">
+<meta property="og:image" content="https://i.imgur.com/nqRLBxS.jpg">
+<meta property="og:image" content="https://i.imgur.com/Fk9aWV0.jpg">
+<meta property="og:image" content="https://i.imgur.com/LSTvwfT.jpg">
+<meta property="og:image" content="https://i.imgur.com/KGVRljp.jpg">
+<meta property="og:image" content="https://i.imgur.com/YpuPda8.jpg">
+<meta property="og:image" content="https://i.imgur.com/BnL6QMH.jpg">
+<meta property="og:image" content="https://i.imgur.com/cUDggFG.jpg">
+<meta property="og:image" content="https://i.imgur.com/3vMqSqF.jpg">
+<meta property="og:image" content="https://i.imgur.com/aCMokuU.jpg">
+<meta property="og:image" content="https://i.imgur.com/C1J779O.jpg">
+<meta property="og:image" content="https://i.imgur.com/XIm5w72.jpg">
+<meta property="og:image" content="https://i.imgur.com/cV0XnY2.jpg">
+<meta property="og:image" content="https://i.imgur.com/CxC6a0b.jpg">
+<meta property="og:image" content="https://i.imgur.com/8sevkN3.jpg">
+<meta property="og:image" content="https://i.imgur.com/5Rbm2we.jpg">
+<meta property="og:image" content="https://i.imgur.com/AZUD7ep.jpg">
+<meta property="og:image" content="https://i.imgur.com/DyqqaZQ.jpg">
+<meta property="og:image" content="https://i.imgur.com/IGVC7tY.jpg">
+<meta property="og:image" content="https://i.imgur.com/cRvPLPH.jpg">
+<meta property="og:image" content="https://i.imgur.com/UuW1MlO.jpg">
+<meta property="og:image" content="https://i.imgur.com/8x0pNIi.jpg">
+<meta property="og:image" content="https://i.imgur.com/7OB5RH3.jpg">
+<meta property="og:image" content="https://i.imgur.com/xsk8QJq.jpg">
+<meta property="og:image" content="https://i.imgur.com/leINe5l.jpg">
+<meta property="og:image" content="https://i.imgur.com/XHrJG9O.jpg">
+<meta property="og:image" content="https://i.imgur.com/zPbzsFh.jpg">
+<meta property="og:image" content="https://i.imgur.com/SP7AHh9.jpg">
+<meta property="og:image" content="https://i.imgur.com/xcftBwp.jpg">
+<meta property="og:image" content="https://i.imgur.com/5GkvRfD.jpg">
+<meta property="og:image" content="https://i.imgur.com/uJevaPW.jpg">
+<meta property="og:image" content="https://i.imgur.com/VBdgFJv.jpg">
+<meta property="og:image" content="https://i.imgur.com/ipwsICB.png">
+<meta property="og:image" content="https://i.imgur.com/YvbPRqS.jpg">
+<meta property="og:image" content="https://i.imgur.com/IDozs70.jpg">
+<meta property="og:image" content="https://i.imgur.com/6SATezm.jpg">
+<meta property="og:updated_time" content="2018-09-27T12:33:51.685Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Java灵感2整理">
+<meta name="twitter:description" content="Java灵感2整理1.Java的版本 Java SE：Java标准版，主要用来开发widnow桌面应用软件和Android应用或者我学的就是JavaSE Java EE:Java企业版，主要用来开发Java Web应用的后台 Java ME：Java小型版，开发消费类电子设备和嵌入式设备软件  2.Java语言的特点 面向对象：封装继承多态 健壮性：安全的内存管理与访问机制 跨平台性：JVM来实现">
+<meta name="twitter:image" content="https://i.imgur.com/m5LaQbG.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/09/10/Java灵感2整理/"/>
+
+
+
+
+
+  <title>Java灵感2整理 | FeishengQiu</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">FeishengQiu</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">Keep learning all the time</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/09/10/Java灵感2整理/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="FeishengQiu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="FeishengQiu">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Java灵感2整理</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-09-10T00:30:35+08:00">
+                2018-09-10
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="Java灵感2整理"><a href="#Java灵感2整理" class="headerlink" title="Java灵感2整理"></a>Java灵感2整理</h2><h3 id="1-Java的版本"><a href="#1-Java的版本" class="headerlink" title="1.Java的版本"></a>1.Java的版本</h3><ul>
+<li>Java SE：Java标准版，主要用来开发widnow桌面应用软件和Android应用或者我学的就是JavaSE</li>
+<li>Java EE:Java企业版，主要用来开发Java Web应用的后台</li>
+<li>Java ME：Java小型版，开发消费类电子设备和嵌入式设备软件</li>
+</ul>
+<h3 id="2-Java语言的特点"><a href="#2-Java语言的特点" class="headerlink" title="2.Java语言的特点"></a>2.Java语言的特点</h3><ul>
+<li>面向对象：封装继承多态</li>
+<li>健壮性：安全的内存管理与访问机制</li>
+<li>跨平台性：JVM来实现</li>
+</ul>
+<h3 id="3-JVM的作用"><a href="#3-JVM的作用" class="headerlink" title="3.JVM的作用"></a>3.JVM的作用</h3><ul>
+<li><p>首先所谓的跨平台指的就是Java程序编译之后的.class文件可以在任意的操作系统上运行，在window写的java程序和.class文件可以直接在Linux,Mac,系统上的计算机运行，其他语言，例如C语言的源码可以跨平台，但是编译后的文件不具有跨平台性。实习原理：不同的操作系统，它们的配置和架构是不一样的，所以想实现跨平台，肯定不能依赖现有的操作系统，需要自定义的一套运行Java程序的标准，那就用虚拟机JVM来实现。在不同的操作系统上安装JVM，让JVM来运行Java程序。</p>
+</li>
+<li><p>JDK,JRE,JVM的关系： JDK是为Java开发者提供技术支持的产品，里面包括Java程序运行时环境JRE，Java开发工具（javac.exe编译工具，jdb等），Java基础类库（原生库的API）；JRE里面有两个文件夹，bin目录和lib目录，bin里面装的就是JVM虚拟机，lib里面就是Java基础类库（Java API,jar包里面封装的都是class文件）;JRE是Java运行环境，并不是一个开发环境，所以没有包含任何开发工具（如编译器和调试器），只是针对于使用Java程序的用户</p>
+</li>
+<li><p>JVM的原理：首先java源文件会在JDK的编译工具javac.exe的操作之下，转变成.class文件，然后.class文件会加载进去JVM里面，也就是说.class文件不会直接与操作系统想对应，而是通过JVM调用Java基础类库，对.class字节码文件进行解释给本地的操作系统，然后执行对应的操作，所以JVM屏蔽了与具体操作系统平台相关的信息，使得Java程序只需生成在Java虚拟机上运行的目标代码（字节码），就可以在多种平台上不加修改地运行</p>
+</li>
+</ul>
+<h3 id="3-：什么是JDK-JDK的结构，JDK的作用"><a href="#3-：什么是JDK-JDK的结构，JDK的作用" class="headerlink" title="3.*：什么是JDK,JDK的结构，JDK的作用"></a>3.*：什么是JDK,JDK的结构，JDK的作用</h3><ul>
+<li><h3 id="4-public-static-void-main-String-args"><a href="#4-public-static-void-main-String-args" class="headerlink" title="4.public static void main(String[] args){ }"></a>4.public static void main(String[] args){ }</h3></li>
+<li><p>main方法可以理解为源程序的入口，命令执行官，一切的故事从这里开始！</p>
+</li>
+</ul>
+<h3 id="5-一个-java文件就是一个源文件，一个java文件里面可以有多个外部类class，在javac编译之后，里面有N个类就会编译生成N个-class文件（计算机字节码文件），然后想运行哪个类就-java-类名即可"><a href="#5-一个-java文件就是一个源文件，一个java文件里面可以有多个外部类class，在javac编译之后，里面有N个类就会编译生成N个-class文件（计算机字节码文件），然后想运行哪个类就-java-类名即可" class="headerlink" title="5.一个.java文件就是一个源文件，一个java文件里面可以有多个外部类class，在javac编译之后，里面有N个类就会编译生成N个.class文件（计算机字节码文件），然后想运行哪个类就 java 类名即可"></a>5.一个.java文件就是一个源文件，一个java文件里面可以有多个外部类class，在javac编译之后，里面有N个类就会编译生成N个.class文件（计算机字节码文件），然后想运行哪个类就 java 类名即可</h3><ul>
+<li>外部类，只能有一个是public class，与文件名保持一样；内部类里面可以多个是public class</li>
+</ul>
+<h3 id="6-所有的一切都来源创始人利用数据域和基本运算写好封装多了N个API，然后再把N个API和数据域进行再操作封装成N个类，再将N个功能类似的类封装一起组成包，N个包再组成库，以上就是原生API，原生包，原生库-就是Java基础类库lib-然后我们写好利用原生的类和原生API写好程序之后，然后通过javac-exe编译成-class文件，之后加载到JVM运行，之所以能识别我们的API，是因为API本来就是IDE的创始人写好的，JVM调用lib来解释我们写的程序给操作系统，就可以进行执行，因此，我们也可以自己当创始人，封装自己的API，类，库来使用"><a href="#6-所有的一切都来源创始人利用数据域和基本运算写好封装多了N个API，然后再把N个API和数据域进行再操作封装成N个类，再将N个功能类似的类封装一起组成包，N个包再组成库，以上就是原生API，原生包，原生库-就是Java基础类库lib-然后我们写好利用原生的类和原生API写好程序之后，然后通过javac-exe编译成-class文件，之后加载到JVM运行，之所以能识别我们的API，是因为API本来就是IDE的创始人写好的，JVM调用lib来解释我们写的程序给操作系统，就可以进行执行，因此，我们也可以自己当创始人，封装自己的API，类，库来使用" class="headerlink" title="6.所有的一切都来源创始人利用数据域和基本运算写好封装多了N个API，然后再把N个API和数据域进行再操作封装成N个类，再将N个功能类似的类封装一起组成包，N个包再组成库，以上就是原生API，原生包，原生库,就是Java基础类库lib,然后我们写好利用原生的类和原生API写好程序之后，然后通过javac.exe编译成.class文件，之后加载到JVM运行，之所以能识别我们的API，是因为API本来就是IDE的创始人写好的，JVM调用lib来解释我们写的程序给操作系统，就可以进行执行，因此，我们也可以自己当创始人，封装自己的API，类，库来使用"></a>6.所有的一切都来源创始人利用数据域和基本运算写好封装多了N个API，然后再把N个API和数据域进行再操作封装成N个类，再将N个功能类似的类封装一起组成包，N个包再组成库，以上就是原生API，原生包，原生库,就是Java基础类库lib,然后我们写好利用原生的类和原生API写好程序之后，然后通过javac.exe编译成.class文件，之后加载到JVM运行，之所以能识别我们的API，是因为API本来就是IDE的创始人写好的，JVM调用lib来解释我们写的程序给操作系统，就可以进行执行，因此，我们也可以自己当创始人，封装自己的API，类，库来使用</h3><h3 id="7-关键字-特殊功能的字符串单词：特点是所有字母都要小写！！！"><a href="#7-关键字-特殊功能的字符串单词：特点是所有字母都要小写！！！" class="headerlink" title="7.关键字===特殊功能的字符串单词：特点是所有字母都要小写！！！"></a>7.关键字===特殊功能的字符串单词：特点是所有字母都要小写！！！</h3><p><img src="https://i.imgur.com/m5LaQbG.png" alt=""></p>
+<p><img src="https://i.imgur.com/TrKPUUW.png" alt=""></p>
+<h3 id="8-标识符-类名-方法名-变量名（字母，0-9，-4种组合）"><a href="#8-标识符-类名-方法名-变量名（字母，0-9，-4种组合）" class="headerlink" title="8.标识符===类名+方法名+变量名（字母，0-9，_,$4种组合）"></a>8.标识符===类名+方法名+变量名（字母，0-9，_,$4种组合）</h3><p><img src="https://i.imgur.com/BW7p0kF.png" alt=""></p>
+<h3 id="9-变量属于数据域，需要先声明，后使用，而且根据声明的地方决定自己的使用范围，成员变量-全局变量用得比较多，因为需要多处用到同一变量，需求较大，局部变量用于方法API内或者形参那里"><a href="#9-变量属于数据域，需要先声明，后使用，而且根据声明的地方决定自己的使用范围，成员变量-全局变量用得比较多，因为需要多处用到同一变量，需求较大，局部变量用于方法API内或者形参那里" class="headerlink" title="9.变量属于数据域，需要先声明，后使用，而且根据声明的地方决定自己的使用范围，成员变量===全局变量用得比较多，因为需要多处用到同一变量，需求较大，局部变量用于方法API内或者形参那里"></a>9.变量属于数据域，需要先声明，后使用，而且根据声明的地方决定自己的使用范围，成员变量===全局变量用得比较多，因为需要多处用到同一变量，需求较大，局部变量用于方法API内或者形参那里</h3><h3 id="10-计算机是以2机制的形式来保存所有的数据，1bit-1比特-1位-1格子，左边的最高位是来符号位，0正负1"><a href="#10-计算机是以2机制的形式来保存所有的数据，1bit-1比特-1位-1格子，左边的最高位是来符号位，0正负1" class="headerlink" title="10.计算机是以2机制的形式来保存所有的数据，1bit=1比特=1位=1格子，左边的最高位是来符号位，0正负1"></a>10.计算机是以2机制的形式来保存所有的数据，1bit=1比特=1位=1格子，左边的最高位是来符号位，0正负1</h3><ul>
+<li>1字节=8bit=8格子</li>
+<li>8bit的存储范围是：（最高位减1法,然后进位-1法，所以还是原位： 所以是[-2的7，2的7-1]），本质应该是[-127,127]，理解为存储范围是[11111111,01111111]===[-127,127]</li>
+<li>正数3码合一，负数取反，取反+1,以补码的形式进行计算才是正确结果，因为计算机只有加法，原码加法会得不到正确结果： 1000 0001  +  0000 0010= 1000 0011反而是-3,所以不能用原码计算计算（了解一下即可）</li>
+<li>byte short int long(白缩赢龙)（8 16 32 64的存储数字===存储范围）    byte是1字节，int是4字节</li>
+<li>char是用Unicode编码，2个字节，一个数字代表一个字符的思想，很有想法！！！</li>
+</ul>
+<h3 id="11-强制类型转换"><a href="#11-强制类型转换" class="headerlink" title="11.强制类型转换"></a>11.强制类型转换</h3><ul>
+<li><p>容量小的与容量大的运行或者转换，容量小的自动转换成容量大的，例如整型转float型</p>
+</li>
+<li><p>char,byte,short—&gt;int—&gt;long—&gt;float—&gt;double</p>
+</li>
+<li><p>注意：char,byet,short做运算的时候，默认的结果类型是 int类型   ,short+short也还是int！！！</p>
+</li>
+<li><p>！！！强制类型转换的时候，就是大转小，需要加（int）这个格式</p>
+</li>
+<li><p>字符串String只能做连接运算+,运算结果还是字符串</p>
+</li>
+<li><p>0b,0B开头的是二进制</p>
+</li>
+<li><p>赋值运算的习惯，不会改变变量类型：S+=3；</p>
+</li>
+<li><p>a=true,b=true, a^b=false(异或的意思两个不一样就是符合条件，此时就是true)</p>
+</li>
+<li><p>&amp;和&amp;&amp;的true和false的判断方法是一样的，区别在于(b&amp;(i++)&gt;0),&amp;一定执行i+=1;但是&amp;&amp;在false的情况下，就自暴自弃，不i+=1; |和||也是一样（&amp;&amp; 和 ||就是不能达到条件时，就不运算）</p>
+</li>
+</ul>
+<h3 id="12-面向对象-（OOP）：Object-oriented-Programming"><a href="#12-面向对象-（OOP）：Object-oriented-Programming" class="headerlink" title="12.面向对象 （OOP）：Object oriented Programming"></a>12.面向对象 （OOP）：Object oriented Programming</h3><ul>
+<li><p>面向过程是：POP=Procedure oriented programming</p>
+</li>
+<li><p>面向过程和面向对象思想的区别：</p>
+</li>
+<li><p>面向过程强调的是：功能的行为，即直接用属性和基本语法来完成目标功能；</p>
+</li>
+<li><p>面向对象强调的是：功能的对象，即就是把目标功能封装到方法，方法再封装到不同的类，然后类构造出对象，对象依次调用方法就可以完成目标功能，最大的好处就是代码的复用性！！！！可以一直复用，不需要全部推倒重建</p>
+</li>
+<li><p>对象==实例，构造对象==实例化</p>
+</li>
+<li><p>世间万物皆对象皆实例</p>
+</li>
+<li><p>Field==属性==成员变量，Method==行为==成员方法</p>
+</li>
+<li><p>构造方法:new A（）；===构造对象===实例化</p>
+</li>
+</ul>
+<h3 id="13-面向对象的本质是根据目标功能来设计类，设计类的本质是设计成员变量和封装成员方法，封装方法的本质是搭配数据域和基本语法；最后构造类的对象，对象调用API即可完成目标功能，这是基本模型"><a href="#13-面向对象的本质是根据目标功能来设计类，设计类的本质是设计成员变量和封装成员方法，封装方法的本质是搭配数据域和基本语法；最后构造类的对象，对象调用API即可完成目标功能，这是基本模型" class="headerlink" title="13.面向对象的本质是根据目标功能来设计类，设计类的本质是设计成员变量和封装成员方法，封装方法的本质是搭配数据域和基本语法；最后构造类的对象，对象调用API即可完成目标功能，这是基本模型"></a>13.面向对象的本质是根据目标功能来设计类，设计类的本质是设计成员变量和封装成员方法，封装方法的本质是搭配数据域和基本语法；最后构造类的对象，对象调用API即可完成目标功能，这是基本模型</h3><h3 id="14-类和类的关系：关联-继承-聚集-组合关系"><a href="#14-类和类的关系：关联-继承-聚集-组合关系" class="headerlink" title="14..类和类的关系：关联+继承+聚集+组合关系"></a>14..类和类的关系：关联+继承+聚集+组合关系</h3><h3 id="15-对象的内存解析和对象之间的关系（一般情况下是相互独立的，除非赋值引用，会共用同一个实体）"><a href="#15-对象的内存解析和对象之间的关系（一般情况下是相互独立的，除非赋值引用，会共用同一个实体）" class="headerlink" title="15.对象的内存解析和对象之间的关系（一般情况下是相互独立的，除非赋值引用，会共用同一个实体）"></a>15.对象的内存解析和对象之间的关系（一般情况下是相互独立的，除非赋值引用，会共用同一个实体）</h3><ul>
+<li><p>首先内存空间分为两个空间： 栈空间和堆空间</p>
+</li>
+<li><p>栈空间：存放对象名（a1,a2,a3……）</p>
+</li>
+<li><p>堆空间：存放对象的实体（对象具体的成员变量（数据域）和成员方法），new 构（）的那个部分</p>
+</li>
+<li><p>两个空间会有一个相同的首地址来关联起来：eg：0x5566，可以理解为映射关系</p>
+</li>
+<li><p>！！！ Animal a3=a1;之后，两个对象的首地址是一样的，都可以引用0x5566这个对象实体，即a3改变成员变量（数据域），对象实体改变，此时a1的数据域当然改变，因为共用一个堆空间的对象实体</p>
+</li>
+</ul>
+<h3 id="16-变量声明"><a href="#16-变量声明" class="headerlink" title="16.变量声明"></a>16.变量声明</h3><ul>
+<li><p>声明的格式：变量类型 变量名=初始化值；</p>
+</li>
+<li><p>基本数据类型：byte  short int long ==&gt;0   float double==&gt;0.0  char==&gt;空格  boolean==&gt;false</p>
+</li>
+<li><p>引用（对象）数据类型：==null;null可以理解为没有对象实体，此时就会报空指针的异常</p>
+</li>
+<li><p>成员变量可以在声明的时候 不显示赋值，因为有默认值，String a的本质是：String a= null;（默认的初始化值） </p>
+</li>
+<li><p>成员变量==全局变量！！！！：四种修饰符： public protected 省略（default）private</p>
+</li>
+<li><p>局部变量==代码块内（方法内）+形参，局部变量因为没有默认初始化值，所以必须得声明的时候就要赋值，例如int i=0;形参就是局部变量！！！！特别是setter(n)的那个形参！！！（没有修饰符）</p>
+</li>
+<li><p>成员变量和局部变量的内存地址不一样，成员变量存在于<strong>堆空间</strong>，局部变量存储于<strong>栈空间</strong>（而且随着操作会随时可能在栈空间消失掉）</p>
+</li>
+</ul>
+<h3 id="17-Java类的方法的使用"><a href="#17-Java类的方法的使用" class="headerlink" title="17.Java类的方法的使用"></a>17.Java类的方法的使用</h3><ul>
+<li><p>不能在方法内重写定义方法，但是可以调用本类中的其他方法或者属性</p>
+</li>
+<li><p>但是要访问别的类的数据域属性，成员变量，成员方法，一定要先实例化类B的对象，才能访问它的成员变量数据域属性，static的成员方法和成员变量除外，这就是为什么我们的工具类CacheUtit里面的方法要用public static,因为这样可以直接访问调用，不需要再去实例化一个对象才能调用！！！</p>
+</li>
+<li><p>for循环真jb好用！！！ 数组可以进行的操作： 反转 复制  排序 </p>
+</li>
+</ul>
+<h3 id="18-Java方法的重载：OverLoad"><a href="#18-Java方法的重载：OverLoad" class="headerlink" title="18.Java方法的重载：OverLoad"></a>18.Java方法的重载：OverLoad</h3><ul>
+<li>重载的要求是：方法名一定要一模一样，然后形参列表不一样（形参的个数不一样或形参的类型不一样）！！！！  反正直接看形参列表即可！！！</li>
+</ul>
+<h3 id="19-类是抽象的，对象是具体的-一个项目本质上是由一个一个的类来构成的，所以设计类，设计成员变量和成员方法，然后构造对象实例化来使类具体化，就可以调用类的属性和方法，从而完成目标功能！！！！整个面向对象的思想！！！！"><a href="#19-类是抽象的，对象是具体的-一个项目本质上是由一个一个的类来构成的，所以设计类，设计成员变量和成员方法，然后构造对象实例化来使类具体化，就可以调用类的属性和方法，从而完成目标功能！！！！整个面向对象的思想！！！！" class="headerlink" title="19.类是抽象的，对象是具体的,一个项目本质上是由一个一个的类来构成的，所以设计类，设计成员变量和成员方法，然后构造对象实例化来使类具体化，就可以调用类的属性和方法，从而完成目标功能！！！！整个面向对象的思想！！！！"></a>19.类是抽象的，对象是具体的,一个项目本质上是由一个一个的类来构成的，所以设计类，设计成员变量和成员方法，然后构造对象实例化来使类具体化，就可以调用类的属性和方法，从而完成目标功能！！！！整个面向对象的思想！！！！</h3><h3 id="20-面向对象的三大本质特征：-封装继承多态"><a href="#20-面向对象的三大本质特征：-封装继承多态" class="headerlink" title="20.面向对象的三大本质特征： 封装继承多态"></a>20.面向对象的三大本质特征： 封装继承多态</h3><h3 id="21-Java内存空间结构"><a href="#21-Java内存空间结构" class="headerlink" title="21.Java内存空间结构"></a>21.Java内存空间结构</h3><ul>
+<li><p>栈空间： 对象引用名；局部变量；（一个方法或者代码块调用完对象引用名a,或者局部变量b就会释放所占的内存，栈空间的内存变大）</p>
+</li>
+<li><p>堆空间： new出来的对象实体；非静态成员变量（基本数据类型直接保存值+对象实体）；</p>
+</li>
+<li><p>方法区： （1）静态域（方法区的一块内存）：存放static修饰的静态成员变量，即类变量；（2）常量池：存放final修饰的常量值，String字符串； （3）剩余：存储二进制的class文件 ；是各个线程的共享区域，所以常量不能被修改，修改的话，会影响到其他的线程和类</p>
+</li>
+</ul>
+<h3 id="22-工厂模式"><a href="#22-工厂模式" class="headerlink" title="22.工厂模式"></a>22.工厂模式</h3><ul>
+<li>工厂模式下的工厂类A里面来设计一个返回类型为B类的方法，里面是return new B()；这样可以通过工厂的对象a.调用方法来构造B类的对象，非常高效的构造对象模式，而且我们还可以通过重载和加形参来设计出特定属性的B类对象！！！！工厂模式！！！</li>
+</ul>
+<h3 id="23-java中的基本数据类型参数传递机制是：-值传递机制（传副本，不改变自身）"><a href="#23-java中的基本数据类型参数传递机制是：-值传递机制（传副本，不改变自身）" class="headerlink" title="23.java中的基本数据类型参数传递机制是： 值传递机制（传副本，不改变自身）"></a>23.java中的基本数据类型参数传递机制是： 值传递机制（传副本，不改变自身）</h3><ul>
+<li><p>基本数据类型：将自己的值作为一种工具值来帮助方法进行操作，但是本身的值是不会变化的，不管接收值的那个方法如何操作，不影响我，我只是把我的值拿出来copy一份作为副本，给你用，是独立的两份数据，所以不会变化！！！</p>
+</li>
+<li><p>引用数据类型：对象之间的赋值传递，本质是传递首地址，如何指向同样的实体，所以一改则改</p>
+</li>
+</ul>
+<h3 id="24-权限修饰符"><a href="#24-权限修饰符" class="headerlink" title="24.权限修饰符"></a>24.权限修饰符</h3><ul>
+<li><p>public    protected  缺省  private</p>
+</li>
+<li><p>修饰类的只能是： public 和 缺省（类内部+同个包的类可以调用它）</p>
+</li>
+<li><p>protected多了一个子类</p>
+</li>
+</ul>
+<h3 id="25-类的成分之三-构造器-构造方法"><a href="#25-类的成分之三-构造器-构造方法" class="headerlink" title="25.类的成分之三==构造器==构造方法"></a>25.类的成分之三==构造器==构造方法</h3><ul>
+<li><p>每个类都自带一个空参构造方法来构造对象</p>
+</li>
+<li><p>然后可以根据需求自己来设计带参构造器，本质上是根据需求来进行值传递！！！赋予对象特性的本质也是值传递！！！不同形参的构造器本质上是构造器重载OverLoad，方法重载！一直忽略！</p>
+</li>
+<li><p>构造器的作用：（1）构造对象  （2）构造对象+赋予特性  （3）值传递，特别是单例模式需要传对象实例，特别好用！！！！</p>
+</li>
+<li><p>假如要所有的对象的某个成员变量初始化之后是默认值，应该在空参构造器里面写 age=18;然后new的时候不需要自己手动写18,所有的对象自带age=18</p>
+</li>
+<li><p>构造方法传递对象的时候，本质上是传对象的首地址，然后共用一个堆的实体</p>
+</li>
+<li><p>封装的原因之一：如果直接对对象的数据域属性直接赋值，有些时候会不满足条件，例如人数不可能是负数，此时需要加条件进行限制，所以只能通过方法的方式来对对象的数据域进行操作赋值，即构造方法setter()； getter(); </p>
+</li>
+</ul>
+<h3 id="26-封装性思想的特点"><a href="#26-封装性思想的特点" class="headerlink" title="26.封装性思想的特点"></a>26.封装性思想的特点</h3><ul>
+<li><p>1.成员变量（属性，数据域），private   2. getter() 和 seeter()来访问和设置</p>
+</li>
+<li><p>数据域初始化的顺序： 默认初始化—&gt;显示初始化—&gt;构造器初始化—&gt;对象.setter初始化</p>
+</li>
+<li><p>封装API，用API来访问类的成员变量和操作类的成员变量</p>
+</li>
+</ul>
+<h3 id="27-this关键字的使用"><a href="#27-this关键字的使用" class="headerlink" title="27.this关键字的使用"></a>27.this关键字的使用</h3><ul>
+<li><p>表示对当前对象的引用，特别是setter()的时候，因为我们经常把setter的形参写成跟数据域的成员变量同名，为了赋值的时候区分，需要对对象的name前面加个this.，这样就可以区分了，达到区分赋值，而且形参同名的效果。否则赋值会歧义，赋值失败。</p>
+</li>
+<li><p>可以在构造方法和成员方法setter中使用，特别是形参名和成员变量名一样的时候！！！！</p>
+</li>
+<li><p>this(name)；：调用一个形参的构造方法的意思：其实作用跟 this.name=name是一样的，可能性能会更好吧！！</p>
+</li>
+<li><p>表示当前对象或者正在创建的对象</p>
+</li>
+<li><p><img src="https://i.imgur.com/VbXooQB.png" alt=""></p>
+</li>
+</ul>
+<h3 id="28-JavaBean的3个条件"><a href="#28-JavaBean的3个条件" class="headerlink" title="28.JavaBean的3个条件"></a>28.JavaBean的3个条件</h3><ul>
+<li><p>类是公共的</p>
+</li>
+<li><p>有一个无参的公共构造方法</p>
+</li>
+<li><p>有属性，而且又setter和getter</p>
+</li>
+<li><p>封装性的设计准则是：属性private,方法public</p>
+</li>
+</ul>
+<h3 id="29-面向对象的特征二：继承"><a href="#29-面向对象的特征二：继承" class="headerlink" title="29.面向对象的特征二：继承"></a>29.面向对象的特征二：继承</h3><ul>
+<li><p>将子类构造器之外的东西抽取出来：数据域+成员方法；</p>
+</li>
+<li><p>当父类有private的成员变量和成员方法时，子类是可以获取得到的，但是由于封装的private权限，不可以直接调用</p>
+</li>
+<li><p>之后定义自己特有的成分</p>
+</li>
+<li><p>子类是对父类的补充，功能更加强大，而且java只能单继承，只可以有一个爸爸，但是爸爸可以有多个儿子</p>
+</li>
+<li><p>子类对父类方法重写的规则： 1.子类的返回值类型，方法名，形参列表一定要一模一样，不可以改动；2.只有修饰符可以修改，而且权限是要&gt;=父类的； 3.若父类抛异常，则子类抛的异常要小于父类（异常小，说明功能大，所以一定要使子类的功能&gt;=父类）  4.static不能改；</p>
+</li>
+<li><p>区别重装：构造器是可以重装的，而且我们经常使用</p>
+</li>
+</ul>
+<h3 id="30-super调用父类的成员变量，成员方法，构造器"><a href="#30-super调用父类的成员变量，成员方法，构造器" class="headerlink" title="30.super调用父类的成员变量，成员方法，构造器"></a>30.super调用父类的成员变量，成员方法，构造器</h3><ul>
+<li><p><img src="https://i.imgur.com/f79Ow0v.png" alt=""></p>
+</li>
+<li><p>super();== 父类（）；所以就是调用父类的空参构造器，此时就会加载父类的成员变量给自己；super(形参列表)；就是调用父类的多参构造方法，然后假装成员变量给自己，加载之后的成员变量也是自己的！！！！</p>
+</li>
+<li><p>场合：当子类和父类有同名的成员变量a或者同名的成员方法（重写之后还是想再次调用父类的那个方法），若想调用父类赋予子类的那个成员变量a,则应该写：super.a;如果没同名的话，直接a就行了</p>
+</li>
+<li><p>Object是所有类的根父类，是所有类的最原始父类</p>
+</li>
+<li><p>一个父类可以有：一个空参到N参的构造器，但是我们尽量地要多给一个空参的构造器，因为子类的构造器没有super调用父类的构造器的时候，是默认调用父类的空参构造器，此时就会出现没定义的报错，所以以后就是：父类的构造器==空参构造器+需求参数构造器</p>
+</li>
+<li><p>调用父类带参构造器的时候，里面可以是形参，也可以穿实参，看你的需求！！！</p>
+</li>
+<li><p><img src="https://i.imgur.com/jvnEBwQ.png" alt=""></p>
+</li>
+<li><p>继承之后的结果：（1）子类拥有父类的所有属性（成员变量）（2）子类可以调用父类：public protected的成员方法（3）子类的构造器一定会调用父类的构造器（至少是空参构造器）；</p>
+</li>
+</ul>
+<h3 id="31-子类对象实例化的全过程"><a href="#31-子类对象实例化的全过程" class="headerlink" title="31.子类对象实例化的全过程"></a>31.子类对象实例化的全过程</h3><ul>
+<li>构造器层层调用来获得父类的成员变量，因为构造器本身的作用就是构造对象，加载成员变量！！！这是构造器的功能之一；</li>
+</ul>
+<h3 id="32-面向对象的特征三：多态性"><a href="#32-面向对象的特征三：多态性" class="headerlink" title="32.面向对象的特征三：多态性"></a>32.面向对象的特征三：多态性</h3><ul>
+<li><p>（1）重载和重写   （2）父类引用指向子类的实体： A a= new AA(); [其实本质上是AA];</p>
+</li>
+<li><p>主要是解决API中，子类形参各式各样的导致需要重写很多不同形参的同功能API，此时如果我们把对象名都用父类来表示，实体用子类，那我们的形参放父类的形参，就可以一个API让多个子类的对象调用！！！节省API的构建！子类调用重写的API，就可以直接执行了！</p>
+</li>
+<li><p><img src="https://i.imgur.com/rAHEzPA.png" alt=""></p>
+</li>
+<li><p><img src="https://i.imgur.com/1ogQpfT.png" alt=""></p>
+</li>
+</ul>
+<h3 id="33-类的属性没有多态性！！！多态就是为API服务的，API才能体现出多态性！"><a href="#33-类的属性没有多态性！！！多态就是为API服务的，API才能体现出多态性！" class="headerlink" title="33.类的属性没有多态性！！！多态就是为API服务的，API才能体现出多态性！"></a>33.类的属性没有多态性！！！多态就是为API服务的，API才能体现出多态性！</h3><h3 id="34-Object类及equals-方法"><a href="#34-Object类及equals-方法" class="headerlink" title="34.Object类及equals()方法"></a>34.Object类及equals()方法</h3><ul>
+<li><p>基本数据类型==基本数据类型（比较值）</p>
+</li>
+<li><p>引用数据类型（对象）==引用数据类型（对象）（比较栈空间的首地址）</p>
+</li>
+<li><p>object的equals也是比较两个对象的栈空间首地址 </p>
+</li>
+<li><p>！！！！String的equals是比较值！！！比较值！！！因为重写了Object的equals方法</p>
+</li>
+</ul>
+<h3 id="35-String类的内存空间"><a href="#35-String类的内存空间" class="headerlink" title="35.String类的内存空间"></a>35.String类的内存空间</h3><ul>
+<li><img src="https://i.imgur.com/aUjMJ2Z.jpg" alt=""></li>
+</ul>
+<h3 id="36-toString-方法"><a href="#36-toString-方法" class="headerlink" title="36.toString()方法"></a>36.toString()方法</h3><ul>
+<li><p><img src="https://i.imgur.com/ar2hKm3.jpg" alt=""></p>
+</li>
+<li><p><img src="https://i.imgur.com/E6b0sWv.jpg" alt=""></p>
+</li>
+<li><p>String类重写了 toString()方法和equals()方法</p>
+</li>
+</ul>
+<h3 id="37-Junit单元测试方法的使用"><a href="#37-Junit单元测试方法的使用" class="headerlink" title="37.Junit单元测试方法的使用"></a>37.Junit单元测试方法的使用</h3><ul>
+<li><p><img src="https://i.imgur.com/H4OoSJE.jpg" alt=""></p>
+</li>
+<li><p>好处就是不需要实例化构造对象，就可以直接调用方法里面的内容，用于检查代码块是否有异常错误！对于开发非常具有帮助！！！</p>
+</li>
+</ul>
+<h3 id="38-包装类的使用，就是把8中数据类型调用各自的构造器，变成引用对象来使用！"><a href="#38-包装类的使用，就是把8中数据类型调用各自的构造器，变成引用对象来使用！" class="headerlink" title="38.包装类的使用，就是把8中数据类型调用各自的构造器，变成引用对象来使用！"></a>38.包装类的使用，就是把8中数据类型调用各自的构造器，变成引用对象来使用！</h3><ul>
+<li><img src="https://i.imgur.com/oCNpy5w.jpg" alt=""></li>
+</ul>
+<h3 id="39-static关键字"><a href="#39-static关键字" class="headerlink" title="39.static关键字"></a>39.static关键字</h3><ul>
+<li><p><img src="https://i.imgur.com/ekLP21V.png" alt=""></p>
+</li>
+<li><p>被static修饰的成员变量就是类变量，被static修饰的成员方法就是类方法</p>
+</li>
+<li><p>static最本质的核心是：不需要实例化对象才能为某个成员变量或者成员方法分配内存空间，然后才能调用，类是抽象的，不是实体，所以没有内存空间，当然不可以直接调用，只能new对象实体才能分配内存空间，然后进行操作，此时，为了需求和进化，我们需要一个在类里面，即使没实例化也具有内存空间的权限，那就是static权限，可以让成员变量和方法拥有不需要实例化对象就可调用的高级特权，当然，高贵的东西肯定是稀有的，所以我们要加一个条件，就是唯一性，所以static的两大特点是：实例特性和唯一性</p>
+</li>
+<li><p>所有的对象都共用这个static成员变量，static成员方法（对象1改了它，对象2也会变，因为唯一共用）</p>
+</li>
+<li><p>看内存存储空间就明白原理了</p>
+</li>
+<li><p><img src="https://i.imgur.com/vvPuhDQ.png" alt=""></p>
+</li>
+<li><p>类，对象都可以直接调用，不一定是对象调用，我们更多的是用： 类名.  调用</p>
+</li>
+<li><p>static成员在类加载完成的时候就创建完成了，独立于对象，是实例变量的进化级别</p>
+</li>
+<li><p>生命周期的角度：static修饰的变量和方法早于实例变量和方法，而且回收得晚，甚至可能一直存在</p>
+</li>
+<li><p>所以static里面不能调用普通实例变量和方法，因为对象实例变量和方法不一定创建了，但是反之可以</p>
+</li>
+<li><p>依赖于初始对象，对象特性的，设计的时候就不需要加static</p>
+</li>
+<li><p><img src="https://i.imgur.com/U8gEkBF.jpg" alt=""></p>
+</li>
+</ul>
+<h3 id="40-单例设计模式"><a href="#40-单例设计模式" class="headerlink" title="40.单例设计模式"></a>40.单例设计模式</h3><ul>
+<li><p>设计模式可以理解为最优码编码结构，大量实践之后总结出来的编码结构和风格，就像篮球比赛的战术</p>
+</li>
+<li><p>单例模式===一个类只存在一个对象实例===构造方法设置为private===静态方法返回这个唯一的对象实例</p>
+</li>
+<li><p><img src="https://i.imgur.com/YilayIA.jpg" alt=""></p>
+</li>
+<li><p><img src="https://i.imgur.com/Yh762LP.jpg" alt=""></p>
+</li>
+<li><p><img src="https://i.imgur.com/RhTd7OE.jpg" alt=""></p>
+</li>
+<li><p>1.private 构造器；  2.static对象   3.static成员方法来返回static对象，然后类来调用即可</p>
+</li>
+<li><p>饿汉：先创对象；  懒汉：对象==null; 然后用if来创建</p>
+</li>
+<li><p><img src="https://i.imgur.com/S3R7G86.jpg" alt=""></p>
+</li>
+</ul>
+<h3 id="41-理解Main方法"><a href="#41-理解Main方法" class="headerlink" title="41.理解Main方法"></a>41.理解Main方法</h3><ul>
+<li><img src="https://i.imgur.com/FW3Wd7x.jpg" alt=""></li>
+</ul>
+<h3 id="42-静态代码块和非静态代码块"><a href="#42-静态代码块和非静态代码块" class="headerlink" title="42.静态代码块和非静态代码块"></a>42.静态代码块和非静态代码块</h3><ul>
+<li><p>静态代码块的执行比非静态代码块要快，而且只执行一次，执行一次，但是非静态依赖于对象，对象创建一次，非静态代码块就执行一次，注意的是：静态代码块里面不能调用非静态的成员变量和成员方法，因为非静态的成员变量和方法是依赖于对象而创建加载而成的，但是非静态代码块是依赖于类创建加载而成的，有类不一定有对象，所以对象的成员方法和变量的生命周期慢于static变量和方法，所以static的代码块里面不可以调用非static的变量和方法</p>
+</li>
+<li><p><img src="https://i.imgur.com/8eOUDwH.png" alt=""></p>
+</li>
+<li><p>成员变量的赋值所有归纳：</p>
+</li>
+<li><p><img src="https://i.imgur.com/TR3J5GG.jpg" alt=""></p>
+</li>
+</ul>
+<h3 id="43-关键字final"><a href="#43-关键字final" class="headerlink" title="43.关键字final"></a>43.关键字final</h3><ul>
+<li><p>final修饰成员变量===常量（大写，而且声明的时候就要显示初始化赋值）</p>
+</li>
+<li><p>final修饰方法===若本类被继承了，子类不能重写该方法（保证该方法的稳定性）</p>
+</li>
+<li><p>final修饰类===该类不能被继承，安全性，可读性</p>
+</li>
+<li><p><img src="https://i.imgur.com/C7k27gt.jpg" alt=""></p>
+</li>
+<li><p><img src="https://i.imgur.com/zjXiqls.jpg" alt=""></p>
+</li>
+</ul>
+<h3 id="44-抽象类与抽象方法"><a href="#44-抽象类与抽象方法" class="headerlink" title="44.抽象类与抽象方法"></a>44.抽象类与抽象方法</h3><ul>
+<li><p><img src="https://i.imgur.com/enBNUOR.jpg" alt=""></p>
+</li>
+<li><p><img src="https://i.imgur.com/eDQZHFs.jpg" alt=""></p>
+</li>
+</ul>
+<h3 id="45-模板方法的设计模式"><a href="#45-模板方法的设计模式" class="headerlink" title="45.模板方法的设计模式"></a>45.模板方法的设计模式</h3><ul>
+<li><p><img src="https://i.imgur.com/5Y2NttU.jpg" alt=""></p>
+</li>
+<li><p>抽象父类的抽象方法，是因为父类无法确定，那父类交提供模板，不确定的方法交给子类自己去重写实现！</p>
+</li>
+</ul>
+<h3 id="46-接口：接口的本质是一个特殊功能的抽象类，是抽象类的进化，存在的最大意义是对类功能的补充和扩充"><a href="#46-接口：接口的本质是一个特殊功能的抽象类，是抽象类的进化，存在的最大意义是对类功能的补充和扩充" class="headerlink" title="46.接口：接口的本质是一个特殊功能的抽象类，是抽象类的进化，存在的最大意义是对类功能的补充和扩充"></a>46.接口：接口的本质是一个特殊功能的抽象类，是抽象类的进化，存在的最大意义是对类功能的补充和扩充</h3><ul>
+<li><p><img src="https://i.imgur.com/xtEGOwR.jpg" alt=""></p>
+</li>
+<li><p><img src="https://i.imgur.com/7OCe4fO.jpg" alt=""></p>
+</li>
+<li><p>类Aimplements接口B的本质是让类A扩充自己本身的功能，从接口B中获得功能</p>
+</li>
+<li><p><img src="https://i.imgur.com/gQXeQC4.jpg" alt=""></p>
+</li>
+<li><p>implements一个或多个接口的时候，要重写所有的抽象方法，否则需要在class前面加abstract</p>
+</li>
+<li><p>接口的多态性：虽然接口没有构造器，但是我们在设计方法的时候，是可以： R r 作为方法的形参；</p>
+</li>
+<li><p>然后，最重要的是，我们真正调用此方法时传入的实参是：implememnts该接口的类的实例</p>
+</li>
+<li><p>所以很类似前面的： Person p= new Student(); 把interface看成一个特殊的抽象类即可</p>
+</li>
+<li><p><img src="https://i.imgur.com/UP549YT.jpg" alt=""></p>
+</li>
+<li><p><img src="https://i.imgur.com/56hgv1j.jpg" alt=""></p>
+</li>
+</ul>
+<h3 id="47-工厂模式：利用的是接口的多态性"><a href="#47-工厂模式：利用的是接口的多态性" class="headerlink" title="47.工厂模式：利用的是接口的多态性"></a>47.工厂模式：利用的是接口的多态性</h3><ul>
+<li><p>首先创建接口1，让两个类来implements，当然要重写接口的抽象方法</p>
+</li>
+<li><p>创建接口2：Factory,抽象方法的返回值类型写成接口1： Work getWork();</p>
+</li>
+<li><p>再创建两个类来implements接口2（1个接口带两个类），然后重写抽象方法Work getWork()，里面return的是implements接口1的类的对象： return new StudentWork();</p>
+</li>
+<li><p>总结：接口1带两类，接口2的抽象方法的返回值类型写成接口1，然后再带两个类，重写方法return 前两个类的实例即可（接口对接口，类return 类对象）；</p>
+</li>
+</ul>
+<h3 id="48-代理模式"><a href="#48-代理模式" class="headerlink" title="48.代理模式"></a>48.代理模式</h3><ul>
+<li><p>接口1implements两个类</p>
+</li>
+<li><p>类2里面写一个接口的对象名，然后多态性new类1的实体给它用，此时类2里面就有了类1的实体，当然我们就可以在类2里面调用类1的方法，即类2帮助类1完成目标方法的调用，代理作用。</p>
+</li>
+</ul>
+<h3 id="接口interface的最本质作用是帮助类扩充功能，而且简单直接，降低类与类之间的耦合复杂关系，彼此之间影响越小越好，因为万一代码已修改，各种bug会出现"><a href="#接口interface的最本质作用是帮助类扩充功能，而且简单直接，降低类与类之间的耦合复杂关系，彼此之间影响越小越好，因为万一代码已修改，各种bug会出现" class="headerlink" title="接口interface的最本质作用是帮助类扩充功能，而且简单直接，降低类与类之间的耦合复杂关系，彼此之间影响越小越好，因为万一代码已修改，各种bug会出现"></a>接口interface的最本质作用是帮助类扩充功能，而且简单直接，降低类与类之间的耦合复杂关系，彼此之间影响越小越好，因为万一代码已修改，各种bug会出现</h3><h3 id="implements可以理解为-干净继承，用多的最多的是多态性！！！"><a href="#implements可以理解为-干净继承，用多的最多的是多态性！！！" class="headerlink" title="implements可以理解为 干净继承，用多的最多的是多态性！！！"></a>implements可以理解为 干净继承，用多的最多的是多态性！！！</h3><ul>
+<li><p><img src="https://i.imgur.com/oyIf3R7.jpg" alt=""></p>
+</li>
+<li><p>接口本身没有构造器，一般都是由子类来new出来的，此时我们假装把 new 接口（）作为子类的构造器，就是匿名类的意思了</p>
+</li>
+<li><p>数据库的类型有： MYSQL,Oracle,DB2</p>
+</li>
+</ul>
+<h3 id="49-内部类"><a href="#49-内部类" class="headerlink" title="49.内部类"></a>49.内部类</h3><ul>
+<li><p>类的五大成员：成员变量，成员方法，构造器，初始化块，内部类</p>
+</li>
+<li><p><img src="https://i.imgur.com/02fs4PF.jpg" alt=""></p>
+</li>
+<li><p>成员内部类就是位置跟 成员变量和方法并列；局部内部类跟局部变量一样，位置都是在方法里面定义</p>
+</li>
+<li><p><img src="https://i.imgur.com/S4tq17m.jpg" alt=""></p>
+</li>
+<li><p><img src="https://i.imgur.com/THtqeG1.jpg" alt=""></p>
+</li>
+<li><p>接口的匿名内部类的使用非常常见，Android里面经常使用</p>
+</li>
+<li><p>接口的常用使用方法：Product是我们的接口</p>
+</li>
+<li><p><img src="https://i.imgur.com/brZZDAE.jpg" alt=""></p>
+</li>
+<li><p><img src="https://i.imgur.com/FGfXMby.jpg" alt=""></p>
+</li>
+<li><p><img src="https://i.imgur.com/BxP6mYr.jpg" alt=""></p>
+</li>
+</ul>
+<h3 id="50-异常可以理解为无法避免的“实验误差”，可以用分类讨论代码解决"><a href="#50-异常可以理解为无法避免的“实验误差”，可以用分类讨论代码解决" class="headerlink" title="50.异常可以理解为无法避免的“实验误差”，可以用分类讨论代码解决"></a>50.异常可以理解为无法避免的“实验误差”，可以用分类讨论代码解决</h3><ul>
+<li><p><img src="https://i.imgur.com/U9hkKl1.jpg" alt=""></p>
+</li>
+<li><p><img src="https://i.imgur.com/54uILXD.jpg" alt=""></p>
+</li>
+<li><p>常见的运行时异常：RuntimeException</p>
+</li>
+<li><p>数组下标越界的异常：ArrayIndexOutOfBoundsException</p>
+</li>
+<li><p><img src="https://i.imgur.com/AcEgNei.jpg" alt=""></p>
+</li>
+<li><p>算术异常：ArithmeticException</p>
+</li>
+<li><p><img src="https://i.imgur.com/D63irhf.jpg" alt=""></p>
+</li>
+<li><p>类型转换异常：ClassCastException</p>
+</li>
+<li><p><img src="https://i.imgur.com/4tHfKZ2.jpg" alt=""></p>
+</li>
+<li><p>空指针异常：NullPointerException</p>
+</li>
+<li><p><img src="https://i.imgur.com/pEIA5Bh.jpg" alt=""></p>
+</li>
+<li><p>(2)编译时异常：IOException</p>
+</li>
+<li><p><img src="https://i.imgur.com/bthKoee.jpg" alt=""></p>
+</li>
+</ul>
+<h3 id="51-处理异常"><a href="#51-处理异常" class="headerlink" title="51.处理异常"></a>51.处理异常</h3><ul>
+<li><p><img src="https://i.imgur.com/v7emsOI.jpg" alt=""></p>
+</li>
+<li><p><img src="https://i.imgur.com/I5DAijT.jpg" alt=""></p>
+</li>
+<li><p><img src="https://i.imgur.com/vqhihSa.jpg" alt=""></p>
+</li>
+<li><p><img src="https://i.imgur.com/4gC0fPJ.jpg" alt=""></p>
+</li>
+<li><p>try catch finally的执行顺序，就看finally有没有return语句，反正就是try catch先执行，return后的语句也会执行，但是不直接去retrun，先跳到fianlly里面去执行代码，然后finally有return的话，就直接return,没有的话再回到try或者catch来return 值</p>
+</li>
+</ul>
+<h3 id="52-面向对象总结"><a href="#52-面向对象总结" class="headerlink" title="52.面向对象总结"></a>52.面向对象总结</h3><ul>
+<li><p><img src="https://i.imgur.com/NB98GcQ.jpg" alt=""> </p>
+</li>
+<li><p><img src="https://i.imgur.com/WgaW330.jpg" alt=""></p>
+</li>
+<li><p><img src="https://i.imgur.com/HrNwsNE.jpg" alt=""></p>
+</li>
+<li><p>体系结构完成</p>
+</li>
+</ul>
+<h3 id="53-处理异常的第二种方式"><a href="#53-处理异常的第二种方式" class="headerlink" title="53.处理异常的第二种方式"></a>53.处理异常的第二种方式</h3><ul>
+<li><p><img src="https://i.imgur.com/1onTNed.jpg" alt=""></p>
+</li>
+<li><p><img src="https://i.imgur.com/6S2tZ9v.jpg" alt=""></p>
+</li>
+<li><p>抛到调用者再来try catch finally处理</p>
+</li>
+<li><p>try catch finally throws throw(手动抛出异常)</p>
+</li>
+</ul>
+<h3 id="54-集合"><a href="#54-集合" class="headerlink" title="54.集合"></a>54.集合</h3><ul>
+<li><p>集合存在的本质作用就是为了 动态存储对象（集合就是一个容器）</p>
+</li>
+<li><p>类比数组：就是为了存储多个 基本数据类型的数据而存在的</p>
+</li>
+<li><p><img src="https://i.imgur.com/iRnspoQ.jpg" alt=""></p>
+</li>
+<li><p><img src="https://i.imgur.com/g5jOtMx.jpg" alt=""></p>
+</li>
+<li><p>Collection下面的ArrayList是一个实现类</p>
+</li>
+<li><p>Collection是一个总集合，集合里面是元素，集合的元素本质是===对象！！！</p>
+</li>
+<li><p>就算是存放基本数据类型，也会转变成包装类的对象，所以元素===对象</p>
+</li>
+<li><p>所以集合的size()就是集合里面有几个对象的意思！！！</p>
+</li>
+<li><p><img src="https://i.imgur.com/L5pacaz.jpg" alt=""></p>
+</li>
+<li><p>下面是Collection的常用API</p>
+</li>
+<li><p><img src="https://i.imgur.com/kJUDFzo.jpg" alt=""></p>
+</li>
+<li><p><img src="https://i.imgur.com/nqRLBxS.jpg" alt=""></p>
+</li>
+<li><p><img src="https://i.imgur.com/Fk9aWV0.jpg" alt=""></p>
+</li>
+<li><p><img src="https://i.imgur.com/LSTvwfT.jpg" alt=""></p>
+</li>
+<li><p><img src="https://i.imgur.com/KGVRljp.jpg" alt=""></p>
+</li>
+<li><p>遍历集合里面的元素的习惯性写法，迭代器方法，先转换为iterator对象，然后搭配hasNext()和next()两个方法使用</p>
+</li>
+<li><p><img src="https://i.imgur.com/YpuPda8.jpg" alt=""></p>
+</li>
+<li><p><img src="https://i.imgur.com/BnL6QMH.jpg" alt=""></p>
+</li>
+<li><p>方法二：增强for循环来实现：把collection的对象赋给i，多态性的体现</p>
+</li>
+<li><p><img src="https://i.imgur.com/cUDggFG.jpg" alt=""></p>
+</li>
+<li><p>备注：数组也可以用增强for循环来遍历</p>
+</li>
+<li><p><img src="https://i.imgur.com/3vMqSqF.jpg" alt=""></p>
+</li>
+<li><p>记住：不管是数组还是集合，用增强for循环和iterator迭代器的时候，是不会改变集合和数组本身的值的，因为它们是起赋值的作用，把集合里对象元素赋给了object对象，相当于copy，不是剪切！！！</p>
+</li>
+</ul>
+<h3 id="55-ArrayList-和-List的常用API：List是子接口，ArrayList是它的子接口List的实现类"><a href="#55-ArrayList-和-List的常用API：List是子接口，ArrayList是它的子接口List的实现类" class="headerlink" title="55.ArrayList 和 List的常用API：List是子接口，ArrayList是它的子接口List的实现类"></a>55.ArrayList 和 List的常用API：List是子接口，ArrayList是它的子接口List的实现类</h3><ul>
+<li><p><img src="https://i.imgur.com/aCMokuU.jpg" alt=""></p>
+</li>
+<li><p>上下两图是集合的体系结构</p>
+</li>
+<li><p><img src="https://i.imgur.com/C1J779O.jpg" alt=""></p>
+</li>
+<li><p>List接口的实现类的常用API</p>
+</li>
+<li><p><img src="https://i.imgur.com/XIm5w72.jpg" alt=""></p>
+</li>
+<li><p><img src="https://i.imgur.com/cV0XnY2.jpg" alt=""></p>
+</li>
+<li><p>利用的就是接口的多态性： 接口引用名=== new 实现类（）;借用实体</p>
+</li>
+<li><p>subList是取到集合的子集，而且是左闭右开的准则</p>
+</li>
+<li><p>LinkedList:用于频繁的插入和删除操作，因为ArrayList会错位，此时付出的数据改动代价很大，不过最常用的还是ArrayList，最常用的List接口实现类！！！</p>
+</li>
+<li><p>所以List接口下的实现类： ArrayList和LinkedList决定的是集合的对象在存储空间的位置和连接方式，下面学习的泛型决定的是：集合里面放什么类型的对象，对对象的类型进行统一，即（ArrayList决定对象位置，泛型决定对象类型）</p>
+</li>
+</ul>
+<h3 id="56-Set接口"><a href="#56-Set接口" class="headerlink" title="56.Set接口"></a>56.Set接口</h3><ul>
+<li><p>主要实现类是： HashSet  LinkedHashSet  TreeSet</p>
+</li>
+<li><p><img src="https://i.imgur.com/CxC6a0b.jpg" alt=""></p>
+</li>
+<li><p><img src="https://i.imgur.com/8sevkN3.jpg" alt=""></p>
+</li>
+<li><p><img src="https://i.imgur.com/5Rbm2we.jpg" alt=""></p>
+</li>
+<li><p>TreeSet的自定义排序</p>
+</li>
+<li><p><img src="https://i.imgur.com/AZUD7ep.jpg" alt=""></p>
+</li>
+<li><p><img src="https://i.imgur.com/DyqqaZQ.jpg" alt=""></p>
+</li>
+</ul>
+<h3 id="57-Map集合体系"><a href="#57-Map集合体系" class="headerlink" title="57.Map集合体系"></a>57.Map集合体系</h3><ul>
+<li><p><img src="https://i.imgur.com/IGVC7tY.jpg" alt=""></p>
+</li>
+<li><p><img src="https://i.imgur.com/cRvPLPH.jpg" alt=""></p>
+</li>
+<li><p><img src="https://i.imgur.com/UuW1MlO.jpg" alt=""></p>
+</li>
+<li><p>常用方法如下：</p>
+</li>
+<li><p><img src="https://i.imgur.com/8x0pNIi.jpg" alt=""></p>
+</li>
+<li><p>Map的遍历</p>
+</li>
+<li><p><img src="https://i.imgur.com/7OB5RH3.jpg" alt=""></p>
+</li>
+<li><p>key是以set的形式存储的，value是以collection的形式存储的</p>
+</li>
+<li><p><img src="https://i.imgur.com/xsk8QJq.jpg" alt=""></p>
+</li>
+<li><p>LinkedHashMap TreeMap</p>
+</li>
+<li><p><img src="https://i.imgur.com/leINe5l.jpg" alt=""></p>
+</li>
+<li><p><img src="https://i.imgur.com/XHrJG9O.jpg" alt=""></p>
+</li>
+</ul>
+<h3 id="58-Map的常用实现类：Hashtable（太老了）的子类：Properties"><a href="#58-Map的常用实现类：Hashtable（太老了）的子类：Properties" class="headerlink" title="58.Map的常用实现类：Hashtable（太老了）的子类：Properties"></a>58.Map的常用实现类：Hashtable（太老了）的子类：Properties</h3><ul>
+<li><img src="https://i.imgur.com/zPbzsFh.jpg" alt=""></li>
+</ul>
+<h3 id="59-操作集合的工具类：Collections"><a href="#59-操作集合的工具类：Collections" class="headerlink" title="59.操作集合的工具类：Collections"></a>59.操作集合的工具类：Collections</h3><ul>
+<li><p><img src="https://i.imgur.com/SP7AHh9.jpg" alt=""></p>
+</li>
+<li><p><img src="https://i.imgur.com/xcftBwp.jpg" alt=""></p>
+</li>
+<li><p><img src="https://i.imgur.com/5GkvRfD.jpg" alt=""></p>
+</li>
+<li><p>总结：集合的总提纲</p>
+</li>
+</ul>
+<h3 id="60-泛型"><a href="#60-泛型" class="headerlink" title="60.泛型"></a>60.泛型</h3><ul>
+<li><p><img src="https://i.imgur.com/uJevaPW.jpg" alt=""></p>
+</li>
+<li><p><img src="https://i.imgur.com/VBdgFJv.jpg" alt=""></p>
+</li>
+<li><p><img src="https://i.imgur.com/ipwsICB.png" alt=""></p>
+</li>
+<li><p><img src="https://i.imgur.com/YvbPRqS.jpg" alt=""></p>
+</li>
+<li><p><img src="https://i.imgur.com/IDozs70.jpg" alt=""></p>
+</li>
+<li><p><img src="https://i.imgur.com/6SATezm.jpg" alt=""></p>
+</li>
+</ul>
+<h3 id="61-Java语言基础运算补充"><a href="#61-Java语言基础运算补充" class="headerlink" title="61.Java语言基础运算补充"></a>61.Java语言基础运算补充</h3><ul>
+<li><p>初始化===赋初值===给实体===真正存在===否则没有意义</p>
+</li>
+<li><p>强制类型转换=== 大转小： double a=7.8; int b=(int)a;  b==7;</p>
+</li>
+<li><p>运算符补充</p>
+</li>
+<li>int d=1; int a=2;</li>
+<li>System.out.println(“d++   = “ +  (d++) );  输出的值是1；</li>
+<li>System.out.println(“++d   = “ +  (++d) );  输出的值是3；</li>
+<li><p>所以： d++ == d和出去语句再+1；  ++d == d马上+1 然后在本语句起作用</p>
+</li>
+<li><p>System.out.println(“a++   = “ +  (a++) );   输出a为2;</p>
+</li>
+<li><p>System.out.println(“a–   = “ +  (a–) );   输出a为3；</p>
+</li>
+<li><p>记住： a++ 和 ++a是一个整体！！！！是只对a进行操作的整体， b=2<em>a++ 本质是b=2</em>a； a+=1;</p>
+</li>
+<li><p>最小值的写法： min = x &lt; y ? x : y; 非常重要！！！！ 3元运算符</p>
+</li>
+<li><p>流程控制语句： 三种流程结构，分别是：顺序、分支（if、switch）、循环(for while do while)；</p>
+</li>
+<li><p>字符串String类</p>
+</li>
+<li><p>String s4 = “abc” + 123;===”abc”+”123” ;//s4 为”abc123”</p>
+</li>
+<li><p>常用API：<a href="https://www.jianshu.com/p/989365b0682e" target="_blank" rel="noopener">https://www.jianshu.com/p/989365b0682e</a></p>
+</li>
+<li><p>数组是一个类： int[]a={1,2,3}  //int[]是一个类 a是对象引用名</p>
+</li>
+<li><p>Java中有两种数据传递方式： 基本数据类型是值传递； 对象是引用对象传递（共用一个实体，一改则改）</p>
+</li>
+<li><p>！！！补一下String类的常用API，数组的常用API，运算符的操作练习题（可以刷一波熟悉一下感觉，重复看API和重复看练习题，每天4次，刻意练习和重复，会很熟练）</p>
+</li>
+</ul>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/09/10/Android选择题/" rel="next" title="Android选择题">
+                <i class="fa fa-chevron-left"></i> Android选择题
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/09/10/面试官2（Android二阶高级）/" rel="prev" title="Android二阶">
+                Android二阶 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpg"
+                alt="FeishengQiu" />
+            
+              <p class="site-author-name" itemprop="name">FeishengQiu</p>
+              <p class="site-description motion-element" itemprop="description">Android Java</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">16</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Java灵感2整理"><span class="nav-number">1.</span> <span class="nav-text">Java灵感2整理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-Java的版本"><span class="nav-number">1.1.</span> <span class="nav-text">1.Java的版本</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-Java语言的特点"><span class="nav-number">1.2.</span> <span class="nav-text">2.Java语言的特点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-JVM的作用"><span class="nav-number">1.3.</span> <span class="nav-text">3.JVM的作用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-：什么是JDK-JDK的结构，JDK的作用"><span class="nav-number">1.4.</span> <span class="nav-text">3.*：什么是JDK,JDK的结构，JDK的作用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-public-static-void-main-String-args"><span class="nav-number">1.5.</span> <span class="nav-text">4.public static void main(String[] args){ }</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-一个-java文件就是一个源文件，一个java文件里面可以有多个外部类class，在javac编译之后，里面有N个类就会编译生成N个-class文件（计算机字节码文件），然后想运行哪个类就-java-类名即可"><span class="nav-number">1.6.</span> <span class="nav-text">5.一个.java文件就是一个源文件，一个java文件里面可以有多个外部类class，在javac编译之后，里面有N个类就会编译生成N个.class文件（计算机字节码文件），然后想运行哪个类就 java 类名即可</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-所有的一切都来源创始人利用数据域和基本运算写好封装多了N个API，然后再把N个API和数据域进行再操作封装成N个类，再将N个功能类似的类封装一起组成包，N个包再组成库，以上就是原生API，原生包，原生库-就是Java基础类库lib-然后我们写好利用原生的类和原生API写好程序之后，然后通过javac-exe编译成-class文件，之后加载到JVM运行，之所以能识别我们的API，是因为API本来就是IDE的创始人写好的，JVM调用lib来解释我们写的程序给操作系统，就可以进行执行，因此，我们也可以自己当创始人，封装自己的API，类，库来使用"><span class="nav-number">1.7.</span> <span class="nav-text">6.所有的一切都来源创始人利用数据域和基本运算写好封装多了N个API，然后再把N个API和数据域进行再操作封装成N个类，再将N个功能类似的类封装一起组成包，N个包再组成库，以上就是原生API，原生包，原生库,就是Java基础类库lib,然后我们写好利用原生的类和原生API写好程序之后，然后通过javac.exe编译成.class文件，之后加载到JVM运行，之所以能识别我们的API，是因为API本来就是IDE的创始人写好的，JVM调用lib来解释我们写的程序给操作系统，就可以进行执行，因此，我们也可以自己当创始人，封装自己的API，类，库来使用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-关键字-特殊功能的字符串单词：特点是所有字母都要小写！！！"><span class="nav-number">1.8.</span> <span class="nav-text">7.关键字===特殊功能的字符串单词：特点是所有字母都要小写！！！</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8-标识符-类名-方法名-变量名（字母，0-9，-4种组合）"><span class="nav-number">1.9.</span> <span class="nav-text">8.标识符===类名+方法名+变量名（字母，0-9，_,$4种组合）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#9-变量属于数据域，需要先声明，后使用，而且根据声明的地方决定自己的使用范围，成员变量-全局变量用得比较多，因为需要多处用到同一变量，需求较大，局部变量用于方法API内或者形参那里"><span class="nav-number">1.10.</span> <span class="nav-text">9.变量属于数据域，需要先声明，后使用，而且根据声明的地方决定自己的使用范围，成员变量===全局变量用得比较多，因为需要多处用到同一变量，需求较大，局部变量用于方法API内或者形参那里</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#10-计算机是以2机制的形式来保存所有的数据，1bit-1比特-1位-1格子，左边的最高位是来符号位，0正负1"><span class="nav-number">1.11.</span> <span class="nav-text">10.计算机是以2机制的形式来保存所有的数据，1bit=1比特=1位=1格子，左边的最高位是来符号位，0正负1</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#11-强制类型转换"><span class="nav-number">1.12.</span> <span class="nav-text">11.强制类型转换</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#12-面向对象-（OOP）：Object-oriented-Programming"><span class="nav-number">1.13.</span> <span class="nav-text">12.面向对象 （OOP）：Object oriented Programming</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#13-面向对象的本质是根据目标功能来设计类，设计类的本质是设计成员变量和封装成员方法，封装方法的本质是搭配数据域和基本语法；最后构造类的对象，对象调用API即可完成目标功能，这是基本模型"><span class="nav-number">1.14.</span> <span class="nav-text">13.面向对象的本质是根据目标功能来设计类，设计类的本质是设计成员变量和封装成员方法，封装方法的本质是搭配数据域和基本语法；最后构造类的对象，对象调用API即可完成目标功能，这是基本模型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#14-类和类的关系：关联-继承-聚集-组合关系"><span class="nav-number">1.15.</span> <span class="nav-text">14..类和类的关系：关联+继承+聚集+组合关系</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#15-对象的内存解析和对象之间的关系（一般情况下是相互独立的，除非赋值引用，会共用同一个实体）"><span class="nav-number">1.16.</span> <span class="nav-text">15.对象的内存解析和对象之间的关系（一般情况下是相互独立的，除非赋值引用，会共用同一个实体）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#16-变量声明"><span class="nav-number">1.17.</span> <span class="nav-text">16.变量声明</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#17-Java类的方法的使用"><span class="nav-number">1.18.</span> <span class="nav-text">17.Java类的方法的使用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#18-Java方法的重载：OverLoad"><span class="nav-number">1.19.</span> <span class="nav-text">18.Java方法的重载：OverLoad</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#19-类是抽象的，对象是具体的-一个项目本质上是由一个一个的类来构成的，所以设计类，设计成员变量和成员方法，然后构造对象实例化来使类具体化，就可以调用类的属性和方法，从而完成目标功能！！！！整个面向对象的思想！！！！"><span class="nav-number">1.20.</span> <span class="nav-text">19.类是抽象的，对象是具体的,一个项目本质上是由一个一个的类来构成的，所以设计类，设计成员变量和成员方法，然后构造对象实例化来使类具体化，就可以调用类的属性和方法，从而完成目标功能！！！！整个面向对象的思想！！！！</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#20-面向对象的三大本质特征：-封装继承多态"><span class="nav-number">1.21.</span> <span class="nav-text">20.面向对象的三大本质特征： 封装继承多态</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#21-Java内存空间结构"><span class="nav-number">1.22.</span> <span class="nav-text">21.Java内存空间结构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#22-工厂模式"><span class="nav-number">1.23.</span> <span class="nav-text">22.工厂模式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#23-java中的基本数据类型参数传递机制是：-值传递机制（传副本，不改变自身）"><span class="nav-number">1.24.</span> <span class="nav-text">23.java中的基本数据类型参数传递机制是： 值传递机制（传副本，不改变自身）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#24-权限修饰符"><span class="nav-number">1.25.</span> <span class="nav-text">24.权限修饰符</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#25-类的成分之三-构造器-构造方法"><span class="nav-number">1.26.</span> <span class="nav-text">25.类的成分之三==构造器==构造方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#26-封装性思想的特点"><span class="nav-number">1.27.</span> <span class="nav-text">26.封装性思想的特点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#27-this关键字的使用"><span class="nav-number">1.28.</span> <span class="nav-text">27.this关键字的使用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#28-JavaBean的3个条件"><span class="nav-number">1.29.</span> <span class="nav-text">28.JavaBean的3个条件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#29-面向对象的特征二：继承"><span class="nav-number">1.30.</span> <span class="nav-text">29.面向对象的特征二：继承</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#30-super调用父类的成员变量，成员方法，构造器"><span class="nav-number">1.31.</span> <span class="nav-text">30.super调用父类的成员变量，成员方法，构造器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#31-子类对象实例化的全过程"><span class="nav-number">1.32.</span> <span class="nav-text">31.子类对象实例化的全过程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#32-面向对象的特征三：多态性"><span class="nav-number">1.33.</span> <span class="nav-text">32.面向对象的特征三：多态性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#33-类的属性没有多态性！！！多态就是为API服务的，API才能体现出多态性！"><span class="nav-number">1.34.</span> <span class="nav-text">33.类的属性没有多态性！！！多态就是为API服务的，API才能体现出多态性！</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#34-Object类及equals-方法"><span class="nav-number">1.35.</span> <span class="nav-text">34.Object类及equals()方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#35-String类的内存空间"><span class="nav-number">1.36.</span> <span class="nav-text">35.String类的内存空间</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#36-toString-方法"><span class="nav-number">1.37.</span> <span class="nav-text">36.toString()方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#37-Junit单元测试方法的使用"><span class="nav-number">1.38.</span> <span class="nav-text">37.Junit单元测试方法的使用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#38-包装类的使用，就是把8中数据类型调用各自的构造器，变成引用对象来使用！"><span class="nav-number">1.39.</span> <span class="nav-text">38.包装类的使用，就是把8中数据类型调用各自的构造器，变成引用对象来使用！</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#39-static关键字"><span class="nav-number">1.40.</span> <span class="nav-text">39.static关键字</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#40-单例设计模式"><span class="nav-number">1.41.</span> <span class="nav-text">40.单例设计模式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#41-理解Main方法"><span class="nav-number">1.42.</span> <span class="nav-text">41.理解Main方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#42-静态代码块和非静态代码块"><span class="nav-number">1.43.</span> <span class="nav-text">42.静态代码块和非静态代码块</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#43-关键字final"><span class="nav-number">1.44.</span> <span class="nav-text">43.关键字final</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#44-抽象类与抽象方法"><span class="nav-number">1.45.</span> <span class="nav-text">44.抽象类与抽象方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#45-模板方法的设计模式"><span class="nav-number">1.46.</span> <span class="nav-text">45.模板方法的设计模式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#46-接口：接口的本质是一个特殊功能的抽象类，是抽象类的进化，存在的最大意义是对类功能的补充和扩充"><span class="nav-number">1.47.</span> <span class="nav-text">46.接口：接口的本质是一个特殊功能的抽象类，是抽象类的进化，存在的最大意义是对类功能的补充和扩充</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#47-工厂模式：利用的是接口的多态性"><span class="nav-number">1.48.</span> <span class="nav-text">47.工厂模式：利用的是接口的多态性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#48-代理模式"><span class="nav-number">1.49.</span> <span class="nav-text">48.代理模式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#接口interface的最本质作用是帮助类扩充功能，而且简单直接，降低类与类之间的耦合复杂关系，彼此之间影响越小越好，因为万一代码已修改，各种bug会出现"><span class="nav-number">1.50.</span> <span class="nav-text">接口interface的最本质作用是帮助类扩充功能，而且简单直接，降低类与类之间的耦合复杂关系，彼此之间影响越小越好，因为万一代码已修改，各种bug会出现</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#implements可以理解为-干净继承，用多的最多的是多态性！！！"><span class="nav-number">1.51.</span> <span class="nav-text">implements可以理解为 干净继承，用多的最多的是多态性！！！</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#49-内部类"><span class="nav-number">1.52.</span> <span class="nav-text">49.内部类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#50-异常可以理解为无法避免的“实验误差”，可以用分类讨论代码解决"><span class="nav-number">1.53.</span> <span class="nav-text">50.异常可以理解为无法避免的“实验误差”，可以用分类讨论代码解决</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#51-处理异常"><span class="nav-number">1.54.</span> <span class="nav-text">51.处理异常</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#52-面向对象总结"><span class="nav-number">1.55.</span> <span class="nav-text">52.面向对象总结</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#53-处理异常的第二种方式"><span class="nav-number">1.56.</span> <span class="nav-text">53.处理异常的第二种方式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#54-集合"><span class="nav-number">1.57.</span> <span class="nav-text">54.集合</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#55-ArrayList-和-List的常用API：List是子接口，ArrayList是它的子接口List的实现类"><span class="nav-number">1.58.</span> <span class="nav-text">55.ArrayList 和 List的常用API：List是子接口，ArrayList是它的子接口List的实现类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#56-Set接口"><span class="nav-number">1.59.</span> <span class="nav-text">56.Set接口</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#57-Map集合体系"><span class="nav-number">1.60.</span> <span class="nav-text">57.Map集合体系</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#58-Map的常用实现类：Hashtable（太老了）的子类：Properties"><span class="nav-number">1.61.</span> <span class="nav-text">58.Map的常用实现类：Hashtable（太老了）的子类：Properties</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#59-操作集合的工具类：Collections"><span class="nav-number">1.62.</span> <span class="nav-text">59.操作集合的工具类：Collections</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#60-泛型"><span class="nav-number">1.63.</span> <span class="nav-text">60.泛型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#61-Java语言基础运算补充"><span class="nav-number">1.64.</span> <span class="nav-text">61.Java语言基础运算补充</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">FeishengQiu</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
