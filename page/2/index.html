@@ -233,6 +233,701 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/08/16/MainActivity框架/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="FeishengQiu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="FeishengQiu">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/08/16/MainActivity框架/" itemprop="url">北京新闻项目API记录</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-08-16T23:14:09+08:00">
+                2018-08-16
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="MainActivity"><a href="#MainActivity" class="headerlink" title="MainActivity"></a>MainActivity</h2><h3 id="1-要利用SlidingMenu实现侧滑功能，需要先导入第三方库SlidingMenu库，具体操作如以下链接"><a href="#1-要利用SlidingMenu实现侧滑功能，需要先导入第三方库SlidingMenu库，具体操作如以下链接" class="headerlink" title="1.要利用SlidingMenu实现侧滑功能，需要先导入第三方库SlidingMenu库，具体操作如以下链接"></a>1.要利用SlidingMenu实现侧滑功能，需要先导入第三方库SlidingMenu库，具体操作如以下链接</h3><p><a href="https://feishengqiu.github.io/2018/07/08/SlidingMenu/" title="SlidingMenu库的导入" target="_blank" rel="noopener">https://feishengqiu.github.io/2018/07/08/SlidingMenu/</a></p>
+<h3 id="2-修改："><a href="#2-修改：" class="headerlink" title="2.修改："></a>2.修改：</h3><ul>
+<li><p>MainActivity extends <strong>SlidingFragmentActivity</strong>：才能直接调用SlidingMenu的API</p>
+</li>
+<li><p><strong>public</strong> void onCreate(Bundle savedInstanceState)：因为SlingMenu继承的Activity是public,所以protected要改成public保持一致</p>
+</li>
+</ul>
+<h3 id="3-MainActivity的框架要放两个碎片，数据域写两个静态常量来标签这两个碎片，后面可以直接索引到，非常方便"><a href="#3-MainActivity的框架要放两个碎片，数据域写两个静态常量来标签这两个碎片，后面可以直接索引到，非常方便" class="headerlink" title="3.MainActivity的框架要放两个碎片，数据域写两个静态常量来标签这两个碎片，后面可以直接索引到，非常方便"></a>3.MainActivity的框架要放两个碎片，<strong>数据域</strong>写两个静态常量来标签这两个碎片，后面可以直接索引到，非常方便</h3><pre>    public static final String MAIN_CONTENT_TAG = "MainContentTag";
+    public static final String LEFT_MENU_TAG = "LeftMenuTag";
+</pre>
+
+<ul>
+<li><p>static静态的好处是不需要实例化，用类就可以直接调用，class.LEFT_MENU_TAG,非常方便好用！缺点是占用内存，不过静态常量占用很小，不影响,要记住格式：public static final String(int)</p>
+</li>
+<li><p>Android编码的一个思想就是实例化思想，而static可以越界直接本身实例化，任意调用</p>
+</li>
+</ul>
+<h3 id="4-onCreate方法最本质的作用和存在目的就是初始化"><a href="#4-onCreate方法最本质的作用和存在目的就是初始化" class="headerlink" title="4. onCreate方法最本质的作用和存在目的就是初始化"></a>4. onCreate方法最本质的作用和存在目的就是初始化</h3><ul>
+<li><p>为了方便迭代更新，修改代码，我们习惯性将初始化分成： <strong>初始化视图</strong> 和 <strong>初始化数据</strong>  非常好用，而且喜欢在初始化视图和数据里面选择 <strong>方法重构</strong>， 代码可读性非常清晰， <strong>respect</strong>!!!</p>
+</li>
+<li><pre>
+@Override
+  public void onCreate(Bundle savedInstanceState) {
+      super.onCreate(savedInstanceState);
+
+      //设置没有标题 因为PageIndicator的主题的标题重复
+      requestWindowFeature(Window.FEATURE_NO_TITLE);
+
+      //初始化SlidingMenu的内容
+      initSlidingMenu();
+
+      //初始化Fragment的内容，即就是把绑定的两个layout变成Fragment的layout，与两个类对应起来
+      initFragment();
+  }
+
+  private void initSlidingMenu() {
+      //1、设置主页面
+      setContentView(R.layout.activity_main);
+
+      //2、设置左侧菜单
+      setBehindContentView(R.layout.activity_leftmenu);
+
+      //3、设置右侧菜单
+      SlidingMenu slidingMenu=getSlidingMenu();
+      //slidingMenu.setSecondaryMenu(R.layout.activity_rightmenu);
+
+      //4、设置显示的模式：左侧+主页面   左侧+主页面+右侧  主页面+右侧  （总共3种组合）
+      slidingMenu.setMode(SlidingMenu.LEFT);
+
+      //5、设置滑动模式：滑动边缘  全屏滑动  不可以滑动  （自己根据需求）
+      slidingMenu.setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
+
+      //6、设置主页占据的宽度
+      slidingMenu.setBehindOffset(DensityUtil.dip2px(MainActivity.this,200));
+  }
+
+  private void initFragment() {
+      //1、得到FragmentManager
+      FragmentManager fm=getSupportFragmentManager();
+      //2、开启事务
+      FragmentTransaction ft=fm.beginTransaction();
+      //3、替换layout，即就是将layout与写好的不同Fragment类绑定起来，单独管理
+      ft.replace(R.id.fl_main_content, new ContentFragment(), MAIN_CONTENT_TAG);
+      ft.replace(R.id.fl_left_menu, new LeftMenuFragment(), LEFT_MENU_TAG);
+      //4、提交
+      ft.commit();
+  }
+</pre>
+</li>
+<li><p>这里我们选择分成： <strong>初始化SlidingMenu视图</strong>   和  <strong>初始化Fragment视图</strong></p>
+</li>
+<li><p>并且用<strong>方法重构</strong>，直接分离出来，结构非常清晰</p>
+</li>
+<li><p>而且我们在事务ft进行layoutreplace那里，还引用了两个Tag,后面可以直接索引到这两个碎片</p>
+</li>
+<li><p>后面为了可以让ContentFragment，LeftMenuFragment，MainActivity三者互相通信传递数据，我们需要<strong>在MainActivity里面写</strong>获取这两个碎片目标实例的方法，就是通过刚刚那两个标签Tag来定位，实现我们所获得的Fragment是同一个实例，不是新创建的实例，没有意义，而且程序会奔溃</p>
+</li>
+<li><pre>/**
+   * 得到左侧菜单的实例
+   * @return
+   */
+  public LeftMenuFragment getLeftMenuFragment() {
+      FragmentManager fm=getSupportFragmentManager();
+      LeftMenuFragment leftMenuFragment= (LeftMenuFragment) fm.findFragmentByTag(LEFT_MENU_TAG);
+      return leftMenuFragment;
+      // return (LeftMenuFragment) getSupportFragmentManager().findFragmentByTag(LEFT_MENU_TAG);
+  }
+
+  /**
+   * 得到右侧碎片的实例
+   * @return
+   */
+  public  ContentFragment getContentFragment() {
+      return (ContentFragment) getSupportFragmentManager().findFragmentByTag(MAIN_CONTENT_TAG);
+  }
+</pre>
+
+</li>
+</ul>
+<h3 id="5-有两个Fragment，为了代码复用和-增加代码的可读性，我们需要在base包里建一个BaseFragment"><a href="#5-有两个Fragment，为了代码复用和-增加代码的可读性，我们需要在base包里建一个BaseFragment" class="headerlink" title="5.有两个Fragment，为了代码复用和 增加代码的可读性，我们需要在base包里建一个BaseFragment"></a>5.有两个Fragment，为了代码复用和 增加代码的可读性，我们需要在base包里建一个BaseFragment</h3><ul>
+<li><p><pre>public abstract class BaseFragment extends Fragment {</pre></p>
+<p>  //单独看待Fragment，Fragment本身是没有上下文context的，只有放在Activity里面才有上下文<br>  //context的本质上其实就是一个Activity实例，所以我们直接在数据写context的类型为Activity，完全没问题<br>  //然后在生命周期的onCreate方法里面调用API ：getActivity()可以检测当前碎片所在的Activity<br>  //并且拿到Activity的实例，直接存储在context里面，方便使用<br>  //public是为了子类可以直接拿来用</p>
+<p>  public Activity context;</p>
+<p>  /*<em>
+   </em>Fragment创建的时候会回调此方法，最先回调<br>   <em>@param savedInstanceState
+   </em>/<br>  @Override<br>  public void onCreate(@Nullable Bundle savedInstanceState) {</p>
+<pre><code>super.onCreate(savedInstanceState);
+context=getActivity();
+</code></pre><p>  }</p>
+<p>  /*<em>
+   </em>创建视图时回调此方法，所以里面负责写创建视图的代码，创建实体对象，设置属性，但是不填充数据<br>   <em>@param inflater
+   </em>@param container<br>   <em>@param savedInstanceState
+   </em>@return<br>   */<br>  @Nullable<br>  @Override<br>  public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {</p>
+<pre><code>return initView();
+</code></pre><p>  }</p>
+<p>  //抽样方法，强制给子类自己写内容创建视图，而且是在onCreateView中执行<br>  public abstract View initView();</p>
+<p>  /*<em>
+   </em>Activity创建时回调此方法，而且填充实体对象的数据<br>   <em>@param savedInstanceState
+   </em>/<br>  @Override<br>  public void onActivityCreated(@Nullable Bundle savedInstanceState) {</p>
+<pre><code>super.onActivityCreated(savedInstanceState);
+initData();  //先有View,才能填充数据，所以不要把数据写到View里面去，可能会拖慢
+</code></pre><p>  }</p>
+<p>  public void initData() {</p>
+<p>  }</p>
+<p>  //<strong><strong><strong><strong><strong>***</strong></strong></strong></strong></strong>继承还有一大特点<br>  //<em>**</em>就是 方法的生命周期的传递性，例如initView(),initData();都是在跟父类一样的生命周期时执行，很神奇！！！</p>
+</li>
+</ul>
+<p>}<br></p>
+<ul>
+<li><p>public Activity context，在生命周期的onCreate()方法里面直接调用getActivity拿到当前所在Activity的实例，存储到context里面，统一方便使用</p>
+</li>
+<li><p>onCreate()方法在此类new的时候马上回调</p>
+</li>
+<li><p>在Activity里面，我们习惯性在生命周期的onCreate（）方法里面来写初始化代码，并且自己用initView()和initData()来分成初始化视图和初始化数据，然而在Fragment里面，自己已经分成两个方法来分别初始化视图和初始化数据</p>
+</li>
+<li><p>初始化视图：生命周期的 onCreateView（）方法</p>
+</li>
+<li><p>初始化数据：生命周期的 onActivityCreated（）方法</p>
+</li>
+<li><p>然后在初始化视图方法里面，最后return的是一个View,我们直接方法重构，写一个initView()；来返回，与我们以前的编码习惯一样，非常重要的一步：因为我们两个碎片的视图没有什么公共部分，我们就直接把initView（）写成抽象abstract，强制让子类自己去书写自己的初始化视图，如果是有公共部分视图的，我们可以直接在父类写成public View initView(); 这样写的话，结构就非常清晰</p>
+</li>
+<li><p>在初始化数据方法里，我们直接写一个initData()；加在里面，然后因为子类不一定有数据，所以没必要强制要写，所以直接public void initData(){ }</p>
+</li>
+<li><p>因为initView()是一个抽象方法，所以该类就是一个抽象类了，Alt+Enter加上abstract</p>
+</li>
+</ul>
+<h3 id="6-分析子碎片ContentFragment和LeftMenuFragment"><a href="#6-分析子碎片ContentFragment和LeftMenuFragment" class="headerlink" title="6.分析子碎片ContentFragment和LeftMenuFragment"></a>6.分析子碎片ContentFragment和LeftMenuFragment</h3><pre>public class ContentFragment extends BaseFragment {
+
+    //2、初始化控件的新方法
+    @ViewInject(R.id.viewpager_content)
+    private NoScrollViewPager viewpager_content;
+
+    @ViewInject(R.id.rg_bottom)
+    private RadioGroup rg_bottom;
+
+    //动态数组封装5个子页面
+    private ArrayList<basepager>basePagers;
+
+    @Override
+    public View initView() {
+        View view=View.inflate(context,R.layout.content_fragemnt,null);
+
+        //1、把视图注入到框架中，让本类this和view关联起来，方便初始化视图的控件
+        x.view().inject(ContentFragment.this,view);
+        return view;
+    }
+
+    @Override
+    public void initData() {
+        super.initData();
+
+        //初始化5个子页面，并且放到动态数组中,其实是给ViewPager的适配器准备数据
+        basePagers=new ArrayList<>();
+        basePagers.add(new HomePager(context)); //主页面
+        basePagers.add(new NesCenterPager(context));//新闻中心页面
+        basePagers.add(new SmartServicePager(context));//智慧服务页面
+        basePagers.add(new GovaffairPager(context));//政要页面
+        basePagers.add(new SettingPager(context));//设置中心页面
+
+        //设置viewPager的适配器
+        viewpager_content.setAdapter(new ContentFragmentAdapter(basePagers));
+
+        //设置RadioGroup的监听，绑定RadioButton的各个子页面
+        rg_bottom.setOnCheckedChangeListener(new MyOnCheckedChangeListener());
+
+        //设置ViewPager的页面监听,防止数据预加载
+        viewpager_content.addOnPageChangeListener(new MyOnPageChangeListener());
+
+        //rg_bottom.check(R.id.rb_home); 另外一种方法，首页显示
+        basePagers.get(0).initData(); //屏蔽预加载之后，首页开启之后是没数据的，要点击才有，所以我们要提前给首页数据
+
+        //让SlidingMenu设置默认不滑动，然后再在RadioGroup里面监听让新闻页面可以滑动
+        isEnableSlidingMenu(SlidingMenu.TOUCHMODE_NONE);
+
+    }
+
+    /**
+     *得到新闻中心的实例，这样写的目的是为了得到同一个实例，这样才能连接操作，要不然就是散沙
+     *@return
+     */
+    public NesCenterPager getNewsCenterPager() {
+        return (NesCenterPager) basePagers.get(1);
+    }
+
+    class MyOnPageChangeListener implements ViewPager.OnPageChangeListener {
+
+        @Override
+        public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+        }
+
+        @Override
+        public void onPageSelected(int position) {
+            //只加载本页面的数据，因为如果是写在ViewPager的适配器中呢，它会自动的加载下一页面的数据
+            basePagers.get(position).initData();
+        }
+
+        @Override
+        public void onPageScrollStateChanged(int state) {
+
+        }
+    }
+
+
+    class MyOnCheckedChangeListener implements RadioGroup.OnCheckedChangeListener{
+        @Override
+        public void onCheckedChanged(RadioGroup group, int checkedId) {
+            switch (checkedId){
+
+                case R.id.rb_home:
+                    viewpager_content.setCurrentItem(0,false); //false代表没有动画
+                    isEnableSlidingMenu(SlidingMenu.TOUCHMODE_NONE);
+                    break;
+                case R.id.rb_newscenter:
+                    viewpager_content.setCurrentItem(1,false);
+                    isEnableSlidingMenu(SlidingMenu.TOUCHMODE_FULLSCREEN);
+
+                    break;
+                case R.id.rb_smart:
+                    viewpager_content.setCurrentItem(2,false);
+                    isEnableSlidingMenu(SlidingMenu.TOUCHMODE_NONE);
+                    break;
+                case R.id.rb_govaffair:
+                    viewpager_content.setCurrentItem(3,false);
+                    isEnableSlidingMenu(SlidingMenu.TOUCHMODE_NONE);
+                    break;
+                case R.id.rb_setting:
+                    viewpager_content.setCurrentItem(4,false);
+                    isEnableSlidingMenu(SlidingMenu.TOUCHMODE_NONE);
+                    break;
+                default:break;
+            }
+
+
+        }
+    }
+
+    private void isEnableSlidingMenu(int touchmodeFullscreen) {
+        MainActivity mainActivity = (MainActivity) context;
+        mainActivity.getSlidingMenu().setTouchModeAbove(touchmodeFullscreen);
+    }
+
+    /*class ContentFragmentAdapter extends PagerAdapter{
+
+        @Override
+        public int getCount() {
+            return basePagers.size();
+        }
+
+        @Override
+        public void destroyItem(ViewGroup container, int position, Object object) {
+            container.removeView((View) object);
+        }
+
+        @Override //拿到view添加到容器中
+        public Object instantiateItem(ViewGroup container, int position) {
+            BasePager basePager=basePagers.get(position);
+            View rootView=basePager.rootView;  //拿到view
+            //调用各个页面的initData();添加数据
+           // basePager.initData();  屏蔽预加载，页面可以初始化，但是先别将下一页面的数据初始化
+            container.addView(rootView);  //添加到容器中
+            return rootView; //显示出来
+        }
+
+        @Override
+        public boolean isViewFromObject(View view, Object object) {
+            return view==object;
+        }
+    }*/
+}
+</basepager></pre>
+
+<ul>
+<li><p>在初始化视图initView()方法里面，这次我们选择了View.inflate(上下文，碎片的布局，null)这个API，当然也可以用之前的那个API：inflater.inflate(碎片的布局，container,false)，不过需要在BaseFragment改initView，加入inflater和container这两个形参，才能用，不过我们以后还是用View.inflate（上下文，碎片的布局，null）这个API吧，习惯！！！</p>
+</li>
+<li><p>我们的碎片布局content_fragemnt里面只有两个控件（ViewPager 和 RadioGroup,当然5个RadioButton是包裹在RG里面），我们利用xUtils3来初始化控件和实例化控件更快，API： x.view().inject(需要初始化控件的类,view);这些都属于初始化视图的范围，所以都写在initView（）这个方法里面，当然注解初始化控件写在数据域那里，这是xUtils3的要求</p>
+</li>
+<li><p>所以此时视图的 ViewPager 和  RadioGroup已经被我们初始化和实例化好，开始初始化数据</p>
+</li>
+<li><p>这里的数据其实就是ViewPager的数据，RadioGroup这个控件不需要数据，只需要监听</p>
+</li>
+<li><p>初始化数据：需要5个pager来作为ViewPager适配器的数据，因为5个页面非常具有公共特点，唯一不同的就是中间显示的文本不一样，那我们直接写一个BasePager和一个layout，然后来继承，子类自己来初始化数据，即需要5个layout的pagers，我们这里复用一个layout来写就行了，当然还是需要5个子类来初始化数据</p>
+</li>
+<li><p>观察BasePager和它的布局</p>
+</li>
+<li><p>BasePager的布局包裹的是一个titlebar布局和 FramLayout布局，FrameLayout布局来用子类的initData()来动态添加数据就行了</p>
+</li>
+<li><p>BasePager类有两个方法，一个是构造方法，一个是initData()，构造方法是new 构造方法创建对象的时候就执行，为了能初始化视图，我们在数据域写一个View类型的rootView，然后把rootView写在构造方法里面，然后用rootView=initView()写在构造方法里面，就可以达到一创建对象的时候就可以初始化视图，因为5个页面有很多公共部分，此时我们就不需要写成抽象类了，因为抽象类没有结构体，不能统一初始化控件，还要每个子类写一遍，很麻烦，没达到代码复用的目的；因为我们在initView里面要调用API： View.inflate(上下文，布局，null)，需要用到上下文这个变量，所以需要在构造方法里面把context传过来，因为我们要在ContentFragment里面new，此时形参就是context，然后我们就可以拿到了，此时就可以用API ：View.inflate(上下文，布局，null)，然后我们就把title，img_button,FrameLayout这几个控件初始化和实例化了，然后return回去，此时就是一个完整的布局，这样就完成了构造方法的书写； 此时下是一个public void initData(){ }交给子类自己去初始化自己的目标数据</p>
+</li>
+<li><p>看一下BasePager的子类</p>
+</li>
+<li><p>继承BasePager之后，会强制添加构造方法，最主要的是自己写initData()这个方法，而且FrameLayout这个布局类型控件，本质上是一个容器container，所以它的实例可以调用API： .addView(textView)；之类的view进去，其实是分成了2视图，结构很棒</p>
+</li>
+<li><p>initData()这个方法，本身是不会自己调用的，因为它不像initView是写在构造方法里面的，一new 构造方法就能调用，是独立写在外面的，所以需要我们去调用，最好的方式当然是写在ViewPager的监听器里面调用，滑动到哪一个页面，就调用哪个页面的intaData()，这样也不耗费流量，这个架构是很好的</p>
+</li>
+<li><p>写好某一个Pager，然后在包那里复制粘贴修改名称就可以写好5个Pager，为ContentFragment的ViewPager的适配器准备好了数据，此时回到ContentFragment</p>
+</li>
+<li><p>写一个泛型为BasePager的动态数组，然后new5个子类的页面，添加到动态数组集合basePagers中，ViewPager此时可以设置适配器了</p>
+</li>
+<li><p>我们习惯性一个写法就是先Ctrl+B来进去看参数类，然后直接写一个内部类extends或者implements参数类来写</p>
+</li>
+<li><p>ViewPager的适配器参数类是PagerAdapter,内部类extends它就行了</p>
+</li>
+<li><p>适配器，适配器，作用就是为了适配数据，处理数据和显示数据，多数据集成和显示的控件就需要适配器的帮忙，例如ViewPager,ListView,RecyclerView这些控件，都是多数据集成，不像TextView直接settText一个文本就行，所以适配器存在即合理</p>
+</li>
+<li><p>PagerAdapter里面要重写四个方法，其中有三个是小白类型的，getCount()直接return Viewpager的页面数量即可，一般是写成动态数组的size（）；这样更加高大上一点；destroyItem()直接改成container.removeView(（View）object)即可，记得要销毁掉自动生成的那一行；isViewFromObject直接写 return view==object就可以了；最关键的是instantiateItem这个方法</p>
+</li>
+<li><p>instantiateItem方法的形参是container和 position，我们要做的是根据position得到每一个页面的实例，然后把里面的initView，即就是rootView添加到container中，container.addView(rootView);然后才能return rootView，把子页面的视图显示出来，没有add到container中的话,就算有return，也是显示不了的</p>
+</li>
+<li><p>写一下怎么抽内部类的适配器：例如上面的适配器类MyPagerAdapter,整个内部类的方法和数据域里面，用到了本类的basePagers，其他变量没用到，此时就需要我们利用构造方法来把basePagers传过去，构造方法超级好用，此时就是需要我们自己先写好一个构造方法，如下</p>
+</li>
+<li><pre> private final ArrayList<basepager> basePagers;
+
+  public ContentFragmentAdapter(ArrayList<basepager>basePagers){
+      this.basePagers=basePagers;
+  }
+</basepager></basepager></pre>
+</li>
+<li><p>多写一个同类型的数据域，然后this引用赋值即可，就可以拿到basePager的同一个实例</p>
+</li>
+<li><p>回到ContentFragment，设置好适配器之后，需要我们去监听ViewPager了，API是addOnPageChangeListener，也要写一个内部类，监听器类new进去，</p>
+</li>
+<li><pre>class MyOnPageChangeListener implements ViewPager.OnPageChangeListener {
+
+      @Override
+      public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+      }
+
+      @Override
+      public void onPageSelected(int position) {
+          //只加载本页面的数据，因为如果是写在ViewPager的适配器中呢，它会自动的加载下一页面的数据
+          basePagers.get(position).initData();
+      }
+
+      @Override
+      public void onPageScrollStateChanged(int state) {
+
+      }
+  }
+</pre>
+</li>
+<li><p>其实此时就是要显示不同页面的数据，展示自己独有的数据，所以我们直接用basePagers和position拿到当前页面的实例，就可以调用initData()这个方法，就完成了我们的目标需求</p>
+</li>
+<li><p>然后因为我们是一进来就默认显示第一页，所以需要在ContentFragment里面 basePagers.get(0).initData(); 让第一页面一定有数据，ContentFragment的initData是在onActivityCreated()方法里面的，是一定会调用的，但是我们Pager的initData是独立写的，所以不会自己调用，需要我们去人工定义什么时候调用，第一页面的数据一定得有，所以需要写一下basePagers.get(0).initData();</p>
+</li>
+<li><p>当然也要设置RadioGroup的监听，绑定RadioButton的各个子页面</p>
+</li>
+<li><p>rg_bottom.setOnCheckedChangeListener(new MyOnCheckedChangeListener());</p>
+</li>
+<li><p>//让SlidingMenu设置默认不滑动，然后再在RadioGroup里面监听让新闻页面可以滑动</p>
+</li>
+<li><p>isEnableSlidingMenu(SlidingMenu.TOUCHMODE_NONE); 利用了重构方法</p>
+</li>
+</ul>
+<pre>private void isEnableSlidingMenu(int touchmodeFullscreen) {
+        MainActivity mainActivity = (MainActivity) context;
+        mainActivity.getSlidingMenu().setTouchModeAbove(touchmodeFullscreen);
+    }
+</pre>
+
+<ul>
+<li><p>因为我们只做新闻页面，所以还需要分析一下NewsCenterPager</p>
+</li>
+<li><p>BasePager已经帮各个子页面做好了初始化视图，各个控件已经初始化和实例化成功，此时需要的是初始化数据，所以需要重写initData（）方法，第一步是请求数据，获取服务器的数据</p>
+</li>
+<li><p>请求服务器的数据之前，我们需要去配置网络请求的ip地址和端口</p>
+</li>
+<li><p>在utils包下创建一个Constants的类作为存放联网请求服务器的地址</p>
+</li>
+<li><p>分成两个地址，一个是BASE_URL,一个是NEWSCENTER_PAGER_URL，方便以后修改</p>
+</li>
+<li><p><pre>public class Constants {<br>  /**</pre></p>
+<ul>
+<li>联网请求的ip地址和端口<br>*/<br>// public static final String BASE_URL=”<a href="http://202.192.66.71:8080//web_home&quot;" target="_blank" rel="noopener">http://202.192.66.71:8080//web_home&quot;</a>;<br>public static final String BASE_URL=”<a href="http://192.168.1.102:8080//web_home&quot;" target="_blank" rel="noopener">http://192.168.1.102:8080//web_home&quot;</a>;<br>/**</li>
+<li>新闻中心的网络地址<br>*/<br>public static final String NEWSCENTER_PAGER_URL=BASE_URL+”/static/api/news/categories.json”;</li>
+</ul>
+</li>
+</ul>
+<p>}<br></p>
+<ul>
+<li><p>回到NesCenterPager的initData()方法</p>
+</li>
+<li><p>我们要联网请求数据，直接重构方法来实现，  getDataFromNet();写在里面</p>
+</li>
+<li><p>getDataFromNet方法里面，我们是使用xUtils3来联网请求网络获取json数据（一个String）</p>
+</li>
+</ul>
+<pre> /**
+     * 使用xUtils3来联网请求数据
+     */
+    private void getDataFromNet() {
+
+        RequestParams params=new RequestParams(Constants.NEWSCENTER_PAGER_URL);
+        x.http().get(params, new Callback.CommonCallback<string>() {
+
+            @Override
+            public void onSuccess(String result) {
+
+                //缓存数据
+                CacheUtil.putString(context,Constants.NEWSCENTER_PAGER_URL,result);
+               //请求数据
+               processData(result);
+
+
+            }
+
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
+
+                //Toast.makeText(context,"失败",Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onCancelled(CancelledException cex) {
+               // Toast.makeText(context,"取消",Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onFinished() {
+                Toast.makeText(context,"结束",Toast.LENGTH_SHORT).show();
+            }
+        });
+
+    }
+</string></pre>
+
+<ul>
+<li><p>调用的API是 x.http().get(params, new Callback.CommonCallback<string>() {}）；</string></p>
+</li>
+<li><p>params需要new出来，构造方法传入的值是目标网络地址</p>
+</li>
+<li><p>联网请求的方法里面需要重写onSuceess（）联网成功的方法，其实获取的数据就存放在result，result才是我们辛辛苦苦所相要的那个量</p>
+</li>
+<li><p>然后我们需要解析和显示数据，又利用方法重构， processData(result);来解决</p>
+</li>
+</ul>
+<pre> /**
+     * 将解析后的数据放到与数据格式对应的NewsCenterPagerBean的对象中,这里是显示出来
+     * 真正的解析数据的方法是private NewsCenterPagerBean parsedJson(String json)，返回类型是NewsCenterPagerBean
+     * @param json
+     */
+    private void processData(String json) {
+
+        NewsCenterPagerBean bean=parsedJson(json);
+        //NewsCenterPagerBean2 bean2=parsedJson2(json); //bean2测试成功，说明手动解析成功
+       // String title=bean.getData().get(0).getChildren().get(1).getTitle();
+        //String title2=bean2.getData().get(0).getChildren().get(1).getTitle();
+       //Toast.makeText(context,"手动解析成功啦啦啦："+title2,Toast.LENGTH_SHORT).show();
+
+        //给左侧菜单传递数据
+        data=bean.getData();
+        //得到MainActivity实例来得到LeftMenuFragment来传递数据
+        MainActivity mainActivity= (MainActivity) context;//context本身就是mainActivity
+        //得到左侧菜单的实例
+        LeftMenuFragment leftMenuFragment=mainActivity.getLeftMenuFragment();
+
+        //添加详情页面
+        detailBasePagers=new ArrayList<>();
+        detailBasePagers.add(new NewsMenuDetailPager(context,data.get(0))); //添加新闻详情页面
+        detailBasePagers.add(new TopicMenuDetailPager(context));//添加专题详情页面
+        detailBasePagers.add(new PhotosMenuDetailPager(context));//添加组图详情页面
+        detailBasePagers.add(new InteracMenuDetailPager(context));//添加互动详情页面
+
+        //把数据传递个左侧菜单
+        leftMenuFragment.setData(data);
+    }
+</pre>
+
+<ul>
+<li><p>processData分成两步，第一步当然是需要解析返回的数据result，再次利用方法重构， NewsCenterPagerBean bean=parsedJson(json);来实现（json==result）；</p>
+</li>
+<li><pre> /**
+   * 解析json数据：1、利用系统原生的API解析json; 2、利用第三方框架（库，插件，程序模块）：Gson,fastjson来解析
+   * @param json
+   * @return
+   */
+  private NewsCenterPagerBean parsedJson(String json) {
+
+      Gson gson=new Gson();
+      //此构造方法的两个参数：1是要解析的数据  2是解析完的数据放在哪个容器类中，最后返回的是一个容器类的对象；
+      NewsCenterPagerBean bean=gson.fromJson(json,NewsCenterPagerBean.class);
+      return bean;
+      //return new Gson().fromJson(json,NewsCenterPagerBean.class); 一步到位也行
+  }
+</pre>
+</li>
+<li><p>此时需要我们先去写一个容器类NewsCenterPagerBean，方法是利用GsonFormat这个插件复制粘贴json数据，来生成所有数据域的Getter和Setter,完成，或者手写也行</p>
+</li>
+<li><p>然后gson调用API：gson.fromJson(json,NewsCenterPagerBean.class);返回一个容器类的对象，此时我们解析完之后的所有数据都放在这个容器类的对象上</p>
+</li>
+</ul>
+<hr>
+<h3 id="顶部轮播图的bug解决办法"><a href="#顶部轮播图的bug解决办法" class="headerlink" title="顶部轮播图的bug解决办法"></a>顶部轮播图的bug解决办法</h3><ul>
+<li><p><pre>public class HorizonTalScrollViewPager extends ViewPager {<br>  public HorizonTalScrollViewPager(Context context) {</pre></p>
+<pre><code>super(context);
+</code></pre><p>  }</p>
+<p>  public HorizonTalScrollViewPager(Context context, AttributeSet attrs) {</p>
+<pre><code>super(context, attrs);
+</code></pre><p>  }</p>
+</li>
+</ul>
+<pre><code>//起始坐标
+private float startX;
+private float startY;
+
+
+
+@Override
+public boolean dispatchTouchEvent(MotionEvent ev) {
+    //请求父层视图不用拦截当前控件的事件,即滑动权给当前控件
+    //getParent().requestDisallowInterceptTouchEvent(true);
+    switch (ev.getAction()){
+
+        case MotionEvent.ACTION_DOWN:
+            startX=ev.getX();
+            startY=ev.getY();
+            break;
+        case MotionEvent.ACTION_MOVE:
+            //新的坐标
+            float endX=ev.getX();
+            float endY=ev.getY();
+
+            //计算偏移量
+            float distanceX=endX-startX;
+            float distanceY=endY-startY;
+
+            //判断滑动方向 ,水平滑动,true的滑动权就给子控件，false就给父类滑动
+            if (Math.abs(distanceX)&gt;Math.abs(distanceY)){
+                //第一个页面
+                if (getCurrentItem()==0&amp;&amp;distanceX&gt;0){
+                    getParent().requestDisallowInterceptTouchEvent(false);
+                }
+                   else if (getCurrentItem()==getAdapter().getCount()-1&amp;&amp;distanceX&lt;0){
+                    getParent().requestDisallowInterceptTouchEvent(false);
+                } else { getParent().requestDisallowInterceptTouchEvent(true);}
+            }
+            //上下滑动
+            else {
+                getParent().requestDisallowInterceptTouchEvent(false);
+            }
+            break;
+        case MotionEvent.ACTION_UP:
+            break;
+             default:break;
+
+    }
+
+
+
+    return super.dispatchTouchEvent(ev);
+}
+</code></pre><p>}<br></p>
+<h3 id="轮播图循环播放"><a href="#轮播图循环播放" class="headerlink" title="轮播图循环播放"></a>轮播图循环播放</h3><ul>
+<li></li>
+</ul>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/08/SlidingMenu/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -388,6 +1083,440 @@
 <li><p><strong>关联库</strong>：目录app右键—&gt;Open Moudle Settings—&gt;（右上）Dependencies—&gt;(右上)绿色+号—&gt;选择SlidingMenu_library，点击Ok,OK（此步骤的作用是添加到app的build.gradle的依赖）</p>
 </li>
 <li><p>第三方库的使用，可能还需要添加权限，切记注意是否需要权限，否则一直debug不出来</p>
+</li>
+</ul>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/08/自我介绍/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="FeishengQiu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="FeishengQiu">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/07/08/自我介绍/" itemprop="url">自我介绍</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-07-08T00:30:35+08:00">
+                2018-07-08
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="自我介绍"><a href="#自我介绍" class="headerlink" title="自我介绍"></a>自我介绍</h2><ul>
+<li><p>面试官，您好！（眼睛充满自信，看着面试官）：我叫邱飞胜，来自于广州大学电子信息过程专业，很荣幸有今天的面试机会。在校期间，学习完移动手机应用这门课程之后，我对Android有着很浓厚的兴趣，一直从事于Java和Android的学习，也开展了与Android相关的项目。项目一：专业帮，是我们团队今年的创新创业项目，目的是为了打造一个解决在校大学生专业学习迷茫，就业迷茫的学习指导平台，目前仍然在进行之中。项目二：硅谷新闻项目，是一个类似网易新闻的手机应用，可以实时浏览周边新闻和查看图片。项目三：和风天气项目：是一款可以随时查看中国任意城市天气的应用，数据来源于和风天气的API接口，注册账号，拿到API Key就可以调用API接口获得数据。</p>
+</li>
+<li><p>因此，我觉得自己很适合这个岗位，并有信心能够做好，希望能获得这个工作机会，谢谢！谢谢谢谢谢谢！！</p>
+</li>
+</ul>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/08/行为资料库/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="FeishengQiu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="FeishengQiu">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/07/08/行为资料库/" itemprop="url">行为资料库</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-07-08T00:30:35+08:00">
+                2018-07-08
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="做一件事情最好的的时机有两个，一个是三年前，一个是现在"><a href="#做一件事情最好的的时机有两个，一个是三年前，一个是现在" class="headerlink" title="做一件事情最好的的时机有两个，一个是三年前，一个是现在"></a>做一件事情最好的的时机有两个，一个是三年前，一个是现在</h2><h3 id="1-大方微笑，完美消化这道练习题"><a href="#1-大方微笑，完美消化这道练习题" class="headerlink" title="1.大方微笑，完美消化这道练习题"></a>1.大方微笑，完美消化这道练习题</h3><ul>
+<li><p>人生的本质就是练习题，那一切都可以刻意练习和消化</p>
+</li>
+<li><p>行为资料库走天下，行万事，足矣</p>
+</li>
+</ul>
+<h3 id="2-延迟满足，终点布局"><a href="#2-延迟满足，终点布局" class="headerlink" title="2.延迟满足，终点布局"></a>2.延迟满足，终点布局</h3><ul>
+<li>时间会加倍回报</li>
+</ul>
+<h3 id="3-分割要求，刻意练习"><a href="#3-分割要求，刻意练习" class="headerlink" title="3.分割要求，刻意练习"></a>3.分割要求，刻意练习</h3><ul>
+<li><p>特长的本质是针对性地重复重复重复重复………….天才是可以刻意练习的</p>
+</li>
+<li><p>建立自己的认知体系，行为体系，思想宇宙</p>
+</li>
+<li><p>现阶段：CoolWeather—&gt;BeijingNews—&gt;MajorBar—&gt;面试题—&gt;java每日One day—&gt;数据结构24小时疯狂弥补—&gt;数据库每日一章</p>
+</li>
+<li><p>6：00起床（大方微笑，完美消化这道练习题，时时刻刻）  </p>
+</li>
+<li><p>6：40—6：50：过一遍行为资料库，英库一句+复习一次</p>
+</li>
+<li><p>6：50—11：20：面试题+java</p>
+</li>
+<li><p>11：20—1：20：吃饭 宝贝分享 午觉</p>
+</li>
+<li><p>1：30—4：50：数据结构</p>
+</li>
+<li><p>4：50—6：00：吃饭 宝贝分享（电话）</p>
+</li>
+<li><p>6：00—6：05：5分钟今日行为资料库</p>
+</li>
+<li><p>6：05—7：00：今日数据库</p>
+</li>
+<li><p>7：00—10：00：面试题</p>
+</li>
+<li><p>10：00—10：50：宣讲会和招聘信息</p>
+</li>
+<li><p>10：50—11：00：行为资料库和英库复习</p>
+</li>
+<li><p>11：00—12：00：洗澡 宝贝分享 回忆  </p>
+</li>
+<li><p>12：00—6：00：睡觉</p>
+</li>
+<li><p>零散时间：feishengqiu.github.io 和java库切换</p>
+</li>
+<li><p>Android java 数据结构与算法 数据库 计算机网络</p>
+</li>
+</ul>
+<hr>
+<h3 id="大方微笑，延迟满足，刻意练习-2018-9-9"><a href="#大方微笑，延迟满足，刻意练习-2018-9-9" class="headerlink" title="大方微笑，延迟满足，刻意练习   2018/9/9"></a>大方微笑，延迟满足，刻意练习   2018/9/9</h3><h3 id="宏观世界，一切都是可知可学习的，不管是哪一个领域，所要遵循的原则是：认清规则，分割要求，刻意练习-2018-9-9"><a href="#宏观世界，一切都是可知可学习的，不管是哪一个领域，所要遵循的原则是：认清规则，分割要求，刻意练习-2018-9-9" class="headerlink" title="宏观世界，一切都是可知可学习的，不管是哪一个领域，所要遵循的原则是：认清规则，分割要求，刻意练习   2018/9/9"></a>宏观世界，一切都是可知可学习的，不管是哪一个领域，所要遵循的原则是：认清规则，分割要求，刻意练习   2018/9/9</h3><h3 id="刻意练习，一直重复重复重复重复重复重复……，可以创造天才，天才是可以创造的-2018-9-9"><a href="#刻意练习，一直重复重复重复重复重复重复……，可以创造天才，天才是可以创造的-2018-9-9" class="headerlink" title="刻意练习，一直重复重复重复重复重复重复……，可以创造天才，天才是可以创造的  2018/9/9"></a>刻意练习，一直重复重复重复重复重复重复……，可以创造天才，天才是可以创造的  2018/9/9</h3><h3 id="今天的CVTE笔试，两大公司的面试通知，最大的感受是恐慌，直接原因是自身的基础知识和能力不够，最根本的原因是自己没有按计划做好安排的事情，而且不是一天两天没做到，是一直都没做到，什么样的能力就过什么样的生活，记住，时间是能力的资本，按照计划，延迟满足，可以练习，做好本来就应该要做好的事情！！！-浪费时间，是要付出代价的！！！而且代价需要自己承担！！！-2018-9-10"><a href="#今天的CVTE笔试，两大公司的面试通知，最大的感受是恐慌，直接原因是自身的基础知识和能力不够，最根本的原因是自己没有按计划做好安排的事情，而且不是一天两天没做到，是一直都没做到，什么样的能力就过什么样的生活，记住，时间是能力的资本，按照计划，延迟满足，可以练习，做好本来就应该要做好的事情！！！-浪费时间，是要付出代价的！！！而且代价需要自己承担！！！-2018-9-10" class="headerlink" title="今天的CVTE笔试，两大公司的面试通知，最大的感受是恐慌，直接原因是自身的基础知识和能力不够，最根本的原因是自己没有按计划做好安排的事情，而且不是一天两天没做到，是一直都没做到，什么样的能力就过什么样的生活，记住，时间是能力的资本，按照计划，延迟满足，可以练习，做好本来就应该要做好的事情！！！ 浪费时间，是要付出代价的！！！而且代价需要自己承担！！！ 2018/9/10"></a>今天的CVTE笔试，两大公司的面试通知，最大的感受是恐慌，直接原因是自身的基础知识和能力不够，最根本的原因是自己没有按计划做好安排的事情，而且不是一天两天没做到，是一直都没做到，什么样的能力就过什么样的生活，记住，时间是能力的资本，按照计划，延迟满足，可以练习，做好本来就应该要做好的事情！！！ 浪费时间，是要付出代价的！！！而且代价需要自己承担！！！ 2018/9/10</h3>
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/08/面试提纲/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="FeishengQiu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="FeishengQiu">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/07/08/面试提纲/" itemprop="url">面试总流程</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-07-08T00:30:35+08:00">
+                2018-07-08
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="面试总流程"><a href="#面试总流程" class="headerlink" title="面试总流程"></a>面试总流程</h2><ul>
+<li><p>1.招聘会：  准备好Android和java，专业帮项目的介绍，就可以直接拿到公司二面机会，拿到offer</p>
+</li>
+<li><p>分析：拿到offer的概率，效率更大更加简单，<strong>获取所有招聘会，然后积极参加</strong></p>
+</li>
+<li><p>2.宣讲会： （1）当场技术面试，然后三轮当场拿到offer  （2）当场笔试，在技术面，三轮拿到offer</p>
+</li>
+<li><p>分析：拿到offer的概率是中等，不过也要多尝试，多一点机会可以把握，<strong>选择性去宣讲会，中型公司即可</strong></p>
+</li>
+<li><p>3.网申：（1）不需要笔试的，直接二面，去二面  （2）需要笔试的，可以放弃掉，看看观摩一下即可</p>
+</li>
+<li><p>分析：概率一般，但是能多一点机会是一点机会，<strong>投所有的网申，看看能不能不需要笔试</strong></p>
+</li>
+</ul>
+<h3 id="总结：（1）获取所有招聘会，然后积极参加-（2）选择性去宣讲会，中型公司即可-（3）投所有的网申，看看能不能不需要笔试，直接获取面试机会"><a href="#总结：（1）获取所有招聘会，然后积极参加-（2）选择性去宣讲会，中型公司即可-（3）投所有的网申，看看能不能不需要笔试，直接获取面试机会" class="headerlink" title="总结：（1）获取所有招聘会，然后积极参加 （2）选择性去宣讲会，中型公司即可 （3）投所有的网申，看看能不能不需要笔试，直接获取面试机会"></a>总结：（1）<strong>获取所有招聘会，然后积极参加</strong> （2）<strong>选择性去宣讲会，中型公司即可</strong> （3）<strong>投所有的网申，看看能不能不需要笔试，直接获取面试机会</strong></h3><hr>
+<h2 id="面试准备"><a href="#面试准备" class="headerlink" title="面试准备"></a>面试准备</h2><ul>
+<li><p>1.三个项目的吸收—2.Android面试题刷完—3.一天补one day的java—4.疯狂24小时补数据结构与算法—5.一个小时的数据库</p>
+</li>
+<li><p>碎片时间：java文档和英语文档来回切换！！！！</p>
+</li>
+<li><p>一天开始学习前5分钟消化资料库，6：00—6：05：5分钟行为资料库总结  + 1局英文不可断</p>
 </li>
 </ul>
 
@@ -937,315 +2066,6 @@ private int currentStatus = PULL_DOWN_REFRESH;
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/08/面试提纲/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="FeishengQiu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="FeishengQiu">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/07/08/面试提纲/" itemprop="url">面试总流程</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-07-08T00:30:35+08:00">
-                2018-07-08
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="面试总流程"><a href="#面试总流程" class="headerlink" title="面试总流程"></a>面试总流程</h2><ul>
-<li><p>1.招聘会：  准备好Android和java，专业帮项目的介绍，就可以直接拿到公司二面机会，拿到offer</p>
-</li>
-<li><p>分析：拿到offer的概率，效率更大更加简单，<strong>获取所有招聘会，然后积极参加</strong></p>
-</li>
-<li><p>2.宣讲会： （1）当场技术面试，然后三轮当场拿到offer  （2）当场笔试，在技术面，三轮拿到offer</p>
-</li>
-<li><p>分析：拿到offer的概率是中等，不过也要多尝试，多一点机会可以把握，<strong>选择性去宣讲会，中型公司即可</strong></p>
-</li>
-<li><p>3.网申：（1）不需要笔试的，直接二面，去二面  （2）需要笔试的，可以放弃掉，看看观摩一下即可</p>
-</li>
-<li><p>分析：概率一般，但是能多一点机会是一点机会，<strong>投所有的网申，看看能不能不需要笔试</strong></p>
-</li>
-</ul>
-<h3 id="总结：（1）获取所有招聘会，然后积极参加-（2）选择性去宣讲会，中型公司即可-（3）投所有的网申，看看能不能不需要笔试，直接获取面试机会"><a href="#总结：（1）获取所有招聘会，然后积极参加-（2）选择性去宣讲会，中型公司即可-（3）投所有的网申，看看能不能不需要笔试，直接获取面试机会" class="headerlink" title="总结：（1）获取所有招聘会，然后积极参加 （2）选择性去宣讲会，中型公司即可 （3）投所有的网申，看看能不能不需要笔试，直接获取面试机会"></a>总结：（1）<strong>获取所有招聘会，然后积极参加</strong> （2）<strong>选择性去宣讲会，中型公司即可</strong> （3）<strong>投所有的网申，看看能不能不需要笔试，直接获取面试机会</strong></h3><hr>
-<h2 id="面试准备"><a href="#面试准备" class="headerlink" title="面试准备"></a>面试准备</h2><ul>
-<li><p>1.三个项目的吸收—2.Android面试题刷完—3.一天补one day的java—4.疯狂24小时补数据结构与算法—5.一个小时的数据库</p>
-</li>
-<li><p>碎片时间：java文档和英语文档来回切换！！！！</p>
-</li>
-<li><p>一天开始学习前5分钟消化资料库，6：00—6：05：5分钟行为资料库总结  + 1局英文不可断</p>
-</li>
-</ul>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/08/行为资料库/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="FeishengQiu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="FeishengQiu">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/07/08/行为资料库/" itemprop="url">行为资料库</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-07-08T00:30:35+08:00">
-                2018-07-08
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="做一件事情最好的的时机有两个，一个是三年前，一个是现在"><a href="#做一件事情最好的的时机有两个，一个是三年前，一个是现在" class="headerlink" title="做一件事情最好的的时机有两个，一个是三年前，一个是现在"></a>做一件事情最好的的时机有两个，一个是三年前，一个是现在</h2><h3 id="1-大方微笑，完美消化这道练习题"><a href="#1-大方微笑，完美消化这道练习题" class="headerlink" title="1.大方微笑，完美消化这道练习题"></a>1.大方微笑，完美消化这道练习题</h3><ul>
-<li><p>人生的本质就是练习题，那一切都可以刻意练习和消化</p>
-</li>
-<li><p>行为资料库走天下，行万事，足矣</p>
-</li>
-</ul>
-<h3 id="2-延迟满足，终点布局"><a href="#2-延迟满足，终点布局" class="headerlink" title="2.延迟满足，终点布局"></a>2.延迟满足，终点布局</h3><ul>
-<li>时间会加倍回报</li>
-</ul>
-<h3 id="3-分割要求，刻意练习"><a href="#3-分割要求，刻意练习" class="headerlink" title="3.分割要求，刻意练习"></a>3.分割要求，刻意练习</h3><ul>
-<li><p>特长的本质是针对性地重复重复重复重复………….天才是可以刻意练习的</p>
-</li>
-<li><p>建立自己的认知体系，行为体系，思想宇宙</p>
-</li>
-<li><p>现阶段：CoolWeather—&gt;BeijingNews—&gt;MajorBar—&gt;面试题—&gt;java每日One day—&gt;数据结构24小时疯狂弥补—&gt;数据库每日一章</p>
-</li>
-<li><p>6：00起床（大方微笑，完美消化这道练习题，时时刻刻）  </p>
-</li>
-<li><p>6：40—6：50：过一遍行为资料库，英库一句+复习一次</p>
-</li>
-<li><p>6：50—11：20：面试题+java</p>
-</li>
-<li><p>11：20—1：20：吃饭 宝贝分享 午觉</p>
-</li>
-<li><p>1：30—4：50：数据结构</p>
-</li>
-<li><p>4：50—6：00：吃饭 宝贝分享（电话）</p>
-</li>
-<li><p>6：00—6：05：5分钟今日行为资料库</p>
-</li>
-<li><p>6：05—7：00：今日数据库</p>
-</li>
-<li><p>7：00—10：00：面试题</p>
-</li>
-<li><p>10：00—10：50：宣讲会和招聘信息</p>
-</li>
-<li><p>10：50—11：00：行为资料库和英库复习</p>
-</li>
-<li><p>11：00—12：00：洗澡 宝贝分享 回忆  </p>
-</li>
-<li><p>12：00—6：00：睡觉</p>
-</li>
-<li><p>零散时间：feishengqiu.github.io 和java库切换</p>
-</li>
-<li><p>Android java 数据结构与算法 数据库 计算机网络</p>
-</li>
-</ul>
-<hr>
-<h3 id="大方微笑，延迟满足，刻意练习-2018-9-9"><a href="#大方微笑，延迟满足，刻意练习-2018-9-9" class="headerlink" title="大方微笑，延迟满足，刻意练习   2018/9/9"></a>大方微笑，延迟满足，刻意练习   2018/9/9</h3><h3 id="宏观世界，一切都是可知可学习的，不管是哪一个领域，所要遵循的原则是：认清规则，分割要求，刻意练习-2018-9-9"><a href="#宏观世界，一切都是可知可学习的，不管是哪一个领域，所要遵循的原则是：认清规则，分割要求，刻意练习-2018-9-9" class="headerlink" title="宏观世界，一切都是可知可学习的，不管是哪一个领域，所要遵循的原则是：认清规则，分割要求，刻意练习   2018/9/9"></a>宏观世界，一切都是可知可学习的，不管是哪一个领域，所要遵循的原则是：认清规则，分割要求，刻意练习   2018/9/9</h3><h3 id="刻意练习，一直重复重复重复重复重复重复……，可以创造天才，天才是可以创造的-2018-9-9"><a href="#刻意练习，一直重复重复重复重复重复重复……，可以创造天才，天才是可以创造的-2018-9-9" class="headerlink" title="刻意练习，一直重复重复重复重复重复重复……，可以创造天才，天才是可以创造的  2018/9/9"></a>刻意练习，一直重复重复重复重复重复重复……，可以创造天才，天才是可以创造的  2018/9/9</h3><h3 id="今天的CVTE笔试，两大公司的面试通知，最大的感受是恐慌，直接原因是自身的基础知识和能力不够，最根本的原因是自己没有按计划做好安排的事情，而且不是一天两天没做到，是一直都没做到，什么样的能力就过什么样的生活，记住，时间是能力的资本，按照计划，延迟满足，可以练习，做好本来就应该要做好的事情！！！-浪费时间，是要付出代价的！！！而且代价需要自己承担！！！-2018-9-10"><a href="#今天的CVTE笔试，两大公司的面试通知，最大的感受是恐慌，直接原因是自身的基础知识和能力不够，最根本的原因是自己没有按计划做好安排的事情，而且不是一天两天没做到，是一直都没做到，什么样的能力就过什么样的生活，记住，时间是能力的资本，按照计划，延迟满足，可以练习，做好本来就应该要做好的事情！！！-浪费时间，是要付出代价的！！！而且代价需要自己承担！！！-2018-9-10" class="headerlink" title="今天的CVTE笔试，两大公司的面试通知，最大的感受是恐慌，直接原因是自身的基础知识和能力不够，最根本的原因是自己没有按计划做好安排的事情，而且不是一天两天没做到，是一直都没做到，什么样的能力就过什么样的生活，记住，时间是能力的资本，按照计划，延迟满足，可以练习，做好本来就应该要做好的事情！！！ 浪费时间，是要付出代价的！！！而且代价需要自己承担！！！ 2018/9/10"></a>今天的CVTE笔试，两大公司的面试通知，最大的感受是恐慌，直接原因是自身的基础知识和能力不够，最根本的原因是自己没有按计划做好安排的事情，而且不是一天两天没做到，是一直都没做到，什么样的能力就过什么样的生活，记住，时间是能力的资本，按照计划，延迟满足，可以练习，做好本来就应该要做好的事情！！！ 浪费时间，是要付出代价的！！！而且代价需要自己承担！！！ 2018/9/10</h3>
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/05/07/Hexo基本操作/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1556,7 +2376,7 @@ private int currentStatus = PULL_DOWN_REFRESH;
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">16</span>
+                  <span class="site-state-item-count">18</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
