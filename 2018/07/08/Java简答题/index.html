@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="题1.为什么只能有一个public的类？ 因为public类的名字要和java文件名相同，文件名只有一个，当然只能有一个public类，当然更深层的原因应该是跟这是java的设计和jvm有关，是一种规范  ：一文一pub多cla   题2.Java有goto保留字，但是为什么不使用呢？ 用goto写跳转语句比较容易，但是容易造成代码的混乱，比较难读，因为goto可以往前跳，也可以往后跳，阅读代码就">
+<meta name="keywords" content="Android Developer">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java 83题备注">
+<meta property="og:url" content="http://yoursite.com/2018/07/08/Java简答题/index.html">
+<meta property="og:site_name" content="FeishengQiu">
+<meta property="og:description" content="题1.为什么只能有一个public的类？ 因为public类的名字要和java文件名相同，文件名只有一个，当然只能有一个public类，当然更深层的原因应该是跟这是java的设计和jvm有关，是一种规范  ：一文一pub多cla   题2.Java有goto保留字，但是为什么不使用呢？ 用goto写跳转语句比较容易，但是容易造成代码的混乱，比较难读，因为goto可以往前跳，也可以往后跳，阅读代码就">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-11-14T13:17:30.974Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Java 83题备注">
+<meta name="twitter:description" content="题1.为什么只能有一个public的类？ 因为public类的名字要和java文件名相同，文件名只有一个，当然只能有一个public类，当然更深层的原因应该是跟这是java的设计和jvm有关，是一种规范  ：一文一pub多cla   题2.Java有goto保留字，但是为什么不使用呢？ 用goto写跳转语句比较容易，但是容易造成代码的混乱，比较难读，因为goto可以往前跳，也可以往后跳，阅读代码就">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/07/08/Java简答题/"/>
+
+
+
+
+
+  <title>Java 83题备注 | FeishengQiu</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">FeishengQiu</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">Keep learning all the time</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/08/Java简答题/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="FeishengQiu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="FeishengQiu">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Java 83题备注</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-07-08T00:30:35+08:00">
+                2018-07-08
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="题1-为什么只能有一个public的类？"><a href="#题1-为什么只能有一个public的类？" class="headerlink" title="题1.为什么只能有一个public的类？"></a>题1.为什么只能有一个public的类？</h3><ul>
+<li><p>因为public类的名字要和java文件名相同，文件名只有一个，当然只能有一个public类，当然更深层的原因应该是跟这是java的设计和jvm有关，是一种规范</p>
+</li>
+<li><p>：一文一pub多cla</p>
+</li>
+</ul>
+<h3 id="题2-Java有goto保留字，但是为什么不使用呢？"><a href="#题2-Java有goto保留字，但是为什么不使用呢？" class="headerlink" title="题2.Java有goto保留字，但是为什么不使用呢？"></a>题2.Java有goto保留字，但是为什么不使用呢？</h3><ul>
+<li><p>用goto写跳转语句比较容易，但是容易造成代码的混乱，比较难读，因为goto可以往前跳，也可以往后跳，阅读代码就要花更多时间了。至于为什么要保留，我想可能是因为随着java的发展，这个关键字还会起到更大的作用吧，不想一刀切，直接抛弃goto，存在即合理</p>
+</li>
+<li><p>：goto跳转造混乱</p>
+</li>
+</ul>
+<h3 id="题3-说说-amp-和-amp-amp-的区别"><a href="#题3-说说-amp-和-amp-amp-的区别" class="headerlink" title="题3.说说&amp;和&amp;&amp;的区别"></a>题3.说说&amp;和&amp;&amp;的区别</h3><ul>
+<li>首先，&amp;和&amp;&amp;都可以作为逻辑与的运算符，当运算符两边的表达的结果都为ture时，最终结果才为true，只要有一个是false，最终结果就是false</li>
+<li>区别在于：&amp;&amp;的第一个表达式如果为false,则不再计算第二个表达式，例如if（a!=0&amp;&amp;++b&gt;2）,如果a=0,为false，那后面的表达式不会执行,如果改为&amp;，后面的++b会执行，b的值会加1</li>
+<li><p>&amp;还可以作为位运算符，一般是使用0x0f来与一个整数进行&amp;运算，然后获取该整数的最低4个bit位，例如：0x31&amp;0x0f就是等于0x01</p>
+</li>
+<li><p>：单与算两侧，单与算位运</p>
+</li>
+</ul>
+<h3 id="题4-OK-：最外层定义一个标号，ok-然后里面break-ok-外层的循环条件收到里层循环条件的限制"><a href="#题4-OK-：最外层定义一个标号，ok-然后里面break-ok-外层的循环条件收到里层循环条件的限制" class="headerlink" title="题4.OK!：最外层定义一个标号，ok: 然后里面break ok;+外层的循环条件收到里层循环条件的限制"></a>题4.OK!：最外层定义一个标号，ok: 然后里面break ok;+外层的循环条件收到里层循环条件的限制</h3><ul>
+<li><p>盲点：二维数组的元素对象是一维数组，就这么记忆就行了</p>
+</li>
+<li><p>:break ok：跳多循</p>
+</li>
+</ul>
+<h3 id="题5：OK：byte-short-int-char-String-枚举常量"><a href="#题5：OK：byte-short-int-char-String-枚举常量" class="headerlink" title="题5：OK：byte,short int,char,String,枚举常量"></a>题5：OK：byte,short int,char,String,枚举常量</h3><ul>
+<li>：白缩赢char7String</li>
+</ul>
+<h3 id="题6：OK-编译错误，因为整型提升，不能赋给short-自加运算，编译器特殊处理，所以不会报错"><a href="#题6：OK-编译错误，因为整型提升，不能赋给short-自加运算，编译器特殊处理，所以不会报错" class="headerlink" title="题6：OK:编译错误，因为整型提升，不能赋给short;自加运算，编译器特殊处理，所以不会报错"></a>题6：OK:编译错误，因为整型提升，不能赋给short;自加运算，编译器特殊处理，所以不会报错</h3><ul>
+<li>:自动提升类型int，编译器会强报错；增加运算特处理</li>
+</ul>
+<h3 id="题7：OK-char里面存储的本质是：数字；然后每个数字代表Unicode编码字符集中的一个字符，Unicode字符集包含了中文汉字，当然可以存储一个中文汉字"><a href="#题7：OK-char里面存储的本质是：数字；然后每个数字代表Unicode编码字符集中的一个字符，Unicode字符集包含了中文汉字，当然可以存储一个中文汉字" class="headerlink" title="题7：OK:char里面存储的本质是：数字；然后每个数字代表Unicode编码字符集中的一个字符，Unicode字符集包含了中文汉字，当然可以存储一个中文汉字"></a>题7：OK:char里面存储的本质是：数字；然后每个数字代表Unicode编码字符集中的一个字符，Unicode字符集包含了中文汉字，当然可以存储一个中文汉字</h3><h3 id="题8：OK-左移3位，CPU支持位运算，效率最高"><a href="#题8：OK-左移3位，CPU支持位运算，效率最高" class="headerlink" title="题8：OK:左移3位，CPU支持位运算，效率最高"></a>题8：OK:左移3位，CPU支持位运算，效率最高</h3><h3 id="题9：OK：默写一下代码"><a href="#题9：OK：默写一下代码" class="headerlink" title="题9：OK：默写一下代码"></a>题9：OK：默写一下代码</h3><h3 id="题10：OK：分类讨论，是引用不能变，所指向的对象的内容可以变：例如-final-Student-student1-new-Student-“xiaoming”"><a href="#题10：OK：分类讨论，是引用不能变，所指向的对象的内容可以变：例如-final-Student-student1-new-Student-“xiaoming”" class="headerlink" title="题10：OK：分类讨论，是引用不能变，所指向的对象的内容可以变：例如 final Student student1=new Student(“xiaoming”);"></a>题10：OK：分类讨论，是引用不能变，所指向的对象的内容可以变：例如 final Student student1=new Student(“xiaoming”);</h3><h3 id="题11：Ok-比较的是两个变量的值是否相等，如果比较的变量是基本数据类型，则直接比较，如果是引用类型，则比较的是两个对象的首地址，这时候涉及到两块内存，……equals方法涉及的就是重不重写的问题，如果重写，例如String的equals-比较的就是两个字符串的内容是否相同，即对象内容是否相同；如果不重写，继承的就是Object类的equals方法，跟-操作符一样，比较的就是两个对象的首地址是否相同"><a href="#题11：Ok-比较的是两个变量的值是否相等，如果比较的变量是基本数据类型，则直接比较，如果是引用类型，则比较的是两个对象的首地址，这时候涉及到两块内存，……equals方法涉及的就是重不重写的问题，如果重写，例如String的equals-比较的就是两个字符串的内容是否相同，即对象内容是否相同；如果不重写，继承的就是Object类的equals方法，跟-操作符一样，比较的就是两个对象的首地址是否相同" class="headerlink" title="题11：Ok:==比较的是两个变量的值是否相等，如果比较的变量是基本数据类型，则直接比较，如果是引用类型，则比较的是两个对象的首地址，这时候涉及到两块内存，……equals方法涉及的就是重不重写的问题，如果重写，例如String的equals,比较的就是两个字符串的内容是否相同，即对象内容是否相同；如果不重写，继承的就是Object类的equals方法，跟==操作符一样，比较的就是两个对象的首地址是否相同"></a>题11：Ok:==比较的是两个变量的值是否相等，如果比较的变量是基本数据类型，则直接比较，如果是引用类型，则比较的是两个对象的首地址，这时候涉及到两块内存，……equals方法涉及的就是重不重写的问题，如果重写，例如String的equals,比较的就是两个字符串的内容是否相同，即对象内容是否相同；如果不重写，继承的就是Object类的equals方法，跟==操作符一样，比较的就是两个对象的首地址是否相同</h3><h3 id="题12：OK-实例变量必须创建对象后才能通过这个对象来使用，因为实例变量是属于某个对象的属性，只有创建对象才能分配内存空间，才能使用这个实例变量；静态变量是依赖类而创建的，不依赖对象，直接分配空间，用类名就可以直接调用-举例子"><a href="#题12：OK-实例变量必须创建对象后才能通过这个对象来使用，因为实例变量是属于某个对象的属性，只有创建对象才能分配内存空间，才能使用这个实例变量；静态变量是依赖类而创建的，不依赖对象，直接分配空间，用类名就可以直接调用-举例子" class="headerlink" title="题12：OK:实例变量必须创建对象后才能通过这个对象来使用，因为实例变量是属于某个对象的属性，只有创建对象才能分配内存空间，才能使用这个实例变量；静态变量是依赖类而创建的，不依赖对象，直接分配空间，用类名就可以直接调用+举例子"></a>题12：OK:实例变量必须创建对象后才能通过这个对象来使用，因为实例变量是属于某个对象的属性，只有创建对象才能分配内存空间，才能使用这个实例变量；静态变量是依赖类而创建的，不依赖对象，直接分配空间，用类名就可以直接调用+举例子</h3><h3 id="题13：OK"><a href="#题13：OK" class="headerlink" title="题13：OK"></a>题13：OK</h3><h3 id="题14：OK：答区别的时候，先分别回答分别是什么，然后再答彼此间的联系，-举例"><a href="#题14：OK：答区别的时候，先分别回答分别是什么，然后再答彼此间的联系，-举例" class="headerlink" title="题14：OK：答区别的时候，先分别回答分别是什么，然后再答彼此间的联系，+举例"></a>题14：OK：答区别的时候，先分别回答分别是什么，然后再答彼此间的联系，+举例</h3><h3 id="题15：OK-Math里有三个跟取整有关系的API：ceil向上取整，floor向下取整，round是四舍五入，-0-5向下取整"><a href="#题15：OK-Math里有三个跟取整有关系的API：ceil向上取整，floor向下取整，round是四舍五入，-0-5向下取整" class="headerlink" title="题15：OK:Math里有三个跟取整有关系的API：ceil向上取整，floor向下取整，round是四舍五入，+0.5向下取整"></a>题15：OK:Math里有三个跟取整有关系的API：ceil向上取整，floor向下取整，round是四舍五入，+0.5向下取整</h3><h3 id="题16：小问题"><a href="#题16：小问题" class="headerlink" title="题16：小问题"></a>题16：小问题</h3><h3 id="题17：OK-4321"><a href="#题17：OK-4321" class="headerlink" title="题17：OK:4321"></a>题17：OK:4321</h3><h3 id="题18：OK：重写只能改方法体，权限修饰符，小异常；父类private的方法重写不了；重载的注意点是不能通过访问权限，修饰符，抛异常来重载"><a href="#题18：OK：重写只能改方法体，权限修饰符，小异常；父类private的方法重写不了；重载的注意点是不能通过访问权限，修饰符，抛异常来重载" class="headerlink" title="题18：OK：重写只能改方法体，权限修饰符，小异常；父类private的方法重写不了；重载的注意点是不能通过访问权限，修饰符，抛异常来重载"></a>题18：OK：重写只能改方法体，权限修饰符，小异常；父类private的方法重写不了；重载的注意点是不能通过访问权限，修饰符，抛异常来重载</h3><h3 id="题19：OK-不可重写，但可重载，因为不可继承"><a href="#题19：OK-不可重写，但可重载，因为不可继承" class="headerlink" title="题19：OK:不可重写，但可重载，因为不可继承"></a>题19：OK:不可重写，但可重载，因为不可继承</h3><h3 id="题20：OK：抽象类与普通类的唯一区别就是不能创建对象和允许有abstract方法，其他的继承与接口功能都一样可以实现，可以使用匿名内部类或者子类来重写抽象方法创建实例，就算可以实例化，没有方法体，也没有意义！！！"><a href="#题20：OK：抽象类与普通类的唯一区别就是不能创建对象和允许有abstract方法，其他的继承与接口功能都一样可以实现，可以使用匿名内部类或者子类来重写抽象方法创建实例，就算可以实例化，没有方法体，也没有意义！！！" class="headerlink" title="题20：OK：抽象类与普通类的唯一区别就是不能创建对象和允许有abstract方法，其他的继承与接口功能都一样可以实现，可以使用匿名内部类或者子类来重写抽象方法创建实例，就算可以实例化，没有方法体，也没有意义！！！"></a>题20：OK：抽象类与普通类的唯一区别就是不能创建对象和允许有abstract方法，其他的继承与接口功能都一样可以实现，可以使用匿名内部类或者子类来重写抽象方法创建实例，就算可以实例化，没有方法体，也没有意义！！！</h3><h3 id="题21：OK：super-clone-先复制父类的成员，再复制到自己？？？"><a href="#题21：OK：super-clone-先复制父类的成员，再复制到自己？？？" class="headerlink" title="题21：OK：super.clone();先复制父类的成员，再复制到自己？？？"></a>题21：OK：super.clone();先复制父类的成员，再复制到自己？？？</h3><h3 id="题22：OK：封装（模块化思想，降低耦合性，防止程序相互依赖而带来的变动影响）-继承（提高代码的复用性和编码效率）-多态"><a href="#题22：OK：封装（模块化思想，降低耦合性，防止程序相互依赖而带来的变动影响）-继承（提高代码的复用性和编码效率）-多态" class="headerlink" title="题22：OK：封装（模块化思想，降低耦合性，防止程序相互依赖而带来的变动影响）+继承（提高代码的复用性和编码效率）+多态"></a>题22：OK：封装（模块化思想，降低耦合性，防止程序相互依赖而带来的变动影响）+继承（提高代码的复用性和编码效率）+多态</h3><h3 id="题23：OK-父类或者接口定义的引用变量可以指向子类或者具体实现类的实例对象，而程序调用的方法在运行时才动态绑定：例如-Person-p-new-Student-“小明”-；-p-getName-调用的就是Student的getName-方法，很多时候可以减少形参类型而增加的方法数量"><a href="#题23：OK-父类或者接口定义的引用变量可以指向子类或者具体实现类的实例对象，而程序调用的方法在运行时才动态绑定：例如-Person-p-new-Student-“小明”-；-p-getName-调用的就是Student的getName-方法，很多时候可以减少形参类型而增加的方法数量" class="headerlink" title="题23：OK:父类或者接口定义的引用变量可以指向子类或者具体实现类的实例对象，而程序调用的方法在运行时才动态绑定：例如 Person p=new Student(“小明”)； p.getName();调用的就是Student的getName()方法，很多时候可以减少形参类型而增加的方法数量"></a>题23：OK:父类或者接口定义的引用变量可以指向子类或者具体实现类的实例对象，而程序调用的方法在运行时才动态绑定：例如 Person p=new Student(“小明”)； p.getName();调用的就是Student的getName()方法，很多时候可以减少形参类型而增加的方法数量</h3><h3 id="题24：OK：抽象类的最大应用就是：抽象基类，子类各自重写其他abstract方法完成自己的业务，相同的业务用final方法来修饰即可，可以大大提高代码的复用性（抽象类的构造器是为了留着去初始化其他的变量）"><a href="#题24：OK：抽象类的最大应用就是：抽象基类，子类各自重写其他abstract方法完成自己的业务，相同的业务用final方法来修饰即可，可以大大提高代码的复用性（抽象类的构造器是为了留着去初始化其他的变量）" class="headerlink" title="题24：OK：抽象类的最大应用就是：抽象基类，子类各自重写其他abstract方法完成自己的业务，相同的业务用final方法来修饰即可，可以大大提高代码的复用性（抽象类的构造器是为了留着去初始化其他的变量）"></a>题24：OK：抽象类的最大应用就是：抽象基类，子类各自重写其他abstract方法完成自己的业务，相同的业务用final方法来修饰即可，可以大大提高代码的复用性（抽象类的构造器是为了留着去初始化其他的变量）</h3><h3 id="题25：OK：static-因为一个abstract方法没有方法体。静态方法需要对方法体执行内容分配空间，所以不能同static共存；native-是把方法移交给本地操作系统，而abstract是移交给子类实现，相互矛盾"><a href="#题25：OK：static-因为一个abstract方法没有方法体。静态方法需要对方法体执行内容分配空间，所以不能同static共存；native-是把方法移交给本地操作系统，而abstract是移交给子类实现，相互矛盾" class="headerlink" title="题25：OK：static:因为一个abstract方法没有方法体。静态方法需要对方法体执行内容分配空间，所以不能同static共存；native:是把方法移交给本地操作系统，而abstract是移交给子类实现，相互矛盾"></a>题25：OK：static:因为一个abstract方法没有方法体。静态方法需要对方法体执行内容分配空间，所以不能同static共存；native:是把方法移交给本地操作系统，而abstract是移交给子类实现，相互矛盾</h3><h3 id="题26：OK：匿名-不给出具体的子类或实现类的名称，只有对象实体；内部类特点：可以在两个地方定义，可以访问外部类的成员变量，不能定义静态成员：成员内部类，局部内部类，静态内部类，匿名内部类（不能加修饰符）"><a href="#题26：OK：匿名-不给出具体的子类或实现类的名称，只有对象实体；内部类特点：可以在两个地方定义，可以访问外部类的成员变量，不能定义静态成员：成员内部类，局部内部类，静态内部类，匿名内部类（不能加修饰符）" class="headerlink" title="题26：OK：匿名==不给出具体的子类或实现类的名称，只有对象实体；内部类特点：可以在两个地方定义，可以访问外部类的成员变量，不能定义静态成员：成员内部类，局部内部类，静态内部类，匿名内部类（不能加修饰符）"></a>题26：OK：匿名==不给出具体的子类或实现类的名称，只有对象实体；内部类特点：可以在两个地方定义，可以访问外部类的成员变量，不能定义静态成员：成员内部类，局部内部类，静态内部类，匿名内部类（不能加修饰符）</h3><h3 id="题27：OK：除了静态内部类比较特殊，只能访问外部类的静态变量，其他的内部类都能访问外部类的成员变量（引用-调用）"><a href="#题27：OK：除了静态内部类比较特殊，只能访问外部类的静态变量，其他的内部类都能访问外部类的成员变量（引用-调用）" class="headerlink" title="题27：OK：除了静态内部类比较特殊，只能访问外部类的静态变量，其他的内部类都能访问外部类的成员变量（引用==调用）"></a>题27：OK：除了静态内部类比较特殊，只能访问外部类的静态变量，其他的内部类都能访问外部类的成员变量（引用==调用）</h3><h3 id="题28：OK-匿名内部类必须继承其他类或实现接口（new-Thread-…-继承的就是Thread，匿名-真正的子类名没给出来）"><a href="#题28：OK-匿名内部类必须继承其他类或实现接口（new-Thread-…-继承的就是Thread，匿名-真正的子类名没给出来）" class="headerlink" title="题28：OK:匿名内部类必须继承其他类或实现接口（new Thread(){…..},继承的就是Thread，匿名==真正的子类名没给出来）"></a>题28：OK:匿名内部类必须继承其他类或实现接口（new Thread(){…..},继承的就是Thread，匿名==真正的子类名没给出来）</h3><h3 id="题29-OK：super-getClass-getClass-所以答案当然是Test"><a href="#题29-OK：super-getClass-getClass-所以答案当然是Test" class="headerlink" title="题29.OK：super.getClass()==getClass():所以答案当然是Test"></a>题29.OK：super.getClass()==getClass():所以答案当然是Test</h3><h3 id="题30-OK"><a href="#题30-OK" class="headerlink" title="题30.OK"></a>题30.OK</h3><h3 id="题31-OK-画图就非常的清晰"><a href="#题31-OK-画图就非常的清晰" class="headerlink" title="题31.OK:画图就非常的清晰"></a>题31.OK:画图就非常的清晰</h3><h3 id="题32-OK"><a href="#题32-OK" class="headerlink" title="题32.OK"></a>题32.OK</h3><h3 id="题33-OK-一个或者两个？”xy”本身也算一个对象？"><a href="#题33-OK-一个或者两个？”xy”本身也算一个对象？" class="headerlink" title="题33.OK:一个或者两个？”xy”本身也算一个对象？"></a>题33.OK:一个或者两个？”xy”本身也算一个对象？</h3><h3 id="题34：OK-一个可变，一个不可变，然后String重写了equals-和hashCode-方法"><a href="#题34：OK-一个可变，一个不可变，然后String重写了equals-和hashCode-方法" class="headerlink" title="题34：OK:一个可变，一个不可变，然后String重写了equals()和hashCode()方法"></a>题34：OK:一个可变，一个不可变，然后String重写了equals()和hashCode()方法</h3><h3 id="题35-OK-String-result-s-split-“-”"><a href="#题35-OK-String-result-s-split-“-”" class="headerlink" title="题35.OK: String[] result=s.split(“,”);"></a>题35.OK: String[] result=s.split(“,”);</h3><h3 id="题36-OK：String-length-数组-length属性；集合：size（）方法"><a href="#题36-OK：String-length-数组-length属性；集合：size（）方法" class="headerlink" title="题36.OK：String:length();数组[]:length属性；集合：size（）方法"></a>题36.OK：String:length();数组[]:length属性；集合：size（）方法</h3><h3 id="题37-OK-String常量常量常量运算处理之前可以在编译时就自动合并，只创建一个对象"><a href="#题37-OK-String常量常量常量运算处理之前可以在编译时就自动合并，只创建一个对象" class="headerlink" title="题37.OK:String常量常量常量运算处理之前可以在编译时就自动合并，只创建一个对象"></a>题37.OK:String常量常量常量运算处理之前可以在编译时就自动合并，只创建一个对象</h3><h3 id="题38-OK"><a href="#题38-OK" class="headerlink" title="题38.OK:"></a>题38.OK:</h3><h3 id="题39-OK-finally中的代码比return和break语句后执行"><a href="#题39-OK-finally中的代码比return和break语句后执行" class="headerlink" title="题39.OK:finally中的代码比return和break语句后执行"></a>题39.OK:finally中的代码比return和break语句后执行</h3><h3 id="题40-OK"><a href="#题40-OK" class="headerlink" title="题40.OK"></a>题40.OK</h3><h3 id="题41：运行时异常就是程序运行过程中可能出现的非正常状态，例如：空指针引用异常，类型强制转换异常，算术运算异常，数组下标越界异常，不必强制try-catch或throws声明-编译时异常：IO异常，文件未找到异常-要try-catch捕获或throws声明"><a href="#题41：运行时异常就是程序运行过程中可能出现的非正常状态，例如：空指针引用异常，类型强制转换异常，算术运算异常，数组下标越界异常，不必强制try-catch或throws声明-编译时异常：IO异常，文件未找到异常-要try-catch捕获或throws声明" class="headerlink" title="题41：运行时异常就是程序运行过程中可能出现的非正常状态，例如：空指针引用异常，类型强制转换异常，算术运算异常，数组下标越界异常，不必强制try catch或throws声明;编译时异常：IO异常，文件未找到异常,要try catch捕获或throws声明"></a>题41：运行时异常就是程序运行过程中可能出现的非正常状态，例如：空指针引用异常，类型强制转换异常，算术运算异常，数组下标越界异常，不必强制try catch或throws声明;编译时异常：IO异常，文件未找到异常,要try catch捕获或throws声明</h3><h3 id="题42：OK-Throwable类是所有异常或错误的父类，它有两个子类：Error和Exception，分别表示错误和异常。其中异常Exception分为运行时异常-RuntimeException-和编译时异常，可以通过抛出异常，捕获异常对象，让程序来解决异常问题；但是error一般指的是JVM出现的严重问题，例如内存溢出，系统奔溃，程序无法自己处理错误，必须人为去修改有问题的代码；"><a href="#题42：OK-Throwable类是所有异常或错误的父类，它有两个子类：Error和Exception，分别表示错误和异常。其中异常Exception分为运行时异常-RuntimeException-和编译时异常，可以通过抛出异常，捕获异常对象，让程序来解决异常问题；但是error一般指的是JVM出现的严重问题，例如内存溢出，系统奔溃，程序无法自己处理错误，必须人为去修改有问题的代码；" class="headerlink" title="题42：OK:Throwable类是所有异常或错误的父类，它有两个子类：Error和Exception，分别表示错误和异常。其中异常Exception分为运行时异常(RuntimeException)和编译时异常，可以通过抛出异常，捕获异常对象，让程序来解决异常问题；但是error一般指的是JVM出现的严重问题，例如内存溢出，系统奔溃，程序无法自己处理错误，必须人为去修改有问题的代码；"></a>题42：OK:Throwable类是所有异常或错误的父类，它有两个子类：Error和Exception，分别表示错误和异常。其中异常Exception分为运行时异常(RuntimeException)和编译时异常，可以通过抛出异常，捕获异常对象，让程序来解决异常问题；但是error一般指的是JVM出现的严重问题，例如内存溢出，系统奔溃，程序无法自己处理错误，必须人为去修改有问题的代码；</h3><h3 id="题43：OK：Throwable-error-exception-分别有哪些，如何处理"><a href="#题43：OK：Throwable-error-exception-分别有哪些，如何处理" class="headerlink" title="题43：OK：Throwable,error,exception,分别有哪些，如何处理"></a>题43：OK：Throwable,error,exception,分别有哪些，如何处理</h3><h3 id="题44：OK-针引用异常，类型强制转换异常，算术运算异常，数组下标越界异常"><a href="#题44：OK-针引用异常，类型强制转换异常，算术运算异常，数组下标越界异常" class="headerlink" title="题44：OK:针引用异常，类型强制转换异常，算术运算异常，数组下标越界异常"></a>题44：OK:针引用异常，类型强制转换异常，算术运算异常，数组下标越界异常</h3><h3 id="题45：throw-用在方法体内；throws用在方法声明处"><a href="#题45：throw-用在方法体内；throws用在方法声明处" class="headerlink" title="题45：throw:用在方法体内；throws用在方法声明处"></a>题45：throw:用在方法体内；throws用在方法声明处</h3><h3 id="GET-POST"><a href="#GET-POST" class="headerlink" title="GET.POST"></a>GET.POST</h3>
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/07/08/行为资料库/" rel="next" title="行为资料库">
+                <i class="fa fa-chevron-left"></i> 行为资料库
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/07/08/自我介绍/" rel="prev" title="自我介绍">
+                自我介绍 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpg"
+                alt="FeishengQiu" />
+            
+              <p class="site-author-name" itemprop="name">FeishengQiu</p>
+              <p class="site-description motion-element" itemprop="description">Android Java</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">23</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#题1-为什么只能有一个public的类？"><span class="nav-number">1.</span> <span class="nav-text">题1.为什么只能有一个public的类？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#题2-Java有goto保留字，但是为什么不使用呢？"><span class="nav-number">2.</span> <span class="nav-text">题2.Java有goto保留字，但是为什么不使用呢？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#题3-说说-amp-和-amp-amp-的区别"><span class="nav-number">3.</span> <span class="nav-text">题3.说说&amp;和&amp;&amp;的区别</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#题4-OK-：最外层定义一个标号，ok-然后里面break-ok-外层的循环条件收到里层循环条件的限制"><span class="nav-number">4.</span> <span class="nav-text">题4.OK!：最外层定义一个标号，ok: 然后里面break ok;+外层的循环条件收到里层循环条件的限制</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#题5：OK：byte-short-int-char-String-枚举常量"><span class="nav-number">5.</span> <span class="nav-text">题5：OK：byte,short int,char,String,枚举常量</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#题6：OK-编译错误，因为整型提升，不能赋给short-自加运算，编译器特殊处理，所以不会报错"><span class="nav-number">6.</span> <span class="nav-text">题6：OK:编译错误，因为整型提升，不能赋给short;自加运算，编译器特殊处理，所以不会报错</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#题7：OK-char里面存储的本质是：数字；然后每个数字代表Unicode编码字符集中的一个字符，Unicode字符集包含了中文汉字，当然可以存储一个中文汉字"><span class="nav-number">7.</span> <span class="nav-text">题7：OK:char里面存储的本质是：数字；然后每个数字代表Unicode编码字符集中的一个字符，Unicode字符集包含了中文汉字，当然可以存储一个中文汉字</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#题8：OK-左移3位，CPU支持位运算，效率最高"><span class="nav-number">8.</span> <span class="nav-text">题8：OK:左移3位，CPU支持位运算，效率最高</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#题9：OK：默写一下代码"><span class="nav-number">9.</span> <span class="nav-text">题9：OK：默写一下代码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#题10：OK：分类讨论，是引用不能变，所指向的对象的内容可以变：例如-final-Student-student1-new-Student-“xiaoming”"><span class="nav-number">10.</span> <span class="nav-text">题10：OK：分类讨论，是引用不能变，所指向的对象的内容可以变：例如 final Student student1=new Student(“xiaoming”);</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#题11：Ok-比较的是两个变量的值是否相等，如果比较的变量是基本数据类型，则直接比较，如果是引用类型，则比较的是两个对象的首地址，这时候涉及到两块内存，……equals方法涉及的就是重不重写的问题，如果重写，例如String的equals-比较的就是两个字符串的内容是否相同，即对象内容是否相同；如果不重写，继承的就是Object类的equals方法，跟-操作符一样，比较的就是两个对象的首地址是否相同"><span class="nav-number">11.</span> <span class="nav-text">题11：Ok:==比较的是两个变量的值是否相等，如果比较的变量是基本数据类型，则直接比较，如果是引用类型，则比较的是两个对象的首地址，这时候涉及到两块内存，……equals方法涉及的就是重不重写的问题，如果重写，例如String的equals,比较的就是两个字符串的内容是否相同，即对象内容是否相同；如果不重写，继承的就是Object类的equals方法，跟==操作符一样，比较的就是两个对象的首地址是否相同</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#题12：OK-实例变量必须创建对象后才能通过这个对象来使用，因为实例变量是属于某个对象的属性，只有创建对象才能分配内存空间，才能使用这个实例变量；静态变量是依赖类而创建的，不依赖对象，直接分配空间，用类名就可以直接调用-举例子"><span class="nav-number">12.</span> <span class="nav-text">题12：OK:实例变量必须创建对象后才能通过这个对象来使用，因为实例变量是属于某个对象的属性，只有创建对象才能分配内存空间，才能使用这个实例变量；静态变量是依赖类而创建的，不依赖对象，直接分配空间，用类名就可以直接调用+举例子</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#题13：OK"><span class="nav-number">13.</span> <span class="nav-text">题13：OK</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#题14：OK：答区别的时候，先分别回答分别是什么，然后再答彼此间的联系，-举例"><span class="nav-number">14.</span> <span class="nav-text">题14：OK：答区别的时候，先分别回答分别是什么，然后再答彼此间的联系，+举例</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#题15：OK-Math里有三个跟取整有关系的API：ceil向上取整，floor向下取整，round是四舍五入，-0-5向下取整"><span class="nav-number">15.</span> <span class="nav-text">题15：OK:Math里有三个跟取整有关系的API：ceil向上取整，floor向下取整，round是四舍五入，+0.5向下取整</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#题16：小问题"><span class="nav-number">16.</span> <span class="nav-text">题16：小问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#题17：OK-4321"><span class="nav-number">17.</span> <span class="nav-text">题17：OK:4321</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#题18：OK：重写只能改方法体，权限修饰符，小异常；父类private的方法重写不了；重载的注意点是不能通过访问权限，修饰符，抛异常来重载"><span class="nav-number">18.</span> <span class="nav-text">题18：OK：重写只能改方法体，权限修饰符，小异常；父类private的方法重写不了；重载的注意点是不能通过访问权限，修饰符，抛异常来重载</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#题19：OK-不可重写，但可重载，因为不可继承"><span class="nav-number">19.</span> <span class="nav-text">题19：OK:不可重写，但可重载，因为不可继承</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#题20：OK：抽象类与普通类的唯一区别就是不能创建对象和允许有abstract方法，其他的继承与接口功能都一样可以实现，可以使用匿名内部类或者子类来重写抽象方法创建实例，就算可以实例化，没有方法体，也没有意义！！！"><span class="nav-number">20.</span> <span class="nav-text">题20：OK：抽象类与普通类的唯一区别就是不能创建对象和允许有abstract方法，其他的继承与接口功能都一样可以实现，可以使用匿名内部类或者子类来重写抽象方法创建实例，就算可以实例化，没有方法体，也没有意义！！！</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#题21：OK：super-clone-先复制父类的成员，再复制到自己？？？"><span class="nav-number">21.</span> <span class="nav-text">题21：OK：super.clone();先复制父类的成员，再复制到自己？？？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#题22：OK：封装（模块化思想，降低耦合性，防止程序相互依赖而带来的变动影响）-继承（提高代码的复用性和编码效率）-多态"><span class="nav-number">22.</span> <span class="nav-text">题22：OK：封装（模块化思想，降低耦合性，防止程序相互依赖而带来的变动影响）+继承（提高代码的复用性和编码效率）+多态</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#题23：OK-父类或者接口定义的引用变量可以指向子类或者具体实现类的实例对象，而程序调用的方法在运行时才动态绑定：例如-Person-p-new-Student-“小明”-；-p-getName-调用的就是Student的getName-方法，很多时候可以减少形参类型而增加的方法数量"><span class="nav-number">23.</span> <span class="nav-text">题23：OK:父类或者接口定义的引用变量可以指向子类或者具体实现类的实例对象，而程序调用的方法在运行时才动态绑定：例如 Person p=new Student(“小明”)； p.getName();调用的就是Student的getName()方法，很多时候可以减少形参类型而增加的方法数量</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#题24：OK：抽象类的最大应用就是：抽象基类，子类各自重写其他abstract方法完成自己的业务，相同的业务用final方法来修饰即可，可以大大提高代码的复用性（抽象类的构造器是为了留着去初始化其他的变量）"><span class="nav-number">24.</span> <span class="nav-text">题24：OK：抽象类的最大应用就是：抽象基类，子类各自重写其他abstract方法完成自己的业务，相同的业务用final方法来修饰即可，可以大大提高代码的复用性（抽象类的构造器是为了留着去初始化其他的变量）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#题25：OK：static-因为一个abstract方法没有方法体。静态方法需要对方法体执行内容分配空间，所以不能同static共存；native-是把方法移交给本地操作系统，而abstract是移交给子类实现，相互矛盾"><span class="nav-number">25.</span> <span class="nav-text">题25：OK：static:因为一个abstract方法没有方法体。静态方法需要对方法体执行内容分配空间，所以不能同static共存；native:是把方法移交给本地操作系统，而abstract是移交给子类实现，相互矛盾</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#题26：OK：匿名-不给出具体的子类或实现类的名称，只有对象实体；内部类特点：可以在两个地方定义，可以访问外部类的成员变量，不能定义静态成员：成员内部类，局部内部类，静态内部类，匿名内部类（不能加修饰符）"><span class="nav-number">26.</span> <span class="nav-text">题26：OK：匿名==不给出具体的子类或实现类的名称，只有对象实体；内部类特点：可以在两个地方定义，可以访问外部类的成员变量，不能定义静态成员：成员内部类，局部内部类，静态内部类，匿名内部类（不能加修饰符）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#题27：OK：除了静态内部类比较特殊，只能访问外部类的静态变量，其他的内部类都能访问外部类的成员变量（引用-调用）"><span class="nav-number">27.</span> <span class="nav-text">题27：OK：除了静态内部类比较特殊，只能访问外部类的静态变量，其他的内部类都能访问外部类的成员变量（引用==调用）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#题28：OK-匿名内部类必须继承其他类或实现接口（new-Thread-…-继承的就是Thread，匿名-真正的子类名没给出来）"><span class="nav-number">28.</span> <span class="nav-text">题28：OK:匿名内部类必须继承其他类或实现接口（new Thread(){…..},继承的就是Thread，匿名==真正的子类名没给出来）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#题29-OK：super-getClass-getClass-所以答案当然是Test"><span class="nav-number">29.</span> <span class="nav-text">题29.OK：super.getClass()==getClass():所以答案当然是Test</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#题30-OK"><span class="nav-number">30.</span> <span class="nav-text">题30.OK</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#题31-OK-画图就非常的清晰"><span class="nav-number">31.</span> <span class="nav-text">题31.OK:画图就非常的清晰</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#题32-OK"><span class="nav-number">32.</span> <span class="nav-text">题32.OK</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#题33-OK-一个或者两个？”xy”本身也算一个对象？"><span class="nav-number">33.</span> <span class="nav-text">题33.OK:一个或者两个？”xy”本身也算一个对象？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#题34：OK-一个可变，一个不可变，然后String重写了equals-和hashCode-方法"><span class="nav-number">34.</span> <span class="nav-text">题34：OK:一个可变，一个不可变，然后String重写了equals()和hashCode()方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#题35-OK-String-result-s-split-“-”"><span class="nav-number">35.</span> <span class="nav-text">题35.OK: String[] result=s.split(“,”);</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#题36-OK：String-length-数组-length属性；集合：size（）方法"><span class="nav-number">36.</span> <span class="nav-text">题36.OK：String:length();数组[]:length属性；集合：size（）方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#题37-OK-String常量常量常量运算处理之前可以在编译时就自动合并，只创建一个对象"><span class="nav-number">37.</span> <span class="nav-text">题37.OK:String常量常量常量运算处理之前可以在编译时就自动合并，只创建一个对象</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#题38-OK"><span class="nav-number">38.</span> <span class="nav-text">题38.OK:</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#题39-OK-finally中的代码比return和break语句后执行"><span class="nav-number">39.</span> <span class="nav-text">题39.OK:finally中的代码比return和break语句后执行</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#题40-OK"><span class="nav-number">40.</span> <span class="nav-text">题40.OK</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#题41：运行时异常就是程序运行过程中可能出现的非正常状态，例如：空指针引用异常，类型强制转换异常，算术运算异常，数组下标越界异常，不必强制try-catch或throws声明-编译时异常：IO异常，文件未找到异常-要try-catch捕获或throws声明"><span class="nav-number">41.</span> <span class="nav-text">题41：运行时异常就是程序运行过程中可能出现的非正常状态，例如：空指针引用异常，类型强制转换异常，算术运算异常，数组下标越界异常，不必强制try catch或throws声明;编译时异常：IO异常，文件未找到异常,要try catch捕获或throws声明</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#题42：OK-Throwable类是所有异常或错误的父类，它有两个子类：Error和Exception，分别表示错误和异常。其中异常Exception分为运行时异常-RuntimeException-和编译时异常，可以通过抛出异常，捕获异常对象，让程序来解决异常问题；但是error一般指的是JVM出现的严重问题，例如内存溢出，系统奔溃，程序无法自己处理错误，必须人为去修改有问题的代码；"><span class="nav-number">42.</span> <span class="nav-text">题42：OK:Throwable类是所有异常或错误的父类，它有两个子类：Error和Exception，分别表示错误和异常。其中异常Exception分为运行时异常(RuntimeException)和编译时异常，可以通过抛出异常，捕获异常对象，让程序来解决异常问题；但是error一般指的是JVM出现的严重问题，例如内存溢出，系统奔溃，程序无法自己处理错误，必须人为去修改有问题的代码；</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#题43：OK：Throwable-error-exception-分别有哪些，如何处理"><span class="nav-number">43.</span> <span class="nav-text">题43：OK：Throwable,error,exception,分别有哪些，如何处理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#题44：OK-针引用异常，类型强制转换异常，算术运算异常，数组下标越界异常"><span class="nav-number">44.</span> <span class="nav-text">题44：OK:针引用异常，类型强制转换异常，算术运算异常，数组下标越界异常</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#题45：throw-用在方法体内；throws用在方法声明处"><span class="nav-number">45.</span> <span class="nav-text">题45：throw:用在方法体内；throws用在方法声明处</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#GET-POST"><span class="nav-number">46.</span> <span class="nav-text">GET.POST</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">FeishengQiu</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
