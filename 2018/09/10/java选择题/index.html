@@ -1,0 +1,798 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="java选择题1.StringBuffer类对象创建之后可以再修改和变动. 正确：1.String对象不可变、StringBuffer对象可变的含义： 举个例子：String str = “aa”; str = “aa”+”bb”; 此时str的值为”aabb”，但是”aabb”不是在开始的字符串”aa”后面直接连接的”bb”，而是又新生成了字符串”aabb”，字符串”aa”一旦被初始化，那么它的">
+<meta name="keywords" content="Android Developer">
+<meta property="og:type" content="article">
+<meta property="og:title" content="java选择题">
+<meta property="og:url" content="http://yoursite.com/2018/09/10/java选择题/index.html">
+<meta property="og:site_name" content="FeishengQiu">
+<meta property="og:description" content="java选择题1.StringBuffer类对象创建之后可以再修改和变动. 正确：1.String对象不可变、StringBuffer对象可变的含义： 举个例子：String str = “aa”; str = “aa”+”bb”; 此时str的值为”aabb”，但是”aabb”不是在开始的字符串”aa”后面直接连接的”bb”，而是又新生成了字符串”aabb”，字符串”aa”一旦被初始化，那么它的">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://i.imgur.com/qYFPLUp.jpg">
+<meta property="og:image" content="https://i.imgur.com/LWhqylK.jpg">
+<meta property="og:image" content="https://i.imgur.com/qAyeOKE.jpg">
+<meta property="og:image" content="https://i.imgur.com/zibssyD.jpg">
+<meta property="og:image" content="https://i.imgur.com/ZIGqs9I.jpg">
+<meta property="og:updated_time" content="2018-11-14T07:22:50.271Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="java选择题">
+<meta name="twitter:description" content="java选择题1.StringBuffer类对象创建之后可以再修改和变动. 正确：1.String对象不可变、StringBuffer对象可变的含义： 举个例子：String str = “aa”; str = “aa”+”bb”; 此时str的值为”aabb”，但是”aabb”不是在开始的字符串”aa”后面直接连接的”bb”，而是又新生成了字符串”aabb”，字符串”aa”一旦被初始化，那么它的">
+<meta name="twitter:image" content="https://i.imgur.com/qYFPLUp.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/09/10/java选择题/"/>
+
+
+
+
+
+  <title>java选择题 | FeishengQiu</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">FeishengQiu</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">Keep learning all the time</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/09/10/java选择题/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="FeishengQiu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="FeishengQiu">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">java选择题</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-09-10T00:30:35+08:00">
+                2018-09-10
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="java选择题"><a href="#java选择题" class="headerlink" title="java选择题"></a>java选择题</h2><h3 id="1-StringBuffer类对象创建之后可以再修改和变动"><a href="#1-StringBuffer类对象创建之后可以再修改和变动" class="headerlink" title="1.StringBuffer类对象创建之后可以再修改和变动."></a>1.StringBuffer类对象创建之后可以再修改和变动.</h3><ul>
+<li><p>正确：1.String对象不可变、StringBuffer对象可变的含义： 举个例子：String str = “aa”; str = “aa”+”bb”; 此时str的值为”aabb”，但是”aabb”不是在开始的字符串”aa”后面直接连接的”bb”，而是又新生成了字符串”aabb”，字符串”aa”一旦被初始化，那么它的值不可能再改变了。 StringBuffer strb = StringBuffer(“aa”); strb.append(“bb”); 此时的strb的值也为”aabb”，但是”aabb”是直接在开始的字符串”aa”后面连接的“bb”，并没有生成新的字符串。String，StringBuffer，StringBuilder，都实现了CharSequence接口。<br>String是个不可继承类（final修饰），也是个不可变类（内部char数组被final修饰）。<br>StringBuffer和StringBuilder内部都是一般的动态数组，所以可变。前者是线程安全的，因为方法基本都被synchronized修饰了。</p>
+</li>
+<li><p>： Buf可变线安，s会变实体，Bui喜单线程</p>
+</li>
+</ul>
+<h3 id="2"><a href="#2" class="headerlink" title="2."></a>2.</h3><ul>
+<li><p><img src="https://i.imgur.com/qYFPLUp.jpg" alt=""></p>
+</li>
+<li><p>ABDCBDCB：for循环的执行顺序：for( 1; 2; 3){ 4; } :是1—2—4—3–2—4</p>
+</li>
+<li><p>：for执序，124，324</p>
+</li>
+</ul>
+<h3 id="3"><a href="#3" class="headerlink" title="3."></a>3.</h3><ul>
+<li><p><img src="https://i.imgur.com/LWhqylK.jpg" alt=""></p>
+</li>
+<li><p>1: 线程1，2不并发（就是顺序执行的意思）：那就是-1，+2，-1，+2=-1； 线程1，2部分并发（就是1执行到一半，然后a的初始值给线程2开始执行）：所以是 -1，-1，+2=0； 线程1，2完全并发（就是各走各的，同时进行，至于a的结果，就看情况）：以为两个的结果都是-1，所以答案就是-1;</p>
+</li>
+<li><p>：不并部完并</p>
+</li>
+</ul>
+<h3 id="4-已知如下的命令执行-java-MyTest-a-b-c-请问哪个语句是正确的？"><a href="#4-已知如下的命令执行-java-MyTest-a-b-c-请问哪个语句是正确的？" class="headerlink" title="4.已知如下的命令执行 java MyTest a b c 请问哪个语句是正确的？ ( )"></a>4.已知如下的命令执行 java MyTest a b c 请问哪个语句是正确的？ ( )</h3><ul>
+<li><p>args[0] = “a”，args[1]= “b”；因为默认 java后面的第一个字符串是字节码文件的名称，而a开始才是String args[]数组的值</p>
+</li>
+<li><p>：java字节码，第二开命令</p>
+</li>
+</ul>
+<h3 id="5-执行完以下代码-int-x-new-int-10-；后，以下哪项说明是正确的（-）"><a href="#5-执行完以下代码-int-x-new-int-10-；后，以下哪项说明是正确的（-）" class="headerlink" title="5.执行完以下代码 int [ ]  x = new int[10] ；后，以下哪项说明是正确的（ ）"></a>5.执行完以下代码 int [ ]  x = new int[10] ；后，以下哪项说明是正确的（ ）</h3><ul>
+<li><p>数组引用类型的变量的默认值为 null。当数组变量的实例后，如果没有没有显示的为每个元素赋值，Java 就会把该数组的所有元素初始化为其相应类型的默认值。<br>int型的默认值为0</p>
+</li>
+<li><p>：引默null,int默0；</p>
+</li>
+</ul>
+<h3 id="6"><a href="#6" class="headerlink" title="6."></a>6.</h3><ul>
+<li><p><img src="https://i.imgur.com/qAyeOKE.jpg" alt=""></p>
+</li>
+<li><p>blockAblockBblockA：1.首先，需要明白类的加载顺序。<br>(1) 父类静态对象和静态代码块<br>(2) 子类静态对象和静态代码块<br>(3) 父类非静态对象和非静态代码块<br>(4) 父类构造函数<br>(5) 子类 非静态对象和非静态代码块<br>(6) 子类构造函数<br>其中：类中静态块按照声明顺序执行，并且(1)和(2)不需要调用new类实例的时候就执行了(意思就是在类加载到方法区的时候执行的)<br>2.因而，整体的执行顺序为<br>public static Test  t1 = new Test();         //(1)<br>static<br>{<br>System.out.println(“blockB”);                //(2)<br>}<br>Test t2 =new Test();                             //(3)<br>在执行(1)时创建了一个Test对象，在这个过程中会执行非静态代码块和缺省的无参构造函数，在执行非静态代码块时就输出了blockA；然后执行(2)输出blockB；执行(3)的过程同样会执行非静态代码块和缺省的无参构造函数，在执行非静态代码块时输出blockA。因此，最终的结果为</p>
+</li>
+<li><p>：创对象，非块构</p>
+</li>
+</ul>
+<h3 id="7-以下集合对象中哪几个是线程安全的（）"><a href="#7-以下集合对象中哪几个是线程安全的（）" class="headerlink" title="7.以下集合对象中哪几个是线程安全的（）"></a>7.以下集合对象中哪几个是线程安全的（）</h3><ul>
+<li><p>简单记忆线程安全的集合类： 喂！SHE！  喂是指  vector，S是指 stack， H是指    hashtable，E是指：Eenumeration</p>
+</li>
+<li><p>：V，SHE</p>
+</li>
+</ul>
+<h3 id="8-下面有关java的instanceof、-、-amp-、-amp-amp-说法正确的有？"><a href="#8-下面有关java的instanceof、-、-amp-、-amp-amp-说法正确的有？" class="headerlink" title="8.下面有关java的instanceof、?、&amp;、&amp;&amp;说法正确的有？"></a>8.下面有关java的instanceof、?、&amp;、&amp;&amp;说法正确的有？</h3><ul>
+<li><p>instanceof 可用来判断某个实例变量是否属于某种类的类型。；”?：”  三目运算符；&amp;在逻辑运算中是非短路逻辑与，在位运算中是按位与；&amp;&amp; 逻辑运算：逻辑与</p>
+</li>
+<li><p>：&amp;： 1非2短2逻辑</p>
+</li>
+</ul>
+<h3 id="11-以下有关构造方法的说法，正确的是：（）"><a href="#11-以下有关构造方法的说法，正确的是：（）" class="headerlink" title="11.以下有关构造方法的说法，正确的是：（）"></a>11.以下有关构造方法的说法，正确的是：（）</h3><ul>
+<li>A一个类有多个构造方法便是重载的表现。重载参数列表不同。所以A是正确的。</li>
+<li>B：构造方法在类定义时被调用（错误）：构造方法是在对象创建时就被调用，用于初始化。</li>
+<li>C构造方法只能由对象中的其他方法调用（错误）构造方法是给与之对应的对象进行初始化，初始化的动作只执行一次。</li>
+<li><p>D：构造方法可以和类同名，也可以和类名不同（错误）构造方法必须与所在类的名称同名。</p>
+</li>
+<li><p>：重载构，创象调构执一次</p>
+</li>
+</ul>
+<h3 id="12-方法通常存储在进程中的哪一区（）"><a href="#12-方法通常存储在进程中的哪一区（）" class="headerlink" title="12.方法通常存储在进程中的哪一区（）"></a>12.方法通常存储在进程中的哪一区（）</h3><ul>
+<li>方法区；拓展：栈空间：存放对象引用（存放的值是对象实体的地址值）+局部变量；堆空间：存放对象实体；方法区：存放方法+字符串常量池</li>
+<li><p><img src="https://i.imgur.com/zibssyD.jpg" alt=""></p>
+</li>
+<li><p>：栈引用局部，堆存象实体，方区方字池</p>
+</li>
+</ul>
+<h3 id="13-下列语句正确的是（-）"><a href="#13-下列语句正确的是（-）" class="headerlink" title="13.下列语句正确的是（ ）"></a>13.下列语句正确的是（ ）</h3><ul>
+<li>形式参数可被视为local variable（局部变量）；</li>
+<li><p>拓展：形式参数可被所有的字段修饰符修饰X：（只能用final修饰或者不修饰）；形式参数为方法被调用时，是真正被传递的参数X：(真正传递的是实参)；形式参数不可以是对象X：（可以是对象，而且还经常用到）</p>
+</li>
+<li><p>：形参视局部，final来修饰，真传是实参，形参可对象</p>
+</li>
+</ul>
+<h3 id="14-下面有关java-object默认的基本方法，说法错误的是？"><a href="#14-下面有关java-object默认的基本方法，说法错误的是？" class="headerlink" title="14.下面有关java object默认的基本方法，说法错误的是？"></a>14.下面有关java object默认的基本方法，说法错误的是？</h3><ul>
+<li>copy() 创建并返回此对象的一个副本（因为object中没有copy（）这个方法）</li>
+<li><p>拓展：object，默认自带的方法是：getClass(), hashCode(), equals(), clone(), toString(), notify(), notifyAll(),  wait(), finalize()</p>
+</li>
+<li><p>：object无copy</p>
+</li>
+</ul>
+<h3 id="15-下列关于包（package）的描述，正确的是（）"><a href="#15-下列关于包（package）的描述，正确的是（）" class="headerlink" title="15.下列关于包（package）的描述，正确的是（）"></a>15.下列关于包（package）的描述，正确的是（）</h3><ul>
+<li>定义在同一个包（package）内的类可以不经过import而直接相互使用。</li>
+<li><p>拓展：包（package）是Java中描述操作系统对多个源代码文件组织的一种方式X（java是跨平台的，所以java中的包和操作系统没有任何关系，java的包是用来组织文件的一种虚拟文件系统。）；import语句将所对应的Java源文件拷贝到此处执行X（import语句并没有将对应的java源文件拷贝到此处仅仅是引入，告诉编译器有使用外部文件，编译的时候要去读取这个外部文件）</p>
+</li>
+<li><p>：同包无须impo</p>
+</li>
+</ul>
+<h3 id="16-一个文件中的数据要在控制台上显示，首先需要（-）。"><a href="#16-一个文件中的数据要在控制台上显示，首先需要（-）。" class="headerlink" title="16.一个文件中的数据要在控制台上显示，首先需要（ ）。"></a>16.一个文件中的数据要在控制台上显示，首先需要（ ）。</h3><ul>
+<li><p>FileInputStream fin = new FileInputStream(this.filename);。</p>
+</li>
+<li><p>:输入流显示</p>
+</li>
+</ul>
+<h3 id="17-顺序执行下列程序语句后，则b的值是（）"><a href="#17-顺序执行下列程序语句后，则b的值是（）" class="headerlink" title="17.顺序执行下列程序语句后，则b的值是（）"></a>17.顺序执行下列程序语句后，则b的值是（）</h3><ul>
+<li>String a=”Hello”;</li>
+<li><p>String b=a.subString(0,2);</p>
+</li>
+<li><p>答案：He; 因为String的subString方法是左闭右开</p>
+</li>
+<li><p>：傻逼（sub）左闭右开</p>
+</li>
+</ul>
+<h3 id="18-线程单独调用run方法，就如调用普通方法"><a href="#18-线程单独调用run方法，就如调用普通方法" class="headerlink" title="18.线程单独调用run方法，就如调用普通方法"></a>18.线程单独调用run方法，就如调用普通方法</h3><ul>
+<li><p><img src="https://i.imgur.com/ZIGqs9I.jpg" alt=""></p>
+</li>
+<li><p>结果是：foobar;</p>
+</li>
+<li><p>拓展：如果是调用.start()，那就是：foobar或者barfoo都有可能</p>
+</li>
+<li><p>：</p>
+</li>
+</ul>
+<h3 id="19-class-A-，class-B-extends-A-，class-C-extends-A-，class-D-extends-B-，Which-four-statements-are-true"><a href="#19-class-A-，class-B-extends-A-，class-C-extends-A-，class-D-extends-B-，Which-four-statements-are-true" class="headerlink" title="19.class A {}，class B extends A {}，class C extends A {}，class D extends B {}，Which four statements are true ?"></a>19.class A {}，class B extends A {}，class C extends A {}，class D extends B {}，Which four statements are true ?</h3><ul>
+<li><p>点只能给范围，范围能给大范围，&lt;?&gt;代表全部范围，&lt;?extends A&gt;代表小于A的范围，&lt;?super A&gt;代表小于A的范围,List= List&lt;?&gt;</p>
+</li>
+<li><p>点只能给范围，范围能给大范围</p>
+</li>
+</ul>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/09/04/S英库/" rel="next" title="EnglishWorld">
+                <i class="fa fa-chevron-left"></i> EnglishWorld
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/09/10/HR文档/" rel="prev" title="HR文档">
+                HR文档 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpg"
+                alt="FeishengQiu" />
+            
+              <p class="site-author-name" itemprop="name">FeishengQiu</p>
+              <p class="site-description motion-element" itemprop="description">Android Java</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">21</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#java选择题"><span class="nav-number">1.</span> <span class="nav-text">java选择题</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-StringBuffer类对象创建之后可以再修改和变动"><span class="nav-number">1.1.</span> <span class="nav-text">1.StringBuffer类对象创建之后可以再修改和变动.</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2"><span class="nav-number">1.2.</span> <span class="nav-text">2.</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3"><span class="nav-number">1.3.</span> <span class="nav-text">3.</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-已知如下的命令执行-java-MyTest-a-b-c-请问哪个语句是正确的？"><span class="nav-number">1.4.</span> <span class="nav-text">4.已知如下的命令执行 java MyTest a b c 请问哪个语句是正确的？ ( )</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-执行完以下代码-int-x-new-int-10-；后，以下哪项说明是正确的（-）"><span class="nav-number">1.5.</span> <span class="nav-text">5.执行完以下代码 int [ ]  x = new int[10] ；后，以下哪项说明是正确的（ ）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6"><span class="nav-number">1.6.</span> <span class="nav-text">6.</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-以下集合对象中哪几个是线程安全的（）"><span class="nav-number">1.7.</span> <span class="nav-text">7.以下集合对象中哪几个是线程安全的（）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8-下面有关java的instanceof、-、-amp-、-amp-amp-说法正确的有？"><span class="nav-number">1.8.</span> <span class="nav-text">8.下面有关java的instanceof、?、&amp;、&amp;&amp;说法正确的有？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#11-以下有关构造方法的说法，正确的是：（）"><span class="nav-number">1.9.</span> <span class="nav-text">11.以下有关构造方法的说法，正确的是：（）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#12-方法通常存储在进程中的哪一区（）"><span class="nav-number">1.10.</span> <span class="nav-text">12.方法通常存储在进程中的哪一区（）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#13-下列语句正确的是（-）"><span class="nav-number">1.11.</span> <span class="nav-text">13.下列语句正确的是（ ）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#14-下面有关java-object默认的基本方法，说法错误的是？"><span class="nav-number">1.12.</span> <span class="nav-text">14.下面有关java object默认的基本方法，说法错误的是？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#15-下列关于包（package）的描述，正确的是（）"><span class="nav-number">1.13.</span> <span class="nav-text">15.下列关于包（package）的描述，正确的是（）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#16-一个文件中的数据要在控制台上显示，首先需要（-）。"><span class="nav-number">1.14.</span> <span class="nav-text">16.一个文件中的数据要在控制台上显示，首先需要（ ）。</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#17-顺序执行下列程序语句后，则b的值是（）"><span class="nav-number">1.15.</span> <span class="nav-text">17.顺序执行下列程序语句后，则b的值是（）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#18-线程单独调用run方法，就如调用普通方法"><span class="nav-number">1.16.</span> <span class="nav-text">18.线程单独调用run方法，就如调用普通方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#19-class-A-，class-B-extends-A-，class-C-extends-A-，class-D-extends-B-，Which-four-statements-are-true"><span class="nav-number">1.17.</span> <span class="nav-text">19.class A {}，class B extends A {}，class C extends A {}，class D extends B {}，Which four statements are true ?</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">FeishengQiu</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
