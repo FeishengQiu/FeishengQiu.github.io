@@ -233,6 +233,329 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/09/10/面试官2（Android二阶高级）/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="FeishengQiu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="FeishengQiu">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/09/10/面试官2（Android二阶高级）/" itemprop="url">Android二阶</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-09-10T00:30:35+08:00">
+                2018-09-10
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="Android二阶"><a href="#Android二阶" class="headerlink" title="Android二阶"></a>Android二阶</h2><h3 id="1-自定义View的流程"><a href="#1-自定义View的流程" class="headerlink" title="1.自定义View的流程"></a>1.自定义View的流程</h3><ul>
+<li>首先创建一个类继承View或者ViewGroup,重载构造方法，做一些初始化操作并获取自定义属性，通过AttributeSet对象attrs获取他们的值（4个构造方法）</li>
+<li>其次重写onMeasure()方法，设置自定义View的宽高，如果自定义view属于ViewGroup，还会设置及测量子View的宽高；此时会涉及到类MeasureSpec，有三种测量模式，EXACTLY：设置了精确值；AT_MOST，布局被限定在一个最大值内；UNSPECIFIED：布局要多大就有多大，ScrollView的childView的heightMode中；此种模式比较少见。</li>
+<li>再重写onLayout（）方法：主要是用于确定子View的具体布局位置，一般是在继承了ViewGroup的时候需要重写这个方法，（一般都是在onLayout中获取所有的子类，然后根据需求计算出子View的位置参数，再通过调用子View的layout(l,t, r, b)方法设置子View的位置。）</li>
+<li><p>重写onDraw方法：绘制内容，这部分也决定了自定义View的具体效果</p>
+</li>
+<li><p>继承View/ViewGroup—重载构造方法，进行初始化操作和获取自定义属性—重写onMeasure()方法，测量View自身的大小（利用MeasureSpec类.getMode,getSize和三种模式值）—重写onSizeChanged方法（View大小确定的时候回调）—重写onLayout方法确定子View的位置参数—重写onDraw方法：绘制内容，这部分也决定了自定义View的具体效果</p>
+</li>
+</ul>
+<h3 id="2-事件触发机制：-onTouch-和-onTouchEvent-有什么区别，又该如何使用"><a href="#2-事件触发机制：-onTouch-和-onTouchEvent-有什么区别，又该如何使用" class="headerlink" title="2.事件触发机制： onTouch 和 onTouchEvent 有什么区别，又该如何使用"></a>2.事件触发机制： onTouch 和 onTouchEvent 有什么区别，又该如何使用</h3><ul>
+<li>这两个方法都是在 View 的 dispatchTouchEvent 中调用的，onTouch 优先于 onTouchEvent执行。如果在 onTouch 方法中通过返回 true 将事件消费掉，onTouchEvent 将不会再执行。（ mOnTouchListener 的值<br>不能为空，控件enable）</li>
+</ul>
+<h3 id="3-请描述一下-Android-的事件分发机制"><a href="#3-请描述一下-Android-的事件分发机制" class="headerlink" title="3.请描述一下 Android 的事件分发机制"></a>3.请描述一下 Android 的事件分发机制</h3><ul>
+<li><p>首先，事件分发的顺序是从：Activity到ViewGroup到View; 当一个点击事件发生时，事件最先传到Activity的dispatchTouchEvent()进行事件分发，（true和false都消费掉事件）然后默认传递到ViewGroup的dispatchTouchEvent()，此时return true就会消费掉事件，return false就会返回到Activity的onTouchEvent进行处理，默认是传给ViewGroup的拦截器onIntercreptTouchEvent,拦截器return true则就会把事件传给viewgroup的onTouchEvent自己处理，return false或者默认状态下都传递给view的dispatchTouchEvent,return false的话就会传递给viewgroup的onTouchEvent，return true 就会消费掉，默认就会传递给view的onTouchEvent,false和默认都是往上一层的onTouchEvent传递，true就会消费掉事件</p>
+</li>
+<li><p>只有ViewGroup有拦截器onIntercreptTouchEvent，viewgroup是一组viw的集合，本质是view，是layout的父类</p>
+</li>
+</ul>
+<h3 id="4-理解Http-TCP-UDP-IP-TCP-IP的关系"><a href="#4-理解Http-TCP-UDP-IP-TCP-IP的关系" class="headerlink" title="4.理解Http,TCP,UDP,IP,TCP/IP的关系"></a>4.理解Http,TCP,UDP,IP,TCP/IP的关系</h3><ul>
+<li>首先，TCP/IP协议是一个协议族的总称，是一个四层结构的协议： 有数据—&gt;才有网络(IP)—&gt;才能传输（TCP UDP）—&gt;才能应用</li>
+<li>每个层次都有相对应的功能和协议，例如Http协议：超文本传输协议，就是应用层的协议，用于实现互联网中的 WWW 服务，使用端口 80；Tcp,UDP都是传输层的协议，区别如下：</li>
+<li>HTTP连接最显著的特点是客户端发送的每次请求都需要服务器回送响应，在请求结束后，会主动释放连接。从建立连接到关闭连接的过程称为“一次连接”。</li>
+<li><img src="https://i.imgur.com/qUGrXhO.jpg" alt=""></li>
+</ul>
+<h3 id="5-对Socket的理解"><a href="#5-对Socket的理解" class="headerlink" title="5.对Socket的理解"></a>5.对Socket的理解</h3><ul>
+<li><p>socket很直白的翻译是：套接字；套接字就是ip地址和端口号的组合，网络通信的本质就是socket通信；通信就需要客户端和服务端，两端都需要有一个socket,一个发送，一个接收；socket之间的数据传输是以IO流的形式进行的； 客户端发送完之后write  需要加一句shutdownOutput();就不会一直阻塞，可以让服务端知道已经发送完了，我可以响应和回复你了</p>
+</li>
+<li><p><img src="https://i.imgur.com/K31bi71.jpg" alt=""></p>
+</li>
+</ul>
+<h3 id="6-Android如何避免OOM"><a href="#6-Android如何避免OOM" class="headerlink" title="6.Android如何避免OOM"></a>6.Android如何避免OOM</h3><ul>
+<li>OOM内存溢出就是你要求被分配的内存超出了系统能给你的内存，系统不能满足你的需求，于是产生溢出。</li>
+<li>内存泄漏指的是无法释放申请到的内存空间</li>
+<li>要避免内存溢出，就应该要知道哪些情况下会导致内存溢出</li>
+<li>图片过大导致 OOM，此时我们可以等比例缩小图片，调用BitmapFactory.decodeResource方法，和options</li>
+<li>可以对图片采用软引用，内存不足的时候会自动回收</li>
+<li>使用封装好的第三方框架，例如Glide和Picasso来加载图片</li>
+<li>Bitmap 对象不再使用时调用 recycle()释放内存</li>
+<li>避免XML的重复加载，横竖屏，</li>
+<li>构造 Adapter 时，没有使用缓存的 convertView，应该要复用convertView，提高性能</li>
+</ul>
+<h3 id="7-Android近几年新版本的特性和怎么看待kotlin"><a href="#7-Android近几年新版本的特性和怎么看待kotlin" class="headerlink" title="7.Android近几年新版本的特性和怎么看待kotlin"></a>7.Android近几年新版本的特性和怎么看待kotlin</h3><ul>
+<li>Android5系列，加入了material design,UI风格非常舒服好看；同时改善了通知栏，锁屏的时候也可以接受到通知</li>
+<li>Android6系列，新增运行时权限概念，用户可以对app控制应用权限；还要瞌睡模式，待机模式，可以提高电池性能</li>
+<li>Android7系列，通知栏快捷回复，加入原生分屏多任务功能，多任务快速切换</li>
+<li>Android8系列O，画中画模式，就是应用的悬浮窗口，跟微信的悬浮窗很像</li>
+<li>自动填充，快速登录；后台进程限制，最大程度减小后台应用对电池的消耗和对资源的占用</li>
+<li>Android P(pie):Android P 增加对凹口屏幕的支持,刘海屏</li>
+<li>新的菜单，    铃声滑块；以机器学习为核心，自适应电源管理，自适应亮度调节，应用操作预测；</li>
+<li>Kotlin是一种基于JVM的静态类型编程语言；语法简洁不啰嗦（学习起来很快）；与Java（以及JVM）的完全互操作性；Kotlin 和java的交互性很好，java的很多框架库都可以无缝连接；Kotlin 每个句子都不需要加分号 ；还有解决了空指针安全问题；性能高；个人转OK，团队转，还需要一些时间，毕竟需要学习成本和编程习惯的改变</li>
+</ul>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/09/10/HR文档/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="FeishengQiu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="FeishengQiu">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/09/10/HR文档/" itemprop="url">HR文档</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-09-10T00:30:35+08:00">
+                2018-09-10
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="HR文档："><a href="#HR文档：" class="headerlink" title="HR文档："></a>HR文档：</h2><h3 id="你有什么想问的吗？"><a href="#你有什么想问的吗？" class="headerlink" title="你有什么想问的吗？"></a>你有什么想问的吗？</h3><ul>
+<li><p>1.为了更好地胜任这个岗位，在入职之前，我还需要提前自学和补充哪些技能知识？ 谢谢！</p>
+</li>
+<li><p>2.贵公司的哪些优势和亮点，让您一直想在那里工作？ 谢谢！</p>
+</li>
+<li><p>3.在贵公司工作的这些年，让最深刻的一件事是什么？ 谢谢！</p>
+</li>
+<li><p>4.（HR）：试用期的考核标准是什么？入职前应该要提前自学和补充哪些技能知识？</p>
+</li>
+</ul>
+<h3 id="你对加班怎么看？"><a href="#你对加班怎么看？" class="headerlink" title="你对加班怎么看？"></a>你对加班怎么看？</h3><ul>
+<li>因为工作需要的加班我是可以接受的；同时我也会在熟悉工作内容的基础上，尽可能的提高工作效率，避免没有必要的加班；</li>
+</ul>
+<h3 id="你认为这份工作可能面临的最大困难是什么？你将如何应对？"><a href="#你认为这份工作可能面临的最大困难是什么？你将如何应对？" class="headerlink" title="你认为这份工作可能面临的最大困难是什么？你将如何应对？"></a>你认为这份工作可能面临的最大困难是什么？你将如何应对？</h3><ul>
+<li>对于职场新人，我觉得我最可能面临的问题是：对公司、行业和工作流程的不熟悉，在入职之前，为了更快的上手工作和融入团队，我愿意花足够的时间，主动的去学习和了解，补充技能知识。谢谢！</li>
+</ul>
+<h3 id="说说你过往经历（工作中）最大的困难（障碍），你当时如何处理的？"><a href="#说说你过往经历（工作中）最大的困难（障碍），你当时如何处理的？" class="headerlink" title="说说你过往经历（工作中）最大的困难（障碍），你当时如何处理的？"></a>说说你过往经历（工作中）最大的困难（障碍），你当时如何处理的？</h3><ul>
+<li>我过往经历中最大的困难是创新创业项目：专业帮应用缺乏数据支持。当时的情况是：我们的专业帮有一个专业发展指导的板块，包括专业介绍，对口职业介绍，课程介绍，本来与我们学校负责职业发展规划的老师谈好，我们负责搭品台，她负责给数据，但是后面鉴于为了保护学生隐私和数据不够丰富的原因，就放弃合作了，只能让我们自己去找数据。 经过整个团队的讨论，和请教指导老师，我们决定分工到各大相应的网站去寻找目标数据，经过一星期的努力和熬夜，最终解决了这个问题。</li>
+<li>最后总结一下收获：在工作上，遇到问题是必然的，工作本来就是为了帮助公司解决某些方面的问题，从容的心态和分析问题的能力非常重要，团队沟通和一起合作，解决困难是没问题的。谢谢！</li>
+</ul>
+<h3 id="你为什么会选择我们公司？考虑哪些因素？"><a href="#你为什么会选择我们公司？考虑哪些因素？" class="headerlink" title="你为什么会选择我们公司？考虑哪些因素？"></a>你为什么会选择我们公司？考虑哪些因素？</h3><ul>
+<li>我个人喜欢并倾向于IT行业，我非常认同这个行业的发展前景，贵公司在该行业中的发展态势我也非常看好；贵公司提供的是Android开发工程师职位，这是我倾向并擅长的，我非常期待能在这个岗位上做出成绩； 谢谢！</li>
+</ul>
+<h3 id="你对薪资福利待遇是如何考虑的-？"><a href="#你对薪资福利待遇是如何考虑的-？" class="headerlink" title="你对薪资福利待遇是如何考虑的 ？"></a>你对薪资福利待遇是如何考虑的 ？</h3><ul>
+<li>薪资方面是我找工作会考虑的因素，但也不是唯一考虑的部分，行业、公司、工作机会及未来的成长是我更看重的；我应聘的是Android开发工程师的岗位，在市场平均水平范围内的薪资我都是能接受的；在足够胜任岗位要求后，我相信贵公司也会给我一个满意的薪资方案； </li>
+<li>税前9k</li>
+</ul>
+<h3 id="未来3-5年你的职业规划是如何考虑的？"><a href="#未来3-5年你的职业规划是如何考虑的？" class="headerlink" title="未来3-5年你的职业规划是如何考虑的？"></a>未来3-5年你的职业规划是如何考虑的？</h3><ul>
+<li>因为我选择的是XX开发工程师的岗位，所以我未来职业方向在技术开发方面；那短期内，我想先脚踏实地的将本职工作做好，积累一些实战经验，精进我的技术水平；当然，长远考虑我想在各方面成熟后，能够向产品/运营/综合管理方面发展，项目经理是我的发展方向之一。谢谢！</li>
+</ul>
+<h3 id="你希望在未来的工作中接触到哪些具体的培训及培养方案？"><a href="#你希望在未来的工作中接触到哪些具体的培训及培养方案？" class="headerlink" title="你希望在未来的工作中接触到哪些具体的培训及培养方案？"></a>你希望在未来的工作中接触到哪些具体的培训及培养方案？</h3><ul>
+<li>于岗位胜任的基础上，我希望能学习到关于行业、公司及流程方面的培训内容，当然在这个过程中，我自己也会主动的去学习，希望能尽快上手开展工作；在胜任岗位工作要的基础上，我希望能有机会接触到更多的工作内容，承担更重要的工作职责，当然我自己也会重视经验的积累和技能的提升，希望公司也会有相关的培养及发展方案；</li>
+<li>谢谢！！！！</li>
+</ul>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/09/04/S英库/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2424,282 +2747,6 @@ public boolean dispatchTouchEvent(MotionEvent ev) {
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/08/Java简答题/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="FeishengQiu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="FeishengQiu">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/07/08/Java简答题/" itemprop="url">Java 83题备注</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-07-08T00:30:35+08:00">
-                2018-07-08
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="题1-为什么只能有一个public的类？"><a href="#题1-为什么只能有一个public的类？" class="headerlink" title="题1.为什么只能有一个public的类？"></a>题1.为什么只能有一个public的类？</h3><ul>
-<li><p>因为public类的名字要和java文件名相同，文件名只有一个，当然只能有一个public类，当然更深层的原因应该是跟这是java的设计和jvm有关，是一种规范</p>
-</li>
-<li><p>：一文一pub多cla</p>
-</li>
-</ul>
-<h3 id="题2-Java有goto保留字，但是为什么不使用呢？"><a href="#题2-Java有goto保留字，但是为什么不使用呢？" class="headerlink" title="题2.Java有goto保留字，但是为什么不使用呢？"></a>题2.Java有goto保留字，但是为什么不使用呢？</h3><ul>
-<li><p>用goto写跳转语句比较容易，但是容易造成代码的混乱，比较难读，因为goto可以往前跳，也可以往后跳，阅读代码就要花更多时间了。至于为什么要保留，我想可能是因为随着java的发展，这个关键字还会起到更大的作用吧，不想一刀切，直接抛弃goto，存在即合理</p>
-</li>
-<li><p>：goto跳转造混乱</p>
-</li>
-</ul>
-<h3 id="题3-说说-amp-和-amp-amp-的区别"><a href="#题3-说说-amp-和-amp-amp-的区别" class="headerlink" title="题3.说说&amp;和&amp;&amp;的区别"></a>题3.说说&amp;和&amp;&amp;的区别</h3><ul>
-<li>首先，&amp;和&amp;&amp;都可以作为逻辑与的运算符，当运算符两边的表达的结果都为ture时，最终结果才为true，只要有一个是false，最终结果就是false</li>
-<li>区别在于：&amp;&amp;的第一个表达式如果为false,则不再计算第二个表达式，例如if（a!=0&amp;&amp;++b&gt;2）,如果a=0,为false，那后面的表达式不会执行,如果改为&amp;，后面的++b会执行，b的值会加1</li>
-<li><p>&amp;还可以作为位运算符，一般是使用0x0f来与一个整数进行&amp;运算，然后获取该整数的最低4个bit位，例如：0x31&amp;0x0f就是等于0x01</p>
-</li>
-<li><p>：单与算两侧，单与算位运</p>
-</li>
-</ul>
-<h3 id="题4-OK-：最外层定义一个标号，ok-然后里面break-ok-外层的循环条件收到里层循环条件的限制"><a href="#题4-OK-：最外层定义一个标号，ok-然后里面break-ok-外层的循环条件收到里层循环条件的限制" class="headerlink" title="题4.OK!：最外层定义一个标号，ok: 然后里面break ok;+外层的循环条件收到里层循环条件的限制"></a>题4.OK!：最外层定义一个标号，ok: 然后里面break ok;+外层的循环条件收到里层循环条件的限制</h3><ul>
-<li><p>盲点：二维数组的元素对象是一维数组，就这么记忆就行了</p>
-</li>
-<li><p>:break ok：跳多循</p>
-</li>
-</ul>
-<h3 id="题5：OK：byte-short-int-char-String-枚举常量"><a href="#题5：OK：byte-short-int-char-String-枚举常量" class="headerlink" title="题5：OK：byte,short int,char,String,枚举常量"></a>题5：OK：byte,short int,char,String,枚举常量</h3><ul>
-<li>：白缩赢char7String</li>
-</ul>
-<h3 id="题6：OK-编译错误，因为整型提升，不能赋给short-自加运算，编译器特殊处理，所以不会报错"><a href="#题6：OK-编译错误，因为整型提升，不能赋给short-自加运算，编译器特殊处理，所以不会报错" class="headerlink" title="题6：OK:编译错误，因为整型提升，不能赋给short;自加运算，编译器特殊处理，所以不会报错"></a>题6：OK:编译错误，因为整型提升，不能赋给short;自加运算，编译器特殊处理，所以不会报错</h3><ul>
-<li>:自动提升类型int，编译器会强报错；增加运算特处理</li>
-</ul>
-<h3 id="题7：OK-char里面存储的本质是：数字；然后每个数字代表Unicode编码字符集中的一个字符，Unicode字符集包含了中文汉字，当然可以存储一个中文汉字"><a href="#题7：OK-char里面存储的本质是：数字；然后每个数字代表Unicode编码字符集中的一个字符，Unicode字符集包含了中文汉字，当然可以存储一个中文汉字" class="headerlink" title="题7：OK:char里面存储的本质是：数字；然后每个数字代表Unicode编码字符集中的一个字符，Unicode字符集包含了中文汉字，当然可以存储一个中文汉字"></a>题7：OK:char里面存储的本质是：数字；然后每个数字代表Unicode编码字符集中的一个字符，Unicode字符集包含了中文汉字，当然可以存储一个中文汉字</h3><h3 id="题8：OK-左移3位，CPU支持位运算，效率最高"><a href="#题8：OK-左移3位，CPU支持位运算，效率最高" class="headerlink" title="题8：OK:左移3位，CPU支持位运算，效率最高"></a>题8：OK:左移3位，CPU支持位运算，效率最高</h3><h3 id="题9：OK：默写一下代码"><a href="#题9：OK：默写一下代码" class="headerlink" title="题9：OK：默写一下代码"></a>题9：OK：默写一下代码</h3><h3 id="题10：OK：分类讨论，是引用不能变，所指向的对象的内容可以变：例如-final-Student-student1-new-Student-“xiaoming”"><a href="#题10：OK：分类讨论，是引用不能变，所指向的对象的内容可以变：例如-final-Student-student1-new-Student-“xiaoming”" class="headerlink" title="题10：OK：分类讨论，是引用不能变，所指向的对象的内容可以变：例如 final Student student1=new Student(“xiaoming”);"></a>题10：OK：分类讨论，是引用不能变，所指向的对象的内容可以变：例如 final Student student1=new Student(“xiaoming”);</h3><h3 id="题11：Ok-比较的是两个变量的值是否相等，如果比较的变量是基本数据类型，则直接比较，如果是引用类型，则比较的是两个对象的首地址，这时候涉及到两块内存，……equals方法涉及的就是重不重写的问题，如果重写，例如String的equals-比较的就是两个字符串的内容是否相同，即对象内容是否相同；如果不重写，继承的就是Object类的equals方法，跟-操作符一样，比较的就是两个对象的首地址是否相同"><a href="#题11：Ok-比较的是两个变量的值是否相等，如果比较的变量是基本数据类型，则直接比较，如果是引用类型，则比较的是两个对象的首地址，这时候涉及到两块内存，……equals方法涉及的就是重不重写的问题，如果重写，例如String的equals-比较的就是两个字符串的内容是否相同，即对象内容是否相同；如果不重写，继承的就是Object类的equals方法，跟-操作符一样，比较的就是两个对象的首地址是否相同" class="headerlink" title="题11：Ok:==比较的是两个变量的值是否相等，如果比较的变量是基本数据类型，则直接比较，如果是引用类型，则比较的是两个对象的首地址，这时候涉及到两块内存，……equals方法涉及的就是重不重写的问题，如果重写，例如String的equals,比较的就是两个字符串的内容是否相同，即对象内容是否相同；如果不重写，继承的就是Object类的equals方法，跟==操作符一样，比较的就是两个对象的首地址是否相同"></a>题11：Ok:==比较的是两个变量的值是否相等，如果比较的变量是基本数据类型，则直接比较，如果是引用类型，则比较的是两个对象的首地址，这时候涉及到两块内存，……equals方法涉及的就是重不重写的问题，如果重写，例如String的equals,比较的就是两个字符串的内容是否相同，即对象内容是否相同；如果不重写，继承的就是Object类的equals方法，跟==操作符一样，比较的就是两个对象的首地址是否相同</h3><h3 id="题12：OK-实例变量必须创建对象后才能通过这个对象来使用，因为实例变量是属于某个对象的属性，只有创建对象才能分配内存空间，才能使用这个实例变量；静态变量是依赖类而创建的，不依赖对象，直接分配空间，用类名就可以直接调用-举例子"><a href="#题12：OK-实例变量必须创建对象后才能通过这个对象来使用，因为实例变量是属于某个对象的属性，只有创建对象才能分配内存空间，才能使用这个实例变量；静态变量是依赖类而创建的，不依赖对象，直接分配空间，用类名就可以直接调用-举例子" class="headerlink" title="题12：OK:实例变量必须创建对象后才能通过这个对象来使用，因为实例变量是属于某个对象的属性，只有创建对象才能分配内存空间，才能使用这个实例变量；静态变量是依赖类而创建的，不依赖对象，直接分配空间，用类名就可以直接调用+举例子"></a>题12：OK:实例变量必须创建对象后才能通过这个对象来使用，因为实例变量是属于某个对象的属性，只有创建对象才能分配内存空间，才能使用这个实例变量；静态变量是依赖类而创建的，不依赖对象，直接分配空间，用类名就可以直接调用+举例子</h3><h3 id="题13：OK"><a href="#题13：OK" class="headerlink" title="题13：OK"></a>题13：OK</h3><h3 id="题14：OK：答区别的时候，先分别回答分别是什么，然后再答彼此间的联系，-举例"><a href="#题14：OK：答区别的时候，先分别回答分别是什么，然后再答彼此间的联系，-举例" class="headerlink" title="题14：OK：答区别的时候，先分别回答分别是什么，然后再答彼此间的联系，+举例"></a>题14：OK：答区别的时候，先分别回答分别是什么，然后再答彼此间的联系，+举例</h3><h3 id="题15：OK-Math里有三个跟取整有关系的API：ceil向上取整，floor向下取整，round是四舍五入，-0-5向下取整"><a href="#题15：OK-Math里有三个跟取整有关系的API：ceil向上取整，floor向下取整，round是四舍五入，-0-5向下取整" class="headerlink" title="题15：OK:Math里有三个跟取整有关系的API：ceil向上取整，floor向下取整，round是四舍五入，+0.5向下取整"></a>题15：OK:Math里有三个跟取整有关系的API：ceil向上取整，floor向下取整，round是四舍五入，+0.5向下取整</h3><h3 id="题16：小问题"><a href="#题16：小问题" class="headerlink" title="题16：小问题"></a>题16：小问题</h3><h3 id="题17：OK-4321"><a href="#题17：OK-4321" class="headerlink" title="题17：OK:4321"></a>题17：OK:4321</h3><h3 id="题18：OK：重写只能改方法体，权限修饰符，小异常；父类private的方法重写不了；重载的注意点是不能通过访问权限，修饰符，抛异常来重载"><a href="#题18：OK：重写只能改方法体，权限修饰符，小异常；父类private的方法重写不了；重载的注意点是不能通过访问权限，修饰符，抛异常来重载" class="headerlink" title="题18：OK：重写只能改方法体，权限修饰符，小异常；父类private的方法重写不了；重载的注意点是不能通过访问权限，修饰符，抛异常来重载"></a>题18：OK：重写只能改方法体，权限修饰符，小异常；父类private的方法重写不了；重载的注意点是不能通过访问权限，修饰符，抛异常来重载</h3><h3 id="题19：OK-不可重写，但可重载，因为不可继承"><a href="#题19：OK-不可重写，但可重载，因为不可继承" class="headerlink" title="题19：OK:不可重写，但可重载，因为不可继承"></a>题19：OK:不可重写，但可重载，因为不可继承</h3><h3 id="题20：OK：抽象类与普通类的唯一区别就是不能创建对象和允许有abstract方法，其他的继承与接口功能都一样可以实现，可以使用匿名内部类或者子类来重写抽象方法创建实例，就算可以实例化，没有方法体，也没有意义！！！"><a href="#题20：OK：抽象类与普通类的唯一区别就是不能创建对象和允许有abstract方法，其他的继承与接口功能都一样可以实现，可以使用匿名内部类或者子类来重写抽象方法创建实例，就算可以实例化，没有方法体，也没有意义！！！" class="headerlink" title="题20：OK：抽象类与普通类的唯一区别就是不能创建对象和允许有abstract方法，其他的继承与接口功能都一样可以实现，可以使用匿名内部类或者子类来重写抽象方法创建实例，就算可以实例化，没有方法体，也没有意义！！！"></a>题20：OK：抽象类与普通类的唯一区别就是不能创建对象和允许有abstract方法，其他的继承与接口功能都一样可以实现，可以使用匿名内部类或者子类来重写抽象方法创建实例，就算可以实例化，没有方法体，也没有意义！！！</h3><h3 id="题21：OK：super-clone-先复制父类的成员，再复制到自己？？？"><a href="#题21：OK：super-clone-先复制父类的成员，再复制到自己？？？" class="headerlink" title="题21：OK：super.clone();先复制父类的成员，再复制到自己？？？"></a>题21：OK：super.clone();先复制父类的成员，再复制到自己？？？</h3><h3 id="题22：OK：封装（模块化思想，降低耦合性，防止程序相互依赖而带来的变动影响）-继承（提高代码的复用性和编码效率）-多态"><a href="#题22：OK：封装（模块化思想，降低耦合性，防止程序相互依赖而带来的变动影响）-继承（提高代码的复用性和编码效率）-多态" class="headerlink" title="题22：OK：封装（模块化思想，降低耦合性，防止程序相互依赖而带来的变动影响）+继承（提高代码的复用性和编码效率）+多态"></a>题22：OK：封装（模块化思想，降低耦合性，防止程序相互依赖而带来的变动影响）+继承（提高代码的复用性和编码效率）+多态</h3><h3 id="题23：OK-父类或者接口定义的引用变量可以指向子类或者具体实现类的实例对象，而程序调用的方法在运行时才动态绑定：例如-Person-p-new-Student-“小明”-；-p-getName-调用的就是Student的getName-方法，很多时候可以减少形参类型而增加的方法数量"><a href="#题23：OK-父类或者接口定义的引用变量可以指向子类或者具体实现类的实例对象，而程序调用的方法在运行时才动态绑定：例如-Person-p-new-Student-“小明”-；-p-getName-调用的就是Student的getName-方法，很多时候可以减少形参类型而增加的方法数量" class="headerlink" title="题23：OK:父类或者接口定义的引用变量可以指向子类或者具体实现类的实例对象，而程序调用的方法在运行时才动态绑定：例如 Person p=new Student(“小明”)； p.getName();调用的就是Student的getName()方法，很多时候可以减少形参类型而增加的方法数量"></a>题23：OK:父类或者接口定义的引用变量可以指向子类或者具体实现类的实例对象，而程序调用的方法在运行时才动态绑定：例如 Person p=new Student(“小明”)； p.getName();调用的就是Student的getName()方法，很多时候可以减少形参类型而增加的方法数量</h3><h3 id="题24：OK：抽象类的最大应用就是：抽象基类，子类各自重写其他abstract方法完成自己的业务，相同的业务用final方法来修饰即可，可以大大提高代码的复用性（抽象类的构造器是为了留着去初始化其他的变量）"><a href="#题24：OK：抽象类的最大应用就是：抽象基类，子类各自重写其他abstract方法完成自己的业务，相同的业务用final方法来修饰即可，可以大大提高代码的复用性（抽象类的构造器是为了留着去初始化其他的变量）" class="headerlink" title="题24：OK：抽象类的最大应用就是：抽象基类，子类各自重写其他abstract方法完成自己的业务，相同的业务用final方法来修饰即可，可以大大提高代码的复用性（抽象类的构造器是为了留着去初始化其他的变量）"></a>题24：OK：抽象类的最大应用就是：抽象基类，子类各自重写其他abstract方法完成自己的业务，相同的业务用final方法来修饰即可，可以大大提高代码的复用性（抽象类的构造器是为了留着去初始化其他的变量）</h3><h3 id="题25：OK：static-因为一个abstract方法没有方法体。静态方法需要对方法体执行内容分配空间，所以不能同static共存；native-是把方法移交给本地操作系统，而abstract是移交给子类实现，相互矛盾"><a href="#题25：OK：static-因为一个abstract方法没有方法体。静态方法需要对方法体执行内容分配空间，所以不能同static共存；native-是把方法移交给本地操作系统，而abstract是移交给子类实现，相互矛盾" class="headerlink" title="题25：OK：static:因为一个abstract方法没有方法体。静态方法需要对方法体执行内容分配空间，所以不能同static共存；native:是把方法移交给本地操作系统，而abstract是移交给子类实现，相互矛盾"></a>题25：OK：static:因为一个abstract方法没有方法体。静态方法需要对方法体执行内容分配空间，所以不能同static共存；native:是把方法移交给本地操作系统，而abstract是移交给子类实现，相互矛盾</h3><h3 id="题26：OK：匿名-不给出具体的子类或实现类的名称，只有对象实体；内部类特点：可以在两个地方定义，可以访问外部类的成员变量，不能定义静态成员：成员内部类，局部内部类，静态内部类，匿名内部类（不能加修饰符）"><a href="#题26：OK：匿名-不给出具体的子类或实现类的名称，只有对象实体；内部类特点：可以在两个地方定义，可以访问外部类的成员变量，不能定义静态成员：成员内部类，局部内部类，静态内部类，匿名内部类（不能加修饰符）" class="headerlink" title="题26：OK：匿名==不给出具体的子类或实现类的名称，只有对象实体；内部类特点：可以在两个地方定义，可以访问外部类的成员变量，不能定义静态成员：成员内部类，局部内部类，静态内部类，匿名内部类（不能加修饰符）"></a>题26：OK：匿名==不给出具体的子类或实现类的名称，只有对象实体；内部类特点：可以在两个地方定义，可以访问外部类的成员变量，不能定义静态成员：成员内部类，局部内部类，静态内部类，匿名内部类（不能加修饰符）</h3><h3 id="题27：OK：除了静态内部类比较特殊，只能访问外部类的静态变量，其他的内部类都能访问外部类的成员变量（引用-调用）"><a href="#题27：OK：除了静态内部类比较特殊，只能访问外部类的静态变量，其他的内部类都能访问外部类的成员变量（引用-调用）" class="headerlink" title="题27：OK：除了静态内部类比较特殊，只能访问外部类的静态变量，其他的内部类都能访问外部类的成员变量（引用==调用）"></a>题27：OK：除了静态内部类比较特殊，只能访问外部类的静态变量，其他的内部类都能访问外部类的成员变量（引用==调用）</h3><h3 id="题28：OK-匿名内部类必须继承其他类或实现接口（new-Thread-…-继承的就是Thread，匿名-真正的子类名没给出来）"><a href="#题28：OK-匿名内部类必须继承其他类或实现接口（new-Thread-…-继承的就是Thread，匿名-真正的子类名没给出来）" class="headerlink" title="题28：OK:匿名内部类必须继承其他类或实现接口（new Thread(){…..},继承的就是Thread，匿名==真正的子类名没给出来）"></a>题28：OK:匿名内部类必须继承其他类或实现接口（new Thread(){…..},继承的就是Thread，匿名==真正的子类名没给出来）</h3><h3 id="题29-OK：super-getClass-getClass-所以答案当然是Test"><a href="#题29-OK：super-getClass-getClass-所以答案当然是Test" class="headerlink" title="题29.OK：super.getClass()==getClass():所以答案当然是Test"></a>题29.OK：super.getClass()==getClass():所以答案当然是Test</h3><h3 id="题30-OK"><a href="#题30-OK" class="headerlink" title="题30.OK"></a>题30.OK</h3><h3 id="题31-OK-画图就非常的清晰"><a href="#题31-OK-画图就非常的清晰" class="headerlink" title="题31.OK:画图就非常的清晰"></a>题31.OK:画图就非常的清晰</h3><h3 id="题32-OK"><a href="#题32-OK" class="headerlink" title="题32.OK"></a>题32.OK</h3><h3 id="题33-OK-一个或者两个？”xy”本身也算一个对象？"><a href="#题33-OK-一个或者两个？”xy”本身也算一个对象？" class="headerlink" title="题33.OK:一个或者两个？”xy”本身也算一个对象？"></a>题33.OK:一个或者两个？”xy”本身也算一个对象？</h3><h3 id="题34：OK-一个可变，一个不可变，然后String重写了equals-和hashCode-方法"><a href="#题34：OK-一个可变，一个不可变，然后String重写了equals-和hashCode-方法" class="headerlink" title="题34：OK:一个可变，一个不可变，然后String重写了equals()和hashCode()方法"></a>题34：OK:一个可变，一个不可变，然后String重写了equals()和hashCode()方法</h3><h3 id="题35-OK-String-result-s-split-“-”"><a href="#题35-OK-String-result-s-split-“-”" class="headerlink" title="题35.OK: String[] result=s.split(“,”);"></a>题35.OK: String[] result=s.split(“,”);</h3><h3 id="题36-OK：String-length-数组-length属性；集合：size（）方法"><a href="#题36-OK：String-length-数组-length属性；集合：size（）方法" class="headerlink" title="题36.OK：String:length();数组[]:length属性；集合：size（）方法"></a>题36.OK：String:length();数组[]:length属性；集合：size（）方法</h3><h3 id="题37-OK-String常量常量常量运算处理之前可以在编译时就自动合并，只创建一个对象"><a href="#题37-OK-String常量常量常量运算处理之前可以在编译时就自动合并，只创建一个对象" class="headerlink" title="题37.OK:String常量常量常量运算处理之前可以在编译时就自动合并，只创建一个对象"></a>题37.OK:String常量常量常量运算处理之前可以在编译时就自动合并，只创建一个对象</h3><h3 id="题38-OK"><a href="#题38-OK" class="headerlink" title="题38.OK:"></a>题38.OK:</h3><h3 id="题39-OK-finally中的代码比return和break语句后执行"><a href="#题39-OK-finally中的代码比return和break语句后执行" class="headerlink" title="题39.OK:finally中的代码比return和break语句后执行"></a>题39.OK:finally中的代码比return和break语句后执行</h3><h3 id="题40-OK"><a href="#题40-OK" class="headerlink" title="题40.OK"></a>题40.OK</h3><h3 id="题41：运行时异常就是程序运行过程中可能出现的非正常状态，例如：空指针引用异常，类型强制转换异常，算术运算异常，数组下标越界异常，不必强制try-catch或throws声明-编译时异常：IO异常，文件未找到异常-要try-catch捕获或throws声明"><a href="#题41：运行时异常就是程序运行过程中可能出现的非正常状态，例如：空指针引用异常，类型强制转换异常，算术运算异常，数组下标越界异常，不必强制try-catch或throws声明-编译时异常：IO异常，文件未找到异常-要try-catch捕获或throws声明" class="headerlink" title="题41：运行时异常就是程序运行过程中可能出现的非正常状态，例如：空指针引用异常，类型强制转换异常，算术运算异常，数组下标越界异常，不必强制try catch或throws声明;编译时异常：IO异常，文件未找到异常,要try catch捕获或throws声明"></a>题41：运行时异常就是程序运行过程中可能出现的非正常状态，例如：空指针引用异常，类型强制转换异常，算术运算异常，数组下标越界异常，不必强制try catch或throws声明;编译时异常：IO异常，文件未找到异常,要try catch捕获或throws声明</h3><h3 id="题42：OK-Throwable类是所有异常或错误的父类，它有两个子类：Error和Exception，分别表示错误和异常。其中异常Exception分为运行时异常-RuntimeException-和编译时异常，可以通过抛出异常，捕获异常对象，让程序来解决异常问题；但是error一般指的是JVM出现的严重问题，例如内存溢出，系统奔溃，程序无法自己处理错误，必须人为去修改有问题的代码；"><a href="#题42：OK-Throwable类是所有异常或错误的父类，它有两个子类：Error和Exception，分别表示错误和异常。其中异常Exception分为运行时异常-RuntimeException-和编译时异常，可以通过抛出异常，捕获异常对象，让程序来解决异常问题；但是error一般指的是JVM出现的严重问题，例如内存溢出，系统奔溃，程序无法自己处理错误，必须人为去修改有问题的代码；" class="headerlink" title="题42：OK:Throwable类是所有异常或错误的父类，它有两个子类：Error和Exception，分别表示错误和异常。其中异常Exception分为运行时异常(RuntimeException)和编译时异常，可以通过抛出异常，捕获异常对象，让程序来解决异常问题；但是error一般指的是JVM出现的严重问题，例如内存溢出，系统奔溃，程序无法自己处理错误，必须人为去修改有问题的代码；"></a>题42：OK:Throwable类是所有异常或错误的父类，它有两个子类：Error和Exception，分别表示错误和异常。其中异常Exception分为运行时异常(RuntimeException)和编译时异常，可以通过抛出异常，捕获异常对象，让程序来解决异常问题；但是error一般指的是JVM出现的严重问题，例如内存溢出，系统奔溃，程序无法自己处理错误，必须人为去修改有问题的代码；</h3><h3 id="题43：OK：Throwable-error-exception-分别有哪些，如何处理"><a href="#题43：OK：Throwable-error-exception-分别有哪些，如何处理" class="headerlink" title="题43：OK：Throwable,error,exception,分别有哪些，如何处理"></a>题43：OK：Throwable,error,exception,分别有哪些，如何处理</h3><h3 id="题44：OK-针引用异常，类型强制转换异常，算术运算异常，数组下标越界异常"><a href="#题44：OK-针引用异常，类型强制转换异常，算术运算异常，数组下标越界异常" class="headerlink" title="题44：OK:针引用异常，类型强制转换异常，算术运算异常，数组下标越界异常"></a>题44：OK:针引用异常，类型强制转换异常，算术运算异常，数组下标越界异常</h3><h3 id="题45：throw-用在方法体内；throws用在方法声明处"><a href="#题45：throw-用在方法体内；throws用在方法声明处" class="headerlink" title="题45：throw:用在方法体内；throws用在方法声明处"></a>题45：throw:用在方法体内；throws用在方法声明处</h3><h3 id="GET-POST"><a href="#GET-POST" class="headerlink" title="GET.POST"></a>GET.POST</h3>
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/08/自我介绍/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="FeishengQiu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="FeishengQiu">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/07/08/自我介绍/" itemprop="url">自我介绍</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-07-08T00:30:35+08:00">
-                2018-07-08
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="自我介绍"><a href="#自我介绍" class="headerlink" title="自我介绍"></a>自我介绍</h2><ul>
-<li><p>面试官，您好！（眼睛充满自信，看着面试官）：我叫邱飞胜，来自于广州大学电子信息过程专业，很荣幸有今天的面试机会。在校期间，学习完移动手机应用这门课程之后，我对Android有着很浓厚的兴趣，一直从事于Java和Android的学习，也开展了与Android相关的项目。项目一：专业帮，是我们团队今年的创新创业项目，目的是为了打造一个解决在校大学生专业学习迷茫，就业迷茫的学习指导平台，目前仍然在进行之中。项目二：硅谷新闻项目，是一个类似网易新闻的手机应用，可以实时浏览周边新闻和查看图片。项目三：和风天气项目：是一款可以随时查看中国任意城市天气的应用，数据来源于和风天气的API接口，注册账号，拿到API Key就可以调用API接口获得数据。</p>
-</li>
-<li><p>因此，我觉得自己很适合这个岗位，并有信心能够做好，希望能获得这个工作机会，谢谢！谢谢谢谢谢谢！！</p>
-</li>
-</ul>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/08/行为资料库/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2867,7 +2914,7 @@ public boolean dispatchTouchEvent(MotionEvent ev) {
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/08/Android灵感/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/08/自我介绍/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="FeishengQiu">
@@ -2886,7 +2933,7 @@ public boolean dispatchTouchEvent(MotionEvent ev) {
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/07/08/Android灵感/" itemprop="url">Android灵感</a></h1>
+                <a class="post-title-link" href="/2018/07/08/自我介绍/" itemprop="url">自我介绍</a></h1>
         
 
         <div class="post-meta">
@@ -2938,384 +2985,10 @@ public boolean dispatchTouchEvent(MotionEvent ev) {
       
         
           
-            <h2 id="Android的思想去感受和理解"><a href="#Android的思想去感受和理解" class="headerlink" title="Android的思想去感受和理解"></a>Android的思想去感受和理解</h2><h3 id="1-驱动的作用可以理解为：连接软件和硬件，使软件可以控制硬件的操作；（原理应该是软件的指令转化为IO电流、高低电平来驱动硬件的操作）；"><a href="#1-驱动的作用可以理解为：连接软件和硬件，使软件可以控制硬件的操作；（原理应该是软件的指令转化为IO电流、高低电平来驱动硬件的操作）；" class="headerlink" title="1.驱动的作用可以理解为：连接软件和硬件，使软件可以控制硬件的操作；（原理应该是软件的指令转化为IO电流、高低电平来驱动硬件的操作）；"></a>1.驱动的作用可以理解为：连接软件和硬件，使软件可以控制硬件的操作；（原理应该是软件的指令转化为IO电流、高低电平来驱动硬件的操作）；</h3><h3 id="2-Android系统的Linux内核层就是专门提供各种硬件的驱动，从而连接软件程序，执行操作；"><a href="#2-Android系统的Linux内核层就是专门提供各种硬件的驱动，从而连接软件程序，执行操作；" class="headerlink" title="2.Android系统的Linux内核层就是专门提供各种硬件的驱动，从而连接软件程序，执行操作；"></a>2.Android系统的Linux内核层就是专门提供各种硬件的驱动，从而连接软件程序，执行操作；</h3><h3 id="3-面向对象的本质其实就是-封装类的方法和调用类的方法！！！！！；（这就是最根本的思想）"><a href="#3-面向对象的本质其实就是-封装类的方法和调用类的方法！！！！！；（这就是最根本的思想）" class="headerlink" title="3.面向对象的本质其实就是 封装类的方法和调用类的方法！！！！！；（这就是最根本的思想）"></a>3.面向对象的本质其实就是 封装类的方法和调用类的方法！！！！！；（这就是最根本的思想）</h3><h3 id="4-其实我们可以把移动手机理解为一台电脑，Android操作系统就是一个IDE，APP就是一段程序，要使这段程序能够在电脑上运行，就需要一个运行这段程序的IDE-其实IDE的作用就是提供库，包，类，使程序里的库包类有定义，才可以执行操作；"><a href="#4-其实我们可以把移动手机理解为一台电脑，Android操作系统就是一个IDE，APP就是一段程序，要使这段程序能够在电脑上运行，就需要一个运行这段程序的IDE-其实IDE的作用就是提供库，包，类，使程序里的库包类有定义，才可以执行操作；" class="headerlink" title="4.其实我们可以把移动手机理解为一台电脑，Android操作系统就是一个IDE，APP就是一段程序，要使这段程序能够在电脑上运行，就需要一个运行这段程序的IDE,其实IDE的作用就是提供库，包，类，使程序里的库包类有定义，才可以执行操作；"></a>4.其实我们可以把移动手机理解为一台电脑，Android操作系统就是一个IDE，APP就是一段程序，要使这段程序能够在电脑上运行，就需要一个运行这段程序的IDE,其实IDE的作用就是提供库，包，类，使程序里的库包类有定义，才可以执行操作；</h3><h3 id="5-Android系统的系统运行库层就是为本IDE提供C-C-库，SQlite库，Webkit库，Java核心库等等运行时库，从而可以编译运行这段程序（APP），总结为特性支持；"><a href="#5-Android系统的系统运行库层就是为本IDE提供C-C-库，SQlite库，Webkit库，Java核心库等等运行时库，从而可以编译运行这段程序（APP），总结为特性支持；" class="headerlink" title="5.Android系统的系统运行库层就是为本IDE提供C/C++库，SQlite库，Webkit库，Java核心库等等运行时库，从而可以编译运行这段程序（APP），总结为特性支持；"></a>5.Android系统的系统运行库层就是为本IDE提供C/C++库，SQlite库，Webkit库，Java核心库等等运行时库，从而可以编译运行这段程序（APP），总结为特性支持；</h3><h3 id="6-Android系统这个IDE的应用框架层还提供了各种API，即就是提供可以调用的各种类的方法；"><a href="#6-Android系统这个IDE的应用框架层还提供了各种API，即就是提供可以调用的各种类的方法；" class="headerlink" title="6.Android系统这个IDE的应用框架层还提供了各种API，即就是提供可以调用的各种类的方法；"></a>6.Android系统这个IDE的应用框架层还提供了各种API，即就是提供可以调用的各种类的方法；</h3><h3 id="7-APP程序就是放在这个IDE的应用层上（桌面"><a href="#7-APP程序就是放在这个IDE的应用层上（桌面" class="headerlink" title="7.APP程序就是放在这个IDE的应用层上（桌面)"></a>7.APP程序就是放在这个IDE的应用层上（桌面)</h3><h3 id="8-我们可以把Android-Studio理解为一个Android系统IDE，具体化IDE，编译好程序之后呢，-就可以放到手机Android系统IDE运行了，所以相当于换了一个IDE来运行程序，当然可以运行"><a href="#8-我们可以把Android-Studio理解为一个Android系统IDE，具体化IDE，编译好程序之后呢，-就可以放到手机Android系统IDE运行了，所以相当于换了一个IDE来运行程序，当然可以运行" class="headerlink" title="8.我们可以把Android Studio理解为一个Android系统IDE，具体化IDE，编译好程序之后呢， 就可以放到手机Android系统IDE运行了，所以相当于换了一个IDE来运行程序，当然可以运行"></a>8.我们可以把Android Studio理解为一个Android系统IDE，具体化IDE，编译好程序之后呢， 就可以放到手机Android系统IDE运行了，所以相当于换了一个IDE来运行程序，当然可以运行</h3><h3 id="9-所以我们现在要有一种IDE思想，操作系统是大型IDE，具体IDE是细节IDE，然后所有的应用就是一段程序，需要IDE提供各种库，包，类，方法API来编译才能运行，之后再通过驱动程序，如Linux内核来连接硬件，用输出高低电平来操作硬件，显示出我们的目标效果；"><a href="#9-所以我们现在要有一种IDE思想，操作系统是大型IDE，具体IDE是细节IDE，然后所有的应用就是一段程序，需要IDE提供各种库，包，类，方法API来编译才能运行，之后再通过驱动程序，如Linux内核来连接硬件，用输出高低电平来操作硬件，显示出我们的目标效果；" class="headerlink" title="9.所以我们现在要有一种IDE思想，操作系统是大型IDE，具体IDE是细节IDE，然后所有的应用就是一段程序，需要IDE提供各种库，包，类，方法API来编译才能运行，之后再通过驱动程序，如Linux内核来连接硬件，用输出高低电平来操作硬件，显示出我们的目标效果；"></a>9.所以我们现在要有一种IDE思想，操作系统是大型IDE，具体IDE是细节IDE，然后所有的应用就是一段程序，需要IDE提供各种库，包，类，方法API来编译才能运行，之后再通过驱动程序，如Linux内核来连接硬件，用输出高低电平来操作硬件，显示出我们的目标效果；</h3><h3 id="10-Android系统IDE1-0是2008年推出，现在已经是8-1版本；"><a href="#10-Android系统IDE1-0是2008年推出，现在已经是8-1版本；" class="headerlink" title="10.Android系统IDE1.0是2008年推出，现在已经是8.1版本；"></a>10.Android系统IDE1.0是2008年推出，现在已经是8.1版本；</h3><h3 id="11-插件可以理解为一段封装好各类方法API的程序块，目的是为了具有辅助功能，在IDE上可以运行，引用插件的好处是：可以直接调用插件里面的API方法，省了很多开发工作和节约时间；（即就是省了封装类方法的时间，可以直接调用）；"><a href="#11-插件可以理解为一段封装好各类方法API的程序块，目的是为了具有辅助功能，在IDE上可以运行，引用插件的好处是：可以直接调用插件里面的API方法，省了很多开发工作和节约时间；（即就是省了封装类方法的时间，可以直接调用）；" class="headerlink" title="11.插件可以理解为一段封装好各类方法API的程序块，目的是为了具有辅助功能，在IDE上可以运行，引用插件的好处是：可以直接调用插件里面的API方法，省了很多开发工作和节约时间；（即就是省了封装类方法的时间，可以直接调用）；"></a>11.插件可以理解为一段封装好各类方法API的程序块，目的是为了具有辅助功能，在IDE上可以运行，引用插件的好处是：可以直接调用插件里面的API方法，省了很多开发工作和节约时间；（即就是省了封装类方法的时间，可以直接调用）；</h3><h3 id="12-Service和Activity都是Context的子类，使用Toast的条件是要有上下文context，因为Service和Activity一样都有自己的context，所以是可以直接弹吐司的"><a href="#12-Service和Activity都是Context的子类，使用Toast的条件是要有上下文context，因为Service和Activity一样都有自己的context，所以是可以直接弹吐司的" class="headerlink" title="12.Service和Activity都是Context的子类，使用Toast的条件是要有上下文context，因为Service和Activity一样都有自己的context，所以是可以直接弹吐司的"></a>12.Service和Activity都是Context的子类，使用Toast的条件是要有上下文context，因为Service和Activity一样都有自己的context，所以是可以直接弹吐司的</h3><h3 id="13-pcA-pvB"><a href="#13-pcA-pvB" class="headerlink" title="13.pcA      pvB"></a>13.pcA      pvB</h3><h3 id="14-实现侧滑功能有两种方式：-DrawerLayout-和-SlidingMenu"><a href="#14-实现侧滑功能有两种方式：-DrawerLayout-和-SlidingMenu" class="headerlink" title="14.实现侧滑功能有两种方式： DrawerLayout 和 SlidingMenu"></a>14.实现侧滑功能有两种方式： DrawerLayout 和 SlidingMenu</h3><h3 id="15-iewPagerIndicator可以实现上滑-下不滑-TabLayout也可以实现，而且用户体验更好-所以渐渐已经代替掉了"><a href="#15-iewPagerIndicator可以实现上滑-下不滑-TabLayout也可以实现，而且用户体验更好-所以渐渐已经代替掉了" class="headerlink" title="15.iewPagerIndicator可以实现上滑 下不滑   TabLayout也可以实现，而且用户体验更好 所以渐渐已经代替掉了"></a>15.iewPagerIndicator可以实现上滑 下不滑   TabLayout也可以实现，而且用户体验更好 所以渐渐已经代替掉了</h3><h3 id="16-Volley也可以请求网络和请求图片，适合频繁请求-但是数据量不大的情况"><a href="#16-Volley也可以请求网络和请求图片，适合频繁请求-但是数据量不大的情况" class="headerlink" title="16.Volley也可以请求网络和请求图片，适合频繁请求  但是数据量不大的情况"></a>16.Volley也可以请求网络和请求图片，适合频繁请求  但是数据量不大的情况</h3><h3 id="17-极光推送可以理解为-消息通知和推送（类似notification的功能）"><a href="#17-极光推送可以理解为-消息通知和推送（类似notification的功能）" class="headerlink" title="17.极光推送可以理解为 消息通知和推送（类似notification的功能）"></a>17.极光推送可以理解为 消息通知和推送（类似notification的功能）</h3><h3 id="18-刷新可以采用：-自定义下拉刷新和-第三方下拉刷新"><a href="#18-刷新可以采用：-自定义下拉刷新和-第三方下拉刷新" class="headerlink" title="18.刷新可以采用： 自定义下拉刷新和 第三方下拉刷新"></a>18.刷新可以采用： 自定义下拉刷新和 第三方下拉刷新</h3><h3 id="19-SharedSDK可以分享消息给其他程序"><a href="#19-SharedSDK可以分享消息给其他程序" class="headerlink" title="19.SharedSDK可以分享消息给其他程序"></a>19.SharedSDK可以分享消息给其他程序</h3><h3 id="20-Android和HTML5的交互非常重要"><a href="#20-Android和HTML5的交互非常重要" class="headerlink" title="20.Android和HTML5的交互非常重要"></a>20.Android和HTML5的交互非常重要</h3><h3 id="21-photoview可以使图片随时用手缩放"><a href="#21-photoview可以使图片随时用手缩放" class="headerlink" title="21.photoview可以使图片随时用手缩放"></a>21.photoview可以使图片随时用手缩放</h3><h3 id="22-drawable-hdpi已经可以放很多很多图片了-ic的就放mipmap就行"><a href="#22-drawable-hdpi已经可以放很多很多图片了-ic的就放mipmap就行" class="headerlink" title="22.drawable-hdpi已经可以放很多很多图片了  ic的就放mipmap就行"></a>22.drawable-hdpi已经可以放很多很多图片了  ic的就放mipmap就行</h3><h3 id="23-AlphaAnimation-ScaleAnimation-RotateAnimation"><a href="#23-AlphaAnimation-ScaleAnimation-RotateAnimation" class="headerlink" title="23.AlphaAnimation  ScaleAnimation   RotateAnimation"></a>23.AlphaAnimation  ScaleAnimation   RotateAnimation</h3><h3 id="24-AnimationSet可以理解为一个动画动态数组，而且可以监听动画的播放状态"><a href="#24-AnimationSet可以理解为一个动画动态数组，而且可以监听动画的播放状态" class="headerlink" title="24.AnimationSet可以理解为一个动画动态数组，而且可以监听动画的播放状态"></a>24.AnimationSet可以理解为一个动画动态数组，而且可以监听动画的播放状态</h3><h3 id="25-理解sharedPreferences"><a href="#25-理解sharedPreferences" class="headerlink" title="25.理解sharedPreferences"></a>25.理解sharedPreferences</h3><pre>SharedPreferences.Editor editor = getSharedPreferences("data", MODE_PRIVATE).edit();</pre>
-
-<ul>
-<li>第一个参数是文件名，不存在就自动建一个，第二个是默认的操作模式<br>然后editor.putString(“name”, “Tom”);第一个参数是key（盒子），第二个参数是真正的值,editor.getInt(“age”, 0);  第一个参数是key（盒子），第二个参数是初始值，key没有值的话就用它代替</li>
-</ul>
-<h3 id="26-相对布局和帧布局可以做到覆盖重叠的效果，可以多用，而且UI适配也有好处，特别是相对布局；"><a href="#26-相对布局和帧布局可以做到覆盖重叠的效果，可以多用，而且UI适配也有好处，特别是相对布局；" class="headerlink" title="26.相对布局和帧布局可以做到覆盖重叠的效果，可以多用，而且UI适配也有好处，特别是相对布局；"></a>26.相对布局和帧布局可以做到覆盖重叠的效果，可以多用，而且UI适配也有好处，特别是相对布局；</h3><h3 id="27-java创建和初始化一维数组的写法："><a href="#27-java创建和初始化一维数组的写法：" class="headerlink" title="27.java创建和初始化一维数组的写法："></a>27.java创建和初始化一维数组的写法：</h3><ul>
-<li><pre>  int[] ids=new int[]{1,2,3};  //静态初始化</pre></li>
-<li><pre> String[] names; names=new String[5];  //动态初始化，可以添加数组的值</pre>
-
+            <h2 id="自我介绍"><a href="#自我介绍" class="headerlink" title="自我介绍"></a>自我介绍</h2><ul>
+<li><p>面试官，您好！（眼睛充满自信，看着面试官）：我叫邱飞胜，来自于广州大学电子信息过程专业，很荣幸有今天的面试机会。在校期间，学习完移动手机应用这门课程之后，我对Android有着很浓厚的兴趣，一直从事于Java和Android的学习，也开展了与Android相关的项目。项目一：专业帮，是我们团队今年的创新创业项目，目的是为了打造一个解决在校大学生专业学习迷茫，就业迷茫的学习指导平台，目前仍然在进行之中。项目二：硅谷新闻项目，是一个类似网易新闻的手机应用，可以实时浏览周边新闻和查看图片。项目三：和风天气项目：是一款可以随时查看中国任意城市天气的应用，数据来源于和风天气的API接口，注册账号，拿到API Key就可以调用API接口获得数据。</p>
 </li>
-</ul>
-<h3 id="28-动态数组的用法-imageView选择setBackgroundResource是为了填充整个屏幕"><a href="#28-动态数组的用法-imageView选择setBackgroundResource是为了填充整个屏幕" class="headerlink" title="28.动态数组的用法, imageView选择setBackgroundResource是为了填充整个屏幕"></a>28.动态数组的用法, imageView选择setBackgroundResource是为了填充整个屏幕</h3><h3 id="29-imageView作为一个实体对象添加到动态数组中"><a href="#29-imageView作为一个实体对象添加到动态数组中" class="headerlink" title="29.imageView作为一个实体对象添加到动态数组中"></a>29.imageView作为一个实体对象添加到动态数组中</h3><pre>private ArrayList<imageview> imageViews;
-imageViews=new ArrayList<>();
-for (int i=0;ids.length;i++)
-{
-ImageView imageView=new ImageView(this);
-imageView.setBackgroundResource(ids[i]);
- imageViews.add(imageView);
-}
-</imageview></pre>
-
-<h3 id="30-drawable图片的本质是一个int值-所以可以作为初始化int-数组的值；"><a href="#30-drawable图片的本质是一个int值-所以可以作为初始化int-数组的值；" class="headerlink" title="30.drawable图片的本质是一个int值,所以可以作为初始化int[]数组的值；"></a>30.drawable图片的本质是一个int值,所以可以作为初始化int[]数组的值；</h3><h3 id="31-布局eg-LInearLayout本质也是一个容器container-所以可以直接-addView-view"><a href="#31-布局eg-LInearLayout本质也是一个容器container-所以可以直接-addView-view" class="headerlink" title="31.布局eg LInearLayout本质也是一个容器container 所以可以直接.addView(view);"></a>31.布局eg LInearLayout本质也是一个容器container 所以可以直接.addView(view);</h3><h3 id="32-layout的View的本质是一个视图树，层层生枝，生child"><a href="#32-layout的View的本质是一个视图树，层层生枝，生child" class="headerlink" title="32.layout的View的本质是一个视图树，层层生枝，生child"></a>32.layout的View的本质是一个视图树，层层生枝，生child</h3><p><img src="https://i.imgur.com/n4zNHBG.png" alt=""></p>
-<h3 id="33-红点移动的原理-两点间距-临时动态屏幕百分比"><a href="#33-红点移动的原理-两点间距-临时动态屏幕百分比" class="headerlink" title="33.红点移动的原理= 两点间距*临时动态屏幕百分比"></a>33.红点移动的原理= 两点间距*临时动态屏幕百分比</h3><p><img src="https://i.imgur.com/Vkkx1lf.png" alt=""></p>
-<h3 id="34-dp是默认自动做适配的，所以布局里的控件可以选择性不做适配，但是像素pi一定要做适配"><a href="#34-dp是默认自动做适配的，所以布局里的控件可以选择性不做适配，但是像素pi一定要做适配" class="headerlink" title="34.dp是默认自动做适配的，所以布局里的控件可以选择性不做适配，但是像素pi一定要做适配"></a>34.dp是默认自动做适配的，所以布局里的控件可以选择性不做适配，但是像素pi一定要做适配</h3><p><img src="https://i.imgur.com/aps30co.png" alt=""></p>
-<h3 id="35-Fragment与FrameLayout的搭配使用最佳，因为覆盖在上面"><a href="#35-Fragment与FrameLayout的搭配使用最佳，因为覆盖在上面" class="headerlink" title="35.Fragment与FrameLayout的搭配使用最佳，因为覆盖在上面"></a>35.Fragment与FrameLayout的搭配使用最佳，因为覆盖在上面</h3><h3 id="36-Fragment的很多内容往往都是重复的，所以需要我们去写基类，写基类是我们必须要学会的一步"><a href="#36-Fragment的很多内容往往都是重复的，所以需要我们去写基类，写基类是我们必须要学会的一步" class="headerlink" title="36.Fragment的很多内容往往都是重复的，所以需要我们去写基类，写基类是我们必须要学会的一步"></a>36.Fragment的很多内容往往都是重复的，所以需要我们去写基类，写基类是我们必须要学会的一步</h3><h3 id="37-Base的写法"><a href="#37-Base的写法" class="headerlink" title="37.Base的写法"></a>37.Base的写法</h3><ul>
-<li><p>先把整个Base类的数据域和方法当做子类那样写</p>
-</li>
-<li><p>然后需要我们在数据域添加一个上下文，一般都是Activity，所以我们可以public Activity context;   在onCreate()里面加： context=getActivity();</p>
-</li>
-<li><p>对于其他方法： 有返回类型的， 将return后面的部分写成一个抽样方法</p>
-</li>
-<li><pre> public abstract View initView();
-   public abstract String initName();
-</pre>
-</li>
-<li><p>抽样方法的特点是： public abstract；类开头class前要加abstract: public abstract class…..<br>子类继承之后必须强制要重写；   本身没有结构体{}，直接加分号；结构体内容交给子类自己来书写，个性化； </p>
-</li>
-<li><p>然后再写一个 initData();来初始化数据public void initData(){}</p>
-</li>
-</ul>
-<h3 id="38-继承的总结"><a href="#38-继承的总结" class="headerlink" title="38.继承的总结"></a>38.继承的总结</h3><ul>
-<li>A 继承 B ，B继承C：  A &lt;——B &lt;——C<br>此时呢，我们一般要写的是父类B，然后再写子类A来继承B， 而C往往是原生库里的类<br>B继承C之后要重写C中abstract的类，然后呢，添加context, 把方法中return部分，即决定子类数据个性化的部分写成一个 initView();  然后再外面写：public abstract View initView(); 写成自己的抽象，留给真正的子类A来写； 其次，还需要根据需求去添加initData();public void initData(){   }  让子类自己选择性来写</li>
-</ul>
-<h3 id="39-继承还有一大特点-就是-方法的生命周期的传递性，例如initView-initData-都是在跟父类一样的生命周期时执行，很神奇！！！"><a href="#39-继承还有一大特点-就是-方法的生命周期的传递性，例如initView-initData-都是在跟父类一样的生命周期时执行，很神奇！！！" class="headerlink" title="39.继承还有一大特点:就是 方法的生命周期的传递性，例如initView(),initData();都是在跟父类一样的生命周期时执行，很神奇！！！"></a>39.继承还有一大特点:就是 方法的生命周期的传递性，例如initView(),initData();都是在跟父类一样的生命周期时执行，很神奇！！！</h3><h3 id="40-Fragment中-replace和add的区别：轮播图可以这样做"><a href="#40-Fragment中-replace和add的区别：轮播图可以这样做" class="headerlink" title="40.Fragment中 replace和add的区别：轮播图可以这样做"></a>40.Fragment中 replace和add的区别：轮播图可以这样做</h3><p><img src="https://i.imgur.com/HN7kKPw.png" alt=""></p>
-<h3 id="40-xUtils3的简介"><a href="#40-xUtils3的简介" class="headerlink" title="40.xUtils3的简介"></a>40.xUtils3的简介</h3><p><img src="https://i.imgur.com/BmVdRqI.png" alt=""></p>
-<ul>
-<li><p>此时通过依赖compile的时候需要联网下载，才可以使用！</p>
-</li>
-<li><p>xUtils3的使用，主要功能：数据库的操作，联网请求数据，图片请求，初始化控件</p>
-</li>
-<li><p>下载地址： <a href="https://github.com/wyouflf/xUtils3" target="_blank" rel="noopener">https://github.com/wyouflf/xUtils3</a></p>
-</li>
-<li><p>运行案例</p>
-</li>
-<li><p>关联xUtils3的库</p>
-</li>
-<li><p>在Application中初始化xUtils3，新建一个类extends Application</p>
-</li>
-</ul>
-<pre>
-public class BeijingNewsApplication extends Application {
-        /**
-        所有组件被创建之前执行
-         */
-        @Override
-        public void onCreate() { 
-            super.onCreate();
-            x.Ext.setDebug(true);
-            x.Ext.init(this);
-        }
-    }
-</pre>
-
-<ul>
-<li>注意：一定要在功能清单文件配置</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">android:name=&quot;.BeijingNewsApplication&quot;</span><br><span class="line">android:allowBackup=&quot;true&quot;</span><br><span class="line">android:icon=&quot;@mipmap/icon_150&quot;</span><br><span class="line">android:label=&quot;@string/app_name&quot;</span><br><span class="line">android:supportsRtl=&quot;true&quot;</span><br><span class="line">android:theme=&quot;@style/AppTheme&quot;&gt;</span><br></pre></td></tr></table></figure>
-<ul>
-<li>使用xUtils3注解，初始化控件</li>
-</ul>
-<h3 id="41-五个页面的基类BasePager"><a href="#41-五个页面的基类BasePager" class="headerlink" title="41.五个页面的基类BasePager"></a>41.五个页面的基类BasePager</h3><ul>
-<li><p>base_pager.xml</p>
-</li>
-<li><p>标题栏： RelativeLayout</p>
-</li>
-<li><p>内容部分： FrameLayout</p>
-</li>
-</ul>
-<h3 id="42-BasePager的方法"><a href="#42-BasePager的方法" class="headerlink" title="42.BasePager的方法"></a>42.BasePager的方法</h3><ul>
-<li><p>initView(),用于初始化公共部分视图，并且初始化加载子视图的FrameLayout</p>
-</li>
-<li><p>initData()初始化数据，当孩子需要初始化数据，或者绑定数据，联网请求数据并且绑定的时候，重写该方法</p>
-</li>
-</ul>
-<h3 id="43-五个页面的实现"><a href="#43-五个页面的实现" class="headerlink" title="43.五个页面的实现"></a>43.五个页面的实现</h3><ul>
-<li><p>HomePager,NewsCenterPager,<br>SmartServicePager,GovaffairPager<br>SettingPager都继承BasePager</p>
-</li>
-<li><p>重写initData方法 ，添加子视图，并且绑定数据</p>
-</li>
-</ul>
-<h3 id="44-配置新闻中心的联网请求"><a href="#44-配置新闻中心的联网请求" class="headerlink" title="44.配置新闻中心的联网请求"></a>44.配置新闻中心的联网请求</h3><ul>
-<li><p>新闻中心的联网地址：<br>ipconfig查看本机ip地址命令</p>
-</li>
-<li><p><a href="http://192.168.21.165:8080/web_home/static/api/news/categories.json" target="_blank" rel="noopener">http://192.168.21.165:8080/web_home/static/api/news/categories.json</a></p>
-</li>
-<li><p><a href="http://10.0.2.0:8080,本地的模拟器，访问本机tomcat服务器" target="_blank" rel="noopener">http://10.0.2.0:8080,本地的模拟器，访问本机tomcat服务器</a></p>
-</li>
-<li><p>view包用来放自定义view的类</p>
-</li>
-<li><p>真正的过程在书写的时候，习惯性将初始化视图和初始化数据分开</p>
-</li>
-<li><p>我们可以暂时认为集合等于数组</p>
-</li>
-<li><p>不带参的构造方法的作用是构造对象</p>
-</li>
-<li><p>带参构造方法的作用是构造对象和传值给当前构造完成的对象，给予它目标特性<br>这就是构造方法的巨大用处</p>
-</li>
-</ul>
-<h3 id="45-static和final的作用"><a href="#45-static和final的作用" class="headerlink" title="45.static和final的作用"></a>45.static和final的作用</h3><ul>
-<li><p>static可以让类,方法，变量，常量，对象不需要实例化就可以直接任意调用，而且是同一实例，非常方便</p>
-</li>
-<li><p>final+普通数据类型：值不可变；final+对象：对象的引用值不可变</p>
-</li>
-</ul>
-<hr>
-<h1 id="编码灵感"><a href="#编码灵感" class="headerlink" title="编码灵感"></a>编码灵感</h1><ul>
-<li><p>常量要全大写：public static final String <strong>MAIN_CONTENT_TAG</strong> = “MainContentTag”;</p>
-</li>
-<li><p>生命周期onCreate()方法的本质作用是初始化，分成初始化视图，初始化数据，初始化abcd……</p>
-</li>
-<li><p>init()专门利用方法重构来构建不同类型的初始化，让架构更加清晰</p>
-</li>
-<li><p>fm可以调用API:findFragmentByTag(“”)来得到与标签关联的碎片实例</p>
-</li>
-<li><p>原始布局，即被replace和add的布局，直接用FrameLayout的效果更好，因为可以覆盖，以后默认习惯</p>
-</li>
-<li><p>因为BasePager里面没有生命周期函数，不能自动调用，自动调用的只有构造方法，所以我们把一定要初始化视图的方法initView()写在了构造方法里，非常聪明</p>
-</li>
-<li><p>子类的布局控件有非常多相似的，父类的initView可以直接全部初始化完成，这样子类用起来将会非常非常非常方便</p>
-</li>
-<li><p>若没有很多相似的，那就把initView()写成抽象，但是没有结构体</p>
-</li>
-<li><p>本类需要应用类（就是应用本类的那个类）的哪个量，就重写带参本类的带参构造方法，就这个量作为形参传进去，当然也要自己加多一个数据域，才能this.a=a;</p>
-</li>
-<li><p>View view=View.inflate(context,R.layout.base_pager,null);这个API对于视图非常好用</p>
-</li>
-<li><p>适配器，适配器，作用就是为了适配数据，处理数据和显示数据，多数据集成和显示的控件就需要适配器的帮忙，例如ViewPager,ListView,RecyclerView这些控件，都是多数据集成，不像TextView直接settText一个文本就行，所以适配器存在即合理</p>
-</li>
-<li><p>ViewPager的适配器PagerAdapter里面的instantiateItem方法：根据position拿到动态数组的当前实例，然后实例调用API获得当前的View，然后container addView，然后return rootView回去显示</p>
-</li>
-<li><p>动态数组的pagers和fragments也是数据的一种，所以private ArrayList<basepager>basePagers basePagers.add(…..)也应该写在initData()方法中 要有这种思想</basepager></p>
-</li>
-<li><p>utils包下的Constants类存放网络请求的ip地址和端口</p>
-</li>
-<li><p>public static final String BASE_URL=”<a href="http://192.168.1.102:8080//web_home&quot;" target="_blank" rel="noopener">http://192.168.1.102:8080//web_home&quot;</a>; //基本地址和端口</p>
-</li>
-<li><p>public static final String NEWSCENTER_PAGER_URL=BASE_URL+”/static/api/news/categories.json”;  //具体地址</p>
-</li>
-<li><p>刷新相当于重新联网请求，数据更新是从服务器更新的，所以直接重新联网请求，就可以达到更新数据的目的</p>
-</li>
-</ul>
-<p>#顶部新闻轮播图事件处理<br>重写dispatchTouchEvent，并且要在按下的时候<br>getParent().requestDisallowInterceptTouchEvent(true);</p>
-<p>判断滑动方向，在X轴和Y轴滑动的绝对值谁大就是在什么方向滑动</p>
-<p>一，竖直方向滑动<br> getParent().requestDisallowInterceptTouchEvent(false);</p>
-<p>二，水平方向滑动</p>
-<p>2.1，当滑动到ViewPager的第0个页面，并且是从左到右滑动<br> getParent().requestDisallowInterceptTouchEvent(false);</p>
-<p>2.2，当滑动到ViewPager的最后一个页面，并且是从右到左滑动<br> getParent().requestDisallowInterceptTouchEvent(false);<br>2.3，其他<br>  getParent().requestDisallowInterceptTouchEvent(true);</p>
-<p>#自定义下拉刷新(touch事件处理</p>
-<p>1.自定义Listview实现下拉刷新，RefreshListview,必须重新带有两个参数的构造方法</p>
-<p>2.在构造方法里面，把下拉刷新控件添加</p>
-<p>  自定义ProgressBar</p>
-<p>3.下拉刷新控件隐藏和显示的原理</p>
-<p> View.setPadding(0,-控件高，0,0);//完全隐藏<br> View.setPadding(0,0，0,0);//完全显示<br> View.setPadding(0,控件高，0,0);//2倍高显示</p>
-<p>4.拖动实现隐藏和显示下拉刷新控件<br>  a,重写onTouchEvent()<br>    在down startY;<br>  b,计算滑动的距离<br>   float distanceY = endY - startY;</p>
-<p>   int paddingTop = -控件高 + distanceY;<br>   View.setPadding(0,paddingTop，0,0);//动态的显示下拉刷新控件</p>
-<p>  c，设置效果</p>
-<p>#刷新的效果的实现</p>
-<p>1.定义刷新的三个状态</p>
-<pre><code> /**
- * 下拉刷新控件的高
- */
-private int pullDownRefreshHeight;
-
-/**
- 下拉刷新
- */
-public static final int PULL_DOWN_REFRESH = 0;
-
-/**
- 手松刷新
- */
-public static final int RELEASE_REFRESH = 1;
-
-
-/**
- 正在刷新
- */
-public static final int REFRESHING = 2;
-
-
-/**
- * 当前状态
- */
-private int currentStatus = PULL_DOWN_REFRESH;
-</code></pre><p>2.实现状态的切换</p>
-<pre><code>int paddingTop = (int) (-pullDownRefreshHeight + distanceY);
-
-     if (paddingTop &lt; 0 &amp;&amp; currentStatus != PULL_DOWN_REFRESH) {
-         //下拉刷新状态
-         currentStatus = PULL_DOWN_REFRESH;
-         //更新状态
-         refreshViewState();
-
-     } else if (paddingTop &gt; 0 &amp;&amp; currentStatus != RELEASE_REFRESH) {
-         //手松刷新状态
-         currentStatus = RELEASE_REFRESH;
-         //更新状态
-         refreshViewState();
-
-     }
-</code></pre><p>3.实现手离开的处理</p>
-<pre><code>if (currentStatus == PULL_DOWN_REFRESH) {
-</code></pre><p>//                    View.setPadding(0,-控件高，0,0);//完全隐藏<br>                    ll_pull_down_refresh.setPadding(0, -pullDownRefreshHeight, 0, 0);<br>                } else if (currentStatus == RELEASE_REFRESH) {<br>                    //设置状态为正在刷新<br>                    currentStatus = REFRESHING;</p>
-<pre><code>refreshViewState();
-</code></pre><p>//                    View.setPadding(0,0，0,0);//完全显示<br>                    ll_pull_down_refresh.setPadding(0, 0, 0, 0);</p>
-<pre><code>    //回调接口
-    if (mOnRefreshListener != null) {
-        mOnRefreshListener.onPullDownRefresh();
-    }
-}
-</code></pre><p>#下拉刷新松开处理和接口的定义</p>
-<p>1.定义接口</p>
-<p>/**</p>
-<p> 监听控件的刷新<br>*/<br>public interface OnRefreshListener{</p>
-<p>  /*<em><br>   当下拉刷新的时候回调这个方法
-  </em>/<br>  public void onPullDownRefresh();</p>
-<p>}</p>
-<p>private OnRefreshListener mOnRefreshListener;</p>
-<p>/*<em><br>  设置监听刷新
-</em>/<br>public void setOnRefreshListener(OnRefreshListener l){<br>  this.mOnRefreshListener = l;</p>
-<p>}</p>
-<p>2.调用接口，在事件源，在up的时候</p>
-<p> if(mOnRefreshListener != null){<br>   mOnRefreshListener.onPullDownRefresh();<br> } </p>
-<p>3.使用接口，哪个地方用到了这个RefreshListView类的地方就可以设置setOnRefreshListener方法</p>
-<p>  //设置监听下拉刷新<br>    listview.setOnRefreshListener(new MyOnRefreshListener());</p>
-<pre><code>class MyOnRefreshListener implements RefreshListview.OnRefreshListener {
-
-    @Override
-    public void onPullDownRefresh() {
-</code></pre><p>//            Toast.makeText(context, “下拉刷新被回调了”, Toast.LENGTH_SHORT).show();<br>            getDataFromNet();<br>        }<br>    }</p>
-<p>#自定义ListView(加载更多)</p>
-<p>1.加载更多的布局，构造方法中</p>
-<p>2.监听ListView的滑动，当滑动底部的最后一条的时候，显示加载更多控件，设置状态，回调加载更多的接口</p>
-<p>3.定义和回调接口</p>
-<p> /**</p>
-<p> 监听控件的刷新<br>*/<br>public interface OnRefreshListener{</p>
-<p>  /*<em><br>   当下拉刷新的时候回调这个方法
-  </em>/<br>  public void onPullDownRefresh();</p>
-<p>  /*<em><br>   当加载更多的时候回调这个方法
-   </em>/<br>  public void onLoadMore();</p>
-<p>}</p>
-<p>4.使用</p>
-<p>5.加载更多的回调完成</p>
-<p>#解决加载更多后，往上滑动直接回调顶部的bug</p>
-<p>怎么判断顶部轮播图是否完全显示呢</p>
-<p>1.当ListView在屏幕上的Y轴坐标小于或者等于顶部轮播图在Y轴的坐标的时候，顶部轮播图完全显示</p>
-<p>2.把顶部轮播图部分传入RefreshListView中，便于比较坐标</p>
-<p>#PullToRefresh下拉刷新的使用</p>
-<p>1.下载<br>  <a href="https://github.com/chrisbanes/Android-PullToRefresh" target="_blank" rel="noopener">https://github.com/chrisbanes/Android-PullToRefresh</a></p>
-<p>2.导入运行PullToRefresh案例</p>
-<p>3.参照案例，关联库</p>
-<p>4.专题页面也实现了新闻详情页面的效果</p>
-<p>5.使用PullToRefresh</p>
-<h3 id="scaleType属性是ImageView对图片大小进行处理缩放的属性，具体值见谷歌"><a href="#scaleType属性是ImageView对图片大小进行处理缩放的属性，具体值见谷歌" class="headerlink" title="scaleType属性是ImageView对图片大小进行处理缩放的属性，具体值见谷歌"></a>scaleType属性是ImageView对图片大小进行处理缩放的属性，具体值见谷歌</h3><ul>
-<li><p>indeterminateDrawable属性用来做不定期进度条的属性</p>
-</li>
-<li><p>接口是在有监听和回调的时候使用</p>
-</li>
-<li><p>信息源在哪里，接口就写在哪里</p>
-</li>
-<li><p>设置监听器的本质就是在使用接口</p>
-</li>
-<li><p>加在更多布局，也是写在自定义View的构造方法中，好处是自动调用，而且一定调用</p>
-</li>
-<li><p>设置监听器接口的本质是：当前状态符合接口方法的条件时，就会跳转到监听器接口，执行接口的方法，即所谓的接口回调</p>
-</li>
-<li><p>整个过程是这样子的： 就是我们自定义View:RefreshView来继承ListView,因此RefreshView就是一个具有个人特色的ListView，然后我们重写ListView的构造方法，记住是构造方法，在里面加一个重构的方法initFooterView()；就可以实现ListView特色化的目的；此时在initFooterView()里面，我们利用View.inflate这个API来引入我们所想要增加的目标布局，并且写好初始状态，显示或者隐藏，然后this.addFooterView(footerView)就真正加到ListView当中；</p>
-</li>
-<li><p>而且此时我们还让ListView自己监听自己，发现有符合自身监听器的条件时，自己执行，甚至回调接口，这部分代码是ListView自己监听和执行的，不需要我们在Activity中或者碎片中去监听调用，它们是设置别的监听</p>
-</li>
-<li><p>因为ListView可以直接写接口和写自身监听，但是呢，自身写的接口是没有结构体的，无法执行，里面没任何代码，此时，就算ListView自身监听到当前状态符合条件，也无法执行关于接口的方法，其他部分代码可以自己执行，就算接口的代码自己可以监听，但是实现不了</p>
-</li>
-<li><p>没关系，我们就回到Activity或者碎片当中为ListView帮忙设置一个接口的监听器，此时接口的方法就有结构体了，就可以执行了，但是执行条件写在ListView中，执行代码写在Activity中，就是这样的关系</p>
-</li>
-<li><p>所以可以理解为：Acitivity设置ListView的接口监听的目的：</p>
-</li>
-<li><p>1.是传入一个接口监听器的实例（有接口实例才能调用接口的API）</p>
-</li>
-<li><p>2.帮助ListView写接口的API的结构体，要调用的时候借用它来实现逻辑</p>
-</li>
-<li><p>ListView不能addView，只能addHeaderView和addFooterView，所以我们直接先让刷新的布局和轮播图addView成一个headView，然后ListView来addHeaderView来加进去就顺理成章了</p>
-</li>
-<li><p>View判空！=null，也非常重要，因为有可能会造成空指针，程序奔溃</p>
-</li>
-<li><p>善用isDisPlay（）；类似的boolean型方法来分类讨论状态，非常好用</p>
-</li>
-</ul>
-<h3 id="抽取成第三方库"><a href="#抽取成第三方库" class="headerlink" title="抽取成第三方库"></a>抽取成第三方库</h3><ul>
-<li><p>File—&gt;New—&gt;New Moudle—&gt;Android Library—&gt;写库名—&gt;把所有跟库有关的class剪切复制到此库的main的包那里—&gt;Refactor—&gt;Continue—&gt;删掉导入包那里的….R—&gt;同样layout,drawable,drawable-hdpi加到库里面即可完成</p>
-</li>
-<li><p>关联库的时候记得不要手贱点到了关联一个sample，两个APK，怎么可能运行得了，低级错误</p>
-</li>
-</ul>
-<hr>
-<h2 id="重生"><a href="#重生" class="headerlink" title="重生"></a>重生</h2><h3 id="1-再次强调，刷新的本质是重新联网请求，加载服务器的数据，即重新联网请求"><a href="#1-再次强调，刷新的本质是重新联网请求，加载服务器的数据，即重新联网请求" class="headerlink" title="1.再次强调，刷新的本质是重新联网请求，加载服务器的数据，即重新联网请求"></a>1.再次强调，刷新的本质是重新联网请求，加载服务器的数据，即重新联网请求</h3><h3 id="2-阅读https-blog-csdn-net-lmj623565791-article-details-38238749来加强对PullToRefresh的理解和使用"><a href="#2-阅读https-blog-csdn-net-lmj623565791-article-details-38238749来加强对PullToRefresh的理解和使用" class="headerlink" title="2.阅读https://blog.csdn.net/lmj623565791/article/details/38238749来加强对PullToRefresh的理解和使用"></a>2.阅读<a href="https://blog.csdn.net/lmj623565791/article/details/38238749" target="_blank" rel="noopener">https://blog.csdn.net/lmj623565791/article/details/38238749</a>来加强对PullToRefresh的理解和使用</h3><h3 id="3-本身listView是没有下拉刷新的，所以需要我们去自定义或者用第三方框架"><a href="#3-本身listView是没有下拉刷新的，所以需要我们去自定义或者用第三方框架" class="headerlink" title="3.本身listView是没有下拉刷新的，所以需要我们去自定义或者用第三方框架"></a>3.本身listView是没有下拉刷新的，所以需要我们去自定义或者用第三方框架</h3><h3 id="4-Jar包和第三方库最大的差别在于：Jar包里面都是class-即都是-java文件，但是第三方库里面还可以放res资源文件，布局，value等等都可以，这就是最大差别"><a href="#4-Jar包和第三方库最大的差别在于：Jar包里面都是class-即都是-java文件，但是第三方库里面还可以放res资源文件，布局，value等等都可以，这就是最大差别" class="headerlink" title="4. Jar包和第三方库最大的差别在于：Jar包里面都是class,即都是.java文件，但是第三方库里面还可以放res资源文件，布局，value等等都可以，这就是最大差别"></a>4. Jar包和第三方库最大的差别在于：Jar包里面都是class,即都是.java文件，但是第三方库里面还可以放res资源文件，布局，value等等都可以，这就是最大差别</h3><h3 id="5-做UI适配的技巧"><a href="#5-做UI适配的技巧" class="headerlink" title="5.做UI适配的技巧"></a>5.做UI适配的技巧</h3><ul>
-<li>多用 android:layout_centerVertical=”true”，RelativeLayout布局， android:layout_alignParentRight=”true”这些属性，然后再来margin搭配，这样就减少存dp的限制</li>
-</ul>
-<h3 id="6-跟网页交互，需要用到javaScript，所以webView在加载网页之后，还应该需要设置支持javaScript的交互调用，所以需要得到WebSettings-然后setJavaScriptEnabled-true"><a href="#6-跟网页交互，需要用到javaScript，所以webView在加载网页之后，还应该需要设置支持javaScript的交互调用，所以需要得到WebSettings-然后setJavaScriptEnabled-true" class="headerlink" title="6.跟网页交互，需要用到javaScript，所以webView在加载网页之后，还应该需要设置支持javaScript的交互调用，所以需要得到WebSettings,然后setJavaScriptEnabled(true);"></a>6.跟网页交互，需要用到javaScript，所以webView在加载网页之后，还应该需要设置支持javaScript的交互调用，所以需要得到WebSettings,然后setJavaScriptEnabled(true);</h3><h3 id="7-Android和H5互调的本质是：java与javaScript互相调用，具体应用表现是：把客户端的某些重要信息显示在H5的页面上，即对H5进行个性加工，也可以对H5添加按钮，来进行目标操作-，即将H5页面与Android融合一起，可以一体化操作"><a href="#7-Android和H5互调的本质是：java与javaScript互相调用，具体应用表现是：把客户端的某些重要信息显示在H5的页面上，即对H5进行个性加工，也可以对H5添加按钮，来进行目标操作-，即将H5页面与Android融合一起，可以一体化操作" class="headerlink" title="7.Android和H5互调的本质是：java与javaScript互相调用，具体应用表现是：把客户端的某些重要信息显示在H5的页面上，即对H5进行个性加工，也可以对H5添加按钮，来进行目标操作    ，即将H5页面与Android融合一起，可以一体化操作"></a>7.Android和H5互调的本质是：java与javaScript互相调用，具体应用表现是：把客户端的某些重要信息显示在H5的页面上，即对H5进行个性加工，也可以对H5添加按钮，来进行目标操作    ，即将H5页面与Android融合一起，可以一体化操作</h3><h3 id="8-Runnable是一个接口，而不是线程，当然也可以结合-Thread-成为一个线程"><a href="#8-Runnable是一个接口，而不是线程，当然也可以结合-Thread-成为一个线程" class="headerlink" title="8.Runnable是一个接口，而不是线程，当然也可以结合.Thread..成为一个线程"></a>8.Runnable是一个接口，而不是线程，当然也可以结合.Thread..成为一个线程</h3><h3 id="9-Runnable里面的run方法运行在哪个线程，是看handler的实体对象是在哪个线程new的，在主线程new的haul，那run方法就是运行在主线程"><a href="#9-Runnable里面的run方法运行在哪个线程，是看handler的实体对象是在哪个线程new的，在主线程new的haul，那run方法就是运行在主线程" class="headerlink" title="9. Runnable里面的run方法运行在哪个线程，是看handler的实体对象是在哪个线程new的，在主线程new的haul，那run方法就是运行在主线程"></a>9. Runnable里面的run方法运行在哪个线程，是看handler的实体对象是在哪个线程new的，在主线程new的haul，那run方法就是运行在主线程</h3><h3 id="10-混合开发的习惯性特点是：结合url来得到数据和解析数据，url非常好用"><a href="#10-混合开发的习惯性特点是：结合url来得到数据和解析数据，url非常好用" class="headerlink" title="10.混合开发的习惯性特点是：结合url来得到数据和解析数据，url非常好用"></a>10.混合开发的习惯性特点是：结合url来得到数据和解析数据，url非常好用</h3><h3 id="11-文字没有三极缓存，图片才有三级缓存，因为图片所占的内存比较大"><a href="#11-文字没有三极缓存，图片才有三级缓存，因为图片所占的内存比较大" class="headerlink" title="11.文字没有三极缓存，图片才有三级缓存，因为图片所占的内存比较大"></a>11.文字没有三极缓存，图片才有三级缓存，因为图片所占的内存比较大</h3><ul>
-<li><p>缓存速度：内存缓存—&gt;本地缓存—&gt;网络缓存</p>
-</li>
-<li><p>文本缓存的过程包括： 文本数据+ 图片路径（本质上还是一个String，也是文本）</p>
-</li>
-<li><p>图片是由Android系统自带的图片缓存器缓存的</p>
-</li>
-</ul>
-<h3 id="12-原生库的代码是不可以修改的，但是我们可以自定义样式，然后parent继承它，在自己的文件目录下修改，参考TabLayout的做法，就是自定义样式继承parent，然后修改自己的目录文件，对，就是这样！"><a href="#12-原生库的代码是不可以修改的，但是我们可以自定义样式，然后parent继承它，在自己的文件目录下修改，参考TabLayout的做法，就是自定义样式继承parent，然后修改自己的目录文件，对，就是这样！" class="headerlink" title="12.原生库的代码是不可以修改的，但是我们可以自定义样式，然后parent继承它，在自己的文件目录下修改，参考TabLayout的做法，就是自定义样式继承parent，然后修改自己的目录文件，对，就是这样！"></a>12.原生库的代码是不可以修改的，但是我们可以自定义样式，然后parent继承它，在自己的文件目录下修改，参考TabLayout的做法，就是自定义样式继承parent，然后修改自己的目录文件，对，就是这样！</h3><h3 id="13-三级缓存"><a href="#13-三级缓存" class="headerlink" title="13.三级缓存"></a>13.三级缓存</h3><ul>
-<li><p>我们显示图片的本质是：拿到图片的资源，然后放到内存中去运行和显示</p>
-</li>
-<li><p>所以这也是为什么内存缓存最快，内存缓存就是，图片的资源直接放在内存中，这样我们就直接在内存中拿来使用，不需要再去本地或者联网请求拿到图片的资源，所以内存缓存是最快的</p>
-</li>
-<li><p>其次内存没有的话是去本地拿，再没有就去联网请求拿图片，所以：内存缓存—&gt;本地缓存—&gt;网络缓存</p>
-</li>
-</ul>
-<p><img src="https://i.imgur.com/Y5Fpmwz.png" alt=""></p>
-<h3 id="14-文本缓存就是：把联网请求的文本数据以文件的形式保存在SD中"><a href="#14-文本缓存就是：把联网请求的文本数据以文件的形式保存在SD中" class="headerlink" title="14.文本缓存就是：把联网请求的文本数据以文件的形式保存在SD中"></a>14.文本缓存就是：把联网请求的文本数据以文件的形式保存在SD中</h3><h3 id="15-极光推送的原理"><a href="#15-极光推送的原理" class="headerlink" title="15.极光推送的原理"></a>15.极光推送的原理</h3><p><img src="https://i.imgur.com/ZDwFCI5.png" alt=""></p>
-<h3 id="16-怎么理解xxx-SDK：-JPush-SDK"><a href="#16-怎么理解xxx-SDK：-JPush-SDK" class="headerlink" title="16.怎么理解xxx SDK： JPush SDK"></a>16.怎么理解xxx SDK： JPush SDK</h3><ul>
-<li>xxxSDK可以理解为第三方框架（第三方库），我们也是可以直接调用API，不同的是导入的方法和配置方式不一样而已： 应用集成SDK===导入第三方框架(高级第三方库)</li>
-</ul>
-<h3 id="17-回调可以理解为：接口的结构体回到主线程中书写调用"><a href="#17-回调可以理解为：接口的结构体回到主线程中书写调用" class="headerlink" title="17. 回调可以理解为：接口的结构体回到主线程中书写调用"></a>17. 回调可以理解为：接口的结构体回到主线程中书写调用</h3><h3 id="18-内存溢出OOM几乎都是图片造成的！！"><a href="#18-内存溢出OOM几乎都是图片造成的！！" class="headerlink" title="18.内存溢出OOM几乎都是图片造成的！！"></a>18.内存溢出OOM几乎都是图片造成的！！</h3><h3 id="19-改库名一定要在build-gradle成功后才能改，先no，然后再关联"><a href="#19-改库名一定要在build-gradle成功后才能改，先no，然后再关联" class="headerlink" title="19.改库名一定要在build.gradle成功后才能改，先no，然后再关联"></a>19.改库名一定要在build.gradle成功后才能改，先no，然后再关联</h3><h3 id="20-本地主机当服务器的时候，就算没有网络，TOmacat和手机连接上了，也还是可以照样访问Tomcat-可以把外网和内网理解成两个内套的圆，所以肯定不会有相交，即数据交互的部分，所以一定要在同个网络下"><a href="#20-本地主机当服务器的时候，就算没有网络，TOmacat和手机连接上了，也还是可以照样访问Tomcat-可以把外网和内网理解成两个内套的圆，所以肯定不会有相交，即数据交互的部分，所以一定要在同个网络下" class="headerlink" title="20. 本地主机当服务器的时候，就算没有网络，TOmacat和手机连接上了，也还是可以照样访问Tomcat,可以把外网和内网理解成两个内套的圆，所以肯定不会有相交，即数据交互的部分，所以一定要在同个网络下"></a>20. 本地主机当服务器的时候，就算没有网络，TOmacat和手机连接上了，也还是可以照样访问Tomcat,可以把外网和内网理解成两个内套的圆，所以肯定不会有相交，即数据交互的部分，所以一定要在同个网络下</h3><h3 id="21-POST请求可以请求得到数据，也可以提交上传数据，利用json"><a href="#21-POST请求可以请求得到数据，也可以提交上传数据，利用json" class="headerlink" title="21. POST请求可以请求得到数据，也可以提交上传数据，利用json"></a>21. POST请求可以请求得到数据，也可以提交上传数据，利用json</h3><h3 id="22-文件下载的实现，我们可以引伸到"><a href="#22-文件下载的实现，我们可以引伸到" class="headerlink" title="22. 文件下载的实现，我们可以引伸到"></a>22. 文件下载的实现，我们可以引伸到</h3><ul>
-<li><p>1.从服务器下载安装包（软件升级）</p>
-</li>
-<li><p>2.下载服务器的图片</p>
-</li>
-<li><p>3.下载mp4视频文件</p>
-</li>
-</ul>
-<h3 id="23-文件（图片，视频，文档等等）：文件服务器的搭建"><a href="#23-文件（图片，视频，文档等等）：文件服务器的搭建" class="headerlink" title="23.文件（图片，视频，文档等等）：文件服务器的搭建"></a>23.文件（图片，视频，文档等等）：文件服务器的搭建</h3><ul>
-<li><p>1.复制war文件到webapp目录下</p>
-</li>
-<li><p>2.重启Tomcat即可</p>
-</li>
-<li><p>3.之后上传的文件就在upload目录下可查看</p>
-</li>
-</ul>
-<h3 id="24-POST和GET都可以请求数据获得服务器的文本数据，但是上传提交数据给服务器，只能用POST"><a href="#24-POST和GET都可以请求数据获得服务器的文本数据，但是上传提交数据给服务器，只能用POST" class="headerlink" title="24. POST和GET都可以请求数据获得服务器的文本数据，但是上传提交数据给服务器，只能用POST"></a>24. POST和GET都可以请求数据获得服务器的文本数据，但是上传提交数据给服务器，只能用POST</h3><h3 id="25-Share到不同的平台，是通过每个平台的jar包来实现的"><a href="#25-Share到不同的平台，是通过每个平台的jar包来实现的" class="headerlink" title="25.Share到不同的平台，是通过每个平台的jar包来实现的"></a>25.Share到不同的平台，是通过每个平台的jar包来实现的</h3><h3 id="26-碎片的生命周期"><a href="#26-碎片的生命周期" class="headerlink" title="26.碎片的生命周期"></a>26.碎片的生命周期</h3><ul>
-<li>Fragment类提供了一系列的回调方法，以覆盖碎片的每个环节，主要的回调方法有： </li>
-<li>1、onAttach()：当碎片和活动建立关联的时候调用。 </li>
-<li>2、onCreateView()：为碎片创建视图（加载布局）时调用。 </li>
-<li>3、onActivityCreated()：确保与碎片相关联的活动一定已经创建完毕的时候调用。 </li>
-<li>4、onDestroyView()：当与碎片关联的视图被移除的时候调用。 </li>
-<li>5、onDetach()：当碎片和活动解除关联的时候调用。</li>
-</ul>
-<p><img src="https://i.imgur.com/IAVJyAe.png" alt=""></p>
-<h3 id="setSelection-int-position-方法"><a href="#setSelection-int-position-方法" class="headerlink" title="setSelection(int position)方法"></a>setSelection(int position)方法</h3><ul>
-<li>这个方法的作用就是将第position个item显示在listView的最上面一项，假如有一个ListView控件，其一次只能显示10个item，但现在有20个数据项，设置好adapter以后，默认是第一个数据项显示在最上面，如果我现在调用setSelection(2),则第3个数据项会显示在最上面，调用setSelection(9),则第10个数据项会显示在最上面。但需要注意的是，如果我调用setSelection(19),第20个数据项不会显示在最上面，因为其可以显示10个数据项，最上面的一个最大只可能是11，也就是说如果setSelection传入参数大于10，都只会显示11；如果小于11，则传入参数是几最上面一项显示的就是几.</li>
-</ul>
-<h3 id="for循环的遍历写法"><a href="#for循环的遍历写法" class="headerlink" title="for循环的遍历写法"></a>for循环的遍历写法</h3><ul>
-<li>不严格的说，Java的第二种for循环基本是这样的格式：</li>
-<li><p>for (循环变量类型 循环变量名称 : 要被遍历的对象) 循环体</p>
-</li>
-<li><pre>
-
-    for (Province province: provinceList){
-          dataList.add(province.getProvinceName());
-
-      }
-</pre>
-
+<li><p>因此，我觉得自己很适合这个岗位，并有信心能够做好，希望能获得这个工作机会，谢谢！谢谢谢谢谢谢！！</p>
 </li>
 </ul>
 
@@ -3407,7 +3080,7 @@ private int currentStatus = PULL_DOWN_REFRESH;
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">23</span>
+                  <span class="site-state-item-count">25</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
