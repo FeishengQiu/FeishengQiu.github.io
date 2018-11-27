@@ -233,652 +233,6 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/09/10/面试官2（Android二阶高级）/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="FeishengQiu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="FeishengQiu">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/09/10/面试官2（Android二阶高级）/" itemprop="url">Android二阶</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-09-10T00:30:35+08:00">
-                2018-09-10
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="Android二阶"><a href="#Android二阶" class="headerlink" title="Android二阶"></a>Android二阶</h2><h3 id="1-自定义View的流程"><a href="#1-自定义View的流程" class="headerlink" title="1.自定义View的流程"></a>1.自定义View的流程</h3><ul>
-<li>首先创建一个类继承View或者ViewGroup,重载构造方法，做一些初始化操作并获取自定义属性，通过AttributeSet对象attrs获取他们的值（4个构造方法）</li>
-<li>其次重写onMeasure()方法，设置自定义View的宽高，如果自定义view属于ViewGroup，还会设置及测量子View的宽高；此时会涉及到类MeasureSpec，有三种测量模式，EXACTLY：设置了精确值；AT_MOST，布局被限定在一个最大值内；UNSPECIFIED：布局要多大就有多大，ScrollView的childView的heightMode中；此种模式比较少见。</li>
-<li>再重写onLayout（）方法：主要是用于确定子View的具体布局位置，一般是在继承了ViewGroup的时候需要重写这个方法，（一般都是在onLayout中获取所有的子类，然后根据需求计算出子View的位置参数，再通过调用子View的layout(l,t, r, b)方法设置子View的位置。）</li>
-<li><p>重写onDraw方法：绘制内容，这部分也决定了自定义View的具体效果</p>
-</li>
-<li><p>继承View/ViewGroup—重载构造方法，进行初始化操作和获取自定义属性—重写onMeasure()方法，测量View自身的大小（利用MeasureSpec类.getMode,getSize和三种模式值）—重写onSizeChanged方法（View大小确定的时候回调）—重写onLayout方法确定子View的位置参数—重写onDraw方法：绘制内容，这部分也决定了自定义View的具体效果</p>
-</li>
-</ul>
-<h3 id="2-事件触发机制：-onTouch-和-onTouchEvent-有什么区别，又该如何使用"><a href="#2-事件触发机制：-onTouch-和-onTouchEvent-有什么区别，又该如何使用" class="headerlink" title="2.事件触发机制： onTouch 和 onTouchEvent 有什么区别，又该如何使用"></a>2.事件触发机制： onTouch 和 onTouchEvent 有什么区别，又该如何使用</h3><ul>
-<li>这两个方法都是在 View 的 dispatchTouchEvent 中调用的，onTouch 优先于 onTouchEvent执行。如果在 onTouch 方法中通过返回 true 将事件消费掉，onTouchEvent 将不会再执行。（ mOnTouchListener 的值<br>不能为空，控件enable）</li>
-</ul>
-<h3 id="3-请描述一下-Android-的事件分发机制"><a href="#3-请描述一下-Android-的事件分发机制" class="headerlink" title="3.请描述一下 Android 的事件分发机制"></a>3.请描述一下 Android 的事件分发机制</h3><ul>
-<li><p>首先，事件分发的顺序是从：Activity到ViewGroup到View; 当一个点击事件发生时，事件最先传到Activity的dispatchTouchEvent()进行事件分发，（true和false都消费掉事件）然后默认传递到ViewGroup的dispatchTouchEvent()，此时return true就会消费掉事件，return false就会返回到Activity的onTouchEvent进行处理，默认是传给ViewGroup的拦截器onIntercreptTouchEvent,拦截器return true则就会把事件传给viewgroup的onTouchEvent自己处理，return false或者默认状态下都传递给view的dispatchTouchEvent,return false的话就会传递给viewgroup的onTouchEvent，return true 就会消费掉，默认就会传递给view的onTouchEvent,false和默认都是往上一层的onTouchEvent传递，true就会消费掉事件</p>
-</li>
-<li><p>只有ViewGroup有拦截器onIntercreptTouchEvent，viewgroup是一组viw的集合，本质是view，是layout的父类</p>
-</li>
-</ul>
-<h3 id="4-理解Http-TCP-UDP-IP-TCP-IP的关系"><a href="#4-理解Http-TCP-UDP-IP-TCP-IP的关系" class="headerlink" title="4.理解Http,TCP,UDP,IP,TCP/IP的关系"></a>4.理解Http,TCP,UDP,IP,TCP/IP的关系</h3><ul>
-<li>首先，TCP/IP协议是一个协议族的总称，是一个四层结构的协议： 有数据—&gt;才有网络(IP)—&gt;才能传输（TCP UDP）—&gt;才能应用</li>
-<li>每个层次都有相对应的功能和协议，例如Http协议：超文本传输协议，就是应用层的协议，用于实现互联网中的 WWW 服务，使用端口 80；Tcp,UDP都是传输层的协议，区别如下：</li>
-<li>HTTP连接最显著的特点是客户端发送的每次请求都需要服务器回送响应，在请求结束后，会主动释放连接。从建立连接到关闭连接的过程称为“一次连接”。</li>
-<li><img src="https://i.imgur.com/qUGrXhO.jpg" alt=""></li>
-</ul>
-<h3 id="5-对Socket的理解"><a href="#5-对Socket的理解" class="headerlink" title="5.对Socket的理解"></a>5.对Socket的理解</h3><ul>
-<li><p>socket很直白的翻译是：套接字；套接字就是ip地址和端口号的组合，网络通信的本质就是socket通信；通信就需要客户端和服务端，两端都需要有一个socket,一个发送，一个接收；socket之间的数据传输是以IO流的形式进行的； 客户端发送完之后write  需要加一句shutdownOutput();就不会一直阻塞，可以让服务端知道已经发送完了，我可以响应和回复你了</p>
-</li>
-<li><p><img src="https://i.imgur.com/K31bi71.jpg" alt=""></p>
-</li>
-</ul>
-<h3 id="6-Android如何避免OOM"><a href="#6-Android如何避免OOM" class="headerlink" title="6.Android如何避免OOM"></a>6.Android如何避免OOM</h3><ul>
-<li>OOM内存溢出就是你要求被分配的内存超出了系统能给你的内存，系统不能满足你的需求，于是产生溢出。</li>
-<li>内存泄漏指的是无法释放申请到的内存空间</li>
-<li>要避免内存溢出，就应该要知道哪些情况下会导致内存溢出</li>
-<li>图片过大导致 OOM，此时我们可以等比例缩小图片，调用BitmapFactory.decodeResource方法，和options</li>
-<li>可以对图片采用软引用，内存不足的时候会自动回收</li>
-<li>使用封装好的第三方框架，例如Glide和Picasso来加载图片</li>
-<li>Bitmap 对象不再使用时调用 recycle()释放内存</li>
-<li>避免XML的重复加载，横竖屏，</li>
-<li>构造 Adapter 时，没有使用缓存的 convertView，应该要复用convertView，提高性能</li>
-</ul>
-<h3 id="7-Android近几年新版本的特性和怎么看待kotlin"><a href="#7-Android近几年新版本的特性和怎么看待kotlin" class="headerlink" title="7.Android近几年新版本的特性和怎么看待kotlin"></a>7.Android近几年新版本的特性和怎么看待kotlin</h3><ul>
-<li>Android5系列，加入了material design,UI风格非常舒服好看；同时改善了通知栏，锁屏的时候也可以接受到通知</li>
-<li>Android6系列，新增运行时权限概念，用户可以对app控制应用权限；还要瞌睡模式，待机模式，可以提高电池性能</li>
-<li>Android7系列，通知栏快捷回复，加入原生分屏多任务功能，多任务快速切换</li>
-<li>Android8系列O，画中画模式，就是应用的悬浮窗口，跟微信的悬浮窗很像</li>
-<li>自动填充，快速登录；后台进程限制，最大程度减小后台应用对电池的消耗和对资源的占用</li>
-<li>Android P(pie):Android P 增加对凹口屏幕的支持,刘海屏</li>
-<li>新的菜单，    铃声滑块；以机器学习为核心，自适应电源管理，自适应亮度调节，应用操作预测；</li>
-<li>Kotlin是一种基于JVM的静态类型编程语言；语法简洁不啰嗦（学习起来很快）；与Java（以及JVM）的完全互操作性；Kotlin 和java的交互性很好，java的很多框架库都可以无缝连接；Kotlin 每个句子都不需要加分号 ；还有解决了空指针安全问题；性能高；个人转OK，团队转，还需要一些时间，毕竟需要学习成本和编程习惯的改变</li>
-</ul>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/09/10/Android简答题/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="FeishengQiu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="FeishengQiu">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/09/10/Android简答题/" itemprop="url">Android简答题</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-09-10T00:30:35+08:00">
-                2018-09-10
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="Android一阶"><a href="#Android一阶" class="headerlink" title="Android一阶"></a>Android一阶</h2><h3 id="1-请简要介绍Android的四大组件（定义是什么，功能是什么）-Android中Activity-Intent-Content-Provider-Service各有什么区别-说出他们各自的定义和功能即可"><a href="#1-请简要介绍Android的四大组件（定义是什么，功能是什么）-Android中Activity-Intent-Content-Provider-Service各有什么区别-说出他们各自的定义和功能即可" class="headerlink" title="1.请简要介绍Android的四大组件（定义是什么，功能是什么）/Android中Activity, Intent, Content Provider, Service各有什么区别(说出他们各自的定义和功能即可)"></a>1.请简要介绍Android的四大组件（定义是什么，功能是什么）/Android中Activity, Intent, Content Provider, Service各有什么区别(说出他们各自的定义和功能即可)</h3><ul>
-<li>Activity：一种可以包含用户界面的组件，主要和用户进行交互</li>
-<li>Service: 一种可以在后台执行长时间运行操作而没有用户界面的应用组件</li>
-<li>Broadcast Receive:可以在应用程序之间传输信息，通过发送Intent来传送我们的目标数据</li>
-<li>Content Provider:内容提供者，它是用在不同的应用程序之间共享数据时，可以把一个应用的数据提供给其他的应用使用。</li>
-<li><p>(常 见 的 Activity 类 型 有 FragmentActivitiy ， ListActivity ，TabAcitivty 等)</p>
-</li>
-<li><p>ASBC</p>
-<h3 id="2-描述一下Activity的生命周期"><a href="#2-描述一下Activity的生命周期" class="headerlink" title="2.描述一下Activity的生命周期"></a>2.描述一下Activity的生命周期</h3></li>
-<li><p>Activity的生命周期有4种状态</p>
-</li>
-<li>运行状态：活动处于返回栈的栈顶，完全可见</li>
-<li>暂停状态：活动不处于栈顶，但仍然可见，例如切换的活动B是一个对话框形式的活动，活动A不会被完全覆盖</li>
-<li>停止状态：活动不在栈顶，完全不可见</li>
-<li>销毁状态：活动从返回栈移除</li>
-<li>然后Activity的生命周期对应着7大回调方法： onCreate(),onStart(),onResume(),onPause(),onStop(),OnRestart(),onDestroy()</li>
-<li><p>(完整生存期，可见生存期，前台生存期)</p>
-</li>
-<li><p>运行暂停，停止销毁</p>
-</li>
-</ul>
-<h3 id="3-如何保存-Activity-的状态-内存不足时系统会杀掉后台的Activity，若需要进行一些临时状态的保存，在哪个方法进行？（内存不足、用户直接按Home键）"><a href="#3-如何保存-Activity-的状态-内存不足时系统会杀掉后台的Activity，若需要进行一些临时状态的保存，在哪个方法进行？（内存不足、用户直接按Home键）" class="headerlink" title="3.如何保存 Activity 的状态/内存不足时系统会杀掉后台的Activity，若需要进行一些临时状态的保存，在哪个方法进行？（内存不足、用户直接按Home键）"></a>3.如何保存 Activity 的状态/内存不足时系统会杀掉后台的Activity，若需要进行一些临时状态的保存，在哪个方法进行？（内存不足、用户直接按Home键）</h3><ul>
-<li><p>可以重写 onSaveInstanceState()这个方 法，onSaveInstanceState()方法接受一个 Bundle 类型的参数, 我们可以将状态数据存储到这个Bundle对象中，（键值对的形式）即使Activity被摧毁了，在onCreate方法重新被调用的时候，我们可以从savedInstanceState中取出保存的数据，恢复状态</p>
-</li>
-<li><p>：A存临态为 SI</p>
-</li>
-</ul>
-<h3 id="4-两个-Activity-之间跳转时必然会执行的是哪几个方法"><a href="#4-两个-Activity-之间跳转时必然会执行的是哪几个方法" class="headerlink" title="4.两个 Activity 之间跳转时必然会执行的是哪几个方法"></a>4.两个 Activity 之间跳转时必然会执行的是哪几个方法</h3><ul>
-<li><p>例如活动 A跳转到 活动 B，首先活动A会调用onPause()方法，然后B调用onCreate()，onStart(),onResume();如果活动B完全覆盖了窗体，A完全不可见，就会调用onStop（）方法，如果B没有完全覆盖，例如是一个对话框形式的活动，A就不会调用onStop()方法，根据情况而定</p>
-</li>
-<li><p>：A转B，C四，R四</p>
-</li>
-</ul>
-<h3 id="5-横竖屏切换时-Activity-的生命周期"><a href="#5-横竖屏切换时-Activity-的生命周期" class="headerlink" title="5.横竖屏切换时 Activity 的生命周期"></a>5.横竖屏切换时 Activity 的生命周期</h3><ul>
-<li><p>不设置 Activity 的 android:configChanges 时，切屏默认首先销毁当前Activity，然后重新加载，回调各个生命周期方法；设置 Activity android:configChanges=”orientation|keyboardHiddenscreenSize”时，切屏不会重新调用各个生命周期，只会执行 onConfigurationChanged 方法。</p>
-</li>
-<li><p>横竖屏切配config，orikeyboardHiscree</p>
-</li>
-</ul>
-<h3 id="6-如何将一个-Activity-设置成窗口的样式"><a href="#6-如何将一个-Activity-设置成窗口的样式" class="headerlink" title="6.如何将一个 Activity 设置成窗口的样式"></a>6.如何将一个 Activity 设置成窗口的样式</h3><ul>
-<li><p>只需要给我们的 Activity 配置如下属性即可，android:theme=”@android:style/Theme.Dialog”</p>
-</li>
-<li><p>:窗口Them呆儿</p>
-</li>
-</ul>
-<h3 id="7-如-何-退-出-Activity-？-如-何-安-全-退-出-已-调-用-多-个-Activity-的Application？"><a href="#7-如-何-退-出-Activity-？-如-何-安-全-退-出-已-调-用-多-个-Activity-的Application？" class="headerlink" title="7.如 何 退 出 Activity ？ 如 何 安 全 退 出 已 调 用 多 个 Activity 的Application？"></a>7.如 何 退 出 Activity ？ 如 何 安 全 退 出 已 调 用 多 个 Activity 的Application？</h3><ul>
-<li>1.首先最简单的当然是直接调用finish（）方法，back键</li>
-<li>2.记录打开的Activity:我们可以创建一个ActivityCollector的类，然后里面创建一个Activity的集合，然后把所有的Activity添加进去，再写一个总的finishAll()方法，里面是一个for循环来finish所有的Activity</li>
-<li>3.发送特定广播：在需要结束应用时，发送一个特定的广播，每个 Activity 收到广播后，调用finish（）方法，关闭活动即可</li>
-</ul>
-<h3 id="8-Activity的启动模式有？-Activity-的四种启动模式，singletop-和-singletask-区别是什么？-介绍Activity的几中启动模式，并简单说说自己的理解或者使用场景"><a href="#8-Activity的启动模式有？-Activity-的四种启动模式，singletop-和-singletask-区别是什么？-介绍Activity的几中启动模式，并简单说说自己的理解或者使用场景" class="headerlink" title="8.Activity的启动模式有？/Activity 的四种启动模式，singletop 和 singletask 区别是什么？/介绍Activity的几中启动模式，并简单说说自己的理解或者使用场景"></a>8.Activity的启动模式有？/Activity 的四种启动模式，singletop 和 singletask 区别是什么？/介绍Activity的几中启动模式，并简单说说自己的理解或者使用场景</h3><ul>
-<li>standard：默认模式，在这个模式下，都会默认创建一个新的实例，因此可以有多个相同的实例，也允许多个相同Activity叠加。</li>
-<li>singleTop：如果Activity在栈顶的时候，启动相同的Activity，不会创建新的实例，而会调用onNewIntent方法</li>
-<li>singleTask：只有一个实例。在同一个应用程序中启动他的时候，若Activity不存在，则会在当前task创建一个新的实例，若存在，则会把task中在其之上的其它Activity destory掉并调用它的onNewIntent方法。（主页的Activity很常用）</li>
-<li>singleInstance：只有一个实例，并且这个实例独立运行在一个task中，这个task只有这个实例，不允许有别的Activity存在。</li>
-</ul>
-<h3 id="9-Android-中的-Context-Activity，Appliction-有什么区别"><a href="#9-Android-中的-Context-Activity，Appliction-有什么区别" class="headerlink" title="9.Android 中的 Context, Activity，Appliction 有什么区别"></a>9.Android 中的 Context, Activity，Appliction 有什么区别</h3><ul>
-<li>Activity 和 Application 都是 Context 的子类；</li>
-<li>Context是一个抽象类，从字面上理解就是上下文的意思，在实际应用中它也确实是起到了管理上下文环境中各个参数和变量的作用，方便我们可以简单的访问到各种资源。具体实现类是（ContextIml）</li>
-<li>不同：维护的生命周期不同。 Context 维护的是当前的 Activity 的生命周期，Application 维护<br>的是整个应用程序的生命周期。</li>
-<li>（使用 context 的时候，小心内存泄露，防止内存泄露，注意一下几个方面；不要让生命周期长的对象引用 activity context，即保证引用 activity 的对象要与 activity 本身生命周期是一样的；对于生命周期长的对象，可以使用 application，context）</li>
-</ul>
-<h3 id="10-两个-Activity-之间传递数据，除了-intent，广播接收者，contentprovider-还有啥？"><a href="#10-两个-Activity-之间传递数据，除了-intent，广播接收者，contentprovider-还有啥？" class="headerlink" title="10.两个 Activity 之间传递数据，除了 intent，广播接收者，contentprovider 还有啥？"></a>10.两个 Activity 之间传递数据，除了 intent，广播接收者，contentprovider 还有啥？</h3><ul>
-<li>利用 static 静态数据，public static 成员变量</li>
-<li>外部存储：File 文件存储；SharedPreferences ；Sqlite 数据库</li>
-</ul>
-<h3 id="11-你知道onNewIntent吗"><a href="#11-你知道onNewIntent吗" class="headerlink" title="11.*你知道onNewIntent吗"></a>11.*你知道onNewIntent吗</h3><ul>
-<li>活动B是之前打开过的Activity，现在处于onPause、onStop 状态的话，其他应用再发送Intent的话，执行顺序为：onNewIntent，onRestart，onStart，onResume。</li>
-</ul>
-<h3 id="12-除了用Intent-去启动一个Activity，还有其他方法吗"><a href="#12-除了用Intent-去启动一个Activity，还有其他方法吗" class="headerlink" title="12.*除了用Intent 去启动一个Activity，还有其他方法吗"></a>12.*除了用Intent 去启动一个Activity，还有其他方法吗</h3><ul>
-<li>使用adb shell am 命令启动一个activity；am发送一个广播，使用action</li>
-</ul>
-<h3 id="13-Service-Service-是否在-main-thread-中执行-service-里面是否能执行耗时的操作"><a href="#13-Service-Service-是否在-main-thread-中执行-service-里面是否能执行耗时的操作" class="headerlink" title="13.Service:Service 是否在 main thread 中执行, service 里面是否能执行耗时的操作?"></a>13.Service:Service 是否在 main thread 中执行, service 里面是否能执行耗时的操作?</h3><ul>
-<li>Service 和 activity 是运行在当前应用程序所在进程的 main thread(UI 主线程)里面。</li>
-<li>service 里面不能执行耗时的操作(网络请求,拷贝数据库,大文件 )</li>
-<li>特殊情况下可以去AndroidManifest里面去配置它的进程</li>
-</ul>
-<h3 id="14-Activity-怎么和-Service-绑定，怎么在-Activity-中启动自己对应的Service？"><a href="#14-Activity-怎么和-Service-绑定，怎么在-Activity-中启动自己对应的Service？" class="headerlink" title="14.Activity 怎么和 Service 绑定，怎么在 Activity 中启动自己对应的Service？"></a>14.Activity 怎么和 Service 绑定，怎么在 Activity 中启动自己对应的Service？</h3><ul>
-<li>Activity 通过 bindService(Intent service, ServiceConnection conn, BIND_AUTO_CREATE)跟 Service 进行绑定，当绑定成功的时候 （Service 会将代理对象通过回调的形式传给 conn，这样我们就拿到了Service 提供的服务代理对象。）绑定成功的话就会回调onServiceConnected这个方法</li>
-<li>般情况下如果想获取Service 的服务对象那么肯定需要通过 bindService（）方法；如果仅仅只是为了开启一个后台任务那么可以使用 startService（）方法。</li>
-</ul>
-<h3 id="15-比较两种开启服务的区别"><a href="#15-比较两种开启服务的区别" class="headerlink" title="15.比较两种开启服务的区别"></a>15.比较两种开启服务的区别</h3><ul>
-<li>startService:如果服务已经开启，不会重复的执行onCreate(), 而是会调用onStartCommand()。服务停止的时候调用 onDestory()。一旦服务开启跟调用者(开启者)就没有任何关系了。Activity退出了，销毁了，服务还在后台长期的运行。而且Activity不能调用服务里面的方法。</li>
-<li>bind的方式开启服务，绑定服务，调用者挂了，服务也会跟着挂掉。绑定者可以调用服务里面的方法</li>
-</ul>
-<h3 id="16-请描述一下-Service-的生命周期"><a href="#16-请描述一下-Service-的生命周期" class="headerlink" title="16.请描述一下 Service 的生命周期"></a>16.请描述一下 Service 的生命周期</h3><ul>
-<li>非 绑 定 模 式 ： 当 第 一 次 调 用 startService 的 时 候 执 行 的 方 法 依 次 为 onCreate() 、onStartCommand()，当 Service 关闭的时候调用 onDestory 方法。</li>
-<li>第一次 bindService（）的时候，执行的方法为 onCreate()、onBind(）解除绑定的时候会执行 onUnbind()、onDestory()。</li>
-<li>我们在开发的过程中还必须注意 Service 实例只会有一个，也就是说如果当前要启动的 Service 已经存在了那么就不会再次创建该 Service 当然也不会调用 onCreate（）方法。一个 Service 可以被多个客户进行绑定，只有所有的绑定对象都执行了 onUnBind（）方法后该Service 才会销毁</li>
-</ul>
-<h3 id="17-什么是-IntentService？有何优点？"><a href="#17-什么是-IntentService？有何优点？" class="headerlink" title="17.什么是 IntentService？有何优点？"></a>17.什么是 IntentService？有何优点？</h3><ul>
-<li>因为Service是运行在主线程的，所以当我们需要在Service里面执行一些耗时的操作，我们就必须要开启线程，在onStartCommand()回调方法里开启线程和重写run方法.start;然后还需要在里面加stopSelf()让服务执行完毕后自动停止（所以总共2步）</li>
-<li>为了更加方便的开启线程和自动停止服务，我们就可以使用IntentService；创建独立的 worker 线程来处理所有的 Intent 请求和onHandleIntent()方法实现的代码；我们只要重写onHandleIntent()方法即可，执行完毕后会自动停止服务（没看过源码，但是有用打印日志的方式验证了一下线程不一样，执行完毕后就自动停止服务，无需调用 stopSelf()方法停止 Service），可以避免ANR问题，又方便开线程和自动停止服务</li>
-</ul>
-<h3 id="18-说说-Activity、Intent、Service-是什么关系"><a href="#18-说说-Activity、Intent、Service-是什么关系" class="headerlink" title="18.说说 Activity、Intent、Service 是什么关系"></a>18.说说 Activity、Intent、Service 是什么关系</h3><ul>
-<li>其中 Activity 和 Service 都是 Android 四大组件<br>之一。他俩都是 Context 类的子类 ContextWrapper 的子类，因此他俩可以算是兄弟关系吧。不过<br>兄弟俩各有各自的本领，Activity 负责用户界面的显示和交互，Service 负责后台任务的处理。Activity<br>和 Service 之间可以通过 Intent 传递数据，因此可以把 Intent 看作是通信使者。</li>
-</ul>
-<h3 id="19-Service-里面可以弹吐司么"><a href="#19-Service-里面可以弹吐司么" class="headerlink" title="19.Service 里面可以弹吐司么"></a>19.Service 里面可以弹吐司么</h3><ul>
-<li>可以的。弹吐司有个条件就是得有一个 Context 上下文，而 Service 本身就是 Context 的子类，因<br>此在 Service 里面弹吐司是完全可以的。比如我们在 Service 中完成下载任务后可以弹一个吐司通知<br>用户。</li>
-</ul>
-<h3 id="20-什么是-Service？为什么需要Service"><a href="#20-什么是-Service？为什么需要Service" class="headerlink" title="20.什么是 Service？为什么需要Service"></a>20.什么是 Service？为什么需要Service</h3><ul>
-<li>Service的出现可以理解为是Activity的补充，实现Activity实现不了的功能，即使应用关闭和切换应用B，应用A的Service还能继续运行，从而执行一些耗时，长期运行的后台任务，例如下载,播放音乐（我们打开应用B做别的操作）音乐播放、下载、上传大文件、定时关闭应用等功能。这些功能如果放到Activity中做的话，那Activity退出被销毁了的话，那这些功能也就停止了，这显然是不符合我们的设计要求的，所以要将他们放在Service中去执行。</li>
-</ul>
-<h3 id="21-在-service-的生命周期方法-onstartConmand-可不可以执行网络操作？如何在-service-中执行网络操作？"><a href="#21-在-service-的生命周期方法-onstartConmand-可不可以执行网络操作？如何在-service-中执行网络操作？" class="headerlink" title="21.在 service 的生命周期方法 onstartConmand()可不可以执行网络操作？如何在 service 中执行网络操作？"></a>21.在 service 的生命周期方法 onstartConmand()可不可以执行网络操作？如何在 service 中执行网络操作？</h3><ul>
-<li>可以直接在 Service 中执行网络操作,在 onStartCommand()方法中可以执行网络操作</li>
-<li>如果需要在服务中进行耗时操作，可以选择IntentService， IntentService是Service的子类，用来处理异步请求。</li>
-</ul>
-<h3 id="22-注册Service需要注意什么"><a href="#22-注册Service需要注意什么" class="headerlink" title="22.注册Service需要注意什么"></a>22.注册Service需要注意什么</h3><ul>
-<li>ervice还是运行在主线程当中的，所以如果需要执行一些复杂的逻辑操作，最好在服务的内部手动创建子线程进行处理，否则会出现UI线程被阻塞的问题，出现ANR的问题</li>
-</ul>
-<h3 id="23-Service与Activity怎么实现通信"><a href="#23-Service与Activity怎么实现通信" class="headerlink" title="23.Service与Activity怎么实现通信"></a>23.Service与Activity怎么实现通信</h3><ul>
-<li>service里面添加一个继承Binder的内部类，并添加相应的逻辑方法；重写Service的onBind方法，返回我们刚刚定义的那个内部类实例；重写onServiceConnection，onServiceConnected时调用逻辑方法 绑定服务</li>
-</ul>
-<h3 id="24-Broadcast-Receiver-请描述一下-BroadcastReceiver"><a href="#24-Broadcast-Receiver-请描述一下-BroadcastReceiver" class="headerlink" title="24.Broadcast Receiver:请描述一下 BroadcastReceiver"></a>24.Broadcast Receiver:请描述一下 BroadcastReceiver</h3><ul>
-<li>BroadCastReceiver 是 Android 四大组件之一，主要用于接收系统或者应用程序发送的广播事件</li>
-<li>广播分两种：标准广播和有序广播；标准异步执行，效率高，无法截断；有序同步执行，优先级高的广播可以先接收到，可以截断广播；</li>
-<li>在我们的项目中经常使用广播接收者接收系统通知，比如开机启动、sd 挂载、低电量、监听网络情况</li>
-</ul>
-<h3 id="25-在-manifest-和代码中如何静态注册和使用-BroadcastReceiver"><a href="#25-在-manifest-和代码中如何静态注册和使用-BroadcastReceiver" class="headerlink" title="25.在 manifest 和代码中如何静态注册和使用 BroadcastReceiver"></a>25.在 manifest 和代码中如何静态注册和使用 BroadcastReceiver</h3><ul>
-<li>在清单文件中注册广播接收者称为静态注册，在代码中注册称为动态注册。静态注册的广播接收者只要 app 在系统中运行则一直可以接收到广播消息，动态注册的广播接收者当注册的 Activity 或者 Service 销毁了那么就接收不到广播了。这就是静态注册和动态注册的区别</li>
-<li>静态注册的过程：在清单文件里的application标签内进行注册，AS自动生成&lt;receiver标签，然后在里面加入<intent-filter>标签，再嵌套一个目标广播的action值，例如开机是BOOT_COMPLETED,然后再加相对应的监听广播的权限</intent-filter></li>
-<li>动态注册的过程：新建一个类继承BroadcastReceiver,然后重写onReceive方法，然后在Activity里面创建这个类的实例，再调用registerReceiver（实例，intentFilter）就可以完成注册，不过记得要手动取消注册，调用unregisterReceiver（实例）方法，一般写在onDestroy方法里</li>
-</ul>
-<h3 id="26-BroadCastReceiver-的生命周期"><a href="#26-BroadCastReceiver-的生命周期" class="headerlink" title="26.BroadCastReceiver 的生命周期"></a>26.BroadCastReceiver 的生命周期</h3><ul>
-<li>广播接收者的生命周期非常短暂的，在接收到广播的时候创建，onReceive()方法结束之后销毁；</li>
-<li>广播接收者中不要做一些耗时的工作，否则会弹出 Application No Response 错误对话框；不能超过10秒</li>
-<li>最好也不要在广播接收者中创建子线程做耗时的工作，因为广播接收者被销毁后进程就成为了空进程，很容易被系统杀掉；（耗时的放在服务里比较好）</li>
-</ul>
-<h3 id="27-Android-引入广播机制的用意"><a href="#27-Android-引入广播机制的用意" class="headerlink" title="27.Android 引入广播机制的用意"></a>27.Android 引入广播机制的用意</h3><ul>
-<li>首先Android的四大组件之间，有时候是相互依存的关系，例如Activity绑定服务，有时候又是一种补充关系，Service我们可以理解为是对Activity的补充，引入广播机制可以方便四大组件的信息和数据交互。</li>
-<li>程序间互通消息(例如在自己的应用程序内监听系统的网络变换)</li>
-</ul>
-<h3 id="28-怎么发送广播"><a href="#28-怎么发送广播" class="headerlink" title="28.怎么发送广播"></a>28.怎么发送广播</h3><ul>
-<li>发送标准广播：Intent intent =new Intent(“自定义广播值/或者已存在的广播值”)；sendBroadcast(intent);</li>
-<li>发送有序广播：Intent intent =new Intent(“自定义广播值/或者已存在的广播值”)；sendOrderedBroadcast(intent);</li>
-<li>即：把广播值存储到intent中，然后调用sendBroadcast或者sendOrderedBroadcast</li>
-</ul>
-<h3 id="29-使用本地广播"><a href="#29-使用本地广播" class="headerlink" title="29.使用本地广播"></a>29.使用本地广播</h3><ul>
-<li>为了本程序携带关键性数据的广播不被其他程序获取，解决安全问题，我们将使用本地广播</li>
-<li>一样是新建一个类继承自BroadcastReceiver作为广播接收器才能接收广播（本质上是重写onReceive方法，执行接收到广播之后的逻辑），然后静态注册，清单文件里加入广播的action值即可</li>
-<li>再在Activity里面加一个LocalBroadcastManager的实例（LocalBroadcastManager.getInstance(this)）,用这个本地广播的实例来发送含有广播action值的intent即可；</li>
-<li>反正一个要send（intent(广播值)）,一个要接收，注册那个广播值，onReceiver来执行目标动作</li>
-</ul>
-<h3 id="30-请介绍下-ContentProvider-是如何实现数据共享的"><a href="#30-请介绍下-ContentProvider-是如何实现数据共享的" class="headerlink" title="30.请介绍下 ContentProvider 是如何实现数据共享的"></a>30.请介绍下 ContentProvider 是如何实现数据共享的</h3><ul>
-<li>在 Android 中如果想将自己应用的数据（一般多为数据库中的数据）提供给第三发应用，那么<br>我们可以通过 ContentProvider 来实现了。使用的时候首先自定义一个类继承ContentProvider，然后覆写 query、insert、update、delete 等方法。因为其是四大组件之一因此必须在 AndroidManifest 文件中进行注册。参数uri由两部分组成：authority,一般取包名；path：数据库的表来代替，然后Uri.parse成uri对象</li>
-<li>访问内容提供器的数据时：需要借助ContentResolver类，getContentResolver可以得到这个实例；然后调用query(),insert（）进行CRUD操作</li>
-</ul>
-<h3 id="31-为什么要用-ContentProvider？它和-sql-的实现上有什么差别？"><a href="#31-为什么要用-ContentProvider？它和-sql-的实现上有什么差别？" class="headerlink" title="31.为什么要用 ContentProvider？它和 sql 的实现上有什么差别？"></a>31.为什么要用 ContentProvider？它和 sql 的实现上有什么差别？</h3><ul>
-<li>ContentProvider 屏蔽了数据存储的细节,内部实现对用户完全透明,用户只需要关心操作数据的uri 就可以了，ContentProvider 可以实现不同 app 之间共享。</li>
-<li>区别：Sql 也有增删改查的方法，但是 sql 只能查询本应用下的数据库。而 ContentProvider 还可<br>以去增删改查本地文件，跨程序共享数据</li>
-</ul>
-<h3 id="32-说说-ContentProvider、ContentResolver、ContentObserver-之间的关系"><a href="#32-说说-ContentProvider、ContentResolver、ContentObserver-之间的关系" class="headerlink" title="32.说说 ContentProvider、ContentResolver、ContentObserver 之间的关系"></a>32.说说 ContentProvider、ContentResolver、ContentObserver 之间的关系</h3><ul>
-<li>ContentProvider 内容提供者，<strong>用于对外提供数据</strong></li>
-<li>ContentResolver 内容解析者，用于<strong>获取</strong>内容提供者提供的数据</li>
-<li>ContentObserver 内容监听器，可以监听数据的改变状态</li>
-</ul>
-<h3 id="33-请介绍下-Android-的数据存储方式（要去大概看一下）"><a href="#33-请介绍下-Android-的数据存储方式（要去大概看一下）" class="headerlink" title="33.请介绍下 Android 的数据存储方式（要去大概看一下）"></a>33.请介绍下 Android 的数据存储方式（要去大概看一下）</h3><ul>
-<li>File 存储；SharedPreference 存储；SQLiteDataBase 存储；ContentProvider 存储；网络存储</li>
-</ul>
-<h3 id="34-Intent-Intent-传递数据时，可以传递哪些类型数据"><a href="#34-Intent-Intent-传递数据时，可以传递哪些类型数据" class="headerlink" title="34.Intent:Intent 传递数据时，可以传递哪些类型数据"></a>34.Intent:Intent 传递数据时，可以传递哪些类型数据</h3><ul>
-<li>8种基本数据类型及其数组</li>
-<li>String及其数组</li>
-<li>实现了Parcelable接口的对象及其数组 </li>
-<li>实现了 Serializable接口的对象及其数组</li>
-</ul>
-<h3 id="35-Serializable-和-Parcelable-的区别"><a href="#35-Serializable-和-Parcelable-的区别" class="headerlink" title="35.Serializable 和 Parcelable 的区别"></a>35.Serializable 和 Parcelable 的区别</h3><ul>
-<li>在使用内存的时候，Parcelable 类比 Serializable 性能高，所以推荐使用 Parcelable 类</li>
-<li>Parcelable 不能使用在要将数据存储在磁盘上的情况。尽管 Serializable 效率低点，但在这<br>种情况下，还是建议你用 Serializable 。</li>
-<li>Serializable 的实现，只需要实现 Serializable 即可。这只是给对象打了一个标记，系统会<br>自动将其序列化。</li>
-<li>Parcelabel 的实现，需要在类中添加一个静态成员变量 CREATOR，这个变量需要继承<br>Parcelable.Creator 接口。</li>
-<li>所谓序列化：可以形象的把它理解为把Java对象内存中的数据采编成一串二进制的数据，然后把这些数据存放在可以可以持久化的数据设备上，如磁盘。当需要还原这些数据的时候，在通过反序列化的过程，把对象又重新还原到内存中。</li>
-</ul>
-<h3 id="36-请描述一下-Intent-和-IntentFilter"><a href="#36-请描述一下-Intent-和-IntentFilter" class="headerlink" title="36.请描述一下 Intent 和 IntentFilter"></a>36.请描述一下 Intent 和 IntentFilter</h3><ul>
-<li>Intent我们可以理解为消息，主要作用是实现Activity间的切换，也可以实现四大组件之间的通信，传递数据，非常有用</li>
-<li>IntentFilter可以理解为一个匹配系统，主要由三个参数：Action: 动作，Data: 数据，Category : 而外的附加信息；而且Android系统预定义了一些Action值，以大写的ACTION开头；</li>
-</ul>
-<h3 id="37-Fragment-Fragment-跟-Activity-之间是如何传值的"><a href="#37-Fragment-Fragment-跟-Activity-之间是如何传值的" class="headerlink" title="37.Fragment:Fragment 跟 Activity 之间是如何传值的"></a>37.Fragment:Fragment 跟 Activity 之间是如何传值的</h3><ul>
-<li>使用fragment：首先自定义fragment的类继承Fragment，然后view=inflater.inflate来加载碎片的布局，之后类和布局绑定成功，碎片（控件完成），然后再当成控件嵌套到activity.xml里面去，android:name=””写的就是类名</li>
-<li>在 Fragment 中可以直接通过 getActivity（）方法获取到其绑定的 Activity 对象，这样就可以调用 Activity 的方法了</li>
-<li>在 Activity 中可以通过如下方法获取到：得到实例后就可以通信了<br>Fragment 实例<br>FragmentManager fragmentManager = getFragmentManager();<br>Fragment fragment = fragmentManager.findFragmentByTag(tag);<br>Fragment fragment = fragmentManager.findFragmentById(id);</li>
-</ul>
-<h3 id="38-描述一下-Fragment-的生命周期"><a href="#38-描述一下-Fragment-的生命周期" class="headerlink" title="38.描述一下 Fragment 的生命周期"></a>38.描述一下 Fragment 的生命周期</h3><ul>
-<li>onAttach()—onCreate()—onCreateView()—onActivityCreated()—onStart()—onResume()—onStop()—onDestroyView()—onDestroy()—onDetach()</li>
-</ul>
-<h3 id="39-Fragment-的-replace-和-add-方法的区别"><a href="#39-Fragment-的-replace-和-add-方法的区别" class="headerlink" title="39.Fragment 的 replace 和 add 方法的区别"></a>39.Fragment 的 replace 和 add 方法的区别</h3><ul>
-<li>Fragment 的容器一个 FrameLayout，add 的时候是把所有的 Fragment 一层一层的叠加到了<br>FrameLayout 上了，而 replace 的话首先将该容器中的其他 Fragment 去除掉然后将当前 Fragment<br>添加到容器中。</li>
-<li>add方法的fragment的生命周期不会变化，relpace会变，每次都会执行上一个 Fragment 的 onDestroyView，新 Fragment的 onCreateView、onStart、onResume 方法。</li>
-</ul>
-<h3 id="40-Fragment的好处"><a href="#40-Fragment的好处" class="headerlink" title="40.Fragment的好处"></a>40.Fragment的好处</h3><ul>
-<li>Fragment 可以使你能够将 activity 分离成多个可重用的组件，每个都有它自己的生命周期和UI。</li>
-<li>Fragment 可以轻松得创建动态灵活的 UI 设计，可以适应于不同的屏幕尺寸。从手机到平板电<br>脑。</li>
-<li>Fragment 解决 Activity 间的切换不流畅，轻量切换。</li>
-</ul>
-<h3 id="41-如何切换-fragement-不重新实例化"><a href="#41-如何切换-fragement-不重新实例化" class="headerlink" title="41. 如何切换 fragement,不重新实例化"></a>41. 如何切换 fragement,不重新实例化</h3><ul>
-<li>正确的切换方式是 add()，切换时 hide()，add()另一个 Fragment；再次切换时，只需 hide()当前，<br>show()另一个。</li>
-</ul>
-<h3 id="42-ListView-如何提高其效率？"><a href="#42-ListView-如何提高其效率？" class="headerlink" title="42.ListView 如何提高其效率？"></a>42.ListView 如何提高其效率？</h3><ul>
-<li>如果convertView为null,则使用LayoutInflater去加载布局</li>
-<li>convertView 不为空，重复利用已经创建的 view</li>
-<li>自定义静态类 ViewHolder，减少 findViewById 的次数</li>
-</ul>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/09/04/S英库/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="FeishengQiu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="FeishengQiu">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/09/04/S英库/" itemprop="url">EnglishWorld</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-09-04T00:30:35+08:00">
-                2018-09-04
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="S英库，随意走遍英语的世界"><a href="#S英库，随意走遍英语的世界" class="headerlink" title="S英库，随意走遍英语的世界"></a>S英库，随意走遍英语的世界</h2><h2 id="Day-2018-9-4"><a href="#Day-2018-9-4" class="headerlink" title="Day:2018-9-4"></a>Day:2018-9-4</h2><ul>
-<li><p>I assure you that you will feel no pain at all. //我保证你根本不会觉得疼的</p>
-</li>
-<li><p>expandable：adj：可扩张的，可膨胀的</p>
-</li>
-<li><p>expand: vt vi: 扩张，膨胀</p>
-</li>
-<li><p>Refactor: n: 重构</p>
-</li>
-<li><p>Rendering Engine(渲染引擎)</p>
-</li>
-<li><p>Trident:三叉戟</p>
-</li>
-<li><p>gecko:壁虎</p>
-</li>
-<li><p>alternative： n: 可选择的事物  adj：替代的</p>
-</li>
-<li><p>gallery： n:画廊，走廊</p>
-</li>
-</ul>
-<hr>
-<h2 id="Day-2018-9-5"><a href="#Day-2018-9-5" class="headerlink" title="Day:2018-9-5"></a>Day:2018-9-5</h2><ul>
-<li>It’s a turning point in my life. //这是我人生的转折点</li>
-</ul>
-<h2 id="Day-2018-9-6"><a href="#Day-2018-9-6" class="headerlink" title="Day:2018-9-6"></a>Day:2018-9-6</h2><ul>
-<li>All in all,things worked out for the better. //总而言之，情况好转了</li>
-</ul>
-<h2 id="Day-2018-9-7"><a href="#Day-2018-9-7" class="headerlink" title="Day:2018-9-7"></a>Day:2018-9-7</h2><ul>
-<li>All you have to do is to sign here. //你只要在这里签字就行了</li>
-</ul>
-<h2 id="Day-2018-9-13"><a href="#Day-2018-9-13" class="headerlink" title="Day:2018-9-13"></a>Day:2018-9-13</h2><ul>
-<li><p>algorithm:算法 （凹个ri them）</p>
-</li>
-<li><p>linear list：线性表</p>
-</li>
-<li></li>
-</ul>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/09/01/Java灵感/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2914,131 +2268,6 @@ public boolean dispatchTouchEvent(MotionEvent ev) {
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/08/自我介绍/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="FeishengQiu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="FeishengQiu">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/07/08/自我介绍/" itemprop="url">自我介绍</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-07-08T00:30:35+08:00">
-                2018-07-08
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="自我介绍"><a href="#自我介绍" class="headerlink" title="自我介绍"></a>自我介绍</h2><ul>
-<li><p>面试官，您好！（眼睛充满自信，看着面试官）：我叫邱飞胜，来自于广州大学电子信息过程专业，很荣幸有今天的面试机会。在校期间，学习完移动手机应用这门课程之后，我对Android有着很浓厚的兴趣，一直从事于Java和Android的学习，也开展了与Android相关的项目。项目一：专业帮，是我们团队今年的创新创业项目，目的是为了打造一个解决在校大学生专业学习迷茫，就业迷茫的学习指导平台，目前仍然在进行之中。项目二：硅谷新闻项目，是一个类似网易新闻的手机应用，可以实时浏览周边新闻和查看图片。项目三：和风天气项目：是一款可以随时查看中国任意城市天气的应用，数据来源于和风天气的API接口，注册账号，拿到API Key就可以调用API接口获得数据。</p>
-</li>
-<li><p>因此，我觉得自己很适合这个岗位，并有信心能够做好，希望能获得这个工作机会，谢谢！谢谢谢谢谢谢！！</p>
-</li>
-</ul>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/08/Android灵感/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -3525,11 +2754,162 @@ private int currentStatus = PULL_DOWN_REFRESH;
 
 
     
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/08/Java简答题/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="FeishengQiu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="FeishengQiu">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/07/08/Java简答题/" itemprop="url">Java 83题备注</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-07-08T00:30:35+08:00">
+                2018-07-08
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="题1-为什么只能有一个public的类？"><a href="#题1-为什么只能有一个public的类？" class="headerlink" title="题1.为什么只能有一个public的类？"></a>题1.为什么只能有一个public的类？</h3><ul>
+<li><p>因为public类的名字要和java文件名相同，文件名只有一个，当然只能有一个public类，当然更深层的原因应该是跟这是java的设计和jvm有关，是一种规范</p>
+</li>
+<li><p>：一文一pub多cla</p>
+</li>
+</ul>
+<h3 id="题2-Java有goto保留字，但是为什么不使用呢？"><a href="#题2-Java有goto保留字，但是为什么不使用呢？" class="headerlink" title="题2.Java有goto保留字，但是为什么不使用呢？"></a>题2.Java有goto保留字，但是为什么不使用呢？</h3><ul>
+<li><p>用goto写跳转语句比较容易，但是容易造成代码的混乱，比较难读，因为goto可以往前跳，也可以往后跳，阅读代码就要花更多时间了。至于为什么要保留，我想可能是因为随着java的发展，这个关键字还会起到更大的作用吧，不想一刀切，直接抛弃goto，存在即合理</p>
+</li>
+<li><p>：goto跳转造混乱</p>
+</li>
+</ul>
+<h3 id="题3-说说-amp-和-amp-amp-的区别"><a href="#题3-说说-amp-和-amp-amp-的区别" class="headerlink" title="题3.说说&amp;和&amp;&amp;的区别"></a>题3.说说&amp;和&amp;&amp;的区别</h3><ul>
+<li>首先，&amp;和&amp;&amp;都可以作为逻辑与的运算符，当运算符两边的表达的结果都为ture时，最终结果才为true，只要有一个是false，最终结果就是false</li>
+<li>区别在于：&amp;&amp;的第一个表达式如果为false,则不再计算第二个表达式，例如if（a!=0&amp;&amp;++b&gt;2）,如果a=0,为false，那后面的表达式不会执行,如果改为&amp;，后面的++b会执行，b的值会加1</li>
+<li><p>&amp;还可以作为位运算符，一般是使用0x0f来与一个整数进行&amp;运算，然后获取该整数的最低4个bit位，例如：0x31&amp;0x0f就是等于0x01</p>
+</li>
+<li><p>：单与算两侧，单与算位运</p>
+</li>
+</ul>
+<h3 id="题4-OK-：最外层定义一个标号，ok-然后里面break-ok-外层的循环条件收到里层循环条件的限制"><a href="#题4-OK-：最外层定义一个标号，ok-然后里面break-ok-外层的循环条件收到里层循环条件的限制" class="headerlink" title="题4.OK!：最外层定义一个标号，ok: 然后里面break ok;+外层的循环条件收到里层循环条件的限制"></a>题4.OK!：最外层定义一个标号，ok: 然后里面break ok;+外层的循环条件收到里层循环条件的限制</h3><ul>
+<li><p>盲点：二维数组的元素对象是一维数组，就这么记忆就行了</p>
+</li>
+<li><p>:break ok：跳多循</p>
+</li>
+</ul>
+<h3 id="题5：OK：byte-short-int-char-String-枚举常量"><a href="#题5：OK：byte-short-int-char-String-枚举常量" class="headerlink" title="题5：OK：byte,short int,char,String,枚举常量"></a>题5：OK：byte,short int,char,String,枚举常量</h3><ul>
+<li>：白缩赢char7String</li>
+</ul>
+<h3 id="题6：OK-编译错误，因为整型提升，不能赋给short-自加运算，编译器特殊处理，所以不会报错"><a href="#题6：OK-编译错误，因为整型提升，不能赋给short-自加运算，编译器特殊处理，所以不会报错" class="headerlink" title="题6：OK:编译错误，因为整型提升，不能赋给short;自加运算，编译器特殊处理，所以不会报错"></a>题6：OK:编译错误，因为整型提升，不能赋给short;自加运算，编译器特殊处理，所以不会报错</h3><ul>
+<li>:自动提升类型int，编译器会强报错；增加运算特处理</li>
+</ul>
+<h3 id="题7：OK-char里面存储的本质是：数字；然后每个数字代表Unicode编码字符集中的一个字符，Unicode字符集包含了中文汉字，当然可以存储一个中文汉字"><a href="#题7：OK-char里面存储的本质是：数字；然后每个数字代表Unicode编码字符集中的一个字符，Unicode字符集包含了中文汉字，当然可以存储一个中文汉字" class="headerlink" title="题7：OK:char里面存储的本质是：数字；然后每个数字代表Unicode编码字符集中的一个字符，Unicode字符集包含了中文汉字，当然可以存储一个中文汉字"></a>题7：OK:char里面存储的本质是：数字；然后每个数字代表Unicode编码字符集中的一个字符，Unicode字符集包含了中文汉字，当然可以存储一个中文汉字</h3><h3 id="题8：OK-左移3位，CPU支持位运算，效率最高"><a href="#题8：OK-左移3位，CPU支持位运算，效率最高" class="headerlink" title="题8：OK:左移3位，CPU支持位运算，效率最高"></a>题8：OK:左移3位，CPU支持位运算，效率最高</h3><h3 id="题9：OK：默写一下代码"><a href="#题9：OK：默写一下代码" class="headerlink" title="题9：OK：默写一下代码"></a>题9：OK：默写一下代码</h3><h3 id="题10：OK：分类讨论，是引用不能变，所指向的对象的内容可以变：例如-final-Student-student1-new-Student-“xiaoming”"><a href="#题10：OK：分类讨论，是引用不能变，所指向的对象的内容可以变：例如-final-Student-student1-new-Student-“xiaoming”" class="headerlink" title="题10：OK：分类讨论，是引用不能变，所指向的对象的内容可以变：例如 final Student student1=new Student(“xiaoming”);"></a>题10：OK：分类讨论，是引用不能变，所指向的对象的内容可以变：例如 final Student student1=new Student(“xiaoming”);</h3><h3 id="题11：Ok-比较的是两个变量的值是否相等，如果比较的变量是基本数据类型，则直接比较，如果是引用类型，则比较的是两个对象的首地址，这时候涉及到两块内存，……equals方法涉及的就是重不重写的问题，如果重写，例如String的equals-比较的就是两个字符串的内容是否相同，即对象内容是否相同；如果不重写，继承的就是Object类的equals方法，跟-操作符一样，比较的就是两个对象的首地址是否相同"><a href="#题11：Ok-比较的是两个变量的值是否相等，如果比较的变量是基本数据类型，则直接比较，如果是引用类型，则比较的是两个对象的首地址，这时候涉及到两块内存，……equals方法涉及的就是重不重写的问题，如果重写，例如String的equals-比较的就是两个字符串的内容是否相同，即对象内容是否相同；如果不重写，继承的就是Object类的equals方法，跟-操作符一样，比较的就是两个对象的首地址是否相同" class="headerlink" title="题11：Ok:==比较的是两个变量的值是否相等，如果比较的变量是基本数据类型，则直接比较，如果是引用类型，则比较的是两个对象的首地址，这时候涉及到两块内存，……equals方法涉及的就是重不重写的问题，如果重写，例如String的equals,比较的就是两个字符串的内容是否相同，即对象内容是否相同；如果不重写，继承的就是Object类的equals方法，跟==操作符一样，比较的就是两个对象的首地址是否相同"></a>题11：Ok:==比较的是两个变量的值是否相等，如果比较的变量是基本数据类型，则直接比较，如果是引用类型，则比较的是两个对象的首地址，这时候涉及到两块内存，……equals方法涉及的就是重不重写的问题，如果重写，例如String的equals,比较的就是两个字符串的内容是否相同，即对象内容是否相同；如果不重写，继承的就是Object类的equals方法，跟==操作符一样，比较的就是两个对象的首地址是否相同</h3><h3 id="题12：OK-实例变量必须创建对象后才能通过这个对象来使用，因为实例变量是属于某个对象的属性，只有创建对象才能分配内存空间，才能使用这个实例变量；静态变量是依赖类而创建的，不依赖对象，直接分配空间，用类名就可以直接调用-举例子"><a href="#题12：OK-实例变量必须创建对象后才能通过这个对象来使用，因为实例变量是属于某个对象的属性，只有创建对象才能分配内存空间，才能使用这个实例变量；静态变量是依赖类而创建的，不依赖对象，直接分配空间，用类名就可以直接调用-举例子" class="headerlink" title="题12：OK:实例变量必须创建对象后才能通过这个对象来使用，因为实例变量是属于某个对象的属性，只有创建对象才能分配内存空间，才能使用这个实例变量；静态变量是依赖类而创建的，不依赖对象，直接分配空间，用类名就可以直接调用+举例子"></a>题12：OK:实例变量必须创建对象后才能通过这个对象来使用，因为实例变量是属于某个对象的属性，只有创建对象才能分配内存空间，才能使用这个实例变量；静态变量是依赖类而创建的，不依赖对象，直接分配空间，用类名就可以直接调用+举例子</h3><h3 id="题13：OK"><a href="#题13：OK" class="headerlink" title="题13：OK"></a>题13：OK</h3><h3 id="题14：OK：答区别的时候，先分别回答分别是什么，然后再答彼此间的联系，-举例"><a href="#题14：OK：答区别的时候，先分别回答分别是什么，然后再答彼此间的联系，-举例" class="headerlink" title="题14：OK：答区别的时候，先分别回答分别是什么，然后再答彼此间的联系，+举例"></a>题14：OK：答区别的时候，先分别回答分别是什么，然后再答彼此间的联系，+举例</h3><h3 id="题15：OK-Math里有三个跟取整有关系的API：ceil向上取整，floor向下取整，round是四舍五入，-0-5向下取整"><a href="#题15：OK-Math里有三个跟取整有关系的API：ceil向上取整，floor向下取整，round是四舍五入，-0-5向下取整" class="headerlink" title="题15：OK:Math里有三个跟取整有关系的API：ceil向上取整，floor向下取整，round是四舍五入，+0.5向下取整"></a>题15：OK:Math里有三个跟取整有关系的API：ceil向上取整，floor向下取整，round是四舍五入，+0.5向下取整</h3><h3 id="题16：小问题"><a href="#题16：小问题" class="headerlink" title="题16：小问题"></a>题16：小问题</h3><h3 id="题17：OK-4321"><a href="#题17：OK-4321" class="headerlink" title="题17：OK:4321"></a>题17：OK:4321</h3><h3 id="题18：OK：重写只能改方法体，权限修饰符，小异常；父类private的方法重写不了；重载的注意点是不能通过访问权限，修饰符，抛异常来重载"><a href="#题18：OK：重写只能改方法体，权限修饰符，小异常；父类private的方法重写不了；重载的注意点是不能通过访问权限，修饰符，抛异常来重载" class="headerlink" title="题18：OK：重写只能改方法体，权限修饰符，小异常；父类private的方法重写不了；重载的注意点是不能通过访问权限，修饰符，抛异常来重载"></a>题18：OK：重写只能改方法体，权限修饰符，小异常；父类private的方法重写不了；重载的注意点是不能通过访问权限，修饰符，抛异常来重载</h3><h3 id="题19：OK-不可重写，但可重载，因为不可继承"><a href="#题19：OK-不可重写，但可重载，因为不可继承" class="headerlink" title="题19：OK:不可重写，但可重载，因为不可继承"></a>题19：OK:不可重写，但可重载，因为不可继承</h3><h3 id="题20：OK：抽象类与普通类的唯一区别就是不能创建对象和允许有abstract方法，其他的继承与接口功能都一样可以实现，可以使用匿名内部类或者子类来重写抽象方法创建实例，就算可以实例化，没有方法体，也没有意义！！！"><a href="#题20：OK：抽象类与普通类的唯一区别就是不能创建对象和允许有abstract方法，其他的继承与接口功能都一样可以实现，可以使用匿名内部类或者子类来重写抽象方法创建实例，就算可以实例化，没有方法体，也没有意义！！！" class="headerlink" title="题20：OK：抽象类与普通类的唯一区别就是不能创建对象和允许有abstract方法，其他的继承与接口功能都一样可以实现，可以使用匿名内部类或者子类来重写抽象方法创建实例，就算可以实例化，没有方法体，也没有意义！！！"></a>题20：OK：抽象类与普通类的唯一区别就是不能创建对象和允许有abstract方法，其他的继承与接口功能都一样可以实现，可以使用匿名内部类或者子类来重写抽象方法创建实例，就算可以实例化，没有方法体，也没有意义！！！</h3><h3 id="题21：OK：super-clone-先复制父类的成员，再复制到自己？？？"><a href="#题21：OK：super-clone-先复制父类的成员，再复制到自己？？？" class="headerlink" title="题21：OK：super.clone();先复制父类的成员，再复制到自己？？？"></a>题21：OK：super.clone();先复制父类的成员，再复制到自己？？？</h3><h3 id="题22：OK：封装（模块化思想，降低耦合性，防止程序相互依赖而带来的变动影响）-继承（提高代码的复用性和编码效率）-多态"><a href="#题22：OK：封装（模块化思想，降低耦合性，防止程序相互依赖而带来的变动影响）-继承（提高代码的复用性和编码效率）-多态" class="headerlink" title="题22：OK：封装（模块化思想，降低耦合性，防止程序相互依赖而带来的变动影响）+继承（提高代码的复用性和编码效率）+多态"></a>题22：OK：封装（模块化思想，降低耦合性，防止程序相互依赖而带来的变动影响）+继承（提高代码的复用性和编码效率）+多态</h3><h3 id="题23：OK-父类或者接口定义的引用变量可以指向子类或者具体实现类的实例对象，而程序调用的方法在运行时才动态绑定：例如-Person-p-new-Student-“小明”-；-p-getName-调用的就是Student的getName-方法，很多时候可以减少形参类型而增加的方法数量"><a href="#题23：OK-父类或者接口定义的引用变量可以指向子类或者具体实现类的实例对象，而程序调用的方法在运行时才动态绑定：例如-Person-p-new-Student-“小明”-；-p-getName-调用的就是Student的getName-方法，很多时候可以减少形参类型而增加的方法数量" class="headerlink" title="题23：OK:父类或者接口定义的引用变量可以指向子类或者具体实现类的实例对象，而程序调用的方法在运行时才动态绑定：例如 Person p=new Student(“小明”)； p.getName();调用的就是Student的getName()方法，很多时候可以减少形参类型而增加的方法数量"></a>题23：OK:父类或者接口定义的引用变量可以指向子类或者具体实现类的实例对象，而程序调用的方法在运行时才动态绑定：例如 Person p=new Student(“小明”)； p.getName();调用的就是Student的getName()方法，很多时候可以减少形参类型而增加的方法数量</h3><h3 id="题24：OK：抽象类的最大应用就是：抽象基类，子类各自重写其他abstract方法完成自己的业务，相同的业务用final方法来修饰即可，可以大大提高代码的复用性（抽象类的构造器是为了留着去初始化其他的变量）"><a href="#题24：OK：抽象类的最大应用就是：抽象基类，子类各自重写其他abstract方法完成自己的业务，相同的业务用final方法来修饰即可，可以大大提高代码的复用性（抽象类的构造器是为了留着去初始化其他的变量）" class="headerlink" title="题24：OK：抽象类的最大应用就是：抽象基类，子类各自重写其他abstract方法完成自己的业务，相同的业务用final方法来修饰即可，可以大大提高代码的复用性（抽象类的构造器是为了留着去初始化其他的变量）"></a>题24：OK：抽象类的最大应用就是：抽象基类，子类各自重写其他abstract方法完成自己的业务，相同的业务用final方法来修饰即可，可以大大提高代码的复用性（抽象类的构造器是为了留着去初始化其他的变量）</h3><h3 id="题25：OK：static-因为一个abstract方法没有方法体。静态方法需要对方法体执行内容分配空间，所以不能同static共存；native-是把方法移交给本地操作系统，而abstract是移交给子类实现，相互矛盾"><a href="#题25：OK：static-因为一个abstract方法没有方法体。静态方法需要对方法体执行内容分配空间，所以不能同static共存；native-是把方法移交给本地操作系统，而abstract是移交给子类实现，相互矛盾" class="headerlink" title="题25：OK：static:因为一个abstract方法没有方法体。静态方法需要对方法体执行内容分配空间，所以不能同static共存；native:是把方法移交给本地操作系统，而abstract是移交给子类实现，相互矛盾"></a>题25：OK：static:因为一个abstract方法没有方法体。静态方法需要对方法体执行内容分配空间，所以不能同static共存；native:是把方法移交给本地操作系统，而abstract是移交给子类实现，相互矛盾</h3><h3 id="题26：OK：匿名-不给出具体的子类或实现类的名称，只有对象实体；内部类特点：可以在两个地方定义，可以访问外部类的成员变量，不能定义静态成员：成员内部类，局部内部类，静态内部类，匿名内部类（不能加修饰符）"><a href="#题26：OK：匿名-不给出具体的子类或实现类的名称，只有对象实体；内部类特点：可以在两个地方定义，可以访问外部类的成员变量，不能定义静态成员：成员内部类，局部内部类，静态内部类，匿名内部类（不能加修饰符）" class="headerlink" title="题26：OK：匿名==不给出具体的子类或实现类的名称，只有对象实体；内部类特点：可以在两个地方定义，可以访问外部类的成员变量，不能定义静态成员：成员内部类，局部内部类，静态内部类，匿名内部类（不能加修饰符）"></a>题26：OK：匿名==不给出具体的子类或实现类的名称，只有对象实体；内部类特点：可以在两个地方定义，可以访问外部类的成员变量，不能定义静态成员：成员内部类，局部内部类，静态内部类，匿名内部类（不能加修饰符）</h3><h3 id="题27：OK：除了静态内部类比较特殊，只能访问外部类的静态变量，其他的内部类都能访问外部类的成员变量（引用-调用）"><a href="#题27：OK：除了静态内部类比较特殊，只能访问外部类的静态变量，其他的内部类都能访问外部类的成员变量（引用-调用）" class="headerlink" title="题27：OK：除了静态内部类比较特殊，只能访问外部类的静态变量，其他的内部类都能访问外部类的成员变量（引用==调用）"></a>题27：OK：除了静态内部类比较特殊，只能访问外部类的静态变量，其他的内部类都能访问外部类的成员变量（引用==调用）</h3><h3 id="题28：OK-匿名内部类必须继承其他类或实现接口（new-Thread-…-继承的就是Thread，匿名-真正的子类名没给出来）"><a href="#题28：OK-匿名内部类必须继承其他类或实现接口（new-Thread-…-继承的就是Thread，匿名-真正的子类名没给出来）" class="headerlink" title="题28：OK:匿名内部类必须继承其他类或实现接口（new Thread(){…..},继承的就是Thread，匿名==真正的子类名没给出来）"></a>题28：OK:匿名内部类必须继承其他类或实现接口（new Thread(){…..},继承的就是Thread，匿名==真正的子类名没给出来）</h3><h3 id="题29-OK：super-getClass-getClass-所以答案当然是Test"><a href="#题29-OK：super-getClass-getClass-所以答案当然是Test" class="headerlink" title="题29.OK：super.getClass()==getClass():所以答案当然是Test"></a>题29.OK：super.getClass()==getClass():所以答案当然是Test</h3><h3 id="题30-OK"><a href="#题30-OK" class="headerlink" title="题30.OK"></a>题30.OK</h3><h3 id="题31-OK-画图就非常的清晰"><a href="#题31-OK-画图就非常的清晰" class="headerlink" title="题31.OK:画图就非常的清晰"></a>题31.OK:画图就非常的清晰</h3><h3 id="题32-OK"><a href="#题32-OK" class="headerlink" title="题32.OK"></a>题32.OK</h3><h3 id="题33-OK-一个或者两个？”xy”本身也算一个对象？"><a href="#题33-OK-一个或者两个？”xy”本身也算一个对象？" class="headerlink" title="题33.OK:一个或者两个？”xy”本身也算一个对象？"></a>题33.OK:一个或者两个？”xy”本身也算一个对象？</h3><h3 id="题34：OK-一个可变，一个不可变，然后String重写了equals-和hashCode-方法"><a href="#题34：OK-一个可变，一个不可变，然后String重写了equals-和hashCode-方法" class="headerlink" title="题34：OK:一个可变，一个不可变，然后String重写了equals()和hashCode()方法"></a>题34：OK:一个可变，一个不可变，然后String重写了equals()和hashCode()方法</h3><h3 id="题35-OK-String-result-s-split-“-”"><a href="#题35-OK-String-result-s-split-“-”" class="headerlink" title="题35.OK: String[] result=s.split(“,”);"></a>题35.OK: String[] result=s.split(“,”);</h3><h3 id="题36-OK：String-length-数组-length属性；集合：size（）方法"><a href="#题36-OK：String-length-数组-length属性；集合：size（）方法" class="headerlink" title="题36.OK：String:length();数组[]:length属性；集合：size（）方法"></a>题36.OK：String:length();数组[]:length属性；集合：size（）方法</h3><h3 id="题37-OK-String常量常量常量运算处理之前可以在编译时就自动合并，只创建一个对象"><a href="#题37-OK-String常量常量常量运算处理之前可以在编译时就自动合并，只创建一个对象" class="headerlink" title="题37.OK:String常量常量常量运算处理之前可以在编译时就自动合并，只创建一个对象"></a>题37.OK:String常量常量常量运算处理之前可以在编译时就自动合并，只创建一个对象</h3><h3 id="题38-OK"><a href="#题38-OK" class="headerlink" title="题38.OK:"></a>题38.OK:</h3><h3 id="题39-OK-finally中的代码比return和break语句后执行"><a href="#题39-OK-finally中的代码比return和break语句后执行" class="headerlink" title="题39.OK:finally中的代码比return和break语句后执行"></a>题39.OK:finally中的代码比return和break语句后执行</h3><h3 id="题40-OK"><a href="#题40-OK" class="headerlink" title="题40.OK"></a>题40.OK</h3><h3 id="题41：运行时异常就是程序运行过程中可能出现的非正常状态，例如：空指针引用异常，类型强制转换异常，算术运算异常，数组下标越界异常，不必强制try-catch或throws声明-编译时异常：IO异常，文件未找到异常-要try-catch捕获或throws声明"><a href="#题41：运行时异常就是程序运行过程中可能出现的非正常状态，例如：空指针引用异常，类型强制转换异常，算术运算异常，数组下标越界异常，不必强制try-catch或throws声明-编译时异常：IO异常，文件未找到异常-要try-catch捕获或throws声明" class="headerlink" title="题41：运行时异常就是程序运行过程中可能出现的非正常状态，例如：空指针引用异常，类型强制转换异常，算术运算异常，数组下标越界异常，不必强制try catch或throws声明;编译时异常：IO异常，文件未找到异常,要try catch捕获或throws声明"></a>题41：运行时异常就是程序运行过程中可能出现的非正常状态，例如：空指针引用异常，类型强制转换异常，算术运算异常，数组下标越界异常，不必强制try catch或throws声明;编译时异常：IO异常，文件未找到异常,要try catch捕获或throws声明</h3><h3 id="题42：OK-Throwable类是所有异常或错误的父类，它有两个子类：Error和Exception，分别表示错误和异常。其中异常Exception分为运行时异常-RuntimeException-和编译时异常，可以通过抛出异常，捕获异常对象，让程序来解决异常问题；但是error一般指的是JVM出现的严重问题，例如内存溢出，系统奔溃，程序无法自己处理错误，必须人为去修改有问题的代码；"><a href="#题42：OK-Throwable类是所有异常或错误的父类，它有两个子类：Error和Exception，分别表示错误和异常。其中异常Exception分为运行时异常-RuntimeException-和编译时异常，可以通过抛出异常，捕获异常对象，让程序来解决异常问题；但是error一般指的是JVM出现的严重问题，例如内存溢出，系统奔溃，程序无法自己处理错误，必须人为去修改有问题的代码；" class="headerlink" title="题42：OK:Throwable类是所有异常或错误的父类，它有两个子类：Error和Exception，分别表示错误和异常。其中异常Exception分为运行时异常(RuntimeException)和编译时异常，可以通过抛出异常，捕获异常对象，让程序来解决异常问题；但是error一般指的是JVM出现的严重问题，例如内存溢出，系统奔溃，程序无法自己处理错误，必须人为去修改有问题的代码；"></a>题42：OK:Throwable类是所有异常或错误的父类，它有两个子类：Error和Exception，分别表示错误和异常。其中异常Exception分为运行时异常(RuntimeException)和编译时异常，可以通过抛出异常，捕获异常对象，让程序来解决异常问题；但是error一般指的是JVM出现的严重问题，例如内存溢出，系统奔溃，程序无法自己处理错误，必须人为去修改有问题的代码；</h3><h3 id="题43：OK：Throwable-error-exception-分别有哪些，如何处理"><a href="#题43：OK：Throwable-error-exception-分别有哪些，如何处理" class="headerlink" title="题43：OK：Throwable,error,exception,分别有哪些，如何处理"></a>题43：OK：Throwable,error,exception,分别有哪些，如何处理</h3><h3 id="题44：OK-针引用异常，类型强制转换异常，算术运算异常，数组下标越界异常"><a href="#题44：OK-针引用异常，类型强制转换异常，算术运算异常，数组下标越界异常" class="headerlink" title="题44：OK:针引用异常，类型强制转换异常，算术运算异常，数组下标越界异常"></a>题44：OK:针引用异常，类型强制转换异常，算术运算异常，数组下标越界异常</h3><h3 id="题45：throw-用在方法体内；throws用在方法声明处"><a href="#题45：throw-用在方法体内；throws用在方法声明处" class="headerlink" title="题45：throw:用在方法体内；throws用在方法声明处"></a>题45：throw:用在方法体内；throws用在方法声明处</h3><h3 id="GET-POST"><a href="#GET-POST" class="headerlink" title="GET.POST"></a>GET.POST</h3>
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
   </section>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/3/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span>
   </nav>
 
 
@@ -3579,7 +2959,7 @@ private int currentStatus = PULL_DOWN_REFRESH;
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">25</span>
+                  <span class="site-state-item-count">17</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>

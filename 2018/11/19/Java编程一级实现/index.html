@@ -87,7 +87,7 @@
 <meta property="og:site_name" content="FeishengQiu">
 <meta property="og:description" content="Java编程一级实现1.System.out.println(“ “+x);x为八进制，十六进制或者二进制的整数int，输出的时候，显示都是默认以十进制的形式显示出来的，而且byte的最大值是127，如果输出128就是溢出，溢出的显示标志是byte的最小值-128，（byte short int long是整数的四种存储单位，2进制，八进制，10进制，16进制是整数的四种表现形式） ：0八0插为十">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-11-21T05:12:12.964Z">
+<meta property="og:updated_time" content="2018-11-22T13:36:38.973Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Java编程一级实现">
 <meta name="twitter:description" content="Java编程一级实现1.System.out.println(“ “+x);x为八进制，十六进制或者二进制的整数int，输出的时候，显示都是默认以十进制的形式显示出来的，而且byte的最大值是127，如果输出128就是溢出，溢出的显示标志是byte的最小值-128，（byte short int long是整数的四种存储单位，2进制，八进制，10进制，16进制是整数的四种表现形式） ：0八0插为十">
@@ -424,6 +424,636 @@ System.out.println(max);
 <h3 id="8-位运算-位运算优先级整理总结，不能再混乱了"><a href="#8-位运算-位运算优先级整理总结，不能再混乱了" class="headerlink" title="8.位运算+位运算优先级整理总结，不能再混乱了"></a>8.位运算+位运算优先级整理总结，不能再混乱了</h3><ul>
 <li>~取反变01（而且是补码，不是真值）；有0则0&amp;；有1则1或；^异或异为1；左右移《》乘除2；无符号三右移 &gt;&gt;&gt;右丢弃左补0</li>
 </ul>
+<h3 id="9—58"><a href="#9—58" class="headerlink" title="9—58"></a>9—58</h3><h3 id="9-Scanner实现键盘输入"><a href="#9-Scanner实现键盘输入" class="headerlink" title="9.Scanner实现键盘输入"></a>9.Scanner实现键盘输入</h3><ul>
+<li><p>：Scanner+nextXxx()可以实现任意类型数据的输入</p>
+</li>
+<li><p>import java.util.Scanner;</p>
+</li>
+</ul>
+<p>public class Test09 {</p>
+<pre><code>public static void main(String[] args) {
+
+    int x,y; //局部变量声明
+
+    Scanner cin=new Scanner(System.in);
+
+    x=cin.nextInt(); //这也是局部变量初始化的一种方式
+    y=cin.nextInt();
+
+    System.out.printf(&quot;x+y= %4d&quot;,x+y); //printf才有这种输出格式，printLn()没有这种输出格式
+
+}
+</code></pre><p>}</p>
+<h3 id="10-Scanner和if语句实现对键盘输入值求绝对值"><a href="#10-Scanner和if语句实现对键盘输入值求绝对值" class="headerlink" title="10.Scanner和if语句实现对键盘输入值求绝对值"></a>10.Scanner和if语句实现对键盘输入值求绝对值</h3><ul>
+<li><p>：if(x&lt;0.0) x=-x;</p>
+</li>
+<li><p>import java.util.Scanner;</p>
+</li>
+</ul>
+<p>public class Test10 {</p>
+<pre><code>public static void main(String[] args) {
+
+    double x;
+
+    Scanner cin=new Scanner(System.in);
+    x=cin.nextDouble();
+    if(x&lt;0.0) {
+        x=-x;
+    }
+
+    System.out.println(&quot;|x|= &quot;+x);
+}
+</code></pre><p>}</p>
+<h3 id="11-Scanner键盘输入一个年份和一个月份，来输出这个月的天数，Switch来实现（不要小看）"><a href="#11-Scanner键盘输入一个年份和一个月份，来输出这个月的天数，Switch来实现（不要小看）" class="headerlink" title="11.Scanner键盘输入一个年份和一个月份，来输出这个月的天数，Switch来实现（不要小看）"></a>11.Scanner键盘输入一个年份和一个月份，来输出这个月的天数，Switch来实现（不要小看）</h3><ul>
+<li><p>：Switch解多情</p>
+</li>
+<li><p>import java.util.Scanner;</p>
+</li>
+</ul>
+<p>public class Test11 {</p>
+<pre><code>public static void main(String[] args) {
+
+    int year,month;
+    Scanner cin=new Scanner(System.in);
+
+    System.out.print(&quot;请输入年份： &quot;);
+    year=cin.nextInt();
+    System.out.println();
+
+
+    System.out.print(&quot;请输入月份： &quot;);
+    month=cin.nextInt();
+    System.out.println();
+
+    switch(month) {
+
+    case 2: if((year%4==0&amp;&amp;year%100!=0)||(year%400==0)) {
+        System.out.println(&quot;2月份的天数为29天&quot;);
+    }else {
+        System.out.println(&quot;2月份的天数为28天&quot;);
+    }break;
+
+    case 1:
+    case 3:
+    case 5:
+    case 7:
+    case 8:
+    case 10:
+    case 12:System.out.println(month+&quot;月份的天数为31天&quot;);break;
+
+    default:System.out.println(month+&quot;月份的天数为30天&quot;);break;
+
+
+
+    }
+}
+</code></pre><p>}</p>
+<h3 id="12-求1-2-3-…-n，用while循环实现-感觉while循环好好用"><a href="#12-求1-2-3-…-n，用while循环实现-感觉while循环好好用" class="headerlink" title="12.求1+2+3+…..+n，用while循环实现,感觉while循环好好用"></a>12.求1+2+3+…..+n，用while循环实现,感觉while循环好好用</h3><ul>
+<li><p>：while(i&lt;=n) {sum+=i;i++;}</p>
+</li>
+<li><p>import java.util.Scanner;</p>
+</li>
+</ul>
+<p>public class Test12 {</p>
+<pre><code>public static void main(String[] args) {
+
+    int i=1,sum=0,n;
+
+    Scanner cin=new Scanner(System.in);
+    n=cin.nextInt();
+
+    while(n&lt;1) {
+        System.out.println(&quot;输入有误，请重新输入&quot;);n=cin.nextInt();
+    }
+
+    while(i&lt;=n) {
+
+        sum+=i;
+        i++;
+    }
+
+    System.out.println(&quot;sum= &quot;+sum);
+}
+</code></pre><p>}</p>
+<h3 id="13-do-while实现n的阶乘"><a href="#13-do-while实现n的阶乘" class="headerlink" title="13.do while实现n的阶乘"></a>13.do while实现n的阶乘</h3><ul>
+<li><p>：sum*=i;i++;</p>
+</li>
+<li><p>public class Test13 {</p>
+<p>  public static void main(String[] args) {</p>
+<pre><code>int i=1,sum=1,n=10;
+
+do {
+    sum*=i;
+    i++;
+}while(i&lt;=n);
+
+System.out.println(&quot;n的阶乘== &quot;+sum);
+</code></pre><p>  }<br>}</p>
+</li>
+</ul>
+<h3 id="14-for循环和通项公式来求解1！-2！-3！-4！-…-20"><a href="#14-for循环和通项公式来求解1！-2！-3！-4！-…-20" class="headerlink" title="14.for循环和通项公式来求解1！+2！+3！+4！+…+20!"></a>14.for循环和通项公式来求解1！+2！+3！+4！+…+20!</h3><ul>
+<li><p>:t*=i;sum+=t; //非常好的思想</p>
+</li>
+<li><p>public class Test14 {</p>
+</li>
+</ul>
+<pre><code>public static void main(String[] args) {
+
+    int i=1,n=20;
+    double sum=0,t=1;
+
+    for(i=1;i&lt;=n;i++) {
+
+        t*=i;     //for循环里面不要犯傻写i++，外面已经有i++了
+        sum+=t;
+    }
+
+    System.out.println(&quot;sum= &quot;+sum);
+}
+</code></pre><p>}</p>
+<h3 id="15-双重for循环实现99乘法表"><a href="#15-双重for循环实现99乘法表" class="headerlink" title="15.双重for循环实现99乘法表"></a>15.双重for循环实现99乘法表</h3><ul>
+<li><p>：i行j数</p>
+</li>
+<li><p>public class Test15 {</p>
+</li>
+</ul>
+<pre><code>public static void main(String[] args) {
+
+    for(int i=1;i&lt;=9;i++) {
+
+
+        for(int j=1;j&lt;=i;j++) {
+
+            System.out.printf(j+&quot;*&quot;+i+&quot;=&quot;); System.out.printf(&quot;%2d&quot;,j*i); System.out.print(&quot; &quot;);
+            //System.out.printf(j+&quot;*&quot;+i+&quot;=&quot;+j*i+&quot; &quot;); 有点不对齐
+        }
+
+        System.out.println();
+
+
+
+    }
+}
+</code></pre><p>}</p>
+<h3 id="16-输出倒三角的-号图"><a href="#16-输出倒三角的-号图" class="headerlink" title="16.输出倒三角的*号图"></a>16.输出倒三角的*号图</h3><ul>
+<li><p>：一重for代表行数，{二重for代表此行的空格数，二.2重for代表*号数}</p>
+</li>
+<li><p>public class Test16 {</p>
+<p>  public static void main(String[] args) {</p>
+<pre><code>//行数
+for(int i=1;i&lt;=10;i++) {
+</code></pre></li>
+</ul>
+<pre><code>        //此行的空格数
+        for(int j=0;j&lt;i-1;j++) {
+
+            System.out.printf(&quot; &quot;);
+        }
+
+
+        //此行的*号数
+        for(int k=1;k&lt;=21-2*i;k++) {
+
+            System.out.printf(&quot;*&quot;);
+        }
+
+
+        //输出此行后就换行
+        System.out.println();
+
+    }
+
+
+
+
+
+
+}
+</code></pre><p>}</p>
+<h3 id="17-判断素数：默认是true-然后循环-到根号n-一个可以除直接break和更改标志位为false-就完成了"><a href="#17-判断素数：默认是true-然后循环-到根号n-一个可以除直接break和更改标志位为false-就完成了" class="headerlink" title="17.判断素数：默认是true,然后循环%到根号n,一个可以除直接break和更改标志位为false,就完成了"></a>17.判断素数：默认是true,然后循环%到根号n,一个可以除直接break和更改标志位为false,就完成了</h3><ul>
+<li><p>：素数爱除根号N</p>
+</li>
+<li><p>import java.util.Scanner;</p>
+</li>
+</ul>
+<p>public class Test17 {</p>
+<pre><code>public static void main(String[] args) {
+
+    boolean flag=true;
+
+    System.out.println(&quot;请输入所要检验的数：&quot;);
+
+    int n=new Scanner(System.in).nextInt();
+
+    for(int i=2;i&lt;=Math.sqrt(n);i++) {
+
+        if(n%i==0) {
+
+            flag=false;
+            break;
+        }
+
+    }
+
+
+    System.out.println(flag);
+
+}
+</code></pre><p>}</p>
+<h3 id="18-求1–100不能被7整除的数之和：-用continue结束本次循环，进行第i-1次循环"><a href="#18-求1–100不能被7整除的数之和：-用continue结束本次循环，进行第i-1次循环" class="headerlink" title="18.求1–100不能被7整除的数之和： 用continue结束本次循环，进行第i+1次循环"></a>18.求1–100不能被7整除的数之和： 用continue结束本次循环，进行第i+1次循环</h3><ul>
+<li>：continue结本次</li>
+<li>public class Test18 {</li>
+</ul>
+<pre><code>public static void main(String[] args) {
+
+    int sum=0;
+    for(int i=1;i&lt;=100;i++) {
+
+        if(i%7==0) continue;
+
+        sum+=i;
+    }
+
+
+    System.out.println(sum);
+}
+</code></pre><p>}</p>
+<h3 id="19-求n-m之间的素数，并打印出来"><a href="#19-求n-m之间的素数，并打印出来" class="headerlink" title="19.求n-m之间的素数，并打印出来"></a>19.求n-m之间的素数，并打印出来</h3><ul>
+<li><p>：continue next;结束此次外循环；   break next;结束整个外循环</p>
+</li>
+<li><p>public class Test19 {</p>
+</li>
+</ul>
+<pre><code>public static void main(String[] args) {
+
+    int n=10,m=20,r;
+
+    next:
+        for(int i=n;i&lt;=m;i++) {
+
+            //外层for循环的part1程序
+            r=(int) Math.sqrt(i);
+            for(int j=2;j&lt;=r;j++) {
+
+                if(i%j==0) continue next;
+            }
+
+
+            //part2,假设part1的检验通过（不通过的话会continue next出去的）
+            System.out.printf(i+&quot; &quot;);
+
+        }
+
+    System.out.println();
+
+
+
+
+
+}
+</code></pre><p>}</p>
+<h3 id="20-爱因斯坦阶梯问题"><a href="#20-爱因斯坦阶梯问题" class="headerlink" title="20.爱因斯坦阶梯问题"></a>20.爱因斯坦阶梯问题</h3><ul>
+<li><p>：for里面搭配true 和break;</p>
+</li>
+<li><p>public class Test20 {</p>
+</li>
+</ul>
+<pre><code>public static void main(String[] args) {
+
+    for(int ladder=7;true;ladder+=14) {
+
+
+        if(ladder%3==2&amp;&amp;ladder%5==4&amp;&amp;ladder%6==5) {
+
+            System.out.println(&quot;ladder is &quot;+ladder);
+            break;
+        }
+
+
+    }
+
+
+
+
+}
+</code></pre><p>}</p>
+<h3 id="21-Fibonacci数列：兔子繁殖问题，1-1-2-3-5-8-13……"><a href="#21-Fibonacci数列：兔子繁殖问题，1-1-2-3-5-8-13……" class="headerlink" title="21.Fibonacci数列：兔子繁殖问题，1 1 2 3 5 8 13……"></a>21.Fibonacci数列：兔子繁殖问题，1 1 2 3 5 8 13……</h3><ul>
+<li><p>：f1=1,f2=1,f=f1+f2;    f1=f2;f2=f;再去for循环</p>
+</li>
+<li><p>public class Test21 {</p>
+<p>  public static void main(String[] args) {</p>
+<pre><code>int f1=1,f2=1,f;
+
+System.out.printf(&quot;1 1&quot;);
+</code></pre></li>
+</ul>
+<pre><code>      //i所代表的是次数，跟f1,f2,f没关系
+    for(int i=3;i&lt;=12;i++) {
+
+        f=f1+f2;
+        f1=f2;
+        f2=f;
+
+        System.out.printf(&quot; &quot;+f);
+    }
+}
+</code></pre><p>}</p>
+<h3 id="22-逆推法求-猴子吃桃问题"><a href="#22-逆推法求-猴子吃桃问题" class="headerlink" title="22.逆推法求 猴子吃桃问题"></a>22.逆推法求 猴子吃桃问题</h3><ul>
+<li><p>：X(n-1)=(X(n)+1)*2;</p>
+</li>
+<li><p>public class Test22 {</p>
+<p>  public static void main(String[] args) {</p>
+<pre><code>int i,a=1;
+
+for(i=9;i&gt;=1;i--) {
+
+    a=(a+1)*2;
+}
+
+System.out.println(a);
+</code></pre><p>  }<br>}</p>
+</li>
+</ul>
+<h3 id="23-二分迭代法求根"><a href="#23-二分迭代法求根" class="headerlink" title="23.二分迭代法求根"></a>23.二分迭代法求根</h3><ul>
+<li><p>：不断迭代 x0 f0与 x1 f1, x2 f2的切换</p>
+</li>
+<li><p>//1e-6是：10的负6次方的意思<br>public class Test23 {</p>
+<p>  public static void main(String[] args) {</p>
+<pre><code>double x0,x1,x2,f0,f1,f2;
+x1=-10;x2=10;
+
+f1=((2*x1-4)*x1+3)*x1-6;
+f2=((2*x2-4)*x2+3)*x2-6;
+
+do {
+
+    x0=(x1+x2)/2;
+    f0=((2*x0-4)*x0+3)*x0-6;
+
+    if(f0*f1&lt;0) {
+
+        x2=x0;
+        f2=f0;
+    }else {
+
+        x1=x0;
+        f1=f0;
+    }
+}while(Math.abs(f0)&gt;=1e-6);
+
+System.out.printf(&quot;x= %6.2f\n&quot;,x0);
+</code></pre><p>  }<br>}</p>
+</li>
+</ul>
+<h3 id="24-遍历数组"><a href="#24-遍历数组" class="headerlink" title="24.遍历数组"></a>24.遍历数组</h3><ul>
+<li><p>：int型数组默认赋值所有元素都为0；for循环输出就行了</p>
+</li>
+<li><p>public class Test24 {</p>
+<p>  public static void main(String[] args) {</p>
+<pre><code>int[] a=new int[10];
+
+for(int i=0;i&lt;a.length;i++) {
+    System.out.print(a[i]+&quot;  &quot;);
+}
+
+System.out.println();
+</code></pre></li>
+</ul>
+<pre><code>    //自定义赋值
+    for(int i=0;i&lt;a.length;i++) {
+        a[i]=i;
+        System.out.print(a[i]+&quot;  &quot;);
+    }
+}
+</code></pre><p>}</p>
+<h3 id="25-数组解决Fibonacci数列"><a href="#25-数组解决Fibonacci数列" class="headerlink" title="25.数组解决Fibonacci数列"></a>25.数组解决Fibonacci数列</h3><ul>
+<li><p>：fib[0]=fib[1]=1;fib[i]=fib[i-1]+fib[i-2];</p>
+</li>
+<li><p>public class Test25 {</p>
+<p>  public static void main(String[] args) {</p>
+<pre><code>int[] fib=new int[12];
+
+fib[0]=fib[1]=1;
+
+//求值
+for(int i=2;i&lt;fib.length;i++) {
+
+    fib[i]=fib[i-1]+fib[i-2];
+}
+</code></pre></li>
+</ul>
+<pre><code>    //遍历输出数组的值
+    for(int i=0;i&lt;fib.length;i++) {
+
+        System.out.print(fib[i]+&quot;  &quot;);
+    }
+}
+</code></pre><p>}</p>
+<h3 id="26-增强for循环遍历数组"><a href="#26-增强for循环遍历数组" class="headerlink" title="26.增强for循环遍历数组"></a>26.增强for循环遍历数组</h3><ul>
+<li><p>： for(String s:str){ }</p>
+</li>
+<li><p>public class Test25 {</p>
+<p>  public static void main(String[] args) {</p>
+<pre><code>int[] fib=new int[12];
+
+fib[0]=fib[1]=1;
+
+//求值
+for(int i=2;i&lt;fib.length;i++) {
+
+    fib[i]=fib[i-1]+fib[i-2];
+}
+</code></pre></li>
+</ul>
+<pre><code>    //遍历输出数组的值
+    for(int i=0;i&lt;fib.length;i++) {
+
+        System.out.print(fib[i]+&quot;  &quot;);
+    }
+
+
+    System.out.println(); 
+
+
+    //增强for循环
+    for(int a:fib) {
+        System.out.print(a+&quot;  &quot;);
+    }
+}
+</code></pre><p>}</p>
+<h3 id="27-二维数组解决杨辉三角（或者双重for循环）"><a href="#27-二维数组解决杨辉三角（或者双重for循环）" class="headerlink" title="27.二维数组解决杨辉三角（或者双重for循环）"></a>27.二维数组解决杨辉三角（或者双重for循环）</h3><ul>
+<li><p>：i行j列</p>
+</li>
+<li><p>public class Test26 {</p>
+</li>
+</ul>
+<pre><code>public static void main(String[] args) {
+
+    int i,j,N=10;
+    int[][] y=new int[N][N];
+
+
+    //为第一列和对角线赋值
+    for(i=0;i&lt;N;i++) {
+        y[i][0]=y[i][i]=1;
+    }
+
+
+    //为其他元素赋值
+    for(i=2;i&lt;N;i++) {
+
+
+        for(j=1;j&lt;i;j++) {
+            y[i][j]=y[i-1][j]+y[i-1][j-1];
+        }
+    }
+
+
+    //遍历输出杨辉三角
+    for(i=0;i&lt;N;i++) {  //i代表行数，其实原理都是差不多的，都是以i为行数，来输出每一行真正的值
+
+        for(j=0;j&lt;=i;j++) {
+            System.out.printf(&quot;%6d&quot;,y[i][j]);
+        }
+
+        System.out.println();
+
+
+    }
+
+
+
+}
+</code></pre><p>}</p>
+<h3 id="28-枚举与for循环"><a href="#28-枚举与for循环" class="headerlink" title="28.枚举与for循环"></a>28.枚举与for循环</h3><ul>
+<li>：enum 枚举集合名{ a,b,c,d}</li>
+<li><p>:我们可以把枚举可以理解为一个常量集合类，常量集合类，常量集合类</p>
+</li>
+<li><p>enum Season{ spring,summer,autumn,winter}</p>
+</li>
+</ul>
+<p>public class Test27 {</p>
+<pre><code>public static void main(String[] args) {
+
+    //方法：values()返回整个枚举常量数组
+    for(Season s:Season.values())
+        System.out.println(s);
+
+
+
+}
+</code></pre><p>}</p>
+<h3 id="29-枚举与switch"><a href="#29-枚举与switch" class="headerlink" title="29.枚举与switch"></a>29.枚举与switch</h3><ul>
+<li><p>:枚举名可以当做一个类来使用，不过创造对象的方式是： Season s=Season.spring;</p>
+</li>
+<li><p>enum Color{ red,yellow,blue,white,black}</p>
+</li>
+</ul>
+<p>public class Test27 {</p>
+<pre><code>public static void main(String[] args) {
+
+    Color c=Color.black;
+
+    switch(c) {
+
+    case red: System.out.println(c);break;
+    case yellow: System.out.println(c);break;
+    case blue: System.out.println(c);break;
+    case white: System.out.println(c);break;
+    case black: System.out.println(c);break;
+    default: break;
+
+    }
+
+
+
+
+}
+</code></pre><p>}</p>
+<h3 id="30-递归算法求Fibonacci数列-盘子问题？"><a href="#30-递归算法求Fibonacci数列-盘子问题？" class="headerlink" title="30.递归算法求Fibonacci数列+盘子问题？"></a>30.递归算法求Fibonacci数列+盘子问题？</h3><ul>
+<li><p>：递归等于分类讨论+返回到f(1),f(2)来计算</p>
+</li>
+<li><p>public class Test30 {</p>
+<p>  public static int fib(int n) {</p>
+<pre><code>if(n&lt;=0) {return -1;}
+
+else if(n&lt;=2) {return 1;}
+else {
+
+    return fib(n-1)+fib(n-2);
+}
+</code></pre><p>  }</p>
+</li>
+</ul>
+<pre><code>public static void main(String[] args) {
+
+    System.out.println(fib(12));
+}
+</code></pre><p>}</p>
+<h3 id="31-值传递与引用传递"><a href="#31-值传递与引用传递" class="headerlink" title="31.值传递与引用传递"></a>31.值传递与引用传递</h3><ul>
+<li><p>：基本数据类型值传递，是传递副本，操作副本后，本身值不会变；引用传递是传递堆的地址值，共用实体</p>
+</li>
+<li><p>public class Test30 {</p>
+<p>  public static void changeX(int x) {</p>
+<pre><code>x++;
+</code></pre><p>  }</p>
+<p>  public static void changeArray(int[] a) {</p>
+<pre><code>for(int i=0;i&lt;a.length;i++) {
+
+    a[i]+=i;
+}
+</code></pre><p>  }</p>
+</li>
+</ul>
+<pre><code>public static void main(String[] args) {
+
+    int x=2;
+    changeX(x);
+    System.out.println(x); //x还是2！！！
+
+
+    int[] a=new int[10];
+    for(int b:a) {
+        System.out.print(b+&quot;  &quot;);
+    }
+
+    System.out.println();
+
+
+    changeArray(a);
+    for(int b:a) {
+        System.out.print(b+&quot;  &quot;);
+    }
+
+
+}
+</code></pre><p>}</p>
+<h3 id="32-可变参数（double-…x）"><a href="#32-可变参数（double-…x）" class="headerlink" title="32.可变参数（double …x）"></a>32.可变参数（double …x）</h3><ul>
+<li><p>:可减少方法的重载</p>
+</li>
+<li></li>
+</ul>
+<p>public class Test30 {</p>
+<pre><code>public static double avg(double ...x) {
+
+    double result=0;  //形参x本质上是一个数组
+
+    for(double d:x) {
+        result+=d;
+    }
+
+
+    return result/=x.length;
+}
+
+
+
+public static void main(String[] args) {
+
+    System.out.println(avg(1,2,3,4,5,6,7,8,9,10));
+    System.out.println(avg(1,2,3,4));
+}
+</code></pre><p>}</p>
 
       
     </div>
@@ -541,7 +1171,7 @@ System.out.println(max);
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">25</span>
+                  <span class="site-state-item-count">17</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -578,7 +1208,7 @@ System.out.println(max);
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Java编程一级实现"><span class="nav-number">1.</span> <span class="nav-text">Java编程一级实现</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-System-out-println-“-“-x-x为八进制，十六进制或者二进制的整数int，输出的时候，显示都是默认以十进制的形式显示出来的，而且byte的最大值是127，如果输出128就是溢出，溢出的显示标志是byte的最小值-128，（byte-short-int-long是整数的四种存储单位，2进制，八进制，10进制，16进制是整数的四种表现形式）"><span class="nav-number">1.1.</span> <span class="nav-text">1.System.out.println(“ “+x);x为八进制，十六进制或者二进制的整数int，输出的时候，显示都是默认以十进制的形式显示出来的，而且byte的最大值是127，如果输出128就是溢出，溢出的显示标志是byte的最小值-128，（byte short int long是整数的四种存储单位，2进制，八进制，10进制，16进制是整数的四种表现形式）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-变量名，方法名，类名竟然可以使用汉字！！！！不过很少很少用！！！知道就行；-n是转义字符；’0’代表的是字符’0’-不是整数的0，而且根据Unicode编码，每个字符都代表一个整数值，字符’0’代表的就是48"><span class="nav-number">1.2.</span> <span class="nav-text">2.变量名，方法名，类名竟然可以使用汉字！！！！不过很少很少用！！！知道就行； \n是转义字符；’0’代表的是字符’0’,不是整数的0，而且根据Unicode编码，每个字符都代表一个整数值，字符’0’代表的就是48</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-解析整数的各位上的数字：例如十进制的1234从高位到低位分别是：-1-2-3-4；16进制：0x23：-2-3"><span class="nav-number">1.3.</span> <span class="nav-text">3.解析整数的各位上的数字：例如十进制的1234从高位到低位分别是： 1  2  3  4；16进制：0x23： 2  3</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-自运算的最好例子：-在于前增还是后增"><span class="nav-number">1.4.</span> <span class="nav-text">4.自运算的最好例子： 在于前增还是后增</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-判断闰年：两种判定方式：（1）能被4整除，但是不能被100整除；（2）能被400整除"><span class="nav-number">1.5.</span> <span class="nav-text">5.判断闰年：两种判定方式：（1）能被4整除，但是不能被100整除；（2）能被400整除</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-三目运算符实现：两数取最大值；三个数取最大值"><span class="nav-number">1.6.</span> <span class="nav-text">6.三目运算符实现：两数取最大值；三个数取最大值</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-计算机里面都是以二进制的补码形式来存储的，因为正数三码合一，所以大家都以为正数就是以原码来存储的，其实也是以补码的形式存储的，然后特别是负数，就很大不同了，原码—-反码—-反码-1-补码；所以由补码来求原码真值就是：-1再取反就是真值了！"><span class="nav-number">1.7.</span> <span class="nav-text">7.计算机里面都是以二进制的补码形式来存储的，因为正数三码合一，所以大家都以为正数就是以原码来存储的，其实也是以补码的形式存储的，然后特别是负数，就很大不同了，原码—-反码—-反码+1=补码；所以由补码来求原码真值就是：-1再取反就是真值了！</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8-位运算-位运算优先级整理总结，不能再混乱了"><span class="nav-number">1.8.</span> <span class="nav-text">8.位运算+位运算优先级整理总结，不能再混乱了</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Java编程一级实现"><span class="nav-number">1.</span> <span class="nav-text">Java编程一级实现</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-System-out-println-“-“-x-x为八进制，十六进制或者二进制的整数int，输出的时候，显示都是默认以十进制的形式显示出来的，而且byte的最大值是127，如果输出128就是溢出，溢出的显示标志是byte的最小值-128，（byte-short-int-long是整数的四种存储单位，2进制，八进制，10进制，16进制是整数的四种表现形式）"><span class="nav-number">1.1.</span> <span class="nav-text">1.System.out.println(“ “+x);x为八进制，十六进制或者二进制的整数int，输出的时候，显示都是默认以十进制的形式显示出来的，而且byte的最大值是127，如果输出128就是溢出，溢出的显示标志是byte的最小值-128，（byte short int long是整数的四种存储单位，2进制，八进制，10进制，16进制是整数的四种表现形式）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-变量名，方法名，类名竟然可以使用汉字！！！！不过很少很少用！！！知道就行；-n是转义字符；’0’代表的是字符’0’-不是整数的0，而且根据Unicode编码，每个字符都代表一个整数值，字符’0’代表的就是48"><span class="nav-number">1.2.</span> <span class="nav-text">2.变量名，方法名，类名竟然可以使用汉字！！！！不过很少很少用！！！知道就行； \n是转义字符；’0’代表的是字符’0’,不是整数的0，而且根据Unicode编码，每个字符都代表一个整数值，字符’0’代表的就是48</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-解析整数的各位上的数字：例如十进制的1234从高位到低位分别是：-1-2-3-4；16进制：0x23：-2-3"><span class="nav-number">1.3.</span> <span class="nav-text">3.解析整数的各位上的数字：例如十进制的1234从高位到低位分别是： 1  2  3  4；16进制：0x23： 2  3</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-自运算的最好例子：-在于前增还是后增"><span class="nav-number">1.4.</span> <span class="nav-text">4.自运算的最好例子： 在于前增还是后增</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-判断闰年：两种判定方式：（1）能被4整除，但是不能被100整除；（2）能被400整除"><span class="nav-number">1.5.</span> <span class="nav-text">5.判断闰年：两种判定方式：（1）能被4整除，但是不能被100整除；（2）能被400整除</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-三目运算符实现：两数取最大值；三个数取最大值"><span class="nav-number">1.6.</span> <span class="nav-text">6.三目运算符实现：两数取最大值；三个数取最大值</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-计算机里面都是以二进制的补码形式来存储的，因为正数三码合一，所以大家都以为正数就是以原码来存储的，其实也是以补码的形式存储的，然后特别是负数，就很大不同了，原码—-反码—-反码-1-补码；所以由补码来求原码真值就是：-1再取反就是真值了！"><span class="nav-number">1.7.</span> <span class="nav-text">7.计算机里面都是以二进制的补码形式来存储的，因为正数三码合一，所以大家都以为正数就是以原码来存储的，其实也是以补码的形式存储的，然后特别是负数，就很大不同了，原码—-反码—-反码+1=补码；所以由补码来求原码真值就是：-1再取反就是真值了！</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8-位运算-位运算优先级整理总结，不能再混乱了"><span class="nav-number">1.8.</span> <span class="nav-text">8.位运算+位运算优先级整理总结，不能再混乱了</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#9—58"><span class="nav-number">1.9.</span> <span class="nav-text">9—58</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#9-Scanner实现键盘输入"><span class="nav-number">1.10.</span> <span class="nav-text">9.Scanner实现键盘输入</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#10-Scanner和if语句实现对键盘输入值求绝对值"><span class="nav-number">1.11.</span> <span class="nav-text">10.Scanner和if语句实现对键盘输入值求绝对值</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#11-Scanner键盘输入一个年份和一个月份，来输出这个月的天数，Switch来实现（不要小看）"><span class="nav-number">1.12.</span> <span class="nav-text">11.Scanner键盘输入一个年份和一个月份，来输出这个月的天数，Switch来实现（不要小看）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#12-求1-2-3-…-n，用while循环实现-感觉while循环好好用"><span class="nav-number">1.13.</span> <span class="nav-text">12.求1+2+3+…..+n，用while循环实现,感觉while循环好好用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#13-do-while实现n的阶乘"><span class="nav-number">1.14.</span> <span class="nav-text">13.do while实现n的阶乘</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#14-for循环和通项公式来求解1！-2！-3！-4！-…-20"><span class="nav-number">1.15.</span> <span class="nav-text">14.for循环和通项公式来求解1！+2！+3！+4！+…+20!</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#15-双重for循环实现99乘法表"><span class="nav-number">1.16.</span> <span class="nav-text">15.双重for循环实现99乘法表</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#16-输出倒三角的-号图"><span class="nav-number">1.17.</span> <span class="nav-text">16.输出倒三角的*号图</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#17-判断素数：默认是true-然后循环-到根号n-一个可以除直接break和更改标志位为false-就完成了"><span class="nav-number">1.18.</span> <span class="nav-text">17.判断素数：默认是true,然后循环%到根号n,一个可以除直接break和更改标志位为false,就完成了</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#18-求1–100不能被7整除的数之和：-用continue结束本次循环，进行第i-1次循环"><span class="nav-number">1.19.</span> <span class="nav-text">18.求1–100不能被7整除的数之和： 用continue结束本次循环，进行第i+1次循环</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#19-求n-m之间的素数，并打印出来"><span class="nav-number">1.20.</span> <span class="nav-text">19.求n-m之间的素数，并打印出来</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#20-爱因斯坦阶梯问题"><span class="nav-number">1.21.</span> <span class="nav-text">20.爱因斯坦阶梯问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#21-Fibonacci数列：兔子繁殖问题，1-1-2-3-5-8-13……"><span class="nav-number">1.22.</span> <span class="nav-text">21.Fibonacci数列：兔子繁殖问题，1 1 2 3 5 8 13……</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#22-逆推法求-猴子吃桃问题"><span class="nav-number">1.23.</span> <span class="nav-text">22.逆推法求 猴子吃桃问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#23-二分迭代法求根"><span class="nav-number">1.24.</span> <span class="nav-text">23.二分迭代法求根</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#24-遍历数组"><span class="nav-number">1.25.</span> <span class="nav-text">24.遍历数组</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#25-数组解决Fibonacci数列"><span class="nav-number">1.26.</span> <span class="nav-text">25.数组解决Fibonacci数列</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#26-增强for循环遍历数组"><span class="nav-number">1.27.</span> <span class="nav-text">26.增强for循环遍历数组</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#27-二维数组解决杨辉三角（或者双重for循环）"><span class="nav-number">1.28.</span> <span class="nav-text">27.二维数组解决杨辉三角（或者双重for循环）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#28-枚举与for循环"><span class="nav-number">1.29.</span> <span class="nav-text">28.枚举与for循环</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#29-枚举与switch"><span class="nav-number">1.30.</span> <span class="nav-text">29.枚举与switch</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#30-递归算法求Fibonacci数列-盘子问题？"><span class="nav-number">1.31.</span> <span class="nav-text">30.递归算法求Fibonacci数列+盘子问题？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#31-值传递与引用传递"><span class="nav-number">1.32.</span> <span class="nav-text">31.值传递与引用传递</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#32-可变参数（double-…x）"><span class="nav-number">1.33.</span> <span class="nav-text">32.可变参数（double …x）</span></a></li></ol></li></ol></div>
             
 
           </div>
