@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="完美细节非常不可思议**Hexo博客的编写口诀以后就为：23（#）无序1.开启web服务器的方法还可以在搜索栏开，输入startup.bat ,然后运行就可以了2.本机的ip地址： cmd窗口， 输入 ipconfig 3.谷歌浏览器装一个插件可以把手机的页面显示到电脑的显示器上 4.Ctrl+D 可以快速自动复制整行，提高效率，非常非常好用，杨国福老师有一个很好的编码习惯，就是copy修改，co">
+<meta name="keywords" content="Android Developer">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android技巧">
+<meta property="og:url" content="http://yoursite.com/2018/07/29/Anroid技巧/index.html">
+<meta property="og:site_name" content="FeishengQiu">
+<meta property="og:description" content="完美细节非常不可思议**Hexo博客的编写口诀以后就为：23（#）无序1.开启web服务器的方法还可以在搜索栏开，输入startup.bat ,然后运行就可以了2.本机的ip地址： cmd窗口， 输入 ipconfig 3.谷歌浏览器装一个插件可以把手机的页面显示到电脑的显示器上 4.Ctrl+D 可以快速自动复制整行，提高效率，非常非常好用，杨国福老师有一个很好的编码习惯，就是copy修改，co">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://i.imgur.com/mdx2oeA.png">
+<meta property="og:image" content="https://i.imgur.com/A4eEKWX.png">
+<meta property="og:image" content="https://i.imgur.com/wOjwHoa.png">
+<meta property="og:updated_time" content="2018-11-28T16:07:03.294Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Android技巧">
+<meta name="twitter:description" content="完美细节非常不可思议**Hexo博客的编写口诀以后就为：23（#）无序1.开启web服务器的方法还可以在搜索栏开，输入startup.bat ,然后运行就可以了2.本机的ip地址： cmd窗口， 输入 ipconfig 3.谷歌浏览器装一个插件可以把手机的页面显示到电脑的显示器上 4.Ctrl+D 可以快速自动复制整行，提高效率，非常非常好用，杨国福老师有一个很好的编码习惯，就是copy修改，co">
+<meta name="twitter:image" content="https://i.imgur.com/mdx2oeA.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/07/29/Anroid技巧/"/>
+
+
+
+
+
+  <title>Android技巧 | FeishengQiu</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">FeishengQiu</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">Keep learning all the time</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/29/Anroid技巧/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="FeishengQiu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="FeishengQiu">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Android技巧</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-07-29T01:49:59+08:00">
+                2018-07-29
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="完美细节非常不可思议"><a href="#完美细节非常不可思议" class="headerlink" title="完美细节非常不可思议"></a>完美细节非常不可思议</h2><h3 id="Hexo博客的编写口诀以后就为：23（-）无序"><a href="#Hexo博客的编写口诀以后就为：23（-）无序" class="headerlink" title="**Hexo博客的编写口诀以后就为：23（#）无序"></a><strong>**</strong>Hexo博客的编写口诀以后就为：23（#）无序</h3><h3 id="1-开启web服务器的方法还可以在搜索栏开，输入startup-bat-然后运行就可以了"><a href="#1-开启web服务器的方法还可以在搜索栏开，输入startup-bat-然后运行就可以了" class="headerlink" title="1.开启web服务器的方法还可以在搜索栏开，输入startup.bat ,然后运行就可以了"></a>1.开启web服务器的方法还可以在搜索栏开，输入startup.bat ,然后运行就可以了</h3><h3 id="2-本机的ip地址：-cmd窗口，-输入-ipconfig"><a href="#2-本机的ip地址：-cmd窗口，-输入-ipconfig" class="headerlink" title="2.本机的ip地址： cmd窗口， 输入 ipconfig"></a>2.本机的ip地址： cmd窗口， 输入 ipconfig</h3><p><img src="https://i.imgur.com/mdx2oeA.png" alt=""></p>
+<h3 id="3-谷歌浏览器装一个插件可以把手机的页面显示到电脑的显示器上"><a href="#3-谷歌浏览器装一个插件可以把手机的页面显示到电脑的显示器上" class="headerlink" title="3.谷歌浏览器装一个插件可以把手机的页面显示到电脑的显示器上"></a>3.谷歌浏览器装一个插件可以把手机的页面显示到电脑的显示器上</h3><p><img src="https://i.imgur.com/A4eEKWX.png" alt=""></p>
+<h3 id="4-Ctrl-D-可以快速自动复制整行，提高效率，非常非常好用，杨国福老师有一个很好的编码习惯，就是copy修改，copy修改-可以快速提高编码效率，Ctrl-D就可以快速复制"><a href="#4-Ctrl-D-可以快速自动复制整行，提高效率，非常非常好用，杨国福老师有一个很好的编码习惯，就是copy修改，copy修改-可以快速提高编码效率，Ctrl-D就可以快速复制" class="headerlink" title="4.Ctrl+D 可以快速自动复制整行，提高效率，非常非常好用，杨国福老师有一个很好的编码习惯，就是copy修改，copy修改,可以快速提高编码效率，Ctrl+D就可以快速复制"></a>4.Ctrl+D 可以快速自动复制整行，提高效率，非常非常好用，杨国福老师有一个很好的编码习惯，就是copy修改，copy修改,可以快速提高编码效率，Ctrl+D就可以快速复制</h3><h3 id="5-fbc初始化控件前：-实例名要和id名一样，-而且提前copy一下，然后-再fbc，红框自己会消失，可以不用理会"><a href="#5-fbc初始化控件前：-实例名要和id名一样，-而且提前copy一下，然后-再fbc，红框自己会消失，可以不用理会" class="headerlink" title="5. fbc初始化控件前： 实例名要和id名一样， 而且提前copy一下，然后 再fbc，红框自己会消失，可以不用理会"></a>5. fbc初始化控件前： 实例名要和id名一样， 而且提前copy一下，然后 再fbc，红框自己会消失，可以不用理会</h3><h3 id="6-监听动画，该API的参数是一个接口AnimationListener的对象-自己写一个类：MyAnimationListener来implements-然后重写方法，之后再new一个对象进去就行，学会杨国福老师的此处编码习惯：Ctr-B进去方法看参数类型，然后copy类名来My…-extends-或者implements，重写方法，再new一个对象传进去即可解决"><a href="#6-监听动画，该API的参数是一个接口AnimationListener的对象-自己写一个类：MyAnimationListener来implements-然后重写方法，之后再new一个对象进去就行，学会杨国福老师的此处编码习惯：Ctr-B进去方法看参数类型，然后copy类名来My…-extends-或者implements，重写方法，再new一个对象传进去即可解决" class="headerlink" title="6.监听动画，该API的参数是一个接口AnimationListener的对象,自己写一个类：MyAnimationListener来implements,然后重写方法，之后再new一个对象进去就行，学会杨国福老师的此处编码习惯：Ctr+B进去方法看参数类型，然后copy类名来My…..extends 或者implements，重写方法，再new一个对象传进去即可解决"></a>6.监听动画，该API的参数是一个接口AnimationListener的对象,自己写一个类：MyAnimationListener来implements,然后重写方法，之后再new一个对象进去就行，学会杨国福老师的此处编码习惯：Ctr+B进去方法看参数类型，然后copy类名来My…..extends 或者implements，重写方法，再new一个对象传进去即可解决</h3><pre>
+set.setAnimationListener(new MyAnimationListener());
+class MyAnimationListener implements Animation.AnimationListener{ }
+
+</pre>
+
+<h3 id="7-Ctrl-Alt-C-可以将一个变量抽取成static静态常量（目的是任意调用），作为key保存值（此值不是本身自己的值，可以把它当做一个快递员，随时找他拿快递）"><a href="#7-Ctrl-Alt-C-可以将一个变量抽取成static静态常量（目的是任意调用），作为key保存值（此值不是本身自己的值，可以把它当做一个快递员，随时找他拿快递）" class="headerlink" title="7. Ctrl + Alt +C  可以将一个变量抽取成static静态常量（目的是任意调用），作为key保存值（此值不是本身自己的值，可以把它当做一个快递员，随时找他拿快递）"></a>7. Ctrl + Alt +C  可以将一个变量抽取成static静态常量（目的是任意调用），作为key保存值（此值不是本身自己的值，可以把它当做一个快递员，随时找他拿快递）</h3><pre>public static final String MAIN="main";</pre>
+
+<h3 id="8-copy-id名称，然后在Activity中声明数据域粘贴，之后fbc搞定绑定id实例，可以加快编码速度；"><a href="#8-copy-id名称，然后在Activity中声明数据域粘贴，之后fbc搞定绑定id实例，可以加快编码速度；" class="headerlink" title="8.copy id名称，然后在Activity中声明数据域粘贴，之后fbc搞定绑定id实例，可以加快编码速度；"></a>8.copy id名称，然后在Activity中声明数据域粘贴，之后fbc搞定绑定id实例，可以加快编码速度；</h3><h3 id="9-点击圈圈-鼠标可以调到当前文件的所在位置-进行copy改名成另一个文件，class或者layout-非常方便快速"><a href="#9-点击圈圈-鼠标可以调到当前文件的所在位置-进行copy改名成另一个文件，class或者layout-非常方便快速" class="headerlink" title="9.点击圈圈 鼠标可以调到当前文件的所在位置 进行copy改名成另一个文件，class或者layout,非常方便快速"></a>9.点击圈圈 鼠标可以调到当前文件的所在位置 进行copy改名成另一个文件，class或者layout,非常方便快速</h3><p><img src="https://i.imgur.com/wOjwHoa.png" alt=""></p>
+<h3 id="10-导入Sample-要看看效果，步骤如下："><a href="#10-导入Sample-要看看效果，步骤如下：" class="headerlink" title="10.导入Sample,要看看效果，步骤如下："></a>10.导入Sample,要看看效果，步骤如下：</h3><ul>
+<li>New—–Import Module—–粘贴路径—–改一下名称—–finish—–改两个build gradle—–一个仿照build gradle—–一个是它的库build gradle—–只留下 depencies  和 android两个标签——其他全部注释掉—–get it！</li>
+</ul>
+<h3 id="11-（Ctrl-Alt-M）可以抽取一个方法，增加代码的可读性-原来这就是代码重构-增加可读性"><a href="#11-（Ctrl-Alt-M）可以抽取一个方法，增加代码的可读性-原来这就是代码重构-增加可读性" class="headerlink" title="11.（Ctrl+ Alt+ M）可以抽取一个方法，增加代码的可读性,原来这就是代码重构 增加可读性"></a>11.（Ctrl+ Alt+ M）可以抽取一个方法，增加代码的可读性,原来这就是<strong>代码重构</strong> 增加可读性</h3><h3 id="12-（Ctrl-Shift-U）-可以代码大小写转换，特别是地址或者常量，好用"><a href="#12-（Ctrl-Shift-U）-可以代码大小写转换，特别是地址或者常量，好用" class="headerlink" title="12.（Ctrl + Shift + U） 可以代码大小写转换，特别是地址或者常量，好用"></a>12.（Ctrl + Shift + U） 可以代码大小写转换，特别是地址或者常量，好用</h3><h3 id="13-解析的本质是：用谷歌的第三方框架Gson来解析处理（或者调用系统自带的API转化成JsonObject解析）后，把数据放到一个容器类Bean的对象中，这个类主要是写服务器返回数据的数据域，然后写好所有的Getter和setter-Bean对象就可以直接调用和setText，这个类中可能有数据域又有集合（动态数组），没关系，一个个地写就行"><a href="#13-解析的本质是：用谷歌的第三方框架Gson来解析处理（或者调用系统自带的API转化成JsonObject解析）后，把数据放到一个容器类Bean的对象中，这个类主要是写服务器返回数据的数据域，然后写好所有的Getter和setter-Bean对象就可以直接调用和setText，这个类中可能有数据域又有集合（动态数组），没关系，一个个地写就行" class="headerlink" title="13.解析的本质是：用谷歌的第三方框架Gson来解析处理（或者调用系统自带的API转化成JsonObject解析）后，把数据放到一个容器类Bean的对象中，这个类主要是写服务器返回数据的数据域，然后写好所有的Getter和setter,Bean对象就可以直接调用和setText，这个类中可能有数据域又有集合（动态数组），没关系，一个个地写就行"></a>13.解析的本质是：用谷歌的第三方框架Gson来解析处理（或者调用系统自带的API转化成JsonObject解析）后，把数据放到一个容器类Bean的对象中，这个类主要是写服务器返回数据的数据域，然后写好所有的Getter和setter,Bean对象就可以直接调用和setText，这个类中可能有数据域又有集合（动态数组），没关系，一个个地写就行</h3><h3 id="14-json数据的类型是-String类型！！！！！！服务器给一个String类型的result"><a href="#14-json数据的类型是-String类型！！！！！！服务器给一个String类型的result" class="headerlink" title="14.json数据的类型是 String类型！！！！！！服务器给一个String类型的result"></a>14.json数据的类型是 String类型！！！！！！服务器给一个String类型的result</h3><h3 id="15-state-enabled-和state-checked-是属于按下去一直保持的状态，而button的press状态是一松手就恢复false的状态-要明白区别，enable和check的区别在于enable本身不可以点击，而check本身可以点击"><a href="#15-state-enabled-和state-checked-是属于按下去一直保持的状态，而button的press状态是一松手就恢复false的状态-要明白区别，enable和check的区别在于enable本身不可以点击，而check本身可以点击" class="headerlink" title="15.state_enabled 和state_checked 是属于按下去一直保持的状态，而button的press状态是一松手就恢复false的状态,要明白区别，enable和check的区别在于enable本身不可以点击，而check本身可以点击"></a>15.state_enabled 和state_checked 是属于按下去一直保持的状态，而button的press状态是一松手就恢复false的状态,要明白区别，enable和check的区别在于enable本身不可以点击，而check本身可以点击</h3><h3 id="16-创建基类之后，各个子类的步骤是-先写好一个，然后在包那里复制粘贴，再改名字和内容replace很快可以写完"><a href="#16-创建基类之后，各个子类的步骤是-先写好一个，然后在包那里复制粘贴，再改名字和内容replace很快可以写完" class="headerlink" title="16.创建基类之后，各个子类的步骤是:先写好一个，然后在包那里复制粘贴，再改名字和内容replace很快可以写完"></a>16.创建基类之后，各个子类的步骤是:先写好一个，然后在包那里复制粘贴，再改名字和内容replace很快可以写完</h3><h3 id="17-编程需要一种模块化思想，-视图和数据分离：-initView-和-initData-初始化视图和初始化数据分离"><a href="#17-编程需要一种模块化思想，-视图和数据分离：-initView-和-initData-初始化视图和初始化数据分离" class="headerlink" title="17.编程需要一种模块化思想， 视图和数据分离： initView()和 initData():初始化视图和初始化数据分离"></a>17.编程需要一种模块化思想， 视图和数据分离： initView()和 initData():初始化视图和初始化数据分离</h3><h3 id="18-int-retcode-object-optInt-“retcode”-比int-retcode-object-getInt-“retcode”-好好好，因为此时就算服务器不返回retcode，也不会奔溃，后者会奔溃"><a href="#18-int-retcode-object-optInt-“retcode”-比int-retcode-object-getInt-“retcode”-好好好，因为此时就算服务器不返回retcode，也不会奔溃，后者会奔溃" class="headerlink" title="18.int retcode=object.optInt(“retcode”); 比int retcode=object.getInt(“retcode”);好好好，因为此时就算服务器不返回retcode，也不会奔溃，后者会奔溃"></a>18.int retcode=object.optInt(“retcode”); 比int retcode=object.getInt(“retcode”);好好好，因为此时就算服务器不返回retcode，也不会奔溃，后者会奔溃</h3><h3 id="19-数组需要判空，int型-String型等普通型不需要判空，因为它们自己空的话，会有默认值来代替，不影响，但是数组不给默认值；"><a href="#19-数组需要判空，int型-String型等普通型不需要判空，因为它们自己空的话，会有默认值来代替，不影响，但是数组不给默认值；" class="headerlink" title="19.数组需要判空，int型 String型等普通型不需要判空，因为它们自己空的话，会有默认值来代替，不影响，但是数组不给默认值；"></a>19.数组需要判空，int型 String型等普通型不需要判空，因为它们自己空的话，会有默认值来代替，不影响，但是数组不给默认值；</h3><h3 id="20-这是用于数组A-有多个对象，-然后有的对象有数组，有的对象没数组，要构造好这个万能对象，就需要判空，以防奔溃"><a href="#20-这是用于数组A-有多个对象，-然后有的对象有数组，有的对象没数组，要构造好这个万能对象，就需要判空，以防奔溃" class="headerlink" title="20.这是用于数组A 有多个对象， 然后有的对象有数组，有的对象没数组，要构造好这个万能对象，就需要判空，以防奔溃"></a>20.这是用于数组A 有多个对象， 然后有的对象有数组，有的对象没数组，要构造好这个万能对象，就需要判空，以防奔溃</h3><h3 id="21-判空的区别"><a href="#21-判空的区别" class="headerlink" title="21.判空的区别"></a>21.判空的区别</h3><pre>if (!TextUtils.isEmpty(saveJson))</pre>
+
+<pre>if (saveJson!=null)</pre>
+
+<ul>
+<li>： 上面包括：！=null 和 ！=“”  下面只是！=null  空字符串可以用，所以此时就有可能造成错误</li>
+</ul>
+<h3 id="22-空指针就是有声明，但是没有实例化，直接去用，此时就会空指针奔溃"><a href="#22-空指针就是有声明，但是没有实例化，直接去用，此时就会空指针奔溃" class="headerlink" title="22.空指针就是有声明，但是没有实例化，直接去用，此时就会空指针奔溃"></a>22.空指针就是有声明，但是没有实例化，直接去用，此时就会空指针奔溃</h3><h3 id="23-ListView中的item默认习惯都用相对布局做"><a href="#23-ListView中的item默认习惯都用相对布局做" class="headerlink" title="23./ListView中的item默认习惯都用相对布局做"></a>23./ListView中的item默认习惯都用相对布局做</h3><h3 id="24-listView可以添加头和尾"><a href="#24-listView可以添加头和尾" class="headerlink" title="24.listView可以添加头和尾"></a>24.listView可以添加头和尾</h3><h3 id="25-以后都这样改写构造方法初始化，都是super改成this-然后1参数加null，2参数加0"><a href="#25-以后都这样改写构造方法初始化，都是super改成this-然后1参数加null，2参数加0" class="headerlink" title="25.以后都这样改写构造方法初始化，都是super改成this,然后1参数加null，2参数加0"></a>25.以后都这样改写构造方法初始化，都是super改成this,然后1参数加null，2参数加0</h3><p> public RefreshListview(Context context, AttributeSet attrs) {<br>        this(context, attrs,0);<br>    }</p>
+<p> public RefreshListview(Context context) {<br>        this(context,null);<br>    }</p>
+<h3 id="26-上面的-lt-箭头可以回到上次编辑的地方，非常方便，一直都很想这样操作"><a href="#26-上面的-lt-箭头可以回到上次编辑的地方，非常方便，一直都很想这样操作" class="headerlink" title="26.上面的&lt;=箭头可以回到上次编辑的地方，非常方便，一直都很想这样操作"></a>26.上面的&lt;=箭头可以回到上次编辑的地方，非常方便，一直都很想这样操作</h3><h3 id="27-封装库的本质是-封装类，封装方法，封装res文件，然后导入库就可以直接调用API，直接使用res文件"><a href="#27-封装库的本质是-封装类，封装方法，封装res文件，然后导入库就可以直接调用API，直接使用res文件" class="headerlink" title="27.封装库的本质是 封装类，封装方法，封装res文件，然后导入库就可以直接调用API，直接使用res文件"></a>27.封装库的本质是 封装类，封装方法，封装res文件，然后导入库就可以直接调用API，直接使用res文件</h3><h3 id="28-Github上下载的project，有一个运行的技巧就是打开本地文件夹的sample，然后复制粘贴本地地址，用Import-Moudle的方式来打开，不要直接Open-project的方式来运行，最主要的原因应该是SDK和gradle已经完全生成的原因"><a href="#28-Github上下载的project，有一个运行的技巧就是打开本地文件夹的sample，然后复制粘贴本地地址，用Import-Moudle的方式来打开，不要直接Open-project的方式来运行，最主要的原因应该是SDK和gradle已经完全生成的原因" class="headerlink" title="28.Github上下载的project，有一个运行的技巧就是打开本地文件夹的sample，然后复制粘贴本地地址，用Import Moudle的方式来打开，不要直接Open project的方式来运行，最主要的原因应该是SDK和gradle已经完全生成的原因"></a>28.Github上下载的project，有一个运行的技巧就是打开本地文件夹的sample，然后复制粘贴本地地址，用Import Moudle的方式来打开，不要直接Open project的方式来运行，最主要的原因应该是SDK和gradle已经完全生成的原因</h3><h3 id="29-改库名称：-右键library—-gt-Refactor—-gt-Rename—-gt-Rename-Moudle—-gt-Ok"><a href="#29-改库名称：-右键library—-gt-Refactor—-gt-Rename—-gt-Rename-Moudle—-gt-Ok" class="headerlink" title="29. 改库名称： 右键library—&gt;Refactor—&gt;Rename—&gt;Rename Moudle—&gt;Ok"></a>29. 改库名称： 右键library—&gt;Refactor—&gt;Rename—&gt;Rename Moudle—&gt;Ok</h3><h3 id="30-粘贴复制修改代码的时候：特别要注意修改布局，因为布局不会报错，反而会让程序奔溃找不到原因"><a href="#30-粘贴复制修改代码的时候：特别要注意修改布局，因为布局不会报错，反而会让程序奔溃找不到原因" class="headerlink" title="30. 粘贴复制修改代码的时候：特别要注意修改布局，因为布局不会报错，反而会让程序奔溃找不到原因"></a>30. 粘贴复制修改代码的时候：特别要注意修改布局，因为布局不会报错，反而会让程序奔溃找不到原因</h3><h3 id="31-再次强调String不要轻易写：String-a-null-String-a-””-null很容易奔溃啊兄弟，应该是空指针错误，因为null代表不存在，相当于没有初始化"><a href="#31-再次强调String不要轻易写：String-a-null-String-a-””-null很容易奔溃啊兄弟，应该是空指针错误，因为null代表不存在，相当于没有初始化" class="headerlink" title="31. 再次强调String不要轻易写：String a=null,String a=””,null很容易奔溃啊兄弟，应该是空指针错误，因为null代表不存在，相当于没有初始化"></a>31. 再次强调String不要轻易写：String a=null,String a=””,null很容易奔溃啊兄弟，应该是空指针错误，因为null代表不存在，相当于没有初始化</h3><h3 id="32-String的cotains这个API判断（数组）字符串是否包含某段字符串，以此判断状态，非常好用"><a href="#32-String的cotains这个API判断（数组）字符串是否包含某段字符串，以此判断状态，非常好用" class="headerlink" title="32. String的cotains这个API判断（数组）字符串是否包含某段字符串，以此判断状态，非常好用"></a>32. String的cotains这个API判断（数组）字符串是否包含某段字符串，以此判断状态，非常好用</h3><h3 id="33-非Activity的class要跳转到下一个Activity，需要这样写：getContext-starTActivity-context-…-或者getActivity-starTActivity-context-…-context…"><a href="#33-非Activity的class要跳转到下一个Activity，需要这样写：getContext-starTActivity-context-…-或者getActivity-starTActivity-context-…-context…" class="headerlink" title="33. 非Activity的class要跳转到下一个Activity，需要这样写：getContext().starTActivity(context,…..);或者getActivity().starTActivity(context,…..);context….."></a>33. 非Activity的class要跳转到下一个Activity，需要这样写：getContext().starTActivity(context,…..);或者getActivity().starTActivity(context,…..);context…..</h3><h3 id="34-titleBar可以重复利用使用一个，只需要在最开始的地方把所有情况的控件加进去甚至覆盖，然后Gone，在本Activity来设置Visibility就可以了"><a href="#34-titleBar可以重复利用使用一个，只需要在最开始的地方把所有情况的控件加进去甚至覆盖，然后Gone，在本Activity来设置Visibility就可以了" class="headerlink" title="34.titleBar可以重复利用使用一个，只需要在最开始的地方把所有情况的控件加进去甚至覆盖，然后Gone，在本Activity来设置Visibility就可以了"></a>34.titleBar可以重复利用使用一个，只需要在最开始的地方把所有情况的控件加进去甚至覆盖，然后Gone，在本Activity来设置Visibility就可以了</h3><h3 id="35-脚本复制粘贴：XML代码生成java代码的控件初始化"><a href="#35-脚本复制粘贴：XML代码生成java代码的控件初始化" class="headerlink" title="35.脚本复制粘贴：XML代码生成java代码的控件初始化"></a>35.脚本复制粘贴：XML代码生成java代码的控件初始化</h3><p><a href="file:///E:/%E5%AE%89%E5%8D%93%E5%8F%82%E8%80%83%E7%9A%84demo%E8%B5%84%E6%96%99/%E5%8C%97%E4%BA%AC%E6%96%B0%E9%97%BB/1.%E4%B8%8A%E8%AF%BE%E8%B5%84%E6%BA%90/day5/%E8%B5%84%E6%96%99/1.%E8%B5%84%E6%BA%90%E6%96%87%E4%BB%B6/findview%E5%88%9D%E5%A7%8B%E5%8C%96%E7%A6%BB%E7%BA%BF%E4%BD%BF%E7%94%A8/Android%20Layout%20Finder%20%20%20Buzzing%20Android.html" target="_blank" rel="noopener">file:///E:/%E5%AE%89%E5%8D%93%E5%8F%82%E8%80%83%E7%9A%84demo%E8%B5%84%E6%96%99/%E5%8C%97%E4%BA%AC%E6%96%B0%E9%97%BB/1.%E4%B8%8A%E8%AF%BE%E8%B5%84%E6%BA%90/day5/%E8%B5%84%E6%96%99/1.%E8%B5%84%E6%BA%90%E6%96%87%E4%BB%B6/findview%E5%88%9D%E5%A7%8B%E5%8C%96%E7%A6%BB%E7%BA%BF%E4%BD%BF%E7%94%A8/Android%20Layout%20Finder%20%20%20Buzzing%20Android.html</a></p>
+<ul>
+<li>可以大大减少书写代码的时间，特别是N多控件的时候</li>
+</ul>
+<h3 id="36-Android软件的包名在于：build-gradle的-applicationId”-“"><a href="#36-Android软件的包名在于：build-gradle的-applicationId”-“" class="headerlink" title="36.Android软件的包名在于：build.gradle的 applicationId” “;"></a>36.Android软件的包名在于：build.gradle的 applicationId” “;</h3><h3 id="37-删除案例和库干净的操作是：在setting-gradle里面删"><a href="#37-删除案例和库干净的操作是：在setting-gradle里面删" class="headerlink" title="37.删除案例和库干净的操作是：在setting.gradle里面删"></a>37.删除案例和库干净的操作是：在setting.gradle里面删</h3><h3 id="38-R变红色，rebuild不行的时候，直接运行就可以解决"><a href="#38-R变红色，rebuild不行的时候，直接运行就可以解决" class="headerlink" title="38.R变红色，rebuild不行的时候，直接运行就可以解决"></a>38.R变红色，rebuild不行的时候，直接运行就可以解决</h3><h3 id="39-Ctrl-Y可以快速整行删除"><a href="#39-Ctrl-Y可以快速整行删除" class="headerlink" title="39.Ctrl+Y可以快速整行删除"></a>39.Ctrl+Y可以快速整行删除</h3>
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/06/29/Android Debug/" rel="next" title="Android Debug">
+                <i class="fa fa-chevron-left"></i> Android Debug
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/08/29/Android灵感/" rel="prev" title="Android灵感">
+                Android灵感 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpg"
+                alt="FeishengQiu" />
+            
+              <p class="site-author-name" itemprop="name">FeishengQiu</p>
+              <p class="site-description motion-element" itemprop="description">Android Java</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">17</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#完美细节非常不可思议"><span class="nav-number">1.</span> <span class="nav-text">完美细节非常不可思议</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Hexo博客的编写口诀以后就为：23（-）无序"><span class="nav-number">1.1.</span> <span class="nav-text">**Hexo博客的编写口诀以后就为：23（#）无序</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-开启web服务器的方法还可以在搜索栏开，输入startup-bat-然后运行就可以了"><span class="nav-number">1.2.</span> <span class="nav-text">1.开启web服务器的方法还可以在搜索栏开，输入startup.bat ,然后运行就可以了</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-本机的ip地址：-cmd窗口，-输入-ipconfig"><span class="nav-number">1.3.</span> <span class="nav-text">2.本机的ip地址： cmd窗口， 输入 ipconfig</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-谷歌浏览器装一个插件可以把手机的页面显示到电脑的显示器上"><span class="nav-number">1.4.</span> <span class="nav-text">3.谷歌浏览器装一个插件可以把手机的页面显示到电脑的显示器上</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-Ctrl-D-可以快速自动复制整行，提高效率，非常非常好用，杨国福老师有一个很好的编码习惯，就是copy修改，copy修改-可以快速提高编码效率，Ctrl-D就可以快速复制"><span class="nav-number">1.5.</span> <span class="nav-text">4.Ctrl+D 可以快速自动复制整行，提高效率，非常非常好用，杨国福老师有一个很好的编码习惯，就是copy修改，copy修改,可以快速提高编码效率，Ctrl+D就可以快速复制</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-fbc初始化控件前：-实例名要和id名一样，-而且提前copy一下，然后-再fbc，红框自己会消失，可以不用理会"><span class="nav-number">1.6.</span> <span class="nav-text">5. fbc初始化控件前： 实例名要和id名一样， 而且提前copy一下，然后 再fbc，红框自己会消失，可以不用理会</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-监听动画，该API的参数是一个接口AnimationListener的对象-自己写一个类：MyAnimationListener来implements-然后重写方法，之后再new一个对象进去就行，学会杨国福老师的此处编码习惯：Ctr-B进去方法看参数类型，然后copy类名来My…-extends-或者implements，重写方法，再new一个对象传进去即可解决"><span class="nav-number">1.7.</span> <span class="nav-text">6.监听动画，该API的参数是一个接口AnimationListener的对象,自己写一个类：MyAnimationListener来implements,然后重写方法，之后再new一个对象进去就行，学会杨国福老师的此处编码习惯：Ctr+B进去方法看参数类型，然后copy类名来My…..extends 或者implements，重写方法，再new一个对象传进去即可解决</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-Ctrl-Alt-C-可以将一个变量抽取成static静态常量（目的是任意调用），作为key保存值（此值不是本身自己的值，可以把它当做一个快递员，随时找他拿快递）"><span class="nav-number">1.8.</span> <span class="nav-text">7. Ctrl + Alt +C  可以将一个变量抽取成static静态常量（目的是任意调用），作为key保存值（此值不是本身自己的值，可以把它当做一个快递员，随时找他拿快递）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8-copy-id名称，然后在Activity中声明数据域粘贴，之后fbc搞定绑定id实例，可以加快编码速度；"><span class="nav-number">1.9.</span> <span class="nav-text">8.copy id名称，然后在Activity中声明数据域粘贴，之后fbc搞定绑定id实例，可以加快编码速度；</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#9-点击圈圈-鼠标可以调到当前文件的所在位置-进行copy改名成另一个文件，class或者layout-非常方便快速"><span class="nav-number">1.10.</span> <span class="nav-text">9.点击圈圈 鼠标可以调到当前文件的所在位置 进行copy改名成另一个文件，class或者layout,非常方便快速</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#10-导入Sample-要看看效果，步骤如下："><span class="nav-number">1.11.</span> <span class="nav-text">10.导入Sample,要看看效果，步骤如下：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#11-（Ctrl-Alt-M）可以抽取一个方法，增加代码的可读性-原来这就是代码重构-增加可读性"><span class="nav-number">1.12.</span> <span class="nav-text">11.（Ctrl+ Alt+ M）可以抽取一个方法，增加代码的可读性,原来这就是代码重构 增加可读性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#12-（Ctrl-Shift-U）-可以代码大小写转换，特别是地址或者常量，好用"><span class="nav-number">1.13.</span> <span class="nav-text">12.（Ctrl + Shift + U） 可以代码大小写转换，特别是地址或者常量，好用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#13-解析的本质是：用谷歌的第三方框架Gson来解析处理（或者调用系统自带的API转化成JsonObject解析）后，把数据放到一个容器类Bean的对象中，这个类主要是写服务器返回数据的数据域，然后写好所有的Getter和setter-Bean对象就可以直接调用和setText，这个类中可能有数据域又有集合（动态数组），没关系，一个个地写就行"><span class="nav-number">1.14.</span> <span class="nav-text">13.解析的本质是：用谷歌的第三方框架Gson来解析处理（或者调用系统自带的API转化成JsonObject解析）后，把数据放到一个容器类Bean的对象中，这个类主要是写服务器返回数据的数据域，然后写好所有的Getter和setter,Bean对象就可以直接调用和setText，这个类中可能有数据域又有集合（动态数组），没关系，一个个地写就行</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#14-json数据的类型是-String类型！！！！！！服务器给一个String类型的result"><span class="nav-number">1.15.</span> <span class="nav-text">14.json数据的类型是 String类型！！！！！！服务器给一个String类型的result</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#15-state-enabled-和state-checked-是属于按下去一直保持的状态，而button的press状态是一松手就恢复false的状态-要明白区别，enable和check的区别在于enable本身不可以点击，而check本身可以点击"><span class="nav-number">1.16.</span> <span class="nav-text">15.state_enabled 和state_checked 是属于按下去一直保持的状态，而button的press状态是一松手就恢复false的状态,要明白区别，enable和check的区别在于enable本身不可以点击，而check本身可以点击</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#16-创建基类之后，各个子类的步骤是-先写好一个，然后在包那里复制粘贴，再改名字和内容replace很快可以写完"><span class="nav-number">1.17.</span> <span class="nav-text">16.创建基类之后，各个子类的步骤是:先写好一个，然后在包那里复制粘贴，再改名字和内容replace很快可以写完</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#17-编程需要一种模块化思想，-视图和数据分离：-initView-和-initData-初始化视图和初始化数据分离"><span class="nav-number">1.18.</span> <span class="nav-text">17.编程需要一种模块化思想， 视图和数据分离： initView()和 initData():初始化视图和初始化数据分离</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#18-int-retcode-object-optInt-“retcode”-比int-retcode-object-getInt-“retcode”-好好好，因为此时就算服务器不返回retcode，也不会奔溃，后者会奔溃"><span class="nav-number">1.19.</span> <span class="nav-text">18.int retcode=object.optInt(“retcode”); 比int retcode=object.getInt(“retcode”);好好好，因为此时就算服务器不返回retcode，也不会奔溃，后者会奔溃</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#19-数组需要判空，int型-String型等普通型不需要判空，因为它们自己空的话，会有默认值来代替，不影响，但是数组不给默认值；"><span class="nav-number">1.20.</span> <span class="nav-text">19.数组需要判空，int型 String型等普通型不需要判空，因为它们自己空的话，会有默认值来代替，不影响，但是数组不给默认值；</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#20-这是用于数组A-有多个对象，-然后有的对象有数组，有的对象没数组，要构造好这个万能对象，就需要判空，以防奔溃"><span class="nav-number">1.21.</span> <span class="nav-text">20.这是用于数组A 有多个对象， 然后有的对象有数组，有的对象没数组，要构造好这个万能对象，就需要判空，以防奔溃</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#21-判空的区别"><span class="nav-number">1.22.</span> <span class="nav-text">21.判空的区别</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#22-空指针就是有声明，但是没有实例化，直接去用，此时就会空指针奔溃"><span class="nav-number">1.23.</span> <span class="nav-text">22.空指针就是有声明，但是没有实例化，直接去用，此时就会空指针奔溃</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#23-ListView中的item默认习惯都用相对布局做"><span class="nav-number">1.24.</span> <span class="nav-text">23./ListView中的item默认习惯都用相对布局做</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#24-listView可以添加头和尾"><span class="nav-number">1.25.</span> <span class="nav-text">24.listView可以添加头和尾</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#25-以后都这样改写构造方法初始化，都是super改成this-然后1参数加null，2参数加0"><span class="nav-number">1.26.</span> <span class="nav-text">25.以后都这样改写构造方法初始化，都是super改成this,然后1参数加null，2参数加0</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#26-上面的-lt-箭头可以回到上次编辑的地方，非常方便，一直都很想这样操作"><span class="nav-number">1.27.</span> <span class="nav-text">26.上面的&lt;=箭头可以回到上次编辑的地方，非常方便，一直都很想这样操作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#27-封装库的本质是-封装类，封装方法，封装res文件，然后导入库就可以直接调用API，直接使用res文件"><span class="nav-number">1.28.</span> <span class="nav-text">27.封装库的本质是 封装类，封装方法，封装res文件，然后导入库就可以直接调用API，直接使用res文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#28-Github上下载的project，有一个运行的技巧就是打开本地文件夹的sample，然后复制粘贴本地地址，用Import-Moudle的方式来打开，不要直接Open-project的方式来运行，最主要的原因应该是SDK和gradle已经完全生成的原因"><span class="nav-number">1.29.</span> <span class="nav-text">28.Github上下载的project，有一个运行的技巧就是打开本地文件夹的sample，然后复制粘贴本地地址，用Import Moudle的方式来打开，不要直接Open project的方式来运行，最主要的原因应该是SDK和gradle已经完全生成的原因</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#29-改库名称：-右键library—-gt-Refactor—-gt-Rename—-gt-Rename-Moudle—-gt-Ok"><span class="nav-number">1.30.</span> <span class="nav-text">29. 改库名称： 右键library—&gt;Refactor—&gt;Rename—&gt;Rename Moudle—&gt;Ok</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#30-粘贴复制修改代码的时候：特别要注意修改布局，因为布局不会报错，反而会让程序奔溃找不到原因"><span class="nav-number">1.31.</span> <span class="nav-text">30. 粘贴复制修改代码的时候：特别要注意修改布局，因为布局不会报错，反而会让程序奔溃找不到原因</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#31-再次强调String不要轻易写：String-a-null-String-a-””-null很容易奔溃啊兄弟，应该是空指针错误，因为null代表不存在，相当于没有初始化"><span class="nav-number">1.32.</span> <span class="nav-text">31. 再次强调String不要轻易写：String a=null,String a=””,null很容易奔溃啊兄弟，应该是空指针错误，因为null代表不存在，相当于没有初始化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#32-String的cotains这个API判断（数组）字符串是否包含某段字符串，以此判断状态，非常好用"><span class="nav-number">1.33.</span> <span class="nav-text">32. String的cotains这个API判断（数组）字符串是否包含某段字符串，以此判断状态，非常好用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#33-非Activity的class要跳转到下一个Activity，需要这样写：getContext-starTActivity-context-…-或者getActivity-starTActivity-context-…-context…"><span class="nav-number">1.34.</span> <span class="nav-text">33. 非Activity的class要跳转到下一个Activity，需要这样写：getContext().starTActivity(context,…..);或者getActivity().starTActivity(context,…..);context…..</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#34-titleBar可以重复利用使用一个，只需要在最开始的地方把所有情况的控件加进去甚至覆盖，然后Gone，在本Activity来设置Visibility就可以了"><span class="nav-number">1.35.</span> <span class="nav-text">34.titleBar可以重复利用使用一个，只需要在最开始的地方把所有情况的控件加进去甚至覆盖，然后Gone，在本Activity来设置Visibility就可以了</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#35-脚本复制粘贴：XML代码生成java代码的控件初始化"><span class="nav-number">1.36.</span> <span class="nav-text">35.脚本复制粘贴：XML代码生成java代码的控件初始化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#36-Android软件的包名在于：build-gradle的-applicationId”-“"><span class="nav-number">1.37.</span> <span class="nav-text">36.Android软件的包名在于：build.gradle的 applicationId” “;</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#37-删除案例和库干净的操作是：在setting-gradle里面删"><span class="nav-number">1.38.</span> <span class="nav-text">37.删除案例和库干净的操作是：在setting.gradle里面删</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#38-R变红色，rebuild不行的时候，直接运行就可以解决"><span class="nav-number">1.39.</span> <span class="nav-text">38.R变红色，rebuild不行的时候，直接运行就可以解决</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#39-Ctrl-Y可以快速整行删除"><span class="nav-number">1.40.</span> <span class="nav-text">39.Ctrl+Y可以快速整行删除</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">FeishengQiu</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

@@ -1,0 +1,838 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="Debug Android1.有缓存到本地数据库的数据，在修改代码后，数据还是不会变的，所以要先卸载应用和数据，再重新运行烧写才能看真正的效果；否一直看不到代码修改后的效果！！！2.调用企业的API，直接用郭霖大侠书上的API key，导致一直获取不到数据 调用别人的接口API，需要注册拿到API Key才可以调用，要不然访问不了；刚刚所犯的错误是用了郭大侠自己的key，很可能是被郭霖大侠用过了之">
+<meta name="keywords" content="Android Developer">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android Debug">
+<meta property="og:url" content="http://yoursite.com/2018/06/29/Android Debug/index.html">
+<meta property="og:site_name" content="FeishengQiu">
+<meta property="og:description" content="Debug Android1.有缓存到本地数据库的数据，在修改代码后，数据还是不会变的，所以要先卸载应用和数据，再重新运行烧写才能看真正的效果；否一直看不到代码修改后的效果！！！2.调用企业的API，直接用郭霖大侠书上的API key，导致一直获取不到数据 调用别人的接口API，需要注册拿到API Key才可以调用，要不然访问不了；刚刚所犯的错误是用了郭大侠自己的key，很可能是被郭霖大侠用过了之">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://i.imgur.com/oXtiDXr.png">
+<meta property="og:image" content="https://i.imgur.com/LfUgfxN.png">
+<meta property="og:updated_time" content="2018-11-28T16:07:03.294Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Android Debug">
+<meta name="twitter:description" content="Debug Android1.有缓存到本地数据库的数据，在修改代码后，数据还是不会变的，所以要先卸载应用和数据，再重新运行烧写才能看真正的效果；否一直看不到代码修改后的效果！！！2.调用企业的API，直接用郭霖大侠书上的API key，导致一直获取不到数据 调用别人的接口API，需要注册拿到API Key才可以调用，要不然访问不了；刚刚所犯的错误是用了郭大侠自己的key，很可能是被郭霖大侠用过了之">
+<meta name="twitter:image" content="https://i.imgur.com/oXtiDXr.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/06/29/Android Debug/"/>
+
+
+
+
+
+  <title>Android Debug | FeishengQiu</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">FeishengQiu</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">Keep learning all the time</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/06/29/Android Debug/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="FeishengQiu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="FeishengQiu">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Android Debug</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-06-29T23:21:42+08:00">
+                2018-06-29
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="Debug-Android"><a href="#Debug-Android" class="headerlink" title="Debug Android"></a>Debug Android</h2><h3 id="1-有缓存到本地数据库的数据，在修改代码后，数据还是不会变的，所以要先卸载应用和数据，再重新运行烧写才能看真正的效果；否一直看不到代码修改后的效果！！！"><a href="#1-有缓存到本地数据库的数据，在修改代码后，数据还是不会变的，所以要先卸载应用和数据，再重新运行烧写才能看真正的效果；否一直看不到代码修改后的效果！！！" class="headerlink" title="1.有缓存到本地数据库的数据，在修改代码后，数据还是不会变的，所以要先卸载应用和数据，再重新运行烧写才能看真正的效果；否一直看不到代码修改后的效果！！！"></a>1.有缓存到本地数据库的数据，在修改代码后，数据还是不会变的，所以要先卸载应用和数据，再重新运行烧写才能看真正的效果；否一直看不到代码修改后的效果！！！</h3><h3 id="2-调用企业的API，直接用郭霖大侠书上的API-key，导致一直获取不到数据"><a href="#2-调用企业的API，直接用郭霖大侠书上的API-key，导致一直获取不到数据" class="headerlink" title="2.调用企业的API，直接用郭霖大侠书上的API key，导致一直获取不到数据"></a>2.调用企业的API，直接用郭霖大侠书上的API key，导致一直获取不到数据</h3><ul>
+<li>调用别人的接口API，需要注册拿到API Key才可以调用，要不然访问不了；刚刚所犯的错误是用了郭大侠自己的key，很可能是被郭霖大侠用过了之后，key只能用一次，就用不了了，所以自己注册获得一个API Key就解决问题了</li>
+</ul>
+<h3 id="3-selector的命名里面是不可以有大写字母的，layout也是"><a href="#3-selector的命名里面是不可以有大写字母的，layout也是" class="headerlink" title="3.selector的命名里面是不可以有大写字母的，layout也是"></a>3.selector的命名里面是不可以有大写字母的，layout也是</h3><h3 id="4-9的图片一定要放在drawable目录下，要不然会报错"><a href="#4-9的图片一定要放在drawable目录下，要不然会报错" class="headerlink" title="4. .9的图片一定要放在drawable目录下，要不然会报错"></a>4. .9的图片一定要放在drawable目录下，要不然会报错</h3><h3 id="5-用xUtils3初始化控件的时候，-ViewInject不需要分号，不需要"><a href="#5-用xUtils3初始化控件的时候，-ViewInject不需要分号，不需要" class="headerlink" title="5.用xUtils3初始化控件的时候，@ViewInject不需要分号，不需要"></a>5.用xUtils3初始化控件的时候，@ViewInject不需要分号，不需要</h3><p><code>@ViewInject(R.id.viewpager_content)</code> 就可以了，不用分号</p>
+<h3 id="6-要学会手机-和模拟器-同时调试，手机不行就选择模拟器，可能是网络问题或者ip问题，访问限制问题；另外一条调试的路，有时候会有意想不到的收获"><a href="#6-要学会手机-和模拟器-同时调试，手机不行就选择模拟器，可能是网络问题或者ip问题，访问限制问题；另外一条调试的路，有时候会有意想不到的收获" class="headerlink" title="6.要学会手机 和模拟器 同时调试，手机不行就选择模拟器，可能是网络问题或者ip问题，访问限制问题；另外一条调试的路，有时候会有意想不到的收获"></a>6.要学会手机 和模拟器 同时调试，手机不行就选择模拟器，可能是网络问题或者ip问题，访问限制问题；另外一条调试的路，有时候会有意想不到的收获</h3><h3 id="7-以后打印就用LogUtil-e这个工具类了，非常好用，社会工作者真正用的打印日志工具类"><a href="#7-以后打印就用LogUtil-e这个工具类了，非常好用，社会工作者真正用的打印日志工具类" class="headerlink" title="7.以后打印就用LogUtil.e这个工具类了，非常好用，社会工作者真正用的打印日志工具类"></a>7.以后打印就用LogUtil.e这个工具类了，非常好用，社会工作者真正用的打印日志工具类</h3><pre>
+public class LogUtil {
+    public static String tagPrefix = "";
+    public static boolean showV = true;
+    public static boolean showD = true;
+    public static boolean showI = true;
+    public static boolean showW = true;
+    public static boolean showE = true;
+    public static boolean showWTF = true;
+
+    /**
+     * 得到tag（所在类.方法（L:行））
+     * @return
+     */
+    private static String generateTag() {
+        StackTraceElement stackTraceElement = Thread.currentThread().getStackTrace()[4];
+        String callerClazzName = stackTraceElement.getClassName();
+        callerClazzName = callerClazzName.substring(callerClazzName.lastIndexOf(".") + 1);
+        String tag = "%s.%s(L:%d)";
+        tag = String.format(tag, new Object[]{callerClazzName, stackTraceElement.getMethodName(), Integer.valueOf(stackTraceElement.getLineNumber())});
+        //给tag设置前缀
+        tag = TextUtils.isEmpty(tagPrefix) ? tag : tagPrefix + ":" + tag;
+        return tag;
+    }
+
+    public static void v(String msg) {
+        if (showV) {
+            String tag = generateTag();
+            Log.v(tag, msg);
+        }
+    }
+
+    public static void v(String msg, Throwable tr) {
+        if (showV) {
+            String tag = generateTag();
+            Log.v(tag, msg, tr);
+        }
+    }
+
+    public static void d(String msg) {
+        if (showD) {
+            String tag = generateTag();
+            Log.d(tag, msg);
+        }
+    }
+
+    public static void d(String msg, Throwable tr) {
+        if (showD) {
+            String tag = generateTag();
+            Log.d(tag, msg, tr);
+        }
+    }
+
+    public static void i(String msg) {
+        if (showI) {
+            String tag = generateTag();
+            Log.i(tag, msg);
+        }
+    }
+
+    public static void i(String msg, Throwable tr) {
+        if (showI) {
+            String tag = generateTag();
+            Log.i(tag, msg, tr);
+        }
+    }
+
+    public static void w(String msg) {
+        if (showW) {
+            String tag = generateTag();
+            Log.w(tag, msg);
+        }
+    }
+
+    public static void w(String msg, Throwable tr) {
+        if (showW) {
+            String tag = generateTag();
+            Log.w(tag, msg, tr);
+        }
+    }
+
+    public static void e(String msg) {
+        if (showE) {
+            String tag = generateTag();
+            Log.e(tag, msg);
+        }
+    }
+
+    public static void e(String msg, Throwable tr) {
+        if (showE) {
+            String tag = generateTag();
+            Log.e(tag, msg, tr);
+        }
+    }
+
+    public static void wtf(String msg) {
+        if (showWTF) {
+            String tag = generateTag();
+            Log.wtf(tag, msg);
+        }
+    }
+
+    public static void wtf(String msg, Throwable tr) {
+        if (showWTF) {
+            String tag = generateTag();
+            Log.wtf(tag, msg, tr);
+        }
+    }
+}
+
+</pre>
+
+<h3 id="8-只能是public-abstract，protected-abstract-不能是private-abstract-否则子类继承不了"><a href="#8-只能是public-abstract，protected-abstract-不能是private-abstract-否则子类继承不了" class="headerlink" title="8.只能是public abstract，protected abstract,不能是private abstract,否则子类继承不了"></a>8.只能是public abstract，protected abstract,不能是private abstract,否则子类继承不了</h3><h3 id="9-ViewPagerIndicator库的导入正确做法：-感谢博主！！！"><a href="#9-ViewPagerIndicator库的导入正确做法：-感谢博主！！！" class="headerlink" title="9.ViewPagerIndicator库的导入正确做法： 感谢博主！！！"></a>9.ViewPagerIndicator库的导入正确做法： 感谢博主！！！</h3><p><a href="https://blog.csdn.net/CDWLX/article/details/52161075" target="_blank" rel="noopener">https://blog.csdn.net/CDWLX/article/details/52161075</a></p>
+<p><img src="https://i.imgur.com/oXtiDXr.png" alt=""></p>
+<h3 id="10-Android-studio-URI-is-not-registered-xml：android的标签失效"><a href="#10-Android-studio-URI-is-not-registered-xml：android的标签失效" class="headerlink" title="10.Android studio:URI is not registered,xml：android的标签失效"></a>10.Android studio:URI is not registered,xml：android的标签失效</h3><ul>
+<li><img src="https://i.imgur.com/LfUgfxN.png" alt=""></li>
+</ul>
+<h3 id="11-图片太大会导致内存溢出，模拟器奔溃，从而崩溃ANR可以调imageOptions的参数，让图片分辨率变低，然后加在xUtil的第三个参数里-一般情况下，还是直接选择用真机调试比较好，性能更好，更快"><a href="#11-图片太大会导致内存溢出，模拟器奔溃，从而崩溃ANR可以调imageOptions的参数，让图片分辨率变低，然后加在xUtil的第三个参数里-一般情况下，还是直接选择用真机调试比较好，性能更好，更快" class="headerlink" title="11.图片太大会导致内存溢出，模拟器奔溃，从而崩溃ANR可以调imageOptions的参数，让图片分辨率变低，然后加在xUtil的第三个参数里,一般情况下，还是直接选择用真机调试比较好，性能更好，更快"></a>11.图片太大会导致内存溢出，模拟器奔溃，从而崩溃ANR可以调imageOptions的参数，让图片分辨率变低，然后加在xUtil的第三个参数里,一般情况下，还是直接选择用真机调试比较好，性能更好，更快</h3><h3 id="12-上次导入ViewPagerIndicator的sample错误的原因是因为："><a href="#12-上次导入ViewPagerIndicator的sample错误的原因是因为：" class="headerlink" title="12.上次导入ViewPagerIndicator的sample错误的原因是因为："></a>12.上次导入ViewPagerIndicator的sample错误的原因是因为：</h3><ul>
+<li><p>我们改了这个案例的app的build.gradle</p>
+</li>
+<li><p>但是却忘记了这个案例自带的一个library（其实就是我们的目标库），忘记去改它的build.gradle，因为很意外的是它这个库的目录位置不是在sample里的，而是直接放在外面的某个位置，名称是library，因为我们没有改名字，所以我们根本不知道这个文件是导入sample时带进来的，导致库的sdk与我们的sdk不符合，sample当然在我们本地的这个IDE：Android Studio运行不起来了</p>
+</li>
+<li><p>所以以后最好的操作是： 如果我们是想导入库的，那就是直接粘贴本地的libray的地址，用第三种方法来导入</p>
+</li>
+<li><p>如果是想看sample的效果的：现在本地文件把libray的名称改成： demo名_library，导入之后，先改sample的build.gradle,然后再改库的build.gradle 这样就可以运行sample了</p>
+</li>
+<li><p>开心：解决掉所有第三方库的问题e</p>
+</li>
+</ul>
+<h3 id="13-父类Base-class的数据域和方法尽量都写成public-写成private的要三思，不可轻易写private"><a href="#13-父类Base-class的数据域和方法尽量都写成public-写成private的要三思，不可轻易写private" class="headerlink" title="13.父类Base class的数据域和方法尽量都写成public, 写成private的要三思，不可轻易写private"></a>13.父类Base class的数据域和方法尽量都写成public, 写成private的要三思，不可轻易写private</h3><h3 id="14-多次导入sample的时候呢，它自己自带的库很多都是命名library，导致导入的时候被其他库名为libraray的覆盖，使整个sample缺了一个library，当然，整个sample就运行不了了"><a href="#14-多次导入sample的时候呢，它自己自带的库很多都是命名library，导致导入的时候被其他库名为libraray的覆盖，使整个sample缺了一个library，当然，整个sample就运行不了了" class="headerlink" title="14.多次导入sample的时候呢，它自己自带的库很多都是命名library，导致导入的时候被其他库名为libraray的覆盖，使整个sample缺了一个library，当然，整个sample就运行不了了"></a>14.多次导入sample的时候呢，它自己自带的库很多都是命名library，导致导入的时候被其他库名为libraray的覆盖，使整个sample缺了一个library，当然，整个sample就运行不了了</h3><ul>
+<li><p>解决方法：观察本项目是否已经命名为library的库，没有的话就正常导入和修改</p>
+</li>
+<li><p>如果已经有library，现在本地改名为projectlibray(project=类型)，然后再导入</p>
+</li>
+<li><p>再次声明，导入sample之后所要修改的只有两部分：一个是sample app的build.gradle,另一个是所有库的build.gradle,有几个库就改几个build.gradle，get it!!!</p>
+</li>
+<li><p>导入sample,改两类型build.gradle,改写旧方法，改写目标效果（类名，类型，布局属性）</p>
+</li>
+</ul>
+<h3 id="15-类，方法尽量不要写private，尽量多写public-特别是互相调用的时候，老是Debug错误，因为是private了，别人都调用不了！！！数据域可以写private-方法API千万别写private，很容易有Bug"><a href="#15-类，方法尽量不要写private，尽量多写public-特别是互相调用的时候，老是Debug错误，因为是private了，别人都调用不了！！！数据域可以写private-方法API千万别写private，很容易有Bug" class="headerlink" title="15. 类，方法尽量不要写private，尽量多写public,特别是互相调用的时候，老是Debug错误，因为是private了，别人都调用不了！！！数据域可以写private,方法API千万别写private，很容易有Bug"></a>15. 类，方法尽量不要写private，尽量多写public,特别是互相调用的时候，老是Debug错误，因为是private了，别人都调用不了！！！数据域可以写private,方法API千万别写private，很容易有Bug</h3><h3 id="16-Java与Js的t互相调用，可能需要版本兼容性的问题，处理方法如下："><a href="#16-Java与Js的t互相调用，可能需要版本兼容性的问题，处理方法如下：" class="headerlink" title="16.Java与Js的t互相调用，可能需要版本兼容性的问题，处理方法如下："></a>16.Java与Js的t互相调用，可能需要版本兼容性的问题，处理方法如下：</h3><ul>
+<li><p>1.方法上面加： @JavascriptInterface</p>
+</li>
+<li><p>2.targetSdkVersion  ：改为16</p>
+</li>
+</ul>
+<h3 id="17-华为等真机的调试，特别是读取和写入本地的权限，除了要加-Permission之外，还要在Activity里面加代码来验证，可能是为了加密和保护用户隐私，以后调试要注意这些权限-有些机器应该不用，小米不用，但是华为的要加，已经入了两次坑，下次不能犯错"><a href="#17-华为等真机的调试，特别是读取和写入本地的权限，除了要加-Permission之外，还要在Activity里面加代码来验证，可能是为了加密和保护用户隐私，以后调试要注意这些权限-有些机器应该不用，小米不用，但是华为的要加，已经入了两次坑，下次不能犯错" class="headerlink" title="17.华为等真机的调试，特别是读取和写入本地的权限，除了要加 Permission之外，还要在Activity里面加代码来验证，可能是为了加密和保护用户隐私，以后调试要注意这些权限,有些机器应该不用，小米不用，但是华为的要加，已经入了两次坑，下次不能犯错"></a>17.华为等真机的调试，特别是读取和写入本地的权限，除了要加 Permission之外，还要在Activity里面加代码来验证，可能是为了加密和保护用户隐私，以后调试要注意这些权限,有些机器应该不用，小米不用，但是华为的要加，已经入了两次坑，下次不能犯错</h3><pre>
+
+@Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        button = (Button) findViewById(R.id.button);
+        button.setOnClickListener(this);
+
+        if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(MainActivity.this, new String[]{ Manifest.permission. WRITE_EXTERNAL_STORAGE }, 1);
+        }
+    }
+
+</pre>
+
+<h3 id="17-运行极光推送的案例之后，还需要点击里面的initPush和-ResumePush才能接收到"><a href="#17-运行极光推送的案例之后，还需要点击里面的initPush和-ResumePush才能接收到" class="headerlink" title="17.运行极光推送的案例之后，还需要点击里面的initPush和 ResumePush才能接收到"></a>17.运行极光推送的案例之后，还需要点击里面的initPush和 ResumePush才能接收到</h3><h3 id="18-第三方文件导入库的时候，记得改好build-gradle之后，还需要在app右键点击open-Moudle-settings，这样才能关联库！"><a href="#18-第三方文件导入库的时候，记得改好build-gradle之后，还需要在app右键点击open-Moudle-settings，这样才能关联库！" class="headerlink" title="18.第三方文件导入库的时候，记得改好build.gradle之后，还需要在app右键点击open Moudle settings，这样才能关联库！"></a>18.第三方文件导入库的时候，记得改好build.gradle之后，还需要在app右键点击open Moudle settings，这样才能关联库！</h3><h3 id="19"><a href="#19" class="headerlink" title="19."></a>19.</h3>
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/05/29/Java编程一级实现/" rel="next" title="Java编程一级实现">
+                <i class="fa fa-chevron-left"></i> Java编程一级实现
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/07/29/Anroid技巧/" rel="prev" title="Android技巧">
+                Android技巧 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpg"
+                alt="FeishengQiu" />
+            
+              <p class="site-author-name" itemprop="name">FeishengQiu</p>
+              <p class="site-description motion-element" itemprop="description">Android Java</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">17</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Debug-Android"><span class="nav-number">1.</span> <span class="nav-text">Debug Android</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-有缓存到本地数据库的数据，在修改代码后，数据还是不会变的，所以要先卸载应用和数据，再重新运行烧写才能看真正的效果；否一直看不到代码修改后的效果！！！"><span class="nav-number">1.1.</span> <span class="nav-text">1.有缓存到本地数据库的数据，在修改代码后，数据还是不会变的，所以要先卸载应用和数据，再重新运行烧写才能看真正的效果；否一直看不到代码修改后的效果！！！</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-调用企业的API，直接用郭霖大侠书上的API-key，导致一直获取不到数据"><span class="nav-number">1.2.</span> <span class="nav-text">2.调用企业的API，直接用郭霖大侠书上的API key，导致一直获取不到数据</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-selector的命名里面是不可以有大写字母的，layout也是"><span class="nav-number">1.3.</span> <span class="nav-text">3.selector的命名里面是不可以有大写字母的，layout也是</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-9的图片一定要放在drawable目录下，要不然会报错"><span class="nav-number">1.4.</span> <span class="nav-text">4. .9的图片一定要放在drawable目录下，要不然会报错</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-用xUtils3初始化控件的时候，-ViewInject不需要分号，不需要"><span class="nav-number">1.5.</span> <span class="nav-text">5.用xUtils3初始化控件的时候，@ViewInject不需要分号，不需要</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-要学会手机-和模拟器-同时调试，手机不行就选择模拟器，可能是网络问题或者ip问题，访问限制问题；另外一条调试的路，有时候会有意想不到的收获"><span class="nav-number">1.6.</span> <span class="nav-text">6.要学会手机 和模拟器 同时调试，手机不行就选择模拟器，可能是网络问题或者ip问题，访问限制问题；另外一条调试的路，有时候会有意想不到的收获</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-以后打印就用LogUtil-e这个工具类了，非常好用，社会工作者真正用的打印日志工具类"><span class="nav-number">1.7.</span> <span class="nav-text">7.以后打印就用LogUtil.e这个工具类了，非常好用，社会工作者真正用的打印日志工具类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8-只能是public-abstract，protected-abstract-不能是private-abstract-否则子类继承不了"><span class="nav-number">1.8.</span> <span class="nav-text">8.只能是public abstract，protected abstract,不能是private abstract,否则子类继承不了</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#9-ViewPagerIndicator库的导入正确做法：-感谢博主！！！"><span class="nav-number">1.9.</span> <span class="nav-text">9.ViewPagerIndicator库的导入正确做法： 感谢博主！！！</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#10-Android-studio-URI-is-not-registered-xml：android的标签失效"><span class="nav-number">1.10.</span> <span class="nav-text">10.Android studio:URI is not registered,xml：android的标签失效</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#11-图片太大会导致内存溢出，模拟器奔溃，从而崩溃ANR可以调imageOptions的参数，让图片分辨率变低，然后加在xUtil的第三个参数里-一般情况下，还是直接选择用真机调试比较好，性能更好，更快"><span class="nav-number">1.11.</span> <span class="nav-text">11.图片太大会导致内存溢出，模拟器奔溃，从而崩溃ANR可以调imageOptions的参数，让图片分辨率变低，然后加在xUtil的第三个参数里,一般情况下，还是直接选择用真机调试比较好，性能更好，更快</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#12-上次导入ViewPagerIndicator的sample错误的原因是因为："><span class="nav-number">1.12.</span> <span class="nav-text">12.上次导入ViewPagerIndicator的sample错误的原因是因为：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#13-父类Base-class的数据域和方法尽量都写成public-写成private的要三思，不可轻易写private"><span class="nav-number">1.13.</span> <span class="nav-text">13.父类Base class的数据域和方法尽量都写成public, 写成private的要三思，不可轻易写private</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#14-多次导入sample的时候呢，它自己自带的库很多都是命名library，导致导入的时候被其他库名为libraray的覆盖，使整个sample缺了一个library，当然，整个sample就运行不了了"><span class="nav-number">1.14.</span> <span class="nav-text">14.多次导入sample的时候呢，它自己自带的库很多都是命名library，导致导入的时候被其他库名为libraray的覆盖，使整个sample缺了一个library，当然，整个sample就运行不了了</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#15-类，方法尽量不要写private，尽量多写public-特别是互相调用的时候，老是Debug错误，因为是private了，别人都调用不了！！！数据域可以写private-方法API千万别写private，很容易有Bug"><span class="nav-number">1.15.</span> <span class="nav-text">15. 类，方法尽量不要写private，尽量多写public,特别是互相调用的时候，老是Debug错误，因为是private了，别人都调用不了！！！数据域可以写private,方法API千万别写private，很容易有Bug</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#16-Java与Js的t互相调用，可能需要版本兼容性的问题，处理方法如下："><span class="nav-number">1.16.</span> <span class="nav-text">16.Java与Js的t互相调用，可能需要版本兼容性的问题，处理方法如下：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#17-华为等真机的调试，特别是读取和写入本地的权限，除了要加-Permission之外，还要在Activity里面加代码来验证，可能是为了加密和保护用户隐私，以后调试要注意这些权限-有些机器应该不用，小米不用，但是华为的要加，已经入了两次坑，下次不能犯错"><span class="nav-number">1.17.</span> <span class="nav-text">17.华为等真机的调试，特别是读取和写入本地的权限，除了要加 Permission之外，还要在Activity里面加代码来验证，可能是为了加密和保护用户隐私，以后调试要注意这些权限,有些机器应该不用，小米不用，但是华为的要加，已经入了两次坑，下次不能犯错</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#17-运行极光推送的案例之后，还需要点击里面的initPush和-ResumePush才能接收到"><span class="nav-number">1.18.</span> <span class="nav-text">17.运行极光推送的案例之后，还需要点击里面的initPush和 ResumePush才能接收到</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#18-第三方文件导入库的时候，记得改好build-gradle之后，还需要在app右键点击open-Moudle-settings，这样才能关联库！"><span class="nav-number">1.19.</span> <span class="nav-text">18.第三方文件导入库的时候，记得改好build.gradle之后，还需要在app右键点击open Moudle settings，这样才能关联库！</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#19"><span class="nav-number">1.20.</span> <span class="nav-text">19.</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">FeishengQiu</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
