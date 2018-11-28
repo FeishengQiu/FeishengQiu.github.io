@@ -1,0 +1,892 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="1.Android消息异步处理机制/Android的Handle机制/Android Handler的原理 首先，我们先在主线程创建一个handler对象，然后重写handlerMessage（）方法；其次，我们在子线程创建一个message对象，将信息存储到message对象中，然后handler调用sendMessage（）方法将这条message发送出去；之后这条message就会被添加到m">
+<meta name="keywords" content="Android Developer">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android二级">
+<meta property="og:url" content="http://yoursite.com/2018/01/10/Android二级/index.html">
+<meta property="og:site_name" content="FeishengQiu">
+<meta property="og:description" content="1.Android消息异步处理机制/Android的Handle机制/Android Handler的原理 首先，我们先在主线程创建一个handler对象，然后重写handlerMessage（）方法；其次，我们在子线程创建一个message对象，将信息存储到message对象中，然后handler调用sendMessage（）方法将这条message发送出去；之后这条message就会被添加到m">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://i.imgur.com/K31bi71.jpg">
+<meta property="og:image" content="https://i.imgur.com/kzdV2Pa.jpg">
+<meta property="og:image" content="https://i.imgur.com/qUGrXhO.jpg">
+<meta property="og:image" content="https://i.imgur.com/PFhlAdP.jpg">
+<meta property="og:updated_time" content="2018-11-28T16:15:19.598Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Android二级">
+<meta name="twitter:description" content="1.Android消息异步处理机制/Android的Handle机制/Android Handler的原理 首先，我们先在主线程创建一个handler对象，然后重写handlerMessage（）方法；其次，我们在子线程创建一个message对象，将信息存储到message对象中，然后handler调用sendMessage（）方法将这条message发送出去；之后这条message就会被添加到m">
+<meta name="twitter:image" content="https://i.imgur.com/K31bi71.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/01/10/Android二级/"/>
+
+
+
+
+
+  <title>Android二级 | FeishengQiu</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">FeishengQiu</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">Keep learning all the time</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/01/10/Android二级/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="FeishengQiu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="FeishengQiu">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Android二级</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-10T00:30:35+08:00">
+                2018-01-10
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="1-Android消息异步处理机制-Android的Handle机制-Android-Handler的原理"><a href="#1-Android消息异步处理机制-Android的Handle机制-Android-Handler的原理" class="headerlink" title="1.Android消息异步处理机制/Android的Handle机制/Android Handler的原理"></a>1.Android消息异步处理机制/Android的Handle机制/Android Handler的原理</h3><ul>
+<li><p>首先，我们先在主线程创建一个handler对象，然后重写handlerMessage（）方法；其次，我们在子线程创建一个message对象，将信息存储到message对象中，然后handler调用sendMessage（）方法将这条message发送出去；之后这条message就会被添加到messageQueue的队列中等待被处理；而Looper会一直从messageQueue中取出message，最后分发到handleMessage()方法中，切换回到主线程进行UI操作</p>
+</li>
+<li><p>预备（一个线程可以有多个handler对象，是根据源码的target来识别的；一个线程中只有一个Looper实例，和一个messageQueue，因为Looper.prepare（）方法只会调用一次，prepare()会构造Looper实例，实例中有一个messageQueue; loop（）方法的作用是保证一直循环从messageQueue中取message；最后是通过回调dispatchMessage()方法分发到handleMessage()方法中）</p>
+</li>
+</ul>
+<h3 id="2-对AsyncTask的理解（儿sing）"><a href="#2-对AsyncTask的理解（儿sing）" class="headerlink" title="2.对AsyncTask的理解（儿sing）"></a>2.对AsyncTask的理解（儿sing）</h3><ul>
+<li><p>首先，AsyncTask是一个抽象类，我们需要创建一个子类去继承它，然后重写四个主要的方法，onPreExecute()方法在后台任务开始执行之前调用，用于界面初始化，例如显示进度对话框；doInBackground()方法执行所有的耗时任务，这个方法中的所有代码是在子线程中进行的（封装了线程池）；在onProgerssUpdate方法中进行UI操作；在onPostExecute（）方法中执行一些任务收尾工作，例如关闭对话框和弹toast。 开启任务：写上面的一个内部类，然后在Activity里面： new DownloadTask（）.execute()；</p>
+</li>
+<li><p>多线程的原因：android系统对于UI线程的刷新维持在16ms左右，如果在主线程进行一些操作，我们需要限制时间，以保证用户不会在操作过程中觉得卡顿，那么一些耗时操作最好不要在主线程中进行，如果强行操作可能存在各种问题，所以需要我们去在子线程中去实现耗时操作，然后去通知主线程去更新UI。</p>
+</li>
+<li><p>预备（在AsyncTask的构造方法中 ，会创建Future对象跟Callable对象，然后在execute方法中会执行onPreExecute()方法跟doInBackground方法，而doInbackground 的结果，会被封装成一个Message，再通过handler来进行线程间通信，通过这个message.what来识别 是否需要调用onProgressUpdate，或是finish方法 。finish方法里面会调用onPostExecute方法。）</p>
+</li>
+</ul>
+<h3 id="3-Android事件分发机制"><a href="#3-Android事件分发机制" class="headerlink" title="3.Android事件分发机制"></a>3.Android事件分发机制</h3><ul>
+<li><p>首先，事件分发的顺序是从：Activity到ViewGroup到View; 当一个点击事件发生时，事件最先传到Activity的dispatchTouchEvent()进行事件分发，（true和false都消费掉事件）然后默认传递到ViewGroup的dispatchTouchEvent()，此时return true就会消费掉事件，return false就会返回到Activity的onTouchEvent进行处理，默认是传给ViewGroup的拦截器onIntercreptTouchEvent,拦截器return true则就会把事件传给viewgroup的onTouchEvent自己处理，return false或者默认状态下都传递给view的dispatchTouchEvent,return false的话就会传递给viewgroup的onTouchEvent，return true 就会消费掉，默认就会传递给view的onTouchEvent,false和默认都是往上一层的onTouchEvent传递，true就会消费掉事件</p>
+</li>
+<li><p>只有ViewGroup有拦截器onIntercreptTouchEvent，viewgroup是一组viw的集合，本质是view，是layout的父类</p>
+</li>
+</ul>
+<h3 id="4-Activity的生命周期"><a href="#4-Activity的生命周期" class="headerlink" title="4.Activity的生命周期"></a>4.Activity的生命周期</h3><ul>
+<li><p>4种状态（运行暂停 停止销毁）</p>
+</li>
+<li><p>3种生存期：完整生存期，可见生存期(onstart()—&gt;onstop())，前台生存期（onResume()—&gt;onPause()）</p>
+</li>
+<li><p>FirstActivity建立起来：依次调用onCreate()（初始化Activity）——onStart()（因为此时从不可见变成了可见）——onResume（因为处于栈顶运行状态）</p>
+</li>
+<li><p>intent开启SecondActivity（完全覆盖）：调用onPause()（因为开启另外一个活动都会调用它）——onStop（）（因为被Second覆盖了，变成不可见）</p>
+</li>
+<li><p>然后再back键返回到FirstActivity：调用onRestart（）——onStart——onResume()</p>
+</li>
+<li><p>打开ThirdActivity（半覆盖）：onPause()（因为开启别的活动都要调用，onStop不调用是因为没有完全覆盖）</p>
+</li>
+<li><p>back键：onPause()—&gt;onResume();  重新回到第一个活动</p>
+</li>
+<li><p>Activity 的可见生命周期发生在 onStart调用与 onStop调用之间。在这段时间，用户可以在屏幕上看到 Activity 并与其交互。我们可以在 onStart中注册一个 BroadcastReceiver以监控影响 UI 的变化，并在用户无法再看到您显示的内容时在 onStop中将其取消注册。</p>
+</li>
+<li><p>nPause时Activity界面仍然是可见的，如弹出一个Dialog时。但在保存数据时，放在onPause去做可以保证数据存储的有效性，如果放在onStop去做，在某些情况下Activity走完onPause后有可能还没顺利走到onStop就被系统回收了。</p>
+</li>
+<li><p>系统内存不足，停止状态的Activity甚至暂停状态的Activity被回收，数据没有保存，可以@Override //重写onSaveInstanceState()方法用key保存数据<br>protected void onSaveInstanceState（Bundle outState）{<br>super.onSaveInstanceState(outState);<br>String data=”hello”;<br>outState.putString(“data_key”,data);<br>}</p>
+</li>
+</ul>
+<h3 id="5-Activity的启动模式：Activity的几种LaunchMode及使用场景。-返回栈"><a href="#5-Activity的启动模式：Activity的几种LaunchMode及使用场景。-返回栈" class="headerlink" title="5.Activity的启动模式：Activity的几种LaunchMode及使用场景。(返回栈)"></a>5.Activity的启动模式：Activity的几种LaunchMode及使用场景。(返回栈)</h3><ul>
+<li><p>1.standard:</p>
+</li>
+<li><p>默认的启动模式，特点就是无限创建活动叠加，重复的也叠加<br>Intent intent=new Intent(FirstActivity.this,FirstActivity.class);<br>startActivity(intent);  会无限叠加</p>
+</li>
+<li><p>2.singleTop:</p>
+</li>
+<li><p>在AndroidManifest的activity标签中加android:launchMode=”singleTop”,特点是FA处于栈顶运行状态时，intent到FA就不会再次创建新的实例，避免冗余;但是如果是SA调到FA，会创建新的FA实例，所以是2个FA实例，因为FA没在栈顶</p>
+</li>
+<li><p>3.singleTask：</p>
+</li>
+<li><p>在AndroidManifest的activity标签中加android:launchMode=”singleTask”，特点是从整个Task查找是否有FA,所以只有一个FA实例，只有唯一唯一唯一，一般都是onStop()—&gt;onRestart()——onStart()——onResume()   (而且是直接将SA直接出栈，即销毁覆盖在FA上面的所有的活动，这种不是叠加，是销毁式地处于栈顶)</p>
+</li>
+<li><p>4.singleInstance（拥有单独的返回栈，用于共享活动）</p>
+</li>
+<li><p>在AndroidManifest的activity标签中加android:launchMode=”singlnstance”,特点是为了跨程序共享Activity实例而用，自己独用一个新栈，所以back键的时候是TA返回到FA（一个栈），再到SA(自己的一个栈)；getTaskId()可以得到该Activity所在的Task的ID值 （A—B—C—A—B:AC是一个栈）</p>
+</li>
+</ul>
+<h3 id="6-两个Activity之间如何传递数据"><a href="#6-两个Activity之间如何传递数据" class="headerlink" title="6.两个Activity之间如何传递数据"></a>6.两个Activity之间如何传递数据</h3><ul>
+<li><p>方法一：intent.putExtra用key来传值</p>
+</li>
+<li><p>方法二：把数据封装进Bundle的对象，然后用intent来传递</p>
+</li>
+<li><p>如何传递自定义的对象呢？</p>
+</li>
+<li><p>Parcelable接口（是Android特有功能，效率比实现Serializable接口高效，可用于Intent数据传递，实现Serializable接口非常简单，声明一下就可以了，而实现Parcelable接口稍微复杂一些，但效率更高，推荐用这种方法提高性能。Serializalbe会使用反射，序列化和反序列化过程需要大量I/O操作，Parcelable自已实现封送和解封（marshalled &amp;unmarshalled）操作不需要用反射，数据也存放在Native内存中，效率要快很多。</p>
+</li>
+<li><p>重写writeToParcel方法，将你的对象序列化为一个Parcel对象，即：将类的数据写入外部提供的Parcel中，打包需要传递的数据到Parcel容器保存，以便从 Parcel容器获取数据；实例化静态内部对象CREATOR实现接口Parcelable.Creator</p>
+</li>
+<li><p>requestcode 和 resultcode也可以实现传值</p>
+</li>
+</ul>
+<h3 id="7-Android中跨进程通讯有几种方式？"><a href="#7-Android中跨进程通讯有几种方式？" class="headerlink" title="7.Android中跨进程通讯有几种方式？"></a>7.Android中跨进程通讯有几种方式？</h3><h3 id="8-AIDL的全称是什么？如何工作？能处理哪些类型的数据？"><a href="#8-AIDL的全称是什么？如何工作？能处理哪些类型的数据？" class="headerlink" title="8.AIDL的全称是什么？如何工作？能处理哪些类型的数据？"></a>8.AIDL的全称是什么？如何工作？能处理哪些类型的数据？</h3><ul>
+<li><p>AIDL是一个缩写，全称是Android Interface Definition Language，也就是Android接口定义语言</p>
+</li>
+<li><p>完成跨进程通信</p>
+</li>
+</ul>
+<h3 id="9-图片的处理和优化-图片圆角处理的方式有哪几种？-三级缓存？"><a href="#9-图片的处理和优化-图片圆角处理的方式有哪几种？-三级缓存？" class="headerlink" title="9.图片的处理和优化, 图片圆角处理的方式有哪几种？ 三级缓存？"></a>9.图片的处理和优化, 图片圆角处理的方式有哪几种？ 三级缓存？</h3><h3 id="10-讲讲ListView容易引起性能问题的地方，再说一下你有什么优化方案。"><a href="#10-讲讲ListView容易引起性能问题的地方，再说一下你有什么优化方案。" class="headerlink" title="10.讲讲ListView容易引起性能问题的地方，再说一下你有什么优化方案。"></a>10.讲讲ListView容易引起性能问题的地方，再说一下你有什么优化方案。</h3><h3 id="11-项目中遇到哪些难题，最终你是如何解决的？有遇到过哪些屏幕和资源适配问题？"><a href="#11-项目中遇到哪些难题，最终你是如何解决的？有遇到过哪些屏幕和资源适配问题？" class="headerlink" title="11..项目中遇到哪些难题，最终你是如何解决的？有遇到过哪些屏幕和资源适配问题？"></a>11..项目中遇到哪些难题，最终你是如何解决的？有遇到过哪些屏幕和资源适配问题？</h3><h3 id="12-内存泄露哪几种情况？如何处理？有使用过什么相关的检测工具吗？"><a href="#12-内存泄露哪几种情况？如何处理？有使用过什么相关的检测工具吗？" class="headerlink" title="12.内存泄露哪几种情况？如何处理？有使用过什么相关的检测工具吗？"></a>12.内存泄露哪几种情况？如何处理？有使用过什么相关的检测工具吗？</h3><ul>
+<li><p>没有即时调用recycle()释放不再使用的bitmap </p>
+</li>
+<li><p>使用application的context来替代activity相关的context，不要让生命周期长于Activity的对象持有到Activity的引用</p>
+</li>
+<li><p>广播注册没取消造成内存泄露</p>
+</li>
+<li><p>由于我们程序的失误，长期保持某些资源（如Context）的引用，垃圾回收器就无法回收它，当然该对象占用的内存就无法被使用，这就造成内存泄露。</p>
+</li>
+</ul>
+<p>Android 中常见就是Activity被引用在调用finish之后却没有释放，第二次打开activity又重新创建，这样的内存泄露不断的发生,则会导致内存的溢出。</p>
+<p>Android的每个应用程序都会使用一个专有的Dalvik虚拟机实例来运行，它是由Zygote服务进程孵化出来的，也就是说每个应用程序都是在属于自己的进程中运行的。Android为不同类型的进程分配了不同的内存使用上限，如果程序在运行过程中出现了内存泄漏的而造成应用进程使用的内存超过了这个上限，则会被系统视为内存泄漏，从而被kill掉，这使得仅仅自己的进程被kill掉，而不会影响其他进程. </p>
+<h3 id="13-内存溢出"><a href="#13-内存溢出" class="headerlink" title="13.内存溢出"></a>13.内存溢出</h3><ul>
+<li><p>内存溢出是指当对象的内存占用已经超出分配内存的空间大小，这时未经处理的异常就会抛出。比如常见的内存溢出情况有：bitmap过大；引用没释放；资源对象没关闭 </p>
+</li>
+<li><p>原因1：保存了多个耗用内存过大的对象（如Bitmap）或加载单个超大的图片，造成内存超出限制。</p>
+</li>
+<li><p>原因2：内存泄露导致</p>
+</li>
+</ul>
+<h3 id="14-说说MVP，MVC，MVVM架构的不同。"><a href="#14-说说MVP，MVC，MVVM架构的不同。" class="headerlink" title="14.说说MVP，MVC，MVVM架构的不同。"></a>14.说说MVP，MVC，MVVM架构的不同。</h3><ul>
+<li><a href="https://www.jianshu.com/p/4f7516af75a3" target="_blank" rel="noopener">https://www.jianshu.com/p/4f7516af75a3</a></li>
+</ul>
+<h3 id="15-常用的设计模式（单例模式，工厂模式，适配器模式，观察者模式）"><a href="#15-常用的设计模式（单例模式，工厂模式，适配器模式，观察者模式）" class="headerlink" title="15.常用的设计模式（单例模式，工厂模式，适配器模式，观察者模式）"></a>15.常用的设计模式（单例模式，工厂模式，适配器模式，观察者模式）</h3><ul>
+<li><a href="https://www.jianshu.com/p/61b67ca754a3" target="_blank" rel="noopener">https://www.jianshu.com/p/61b67ca754a3</a></li>
+</ul>
+<h3 id="16-常用哪些开源项目，说说最熟悉的一个？"><a href="#16-常用哪些开源项目，说说最熟悉的一个？" class="headerlink" title="16.常用哪些开源项目，说说最熟悉的一个？"></a>16.常用哪些开源项目，说说最熟悉的一个？</h3><h3 id="17-service的基本知识和广播的基本知识，和通知的基础知识，开启之类的那些"><a href="#17-service的基本知识和广播的基本知识，和通知的基础知识，开启之类的那些" class="headerlink" title="17.service的基本知识和广播的基本知识，和通知的基础知识，开启之类的那些"></a>17.service的基本知识和广播的基本知识，和通知的基础知识，开启之类的那些</h3><h3 id="18-XML和JSon解析"><a href="#18-XML和JSon解析" class="headerlink" title="18.XML和JSon解析"></a>18.XML和JSon解析</h3><ul>
+<li><p>XML：Pull解析：先得到XmlPullParserFactory的对象，然后借助这个对象得到XmlPullParser的实例，然后调用XmlPullParser的setInput方法将服务器返回的XML数据设置进去开始解析，看书吧…..</p>
+</li>
+<li><p>Json</p>
+</li>
+<li><p>response—JSONArray—JSONObject—然后set到容器类的对象中</p>
+</li>
+<li>gson.fromJson(response,容器实体类)存放到容器类为泛型的集合中</li>
+</ul>
+<h3 id="19-数据保存的几种方式"><a href="#19-数据保存的几种方式" class="headerlink" title="19.数据保存的几种方式"></a>19.数据保存的几种方式</h3><ul>
+<li>数据持久化技术：就是将瞬时数据保存到设备中，不易丢失；文件存储，sharedPreferences key键值对的格式存储,  本地数据库存储，</li>
+</ul>
+<h3 id="20-反射"><a href="#20-反射" class="headerlink" title="20.反射"></a>20.反射</h3><ul>
+<li><p>在运行时判断任意一个对象所属的类。</p>
+</li>
+<li><p>在运行时构造任意一个类的对象。</p>
+</li>
+<li><p>在运行时判断任意一个类所具有的成员变量和方法。</p>
+</li>
+<li><p>在运行时调用任意一个对象的方法。 </p>
+</li>
+</ul>
+<h3 id="21-自定义控件，到自定义View"><a href="#21-自定义控件，到自定义View" class="headerlink" title="21.自定义控件，到自定义View"></a>21.自定义控件，到自定义View</h3><ul>
+<li>自定义控件就是</li>
+</ul>
+<h3 id="22-android样式和主题的区别？分别怎么定义？"><a href="#22-android样式和主题的区别？分别怎么定义？" class="headerlink" title="22.android样式和主题的区别？分别怎么定义？"></a>22.android样式和主题的区别？分别怎么定义？</h3><h3 id="23-如何避免ANR？"><a href="#23-如何避免ANR？" class="headerlink" title="23.如何避免ANR？"></a>23.如何避免ANR？</h3><ul>
+<li><p>ANR的全称是application not responding，意思就是程序未响应</p>
+</li>
+<li><p>只有主线程才会产生ANR，主线程就是UI线程</p>
+</li>
+<li><p>主线程执行了耗时操作，比如数据库操作或网络编程</p>
+</li>
+<li><p>其他进程（就是其他程序）占用CPU导致本进程得不到CPU时间片，比如其他进程的频繁读写操作可能会导致这个问题。</p>
+</li>
+<li><p>避免在主线程执行耗时操作，所有耗时操作应新开一个子线程完成，然后再在主线程更新UI。</p>
+</li>
+<li><p>BroadcastReceiver要执行耗时操作时应启动一个service，将耗时操作交给service来完成。</p>
+</li>
+<li><p>避免在Intent Receiver里启动一个Activity，因为它会创建一个新的画面，并从当前用户正在运行的程序上抢夺焦点。如果你的应用程序在响应Intent广 播时需要向用户展示什么，你应该使用Notification Manager来实现。</p>
+</li>
+</ul>
+<h3 id="24-如何退出已经打开多个activity的程序？"><a href="#24-如何退出已经打开多个activity的程序？" class="headerlink" title="24.如何退出已经打开多个activity的程序？"></a>24.如何退出已经打开多个activity的程序？</h3><ul>
+<li><p>1.写一个工具类：ActivityCollector,里面写一个泛型为Activity的集合，然后写三个静态方法，分别是添加Activity（onCreate）, 移除Activity(onDestroy)，和finish所有的Activity</p>
+</li>
+<li><p>写一个广播内部类来finish Activity； 然后在当前Activity注册广播； 再写一个发送广播的方法即可</p>
+</li>
+</ul>
+<h3 id="25-final-static关键字用法"><a href="#25-final-static关键字用法" class="headerlink" title="25.final static关键字用法"></a>25.final static关键字用法</h3><ul>
+<li><p>static</p>
+</li>
+<li><p>被static修饰的成员变量就是类变量，被static修饰的成员方法就是类方法,类变量和类方法不依赖于对象而存在，内存空间上有自己的静态域，而且具有唯一性，所有的对象都调用同一个类变量A和类方法B，而且类名加类方法也可以直接调用，依赖于类而加载，类方法里面不可以调用非静态类的成员变量，因为生命周期不一样；</p>
+</li>
+<li><p>final：安全性，可读性</p>
+</li>
+<li><p>final修饰成员变量===常量（大写，而且声明的时候就要显示初始化赋值）</p>
+</li>
+<li><p>final修饰方法===若本类被继承了，子类不能重写该方法（保证该方法的稳定性）</p>
+</li>
+<li><p>final修饰类===该类不能被继承，</p>
+</li>
+</ul>
+<h3 id="26-JVM的内存分布及垃圾回收机制"><a href="#26-JVM的内存分布及垃圾回收机制" class="headerlink" title="26.JVM的内存分布及垃圾回收机制"></a>26.JVM的内存分布及垃圾回收机制</h3><ul>
+<li><h3 id="27-app如何保证后台服务不被杀死"><a href="#27-app如何保证后台服务不被杀死" class="headerlink" title="27.app如何保证后台服务不被杀死"></a>27.app如何保证后台服务不被杀死</h3></li>
+<li><p>见service</p>
+</li>
+</ul>
+<h3 id="28-RecyclerView与ListView缓存机制的不同"><a href="#28-RecyclerView与ListView缓存机制的不同" class="headerlink" title="28.RecyclerView与ListView缓存机制的不同"></a>28.RecyclerView与ListView缓存机制的不同</h3><h3 id="29-HashMap-HashSet-HashTable的区别？"><a href="#29-HashMap-HashSet-HashTable的区别？" class="headerlink" title="29.HashMap HashSet HashTable的区别？"></a>29.HashMap HashSet HashTable的区别？</h3><h3 id="30-谈谈对Socket的理解"><a href="#30-谈谈对Socket的理解" class="headerlink" title="30.谈谈对Socket的理解"></a>30.谈谈对Socket的理解</h3><ul>
+<li><p>socket很直白的翻译是：套接字；套接字就是ip地址和端口号的组合，网络通信的本质就是socket通信；通信就需要客户端和服务端，两端都需要有一个socket,一个发送，一个接收；socket之间的数据传输是以IO流的形式进行的； 客户端发送完之后write  需要加一句shutdownOutput();就不会一直阻塞，可以让服务端知道已经发送完了，我可以响应和回复你了</p>
+</li>
+<li><p><img src="https://i.imgur.com/K31bi71.jpg" alt=""></p>
+</li>
+</ul>
+<h3 id="31-网络编程"><a href="#31-网络编程" class="headerlink" title="31.网络编程"></a>31.网络编程</h3><ul>
+<li><p>TCP/IP协议是一个四层协议： 有数据—&gt;才有网络(IP)—&gt;才能传输（TCP UDP）—&gt;才能应用</p>
+</li>
+<li><p>U字型封装传输数据</p>
+</li>
+<li><p>IP地址：身份证号+GPS定位计算机位置的功能  （注：自己访问自己，127.0.0.1/localhost）</p>
+</li>
+<li><p>端口号：区分进程，一个程序一个进程，一个进程占用一个端口号 ：0—65535（0—1023给服务通信进程占用，其他进程从1024—65535选择）</p>
+</li>
+<li><p>IP地址+端口号===网络套接字</p>
+</li>
+<li><p>域名可以理解为：域名映射IP地址，域名就是IP地址的第二表示方式</p>
+</li>
+<li><p>通信协议的作用就是：规范数据包装和传输的格式，方便接收之后进行拆装获得数据，不能瞎几把来，不对口</p>
+</li>
+<li><ul>
+<li><img src="https://i.imgur.com/kzdV2Pa.jpg" alt=""></li>
+</ul>
+</li>
+<li><p>DNS就是域名解析服务器，将我们输入的域名解析成IP地址，再用IP地址去找到这部计算机，然后访问</p>
+</li>
+<li><p><img src="https://i.imgur.com/qUGrXhO.jpg" alt=""></p>
+</li>
+<li><p>“三次握手”建立TCP连接</p>
+</li>
+<li><p>UDP协议：<img src="https://i.imgur.com/PFhlAdP.jpg" alt=""></p>
+</li>
+<li><p>URL：可以理解为资源文件地址！！！迅雷下载的时候就是去 URL地址那里拿文件的， &lt;传输协议&gt;：//&lt;主机名&gt;：&lt;端口号&gt;/&lt;文件名&gt;</p>
+</li>
+<li><p>获取URL资源：openStream;  如果要输出数据：URLConnection，可以把数据传到url那里</p>
+</li>
+</ul>
+<h3 id="32-8大排序的时间复杂度和算法代码"><a href="#32-8大排序的时间复杂度和算法代码" class="headerlink" title="32.8大排序的时间复杂度和算法代码"></a>32.8大排序的时间复杂度和算法代码</h3><ul>
+<li><h3 id="33-JNI"><a href="#33-JNI" class="headerlink" title="33.JNI"></a>33.JNI</h3></li>
+<li><p>JNI的全称就是 Java native interface（java本地开发接口），相当于一个桥梁，本质上是一个协议，让java可以调用C语言和C++代码，并且可以让C语言调用java；使用JNI的原因是因为有效目标功能，用C语言或者C++来实现会更加的高效，性能更好，例如视频解码，3D渲染；ndk就是本地开发工具包；</p>
+</li>
+<li><p>编写带有native方法的Java类, 使用javac工具编译Java类,使用javah来生成与native方法对应的头文件，实现相应的头文件, 并编译为动态链接库(windows下是.dll, linux下是.so)</p>
+</li>
+</ul>
+<h3 id="34-说说你的亮点，最值得分享的。"><a href="#34-说说你的亮点，最值得分享的。" class="headerlink" title="34.说说你的亮点，最值得分享的。"></a>34.说说你的亮点，最值得分享的。</h3>
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/01/10/数据结构选择题/" rel="next" title="数据结构选择题">
+                <i class="fa fa-chevron-left"></i> 数据结构选择题
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/01/18/java选择题/" rel="prev" title="java选择题">
+                java选择题 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpg"
+                alt="FeishengQiu" />
+            
+              <p class="site-author-name" itemprop="name">FeishengQiu</p>
+              <p class="site-description motion-element" itemprop="description">Android Java</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">17</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-Android消息异步处理机制-Android的Handle机制-Android-Handler的原理"><span class="nav-number">1.</span> <span class="nav-text">1.Android消息异步处理机制/Android的Handle机制/Android Handler的原理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-对AsyncTask的理解（儿sing）"><span class="nav-number">2.</span> <span class="nav-text">2.对AsyncTask的理解（儿sing）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-Android事件分发机制"><span class="nav-number">3.</span> <span class="nav-text">3.Android事件分发机制</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-Activity的生命周期"><span class="nav-number">4.</span> <span class="nav-text">4.Activity的生命周期</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-Activity的启动模式：Activity的几种LaunchMode及使用场景。-返回栈"><span class="nav-number">5.</span> <span class="nav-text">5.Activity的启动模式：Activity的几种LaunchMode及使用场景。(返回栈)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-两个Activity之间如何传递数据"><span class="nav-number">6.</span> <span class="nav-text">6.两个Activity之间如何传递数据</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-Android中跨进程通讯有几种方式？"><span class="nav-number">7.</span> <span class="nav-text">7.Android中跨进程通讯有几种方式？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8-AIDL的全称是什么？如何工作？能处理哪些类型的数据？"><span class="nav-number">8.</span> <span class="nav-text">8.AIDL的全称是什么？如何工作？能处理哪些类型的数据？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#9-图片的处理和优化-图片圆角处理的方式有哪几种？-三级缓存？"><span class="nav-number">9.</span> <span class="nav-text">9.图片的处理和优化, 图片圆角处理的方式有哪几种？ 三级缓存？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#10-讲讲ListView容易引起性能问题的地方，再说一下你有什么优化方案。"><span class="nav-number">10.</span> <span class="nav-text">10.讲讲ListView容易引起性能问题的地方，再说一下你有什么优化方案。</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#11-项目中遇到哪些难题，最终你是如何解决的？有遇到过哪些屏幕和资源适配问题？"><span class="nav-number">11.</span> <span class="nav-text">11..项目中遇到哪些难题，最终你是如何解决的？有遇到过哪些屏幕和资源适配问题？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#12-内存泄露哪几种情况？如何处理？有使用过什么相关的检测工具吗？"><span class="nav-number">12.</span> <span class="nav-text">12.内存泄露哪几种情况？如何处理？有使用过什么相关的检测工具吗？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#13-内存溢出"><span class="nav-number">13.</span> <span class="nav-text">13.内存溢出</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#14-说说MVP，MVC，MVVM架构的不同。"><span class="nav-number">14.</span> <span class="nav-text">14.说说MVP，MVC，MVVM架构的不同。</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#15-常用的设计模式（单例模式，工厂模式，适配器模式，观察者模式）"><span class="nav-number">15.</span> <span class="nav-text">15.常用的设计模式（单例模式，工厂模式，适配器模式，观察者模式）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#16-常用哪些开源项目，说说最熟悉的一个？"><span class="nav-number">16.</span> <span class="nav-text">16.常用哪些开源项目，说说最熟悉的一个？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#17-service的基本知识和广播的基本知识，和通知的基础知识，开启之类的那些"><span class="nav-number">17.</span> <span class="nav-text">17.service的基本知识和广播的基本知识，和通知的基础知识，开启之类的那些</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#18-XML和JSon解析"><span class="nav-number">18.</span> <span class="nav-text">18.XML和JSon解析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#19-数据保存的几种方式"><span class="nav-number">19.</span> <span class="nav-text">19.数据保存的几种方式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#20-反射"><span class="nav-number">20.</span> <span class="nav-text">20.反射</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#21-自定义控件，到自定义View"><span class="nav-number">21.</span> <span class="nav-text">21.自定义控件，到自定义View</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#22-android样式和主题的区别？分别怎么定义？"><span class="nav-number">22.</span> <span class="nav-text">22.android样式和主题的区别？分别怎么定义？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#23-如何避免ANR？"><span class="nav-number">23.</span> <span class="nav-text">23.如何避免ANR？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#24-如何退出已经打开多个activity的程序？"><span class="nav-number">24.</span> <span class="nav-text">24.如何退出已经打开多个activity的程序？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#25-final-static关键字用法"><span class="nav-number">25.</span> <span class="nav-text">25.final static关键字用法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#26-JVM的内存分布及垃圾回收机制"><span class="nav-number">26.</span> <span class="nav-text">26.JVM的内存分布及垃圾回收机制</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#27-app如何保证后台服务不被杀死"><span class="nav-number">27.</span> <span class="nav-text">27.app如何保证后台服务不被杀死</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#28-RecyclerView与ListView缓存机制的不同"><span class="nav-number">28.</span> <span class="nav-text">28.RecyclerView与ListView缓存机制的不同</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#29-HashMap-HashSet-HashTable的区别？"><span class="nav-number">29.</span> <span class="nav-text">29.HashMap HashSet HashTable的区别？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#30-谈谈对Socket的理解"><span class="nav-number">30.</span> <span class="nav-text">30.谈谈对Socket的理解</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#31-网络编程"><span class="nav-number">31.</span> <span class="nav-text">31.网络编程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#32-8大排序的时间复杂度和算法代码"><span class="nav-number">32.</span> <span class="nav-text">32.8大排序的时间复杂度和算法代码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#33-JNI"><span class="nav-number">33.</span> <span class="nav-text">33.JNI</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#34-说说你的亮点，最值得分享的。"><span class="nav-number">34.</span> <span class="nav-text">34.说说你的亮点，最值得分享的。</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">FeishengQiu</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
