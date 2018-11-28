@@ -533,597 +533,6 @@ List Listlist2 = Listlist1;
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/01/10/Android二级/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="FeishengQiu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="FeishengQiu">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/01/10/Android二级/" itemprop="url">Android二级</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-10T00:30:35+08:00">
-                2018-01-10
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="1-Android消息异步处理机制-Android的Handle机制-Android-Handler的原理"><a href="#1-Android消息异步处理机制-Android的Handle机制-Android-Handler的原理" class="headerlink" title="1.Android消息异步处理机制/Android的Handle机制/Android Handler的原理"></a>1.Android消息异步处理机制/Android的Handle机制/Android Handler的原理</h3><ul>
-<li><p>首先，我们先在主线程创建一个handler对象，然后重写handlerMessage（）方法；其次，我们在子线程创建一个message对象，将信息存储到message对象中，然后handler调用sendMessage（）方法将这条message发送出去；之后这条message就会被添加到messageQueue的队列中等待被处理；而Looper会一直从messageQueue中取出message，最后分发到handleMessage()方法中，切换回到主线程进行UI操作</p>
-</li>
-<li><p>预备（一个线程可以有多个handler对象，是根据源码的target来识别的；一个线程中只有一个Looper实例，和一个messageQueue，因为Looper.prepare（）方法只会调用一次，prepare()会构造Looper实例，实例中有一个messageQueue; loop（）方法的作用是保证一直循环从messageQueue中取message；最后是通过回调dispatchMessage()方法分发到handleMessage()方法中）</p>
-</li>
-</ul>
-<h3 id="2-对AsyncTask的理解（儿sing）"><a href="#2-对AsyncTask的理解（儿sing）" class="headerlink" title="2.对AsyncTask的理解（儿sing）"></a>2.对AsyncTask的理解（儿sing）</h3><ul>
-<li><p>首先，AsyncTask是一个抽象类，我们需要创建一个子类去继承它，然后重写四个主要的方法，onPreExecute()方法在后台任务开始执行之前调用，用于界面初始化，例如显示进度对话框；doInBackground()方法执行所有的耗时任务，这个方法中的所有代码是在子线程中进行的（封装了线程池）；在onProgerssUpdate方法中进行UI操作；在onPostExecute（）方法中执行一些任务收尾工作，例如关闭对话框和弹toast。 开启任务：写上面的一个内部类，然后在Activity里面： new DownloadTask（）.execute()；</p>
-</li>
-<li><p>多线程的原因：android系统对于UI线程的刷新维持在16ms左右，如果在主线程进行一些操作，我们需要限制时间，以保证用户不会在操作过程中觉得卡顿，那么一些耗时操作最好不要在主线程中进行，如果强行操作可能存在各种问题，所以需要我们去在子线程中去实现耗时操作，然后去通知主线程去更新UI。</p>
-</li>
-<li><p>预备（在AsyncTask的构造方法中 ，会创建Future对象跟Callable对象，然后在execute方法中会执行onPreExecute()方法跟doInBackground方法，而doInbackground 的结果，会被封装成一个Message，再通过handler来进行线程间通信，通过这个message.what来识别 是否需要调用onProgressUpdate，或是finish方法 。finish方法里面会调用onPostExecute方法。）</p>
-</li>
-</ul>
-<h3 id="3-Android事件分发机制"><a href="#3-Android事件分发机制" class="headerlink" title="3.Android事件分发机制"></a>3.Android事件分发机制</h3><ul>
-<li><p>首先，事件分发的顺序是从：Activity到ViewGroup到View; 当一个点击事件发生时，事件最先传到Activity的dispatchTouchEvent()进行事件分发，（true和false都消费掉事件）然后默认传递到ViewGroup的dispatchTouchEvent()，此时return true就会消费掉事件，return false就会返回到Activity的onTouchEvent进行处理，默认是传给ViewGroup的拦截器onIntercreptTouchEvent,拦截器return true则就会把事件传给viewgroup的onTouchEvent自己处理，return false或者默认状态下都传递给view的dispatchTouchEvent,return false的话就会传递给viewgroup的onTouchEvent，return true 就会消费掉，默认就会传递给view的onTouchEvent,false和默认都是往上一层的onTouchEvent传递，true就会消费掉事件</p>
-</li>
-<li><p>只有ViewGroup有拦截器onIntercreptTouchEvent，viewgroup是一组viw的集合，本质是view，是layout的父类</p>
-</li>
-</ul>
-<h3 id="4-Activity的生命周期"><a href="#4-Activity的生命周期" class="headerlink" title="4.Activity的生命周期"></a>4.Activity的生命周期</h3><ul>
-<li><p>4种状态（运行暂停 停止销毁）</p>
-</li>
-<li><p>3种生存期：完整生存期，可见生存期(onstart()—&gt;onstop())，前台生存期（onResume()—&gt;onPause()）</p>
-</li>
-<li><p>FirstActivity建立起来：依次调用onCreate()（初始化Activity）——onStart()（因为此时从不可见变成了可见）——onResume（因为处于栈顶运行状态）</p>
-</li>
-<li><p>intent开启SecondActivity（完全覆盖）：调用onPause()（因为开启另外一个活动都会调用它）——onStop（）（因为被Second覆盖了，变成不可见）</p>
-</li>
-<li><p>然后再back键返回到FirstActivity：调用onRestart（）——onStart——onResume()</p>
-</li>
-<li><p>打开ThirdActivity（半覆盖）：onPause()（因为开启别的活动都要调用，onStop不调用是因为没有完全覆盖）</p>
-</li>
-<li><p>back键：onPause()—&gt;onResume();  重新回到第一个活动</p>
-</li>
-<li><p>Activity 的可见生命周期发生在 onStart调用与 onStop调用之间。在这段时间，用户可以在屏幕上看到 Activity 并与其交互。我们可以在 onStart中注册一个 BroadcastReceiver以监控影响 UI 的变化，并在用户无法再看到您显示的内容时在 onStop中将其取消注册。</p>
-</li>
-<li><p>nPause时Activity界面仍然是可见的，如弹出一个Dialog时。但在保存数据时，放在onPause去做可以保证数据存储的有效性，如果放在onStop去做，在某些情况下Activity走完onPause后有可能还没顺利走到onStop就被系统回收了。</p>
-</li>
-<li><p>系统内存不足，停止状态的Activity甚至暂停状态的Activity被回收，数据没有保存，可以@Override //重写onSaveInstanceState()方法用key保存数据<br>protected void onSaveInstanceState（Bundle outState）{<br>super.onSaveInstanceState(outState);<br>String data=”hello”;<br>outState.putString(“data_key”,data);<br>}</p>
-</li>
-</ul>
-<h3 id="5-Activity的启动模式：Activity的几种LaunchMode及使用场景。-返回栈"><a href="#5-Activity的启动模式：Activity的几种LaunchMode及使用场景。-返回栈" class="headerlink" title="5.Activity的启动模式：Activity的几种LaunchMode及使用场景。(返回栈)"></a>5.Activity的启动模式：Activity的几种LaunchMode及使用场景。(返回栈)</h3><ul>
-<li><p>1.standard:</p>
-</li>
-<li><p>默认的启动模式，特点就是无限创建活动叠加，重复的也叠加<br>Intent intent=new Intent(FirstActivity.this,FirstActivity.class);<br>startActivity(intent);  会无限叠加</p>
-</li>
-<li><p>2.singleTop:</p>
-</li>
-<li><p>在AndroidManifest的activity标签中加android:launchMode=”singleTop”,特点是FA处于栈顶运行状态时，intent到FA就不会再次创建新的实例，避免冗余;但是如果是SA调到FA，会创建新的FA实例，所以是2个FA实例，因为FA没在栈顶</p>
-</li>
-<li><p>3.singleTask：</p>
-</li>
-<li><p>在AndroidManifest的activity标签中加android:launchMode=”singleTask”，特点是从整个Task查找是否有FA,所以只有一个FA实例，只有唯一唯一唯一，一般都是onStop()—&gt;onRestart()——onStart()——onResume()   (而且是直接将SA直接出栈，即销毁覆盖在FA上面的所有的活动，这种不是叠加，是销毁式地处于栈顶)</p>
-</li>
-<li><p>4.singleInstance（拥有单独的返回栈，用于共享活动）</p>
-</li>
-<li><p>在AndroidManifest的activity标签中加android:launchMode=”singlnstance”,特点是为了跨程序共享Activity实例而用，自己独用一个新栈，所以back键的时候是TA返回到FA（一个栈），再到SA(自己的一个栈)；getTaskId()可以得到该Activity所在的Task的ID值 （A—B—C—A—B:AC是一个栈）</p>
-</li>
-</ul>
-<h3 id="6-两个Activity之间如何传递数据"><a href="#6-两个Activity之间如何传递数据" class="headerlink" title="6.两个Activity之间如何传递数据"></a>6.两个Activity之间如何传递数据</h3><ul>
-<li><p>方法一：intent.putExtra用key来传值</p>
-</li>
-<li><p>方法二：把数据封装进Bundle的对象，然后用intent来传递</p>
-</li>
-<li><p>如何传递自定义的对象呢？</p>
-</li>
-<li><p>Parcelable接口（是Android特有功能，效率比实现Serializable接口高效，可用于Intent数据传递，实现Serializable接口非常简单，声明一下就可以了，而实现Parcelable接口稍微复杂一些，但效率更高，推荐用这种方法提高性能。Serializalbe会使用反射，序列化和反序列化过程需要大量I/O操作，Parcelable自已实现封送和解封（marshalled &amp;unmarshalled）操作不需要用反射，数据也存放在Native内存中，效率要快很多。</p>
-</li>
-<li><p>重写writeToParcel方法，将你的对象序列化为一个Parcel对象，即：将类的数据写入外部提供的Parcel中，打包需要传递的数据到Parcel容器保存，以便从 Parcel容器获取数据；实例化静态内部对象CREATOR实现接口Parcelable.Creator</p>
-</li>
-<li><p>requestcode 和 resultcode也可以实现传值</p>
-</li>
-</ul>
-<h3 id="7-Android中跨进程通讯有几种方式？"><a href="#7-Android中跨进程通讯有几种方式？" class="headerlink" title="7.Android中跨进程通讯有几种方式？"></a>7.Android中跨进程通讯有几种方式？</h3><h3 id="8-AIDL的全称是什么？如何工作？能处理哪些类型的数据？"><a href="#8-AIDL的全称是什么？如何工作？能处理哪些类型的数据？" class="headerlink" title="8.AIDL的全称是什么？如何工作？能处理哪些类型的数据？"></a>8.AIDL的全称是什么？如何工作？能处理哪些类型的数据？</h3><ul>
-<li><p>AIDL是一个缩写，全称是Android Interface Definition Language，也就是Android接口定义语言</p>
-</li>
-<li><p>完成跨进程通信</p>
-</li>
-</ul>
-<h3 id="9-图片的处理和优化-图片圆角处理的方式有哪几种？-三级缓存？"><a href="#9-图片的处理和优化-图片圆角处理的方式有哪几种？-三级缓存？" class="headerlink" title="9.图片的处理和优化, 图片圆角处理的方式有哪几种？ 三级缓存？"></a>9.图片的处理和优化, 图片圆角处理的方式有哪几种？ 三级缓存？</h3><h3 id="10-讲讲ListView容易引起性能问题的地方，再说一下你有什么优化方案。"><a href="#10-讲讲ListView容易引起性能问题的地方，再说一下你有什么优化方案。" class="headerlink" title="10.讲讲ListView容易引起性能问题的地方，再说一下你有什么优化方案。"></a>10.讲讲ListView容易引起性能问题的地方，再说一下你有什么优化方案。</h3><h3 id="11-项目中遇到哪些难题，最终你是如何解决的？有遇到过哪些屏幕和资源适配问题？"><a href="#11-项目中遇到哪些难题，最终你是如何解决的？有遇到过哪些屏幕和资源适配问题？" class="headerlink" title="11..项目中遇到哪些难题，最终你是如何解决的？有遇到过哪些屏幕和资源适配问题？"></a>11..项目中遇到哪些难题，最终你是如何解决的？有遇到过哪些屏幕和资源适配问题？</h3><h3 id="12-内存泄露哪几种情况？如何处理？有使用过什么相关的检测工具吗？"><a href="#12-内存泄露哪几种情况？如何处理？有使用过什么相关的检测工具吗？" class="headerlink" title="12.内存泄露哪几种情况？如何处理？有使用过什么相关的检测工具吗？"></a>12.内存泄露哪几种情况？如何处理？有使用过什么相关的检测工具吗？</h3><ul>
-<li><p>没有即时调用recycle()释放不再使用的bitmap </p>
-</li>
-<li><p>使用application的context来替代activity相关的context，不要让生命周期长于Activity的对象持有到Activity的引用</p>
-</li>
-<li><p>广播注册没取消造成内存泄露</p>
-</li>
-<li><p>由于我们程序的失误，长期保持某些资源（如Context）的引用，垃圾回收器就无法回收它，当然该对象占用的内存就无法被使用，这就造成内存泄露。</p>
-</li>
-</ul>
-<p>Android 中常见就是Activity被引用在调用finish之后却没有释放，第二次打开activity又重新创建，这样的内存泄露不断的发生,则会导致内存的溢出。</p>
-<p>Android的每个应用程序都会使用一个专有的Dalvik虚拟机实例来运行，它是由Zygote服务进程孵化出来的，也就是说每个应用程序都是在属于自己的进程中运行的。Android为不同类型的进程分配了不同的内存使用上限，如果程序在运行过程中出现了内存泄漏的而造成应用进程使用的内存超过了这个上限，则会被系统视为内存泄漏，从而被kill掉，这使得仅仅自己的进程被kill掉，而不会影响其他进程. </p>
-<h3 id="13-内存溢出"><a href="#13-内存溢出" class="headerlink" title="13.内存溢出"></a>13.内存溢出</h3><ul>
-<li><p>内存溢出是指当对象的内存占用已经超出分配内存的空间大小，这时未经处理的异常就会抛出。比如常见的内存溢出情况有：bitmap过大；引用没释放；资源对象没关闭 </p>
-</li>
-<li><p>原因1：保存了多个耗用内存过大的对象（如Bitmap）或加载单个超大的图片，造成内存超出限制。</p>
-</li>
-<li><p>原因2：内存泄露导致</p>
-</li>
-</ul>
-<h3 id="14-说说MVP，MVC，MVVM架构的不同。"><a href="#14-说说MVP，MVC，MVVM架构的不同。" class="headerlink" title="14.说说MVP，MVC，MVVM架构的不同。"></a>14.说说MVP，MVC，MVVM架构的不同。</h3><ul>
-<li><a href="https://www.jianshu.com/p/4f7516af75a3" target="_blank" rel="noopener">https://www.jianshu.com/p/4f7516af75a3</a></li>
-</ul>
-<h3 id="15-常用的设计模式（单例模式，工厂模式，适配器模式，观察者模式）"><a href="#15-常用的设计模式（单例模式，工厂模式，适配器模式，观察者模式）" class="headerlink" title="15.常用的设计模式（单例模式，工厂模式，适配器模式，观察者模式）"></a>15.常用的设计模式（单例模式，工厂模式，适配器模式，观察者模式）</h3><ul>
-<li><a href="https://www.jianshu.com/p/61b67ca754a3" target="_blank" rel="noopener">https://www.jianshu.com/p/61b67ca754a3</a></li>
-</ul>
-<h3 id="16-常用哪些开源项目，说说最熟悉的一个？"><a href="#16-常用哪些开源项目，说说最熟悉的一个？" class="headerlink" title="16.常用哪些开源项目，说说最熟悉的一个？"></a>16.常用哪些开源项目，说说最熟悉的一个？</h3><h3 id="17-service的基本知识和广播的基本知识，和通知的基础知识，开启之类的那些"><a href="#17-service的基本知识和广播的基本知识，和通知的基础知识，开启之类的那些" class="headerlink" title="17.service的基本知识和广播的基本知识，和通知的基础知识，开启之类的那些"></a>17.service的基本知识和广播的基本知识，和通知的基础知识，开启之类的那些</h3><h3 id="18-XML和JSon解析"><a href="#18-XML和JSon解析" class="headerlink" title="18.XML和JSon解析"></a>18.XML和JSon解析</h3><ul>
-<li><p>XML：Pull解析：先得到XmlPullParserFactory的对象，然后借助这个对象得到XmlPullParser的实例，然后调用XmlPullParser的setInput方法将服务器返回的XML数据设置进去开始解析，看书吧…..</p>
-</li>
-<li><p>Json</p>
-</li>
-<li><p>response—JSONArray—JSONObject—然后set到容器类的对象中</p>
-</li>
-<li>gson.fromJson(response,容器实体类)存放到容器类为泛型的集合中</li>
-</ul>
-<h3 id="19-数据保存的几种方式"><a href="#19-数据保存的几种方式" class="headerlink" title="19.数据保存的几种方式"></a>19.数据保存的几种方式</h3><ul>
-<li>数据持久化技术：就是将瞬时数据保存到设备中，不易丢失；文件存储，sharedPreferences key键值对的格式存储,  本地数据库存储，</li>
-</ul>
-<h3 id="20-反射"><a href="#20-反射" class="headerlink" title="20.反射"></a>20.反射</h3><ul>
-<li><p>在运行时判断任意一个对象所属的类。</p>
-</li>
-<li><p>在运行时构造任意一个类的对象。</p>
-</li>
-<li><p>在运行时判断任意一个类所具有的成员变量和方法。</p>
-</li>
-<li><p>在运行时调用任意一个对象的方法。 </p>
-</li>
-</ul>
-<h3 id="21-自定义控件，到自定义View"><a href="#21-自定义控件，到自定义View" class="headerlink" title="21.自定义控件，到自定义View"></a>21.自定义控件，到自定义View</h3><ul>
-<li>自定义控件就是</li>
-</ul>
-<h3 id="22-android样式和主题的区别？分别怎么定义？"><a href="#22-android样式和主题的区别？分别怎么定义？" class="headerlink" title="22.android样式和主题的区别？分别怎么定义？"></a>22.android样式和主题的区别？分别怎么定义？</h3><h3 id="23-如何避免ANR？"><a href="#23-如何避免ANR？" class="headerlink" title="23.如何避免ANR？"></a>23.如何避免ANR？</h3><ul>
-<li><p>ANR的全称是application not responding，意思就是程序未响应</p>
-</li>
-<li><p>只有主线程才会产生ANR，主线程就是UI线程</p>
-</li>
-<li><p>主线程执行了耗时操作，比如数据库操作或网络编程</p>
-</li>
-<li><p>其他进程（就是其他程序）占用CPU导致本进程得不到CPU时间片，比如其他进程的频繁读写操作可能会导致这个问题。</p>
-</li>
-<li><p>避免在主线程执行耗时操作，所有耗时操作应新开一个子线程完成，然后再在主线程更新UI。</p>
-</li>
-<li><p>BroadcastReceiver要执行耗时操作时应启动一个service，将耗时操作交给service来完成。</p>
-</li>
-<li><p>避免在Intent Receiver里启动一个Activity，因为它会创建一个新的画面，并从当前用户正在运行的程序上抢夺焦点。如果你的应用程序在响应Intent广 播时需要向用户展示什么，你应该使用Notification Manager来实现。</p>
-</li>
-</ul>
-<h3 id="24-如何退出已经打开多个activity的程序？"><a href="#24-如何退出已经打开多个activity的程序？" class="headerlink" title="24.如何退出已经打开多个activity的程序？"></a>24.如何退出已经打开多个activity的程序？</h3><ul>
-<li><p>1.写一个工具类：ActivityCollector,里面写一个泛型为Activity的集合，然后写三个静态方法，分别是添加Activity（onCreate）, 移除Activity(onDestroy)，和finish所有的Activity</p>
-</li>
-<li><p>写一个广播内部类来finish Activity； 然后在当前Activity注册广播； 再写一个发送广播的方法即可</p>
-</li>
-</ul>
-<h3 id="25-final-static关键字用法"><a href="#25-final-static关键字用法" class="headerlink" title="25.final static关键字用法"></a>25.final static关键字用法</h3><ul>
-<li><p>static</p>
-</li>
-<li><p>被static修饰的成员变量就是类变量，被static修饰的成员方法就是类方法,类变量和类方法不依赖于对象而存在，内存空间上有自己的静态域，而且具有唯一性，所有的对象都调用同一个类变量A和类方法B，而且类名加类方法也可以直接调用，依赖于类而加载，类方法里面不可以调用非静态类的成员变量，因为生命周期不一样；</p>
-</li>
-<li><p>final：安全性，可读性</p>
-</li>
-<li><p>final修饰成员变量===常量（大写，而且声明的时候就要显示初始化赋值）</p>
-</li>
-<li><p>final修饰方法===若本类被继承了，子类不能重写该方法（保证该方法的稳定性）</p>
-</li>
-<li><p>final修饰类===该类不能被继承，</p>
-</li>
-</ul>
-<h3 id="26-JVM的内存分布及垃圾回收机制"><a href="#26-JVM的内存分布及垃圾回收机制" class="headerlink" title="26.JVM的内存分布及垃圾回收机制"></a>26.JVM的内存分布及垃圾回收机制</h3><ul>
-<li><h3 id="27-app如何保证后台服务不被杀死"><a href="#27-app如何保证后台服务不被杀死" class="headerlink" title="27.app如何保证后台服务不被杀死"></a>27.app如何保证后台服务不被杀死</h3></li>
-<li><p>见service</p>
-</li>
-</ul>
-<h3 id="28-RecyclerView与ListView缓存机制的不同"><a href="#28-RecyclerView与ListView缓存机制的不同" class="headerlink" title="28.RecyclerView与ListView缓存机制的不同"></a>28.RecyclerView与ListView缓存机制的不同</h3><h3 id="29-HashMap-HashSet-HashTable的区别？"><a href="#29-HashMap-HashSet-HashTable的区别？" class="headerlink" title="29.HashMap HashSet HashTable的区别？"></a>29.HashMap HashSet HashTable的区别？</h3><h3 id="30-谈谈对Socket的理解"><a href="#30-谈谈对Socket的理解" class="headerlink" title="30.谈谈对Socket的理解"></a>30.谈谈对Socket的理解</h3><ul>
-<li><p>socket很直白的翻译是：套接字；套接字就是ip地址和端口号的组合，网络通信的本质就是socket通信；通信就需要客户端和服务端，两端都需要有一个socket,一个发送，一个接收；socket之间的数据传输是以IO流的形式进行的； 客户端发送完之后write  需要加一句shutdownOutput();就不会一直阻塞，可以让服务端知道已经发送完了，我可以响应和回复你了</p>
-</li>
-<li><p><img src="https://i.imgur.com/K31bi71.jpg" alt=""></p>
-</li>
-</ul>
-<h3 id="31-网络编程"><a href="#31-网络编程" class="headerlink" title="31.网络编程"></a>31.网络编程</h3><ul>
-<li><p>TCP/IP协议是一个四层协议： 有数据—&gt;才有网络(IP)—&gt;才能传输（TCP UDP）—&gt;才能应用</p>
-</li>
-<li><p>U字型封装传输数据</p>
-</li>
-<li><p>IP地址：身份证号+GPS定位计算机位置的功能  （注：自己访问自己，127.0.0.1/localhost）</p>
-</li>
-<li><p>端口号：区分进程，一个程序一个进程，一个进程占用一个端口号 ：0—65535（0—1023给服务通信进程占用，其他进程从1024—65535选择）</p>
-</li>
-<li><p>IP地址+端口号===网络套接字</p>
-</li>
-<li><p>域名可以理解为：域名映射IP地址，域名就是IP地址的第二表示方式</p>
-</li>
-<li><p>通信协议的作用就是：规范数据包装和传输的格式，方便接收之后进行拆装获得数据，不能瞎几把来，不对口</p>
-</li>
-<li><ul>
-<li><img src="https://i.imgur.com/kzdV2Pa.jpg" alt=""></li>
-</ul>
-</li>
-<li><p>DNS就是域名解析服务器，将我们输入的域名解析成IP地址，再用IP地址去找到这部计算机，然后访问</p>
-</li>
-<li><p><img src="https://i.imgur.com/qUGrXhO.jpg" alt=""></p>
-</li>
-<li><p>“三次握手”建立TCP连接</p>
-</li>
-<li><p>UDP协议：<img src="https://i.imgur.com/PFhlAdP.jpg" alt=""></p>
-</li>
-<li><p>URL：可以理解为资源文件地址！！！迅雷下载的时候就是去 URL地址那里拿文件的， &lt;传输协议&gt;：//&lt;主机名&gt;：&lt;端口号&gt;/&lt;文件名&gt;</p>
-</li>
-<li><p>获取URL资源：openStream;  如果要输出数据：URLConnection，可以把数据传到url那里</p>
-</li>
-</ul>
-<h3 id="32-8大排序的时间复杂度和算法代码"><a href="#32-8大排序的时间复杂度和算法代码" class="headerlink" title="32.8大排序的时间复杂度和算法代码"></a>32.8大排序的时间复杂度和算法代码</h3><ul>
-<li><h3 id="33-JNI"><a href="#33-JNI" class="headerlink" title="33.JNI"></a>33.JNI</h3></li>
-<li><p>JNI的全称就是 Java native interface（java本地开发接口），相当于一个桥梁，本质上是一个协议，让java可以调用C语言和C++代码，并且可以让C语言调用java；使用JNI的原因是因为有效目标功能，用C语言或者C++来实现会更加的高效，性能更好，例如视频解码，3D渲染；ndk就是本地开发工具包；</p>
-</li>
-<li><p>编写带有native方法的Java类, 使用javac工具编译Java类,使用javah来生成与native方法对应的头文件，实现相应的头文件, 并编译为动态链接库(windows下是.dll, linux下是.so)</p>
-</li>
-</ul>
-<h3 id="34-说说你的亮点，最值得分享的。"><a href="#34-说说你的亮点，最值得分享的。" class="headerlink" title="34.说说你的亮点，最值得分享的。"></a>34.说说你的亮点，最值得分享的。</h3>
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/01/10/数据结构选择题/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="FeishengQiu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="FeishengQiu">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/01/10/数据结构选择题/" itemprop="url">数据结构选择题</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-10T00:30:35+08:00">
-                2018-01-10
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="数据结构选择题"><a href="#数据结构选择题" class="headerlink" title="数据结构选择题"></a>数据结构选择题</h2><h3 id="1-算法的有穷性是指算法必须能在执行有限个步骤之后终止"><a href="#1-算法的有穷性是指算法必须能在执行有限个步骤之后终止" class="headerlink" title="1.算法的有穷性是指算法必须能在执行有限个步骤之后终止"></a>1.算法的有穷性是指算法必须能在执行有限个步骤之后终止</h3><ul>
-<li><p>算法的设计可以避开具体的计算机程序设计语言，但算法的实现必须借助程序设计语言中提供的数据类型及其算法。数据结构和算法是计算机科学的两个重要支柱。它们是一个不可分割的整体。算法在运行过程中需辅助存储空间的大小称为算法的空间复杂度。算法的有穷性是指一个算法必须在执行有限的步骤以后结束。</p>
-</li>
-<li><p>：算法有穷限步终</p>
-</li>
-</ul>
-<h3 id="2-以下数据结构中不属于线性数据结构的是-。"><a href="#2-以下数据结构中不属于线性数据结构的是-。" class="headerlink" title="2.以下数据结构中不属于线性数据结构的是__。"></a>2.以下数据结构中不属于线性数据结构的是<strong>__</strong>。</h3><ul>
-<li><p>二叉树；线性表、栈和队列等数据结构所表达和处理的数据以线性结构为组织形式。栈是一种特殊的线性表，这种线性表只能在固定的一端进行插入和删除操作，允许插入和删除的一端称为栈顶，另一端称为栈底。一个新元素只能从栈顶一端进入，删除时，只能删除栈顶的元素，即刚刚被插入的元素。所以栈又称后进先出表（Last In First Out）；队列可看作是插入在一端进行，删除在另一端进行的线性表，允许插入的一端称为队尾，允许删除的一端称为队头。在队列中，只能删除队头元素，队列的最后一个元素一定是最新入队的元素。因此队列又称先进先出表（First In First Out）。</p>
-</li>
-<li><p>线性表=栈+队列（区别在于栈固定一端插入和删除，队列是队头删，队尾插）</p>
-</li>
-<li><p>：表彰队列</p>
-</li>
-</ul>
-<h3 id="3-在一棵二叉树上第5层的结点数最多是-。"><a href="#3-在一棵二叉树上第5层的结点数最多是-。" class="headerlink" title="3.在一棵二叉树上第5层的结点数最多是__。"></a>3.在一棵二叉树上第5层的结点数最多是<strong>__</strong>。</h3><ul>
-<li><p>2·（4）=16个</p>
-</li>
-<li><p>根据二叉树的性质：二叉树第i（i≥1）层上至多有2i-1个结点。得到第5层的结点数最多是16</p>
-</li>
-<li><p>：二叉二爱减一个</p>
-</li>
-</ul>
-<h3 id="4-在深度为5的满二叉树中，叶子结点的个数为-。"><a href="#4-在深度为5的满二叉树中，叶子结点的个数为-。" class="headerlink" title="4.在深度为5的满二叉树中，叶子结点的个数为__。"></a>4.在深度为5的满二叉树中，叶子结点的个数为<strong>__</strong>。</h3><ul>
-<li>所谓满二叉树是指这样的一种二叉树：除最后一层外，每层上的所有结点都有两个子结点。这就是说，在满二叉树中，每一层上的结点数都达到最大值，即在满二叉树的第K层上有2K-1个结点，且深度为m的满二叉树有2m个结点。</li>
-<li><p>在满二叉树中，最后一层的结点个数就是叶子结点的个数，本题中深度为5，故叶子结点数为25-1=24=16。</p>
-</li>
-<li><p>：叶子个数为底层</p>
-</li>
-</ul>
-<h3 id="5"><a href="#5" class="headerlink" title="5."></a>5.</h3><ul>
-<li><p>所谓中序遍历是指在访问根结点、遍历左子树与遍历右子树这三者中，首先遍历左子树，然后访问根结点，最后遍历右子树；并且在遍历左、右子树时，仍然先遍历左子树，然后访问根结点，最后遍历右子树。</p>
-</li>
-<li><p>DBEAFC</p>
-</li>
-<li><p>：中序遍历左根右</p>
-</li>
-</ul>
-<h3 id="6-算法一般应该具有的基本特征-。"><a href="#6-算法一般应该具有的基本特征-。" class="headerlink" title="6.算法一般应该具有的基本特征__。"></a>6.算法一般应该具有的基本特征<strong>__</strong>。</h3><ul>
-<li><p>1、可行性2、确定性3、有穷性 4、拥有足够的情报</p>
-</li>
-<li><p>:确定可行有穷情</p>
-</li>
-</ul>
-<h3 id="7-希尔排序法属于哪一种类型的排序法-。"><a href="#7-希尔排序法属于哪一种类型的排序法-。" class="headerlink" title="7.希尔排序法属于哪一种类型的排序法__。"></a>7.希尔排序法属于哪一种类型的排序法<strong>__</strong>。</h3><ul>
-<li><p>希尔排序法的基本思想是：将整个无序序列分割成若干小的子序列分别进行插入排序。所以希尔排序法属于插入类排序，但它对简单插入排序做了很大的改进。</p>
-</li>
-<li><p>：希尔爱插入</p>
-</li>
-</ul>
-<h3 id="8-下列关于队列的叙述中正确的是-。"><a href="#8-下列关于队列的叙述中正确的是-。" class="headerlink" title="8.下列关于队列的叙述中正确的是__。"></a>8.下列关于队列的叙述中正确的是<strong>__</strong>。</h3><ul>
-<li><p>队列是指允许在一端进行插入、而在另一端进行删除的线性表。它又称为”先进先出”或”后进后出”的线性表，体现了”先来先服务”的原则。</p>
-</li>
-<li><p>:先进先出来队列</p>
-</li>
-</ul>
-<h3 id="9-在计算机中，算法是指-。"><a href="#9-在计算机中，算法是指-。" class="headerlink" title="9.在计算机中，算法是指__。"></a>9.在计算机中，算法是指<strong>__</strong>。</h3><ul>
-<li><p>计算机算法是指解题方案的准确而完整的描述，它有以下几个基本特征：可行性、确定性、有穷性和拥有足够的情报。</p>
-</li>
-<li><p>：算法准确而完整</p>
-</li>
-</ul>
-<h3 id="10-栈和队列的共同点是-。"><a href="#10-栈和队列的共同点是-。" class="headerlink" title="10.栈和队列的共同点是__。"></a>10.栈和队列的共同点是<strong>__</strong>。</h3><ul>
-<li><p>只允许在端点处插入和删除元素</p>
-</li>
-<li><p>栈和队列都是一种特殊的操作受限的线性表，只允许在端点处进行插入和删除。二者的区别是：栈只允许在表的一端进行插入或删除操作，是一种”后进先出”的线性表；而队列只允许在表的一端进行插入操作，在另一端进行删除操作，是一种”先进先出”的线性表。</p>
-</li>
-<li><p>队列栈端点</p>
-</li>
-</ul>
-<h3 id="11-在下列几种排序方法中，要求内存量最大的是-。"><a href="#11-在下列几种排序方法中，要求内存量最大的是-。" class="headerlink" title="11.在下列几种排序方法中，要求内存量最大的是__。"></a>11.在下列几种排序方法中，要求内存量最大的是<strong>__</strong>。</h3><ul>
-<li>解：归并排序</li>
-<li><p>快速排序的基本思想是，通过一趟排序将待排序记录分割成独立的两部分，其中一部分记录的关键字均比另一部分记录的关键字小，再分别对这两部分记录继续进行排序，以达到整个序列有序；插入排序的基本操作是指将无序序列中的各元素依次插入到已经有序的线性表中，从而得到一个新的序列；选择排序的基本思想是：扫描整个线性表，从中选出最小的元素，将它交换到表的最前面（这是它应有的位置），然后对剩下的子表采用同样的方法，直到表空为止；归并排序是将两个或两个以上的有序表组合成一个新的有序表。</p>
-</li>
-<li><p>内内最大为归并</p>
-</li>
-</ul>
-<h3 id="12-栈底至栈顶依次存放元素A、B、C、D，在第五个元素E入栈前，栈中元素可以出栈，则出栈序列可能是-。"><a href="#12-栈底至栈顶依次存放元素A、B、C、D，在第五个元素E入栈前，栈中元素可以出栈，则出栈序列可能是-。" class="headerlink" title="12.栈底至栈顶依次存放元素A、B、C、D，在第五个元素E入栈前，栈中元素可以出栈，则出栈序列可能是__。"></a>12.栈底至栈顶依次存放元素A、B、C、D，在第五个元素E入栈前，栈中元素可以出栈，则出栈序列可能是<strong>__</strong>。</h3><ul>
-<li>DCBEA</li>
-<li>简单</li>
-</ul>
-<h3 id="13-线性表的顺序存储结构和线性表的链式存储结构分别是-。"><a href="#13-线性表的顺序存储结构和线性表的链式存储结构分别是-。" class="headerlink" title="13.线性表的顺序存储结构和线性表的链式存储结构分别是__。"></a>13.线性表的顺序存储结构和线性表的链式存储结构分别是<strong>__</strong>。</h3><ul>
-<li>随机存取的存储结构、顺序存取的存储结构</li>
-<li><p>这里的随机和顺序存储指的是对某个位置的特定元素的访问（赋值或拿出来），可不可以一步到位，直接访问，数组就是一步到位可以访问，随机==随时</p>
-</li>
-<li><p>:顺序存随机，链式存顺序</p>
-</li>
-</ul>
-<h3 id="14-在单链表中，增加头结点的目的是-。"><a href="#14-在单链表中，增加头结点的目的是-。" class="headerlink" title="14.在单链表中，增加头结点的目的是__。"></a>14.在单链表中，增加头结点的目的是<strong>__</strong>。</h3><ul>
-<li><p>方便运算的实现：头结点不仅标识了表中首结点的位置，而且根据单链表（包含头结点）的结构，只要掌握了表头，就能够访问整个链表，因此增加头结点目的是为了便于运算的实现。</p>
-</li>
-<li><p>补充：整个数据结构的相互关系</p>
-</li>
-<li><img src="https://i.imgur.com/uwKzN01.jpg" alt=""></li>
-<li><p>栈和队列也是可以使用链式存储，因为它们是线性表</p>
-</li>
-<li><p>：头结便运算</p>
-</li>
-</ul>
-<h3 id="15-算法分析的目的是-。"><a href="#15-算法分析的目的是-。" class="headerlink" title="15.算法分析的目的是__。"></a>15.算法分析的目的是<strong>__</strong>。</h3><ul>
-<li><p>分析算法的目的就是要降低算法的时间复杂度和空间复杂度，提高算法的执行效率。</p>
-</li>
-<li><p>：算分提效率</p>
-</li>
-</ul>
-<h3 id="16-n个顶点的强连通图的边数至少有-。"><a href="#16-n个顶点的强连通图的边数至少有-。" class="headerlink" title="16.n个顶点的强连通图的边数至少有__。"></a>16.n个顶点的强连通图的边数至少有<strong>__</strong>。</h3><ul>
-<li><p>n</p>
-</li>
-<li><p>:强连n点对n边</p>
-</li>
-</ul>
-<h3 id="17-已知数据表A中每个元素距其最终位置不远，为节省时间，应采用的算法是-。"><a href="#17-已知数据表A中每个元素距其最终位置不远，为节省时间，应采用的算法是-。" class="headerlink" title="17.已知数据表A中每个元素距其最终位置不远，为节省时间，应采用的算法是__。"></a>17.已知数据表A中每个元素距其最终位置不远，为节省时间，应采用的算法是<strong>__</strong>。</h3><ul>
-<li><p>直接插入排序</p>
-</li>
-<li><p>：不远最终位，直插为省时</p>
-</li>
-</ul>
-<h3 id="18-用链表表示线性表的优点是-。"><a href="#18-用链表表示线性表的优点是-。" class="headerlink" title="18.用链表表示线性表的优点是__。"></a>18.用链表表示线性表的优点是<strong>__</strong>。</h3><ul>
-<li>便于插入和删除操作</li>
-<li><p>链式存储结构克服了顺序存储结构的缺点：它的结点空间可以动态申请和释放；它的数据元素的逻辑次序靠结点的指针来指示，不需要移动数据元素。故链式存储结构下的线性表便于插入和删除操作。</p>
-</li>
-<li><p>：链表便插删</p>
-</li>
-</ul>
-<h3 id="19-数据的存储结构是指-。"><a href="#19-数据的存储结构是指-。" class="headerlink" title="19.数据的存储结构是指__。"></a>19.数据的存储结构是指<strong>__</strong>。</h3><ul>
-<li><p>数据的逻辑结构在计算机存储空间中的存放形式称为数据的存储结构（也称数据的物理结构）。</p>
-</li>
-<li><p>：数存则为间数逻</p>
-</li>
-</ul>
-<h3 id="20-下列关于栈的描述中错误的是-。"><a href="#20-下列关于栈的描述中错误的是-。" class="headerlink" title="20.下列关于栈的描述中错误的是__。"></a>20.下列关于栈的描述中错误的是<strong>__</strong>。</h3><ul>
-<li><p>栈只能顺序存储（错误），只是一般情况下用得比较多的是顺序存储</p>
-</li>
-<li><p>栈具有记忆作用；对栈的插入与删除操作中，不需要改变栈底指针</p>
-</li>
-<li>栈是一种特殊的线性表，这种线性表只能在固定的一端进行插入和删除操作，允许插入和删除的一端称为栈顶，另一端称为栈底。一个新元素只能从栈顶一端进入，删除时，只能删除栈顶的元素，即刚刚被插入的元素。所以栈又称先进后出表（FILO-First In Last Out）。线性表可以顺序存储，也可以链式存储，而栈是一种线性表，也可以采用链式存储结构。</li>
-</ul>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/01/10/Android选择题2/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1727,6 +1136,597 @@ sp（与刻度无关的像素）：与dp类似，但是可以根据用户的字�
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/01/10/Android二级/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="FeishengQiu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="FeishengQiu">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/01/10/Android二级/" itemprop="url">Android二级</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-10T00:30:35+08:00">
+                2018-01-10
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="1-Android消息异步处理机制-Android的Handle机制-Android-Handler的原理"><a href="#1-Android消息异步处理机制-Android的Handle机制-Android-Handler的原理" class="headerlink" title="1.Android消息异步处理机制/Android的Handle机制/Android Handler的原理"></a>1.Android消息异步处理机制/Android的Handle机制/Android Handler的原理</h3><ul>
+<li><p>首先，我们先在主线程创建一个handler对象，然后重写handlerMessage（）方法；其次，我们在子线程创建一个message对象，将信息存储到message对象中，然后handler调用sendMessage（）方法将这条message发送出去；之后这条message就会被添加到messageQueue的队列中等待被处理；而Looper会一直从messageQueue中取出message，最后分发到handleMessage()方法中，切换回到主线程进行UI操作</p>
+</li>
+<li><p>预备（一个线程可以有多个handler对象，是根据源码的target来识别的；一个线程中只有一个Looper实例，和一个messageQueue，因为Looper.prepare（）方法只会调用一次，prepare()会构造Looper实例，实例中有一个messageQueue; loop（）方法的作用是保证一直循环从messageQueue中取message；最后是通过回调dispatchMessage()方法分发到handleMessage()方法中）</p>
+</li>
+</ul>
+<h3 id="2-对AsyncTask的理解（儿sing）"><a href="#2-对AsyncTask的理解（儿sing）" class="headerlink" title="2.对AsyncTask的理解（儿sing）"></a>2.对AsyncTask的理解（儿sing）</h3><ul>
+<li><p>首先，AsyncTask是一个抽象类，我们需要创建一个子类去继承它，然后重写四个主要的方法，onPreExecute()方法在后台任务开始执行之前调用，用于界面初始化，例如显示进度对话框；doInBackground()方法执行所有的耗时任务，这个方法中的所有代码是在子线程中进行的（封装了线程池）；在onProgerssUpdate方法中进行UI操作；在onPostExecute（）方法中执行一些任务收尾工作，例如关闭对话框和弹toast。 开启任务：写上面的一个内部类，然后在Activity里面： new DownloadTask（）.execute()；</p>
+</li>
+<li><p>多线程的原因：android系统对于UI线程的刷新维持在16ms左右，如果在主线程进行一些操作，我们需要限制时间，以保证用户不会在操作过程中觉得卡顿，那么一些耗时操作最好不要在主线程中进行，如果强行操作可能存在各种问题，所以需要我们去在子线程中去实现耗时操作，然后去通知主线程去更新UI。</p>
+</li>
+<li><p>预备（在AsyncTask的构造方法中 ，会创建Future对象跟Callable对象，然后在execute方法中会执行onPreExecute()方法跟doInBackground方法，而doInbackground 的结果，会被封装成一个Message，再通过handler来进行线程间通信，通过这个message.what来识别 是否需要调用onProgressUpdate，或是finish方法 。finish方法里面会调用onPostExecute方法。）</p>
+</li>
+</ul>
+<h3 id="3-Android事件分发机制"><a href="#3-Android事件分发机制" class="headerlink" title="3.Android事件分发机制"></a>3.Android事件分发机制</h3><ul>
+<li><p>首先，事件分发的顺序是从：Activity到ViewGroup到View; 当一个点击事件发生时，事件最先传到Activity的dispatchTouchEvent()进行事件分发，（true和false都消费掉事件）然后默认传递到ViewGroup的dispatchTouchEvent()，此时return true就会消费掉事件，return false就会返回到Activity的onTouchEvent进行处理，默认是传给ViewGroup的拦截器onIntercreptTouchEvent,拦截器return true则就会把事件传给viewgroup的onTouchEvent自己处理，return false或者默认状态下都传递给view的dispatchTouchEvent,return false的话就会传递给viewgroup的onTouchEvent，return true 就会消费掉，默认就会传递给view的onTouchEvent,false和默认都是往上一层的onTouchEvent传递，true就会消费掉事件</p>
+</li>
+<li><p>只有ViewGroup有拦截器onIntercreptTouchEvent，viewgroup是一组viw的集合，本质是view，是layout的父类</p>
+</li>
+</ul>
+<h3 id="4-Activity的生命周期"><a href="#4-Activity的生命周期" class="headerlink" title="4.Activity的生命周期"></a>4.Activity的生命周期</h3><ul>
+<li><p>4种状态（运行暂停 停止销毁）</p>
+</li>
+<li><p>3种生存期：完整生存期，可见生存期(onstart()—&gt;onstop())，前台生存期（onResume()—&gt;onPause()）</p>
+</li>
+<li><p>FirstActivity建立起来：依次调用onCreate()（初始化Activity）——onStart()（因为此时从不可见变成了可见）——onResume（因为处于栈顶运行状态）</p>
+</li>
+<li><p>intent开启SecondActivity（完全覆盖）：调用onPause()（因为开启另外一个活动都会调用它）——onStop（）（因为被Second覆盖了，变成不可见）</p>
+</li>
+<li><p>然后再back键返回到FirstActivity：调用onRestart（）——onStart——onResume()</p>
+</li>
+<li><p>打开ThirdActivity（半覆盖）：onPause()（因为开启别的活动都要调用，onStop不调用是因为没有完全覆盖）</p>
+</li>
+<li><p>back键：onPause()—&gt;onResume();  重新回到第一个活动</p>
+</li>
+<li><p>Activity 的可见生命周期发生在 onStart调用与 onStop调用之间。在这段时间，用户可以在屏幕上看到 Activity 并与其交互。我们可以在 onStart中注册一个 BroadcastReceiver以监控影响 UI 的变化，并在用户无法再看到您显示的内容时在 onStop中将其取消注册。</p>
+</li>
+<li><p>nPause时Activity界面仍然是可见的，如弹出一个Dialog时。但在保存数据时，放在onPause去做可以保证数据存储的有效性，如果放在onStop去做，在某些情况下Activity走完onPause后有可能还没顺利走到onStop就被系统回收了。</p>
+</li>
+<li><p>系统内存不足，停止状态的Activity甚至暂停状态的Activity被回收，数据没有保存，可以@Override //重写onSaveInstanceState()方法用key保存数据<br>protected void onSaveInstanceState（Bundle outState）{<br>super.onSaveInstanceState(outState);<br>String data=”hello”;<br>outState.putString(“data_key”,data);<br>}</p>
+</li>
+</ul>
+<h3 id="5-Activity的启动模式：Activity的几种LaunchMode及使用场景。-返回栈"><a href="#5-Activity的启动模式：Activity的几种LaunchMode及使用场景。-返回栈" class="headerlink" title="5.Activity的启动模式：Activity的几种LaunchMode及使用场景。(返回栈)"></a>5.Activity的启动模式：Activity的几种LaunchMode及使用场景。(返回栈)</h3><ul>
+<li><p>1.standard:</p>
+</li>
+<li><p>默认的启动模式，特点就是无限创建活动叠加，重复的也叠加<br>Intent intent=new Intent(FirstActivity.this,FirstActivity.class);<br>startActivity(intent);  会无限叠加</p>
+</li>
+<li><p>2.singleTop:</p>
+</li>
+<li><p>在AndroidManifest的activity标签中加android:launchMode=”singleTop”,特点是FA处于栈顶运行状态时，intent到FA就不会再次创建新的实例，避免冗余;但是如果是SA调到FA，会创建新的FA实例，所以是2个FA实例，因为FA没在栈顶</p>
+</li>
+<li><p>3.singleTask：</p>
+</li>
+<li><p>在AndroidManifest的activity标签中加android:launchMode=”singleTask”，特点是从整个Task查找是否有FA,所以只有一个FA实例，只有唯一唯一唯一，一般都是onStop()—&gt;onRestart()——onStart()——onResume()   (而且是直接将SA直接出栈，即销毁覆盖在FA上面的所有的活动，这种不是叠加，是销毁式地处于栈顶)</p>
+</li>
+<li><p>4.singleInstance（拥有单独的返回栈，用于共享活动）</p>
+</li>
+<li><p>在AndroidManifest的activity标签中加android:launchMode=”singlnstance”,特点是为了跨程序共享Activity实例而用，自己独用一个新栈，所以back键的时候是TA返回到FA（一个栈），再到SA(自己的一个栈)；getTaskId()可以得到该Activity所在的Task的ID值 （A—B—C—A—B:AC是一个栈）</p>
+</li>
+</ul>
+<h3 id="6-两个Activity之间如何传递数据"><a href="#6-两个Activity之间如何传递数据" class="headerlink" title="6.两个Activity之间如何传递数据"></a>6.两个Activity之间如何传递数据</h3><ul>
+<li><p>方法一：intent.putExtra用key来传值</p>
+</li>
+<li><p>方法二：把数据封装进Bundle的对象，然后用intent来传递</p>
+</li>
+<li><p>如何传递自定义的对象呢？</p>
+</li>
+<li><p>Parcelable接口（是Android特有功能，效率比实现Serializable接口高效，可用于Intent数据传递，实现Serializable接口非常简单，声明一下就可以了，而实现Parcelable接口稍微复杂一些，但效率更高，推荐用这种方法提高性能。Serializalbe会使用反射，序列化和反序列化过程需要大量I/O操作，Parcelable自已实现封送和解封（marshalled &amp;unmarshalled）操作不需要用反射，数据也存放在Native内存中，效率要快很多。</p>
+</li>
+<li><p>重写writeToParcel方法，将你的对象序列化为一个Parcel对象，即：将类的数据写入外部提供的Parcel中，打包需要传递的数据到Parcel容器保存，以便从 Parcel容器获取数据；实例化静态内部对象CREATOR实现接口Parcelable.Creator</p>
+</li>
+<li><p>requestcode 和 resultcode也可以实现传值</p>
+</li>
+</ul>
+<h3 id="7-Android中跨进程通讯有几种方式？"><a href="#7-Android中跨进程通讯有几种方式？" class="headerlink" title="7.Android中跨进程通讯有几种方式？"></a>7.Android中跨进程通讯有几种方式？</h3><h3 id="8-AIDL的全称是什么？如何工作？能处理哪些类型的数据？"><a href="#8-AIDL的全称是什么？如何工作？能处理哪些类型的数据？" class="headerlink" title="8.AIDL的全称是什么？如何工作？能处理哪些类型的数据？"></a>8.AIDL的全称是什么？如何工作？能处理哪些类型的数据？</h3><ul>
+<li><p>AIDL是一个缩写，全称是Android Interface Definition Language，也就是Android接口定义语言</p>
+</li>
+<li><p>完成跨进程通信</p>
+</li>
+</ul>
+<h3 id="9-图片的处理和优化-图片圆角处理的方式有哪几种？-三级缓存？"><a href="#9-图片的处理和优化-图片圆角处理的方式有哪几种？-三级缓存？" class="headerlink" title="9.图片的处理和优化, 图片圆角处理的方式有哪几种？ 三级缓存？"></a>9.图片的处理和优化, 图片圆角处理的方式有哪几种？ 三级缓存？</h3><h3 id="10-讲讲ListView容易引起性能问题的地方，再说一下你有什么优化方案。"><a href="#10-讲讲ListView容易引起性能问题的地方，再说一下你有什么优化方案。" class="headerlink" title="10.讲讲ListView容易引起性能问题的地方，再说一下你有什么优化方案。"></a>10.讲讲ListView容易引起性能问题的地方，再说一下你有什么优化方案。</h3><h3 id="11-项目中遇到哪些难题，最终你是如何解决的？有遇到过哪些屏幕和资源适配问题？"><a href="#11-项目中遇到哪些难题，最终你是如何解决的？有遇到过哪些屏幕和资源适配问题？" class="headerlink" title="11..项目中遇到哪些难题，最终你是如何解决的？有遇到过哪些屏幕和资源适配问题？"></a>11..项目中遇到哪些难题，最终你是如何解决的？有遇到过哪些屏幕和资源适配问题？</h3><h3 id="12-内存泄露哪几种情况？如何处理？有使用过什么相关的检测工具吗？"><a href="#12-内存泄露哪几种情况？如何处理？有使用过什么相关的检测工具吗？" class="headerlink" title="12.内存泄露哪几种情况？如何处理？有使用过什么相关的检测工具吗？"></a>12.内存泄露哪几种情况？如何处理？有使用过什么相关的检测工具吗？</h3><ul>
+<li><p>没有即时调用recycle()释放不再使用的bitmap </p>
+</li>
+<li><p>使用application的context来替代activity相关的context，不要让生命周期长于Activity的对象持有到Activity的引用</p>
+</li>
+<li><p>广播注册没取消造成内存泄露</p>
+</li>
+<li><p>由于我们程序的失误，长期保持某些资源（如Context）的引用，垃圾回收器就无法回收它，当然该对象占用的内存就无法被使用，这就造成内存泄露。</p>
+</li>
+</ul>
+<p>Android 中常见就是Activity被引用在调用finish之后却没有释放，第二次打开activity又重新创建，这样的内存泄露不断的发生,则会导致内存的溢出。</p>
+<p>Android的每个应用程序都会使用一个专有的Dalvik虚拟机实例来运行，它是由Zygote服务进程孵化出来的，也就是说每个应用程序都是在属于自己的进程中运行的。Android为不同类型的进程分配了不同的内存使用上限，如果程序在运行过程中出现了内存泄漏的而造成应用进程使用的内存超过了这个上限，则会被系统视为内存泄漏，从而被kill掉，这使得仅仅自己的进程被kill掉，而不会影响其他进程. </p>
+<h3 id="13-内存溢出"><a href="#13-内存溢出" class="headerlink" title="13.内存溢出"></a>13.内存溢出</h3><ul>
+<li><p>内存溢出是指当对象的内存占用已经超出分配内存的空间大小，这时未经处理的异常就会抛出。比如常见的内存溢出情况有：bitmap过大；引用没释放；资源对象没关闭 </p>
+</li>
+<li><p>原因1：保存了多个耗用内存过大的对象（如Bitmap）或加载单个超大的图片，造成内存超出限制。</p>
+</li>
+<li><p>原因2：内存泄露导致</p>
+</li>
+</ul>
+<h3 id="14-说说MVP，MVC，MVVM架构的不同。"><a href="#14-说说MVP，MVC，MVVM架构的不同。" class="headerlink" title="14.说说MVP，MVC，MVVM架构的不同。"></a>14.说说MVP，MVC，MVVM架构的不同。</h3><ul>
+<li><a href="https://www.jianshu.com/p/4f7516af75a3" target="_blank" rel="noopener">https://www.jianshu.com/p/4f7516af75a3</a></li>
+</ul>
+<h3 id="15-常用的设计模式（单例模式，工厂模式，适配器模式，观察者模式）"><a href="#15-常用的设计模式（单例模式，工厂模式，适配器模式，观察者模式）" class="headerlink" title="15.常用的设计模式（单例模式，工厂模式，适配器模式，观察者模式）"></a>15.常用的设计模式（单例模式，工厂模式，适配器模式，观察者模式）</h3><ul>
+<li><a href="https://www.jianshu.com/p/61b67ca754a3" target="_blank" rel="noopener">https://www.jianshu.com/p/61b67ca754a3</a></li>
+</ul>
+<h3 id="16-常用哪些开源项目，说说最熟悉的一个？"><a href="#16-常用哪些开源项目，说说最熟悉的一个？" class="headerlink" title="16.常用哪些开源项目，说说最熟悉的一个？"></a>16.常用哪些开源项目，说说最熟悉的一个？</h3><h3 id="17-service的基本知识和广播的基本知识，和通知的基础知识，开启之类的那些"><a href="#17-service的基本知识和广播的基本知识，和通知的基础知识，开启之类的那些" class="headerlink" title="17.service的基本知识和广播的基本知识，和通知的基础知识，开启之类的那些"></a>17.service的基本知识和广播的基本知识，和通知的基础知识，开启之类的那些</h3><h3 id="18-XML和JSon解析"><a href="#18-XML和JSon解析" class="headerlink" title="18.XML和JSon解析"></a>18.XML和JSon解析</h3><ul>
+<li><p>XML：Pull解析：先得到XmlPullParserFactory的对象，然后借助这个对象得到XmlPullParser的实例，然后调用XmlPullParser的setInput方法将服务器返回的XML数据设置进去开始解析，看书吧…..</p>
+</li>
+<li><p>Json</p>
+</li>
+<li><p>response—JSONArray—JSONObject—然后set到容器类的对象中</p>
+</li>
+<li>gson.fromJson(response,容器实体类)存放到容器类为泛型的集合中</li>
+</ul>
+<h3 id="19-数据保存的几种方式"><a href="#19-数据保存的几种方式" class="headerlink" title="19.数据保存的几种方式"></a>19.数据保存的几种方式</h3><ul>
+<li>数据持久化技术：就是将瞬时数据保存到设备中，不易丢失；文件存储，sharedPreferences key键值对的格式存储,  本地数据库存储，</li>
+</ul>
+<h3 id="20-反射"><a href="#20-反射" class="headerlink" title="20.反射"></a>20.反射</h3><ul>
+<li><p>在运行时判断任意一个对象所属的类。</p>
+</li>
+<li><p>在运行时构造任意一个类的对象。</p>
+</li>
+<li><p>在运行时判断任意一个类所具有的成员变量和方法。</p>
+</li>
+<li><p>在运行时调用任意一个对象的方法。 </p>
+</li>
+</ul>
+<h3 id="21-自定义控件，到自定义View"><a href="#21-自定义控件，到自定义View" class="headerlink" title="21.自定义控件，到自定义View"></a>21.自定义控件，到自定义View</h3><ul>
+<li>自定义控件就是</li>
+</ul>
+<h3 id="22-android样式和主题的区别？分别怎么定义？"><a href="#22-android样式和主题的区别？分别怎么定义？" class="headerlink" title="22.android样式和主题的区别？分别怎么定义？"></a>22.android样式和主题的区别？分别怎么定义？</h3><h3 id="23-如何避免ANR？"><a href="#23-如何避免ANR？" class="headerlink" title="23.如何避免ANR？"></a>23.如何避免ANR？</h3><ul>
+<li><p>ANR的全称是application not responding，意思就是程序未响应</p>
+</li>
+<li><p>只有主线程才会产生ANR，主线程就是UI线程</p>
+</li>
+<li><p>主线程执行了耗时操作，比如数据库操作或网络编程</p>
+</li>
+<li><p>其他进程（就是其他程序）占用CPU导致本进程得不到CPU时间片，比如其他进程的频繁读写操作可能会导致这个问题。</p>
+</li>
+<li><p>避免在主线程执行耗时操作，所有耗时操作应新开一个子线程完成，然后再在主线程更新UI。</p>
+</li>
+<li><p>BroadcastReceiver要执行耗时操作时应启动一个service，将耗时操作交给service来完成。</p>
+</li>
+<li><p>避免在Intent Receiver里启动一个Activity，因为它会创建一个新的画面，并从当前用户正在运行的程序上抢夺焦点。如果你的应用程序在响应Intent广 播时需要向用户展示什么，你应该使用Notification Manager来实现。</p>
+</li>
+</ul>
+<h3 id="24-如何退出已经打开多个activity的程序？"><a href="#24-如何退出已经打开多个activity的程序？" class="headerlink" title="24.如何退出已经打开多个activity的程序？"></a>24.如何退出已经打开多个activity的程序？</h3><ul>
+<li><p>1.写一个工具类：ActivityCollector,里面写一个泛型为Activity的集合，然后写三个静态方法，分别是添加Activity（onCreate）, 移除Activity(onDestroy)，和finish所有的Activity</p>
+</li>
+<li><p>写一个广播内部类来finish Activity； 然后在当前Activity注册广播； 再写一个发送广播的方法即可</p>
+</li>
+</ul>
+<h3 id="25-final-static关键字用法"><a href="#25-final-static关键字用法" class="headerlink" title="25.final static关键字用法"></a>25.final static关键字用法</h3><ul>
+<li><p>static</p>
+</li>
+<li><p>被static修饰的成员变量就是类变量，被static修饰的成员方法就是类方法,类变量和类方法不依赖于对象而存在，内存空间上有自己的静态域，而且具有唯一性，所有的对象都调用同一个类变量A和类方法B，而且类名加类方法也可以直接调用，依赖于类而加载，类方法里面不可以调用非静态类的成员变量，因为生命周期不一样；</p>
+</li>
+<li><p>final：安全性，可读性</p>
+</li>
+<li><p>final修饰成员变量===常量（大写，而且声明的时候就要显示初始化赋值）</p>
+</li>
+<li><p>final修饰方法===若本类被继承了，子类不能重写该方法（保证该方法的稳定性）</p>
+</li>
+<li><p>final修饰类===该类不能被继承，</p>
+</li>
+</ul>
+<h3 id="26-JVM的内存分布及垃圾回收机制"><a href="#26-JVM的内存分布及垃圾回收机制" class="headerlink" title="26.JVM的内存分布及垃圾回收机制"></a>26.JVM的内存分布及垃圾回收机制</h3><ul>
+<li><h3 id="27-app如何保证后台服务不被杀死"><a href="#27-app如何保证后台服务不被杀死" class="headerlink" title="27.app如何保证后台服务不被杀死"></a>27.app如何保证后台服务不被杀死</h3></li>
+<li><p>见service</p>
+</li>
+</ul>
+<h3 id="28-RecyclerView与ListView缓存机制的不同"><a href="#28-RecyclerView与ListView缓存机制的不同" class="headerlink" title="28.RecyclerView与ListView缓存机制的不同"></a>28.RecyclerView与ListView缓存机制的不同</h3><h3 id="29-HashMap-HashSet-HashTable的区别？"><a href="#29-HashMap-HashSet-HashTable的区别？" class="headerlink" title="29.HashMap HashSet HashTable的区别？"></a>29.HashMap HashSet HashTable的区别？</h3><h3 id="30-谈谈对Socket的理解"><a href="#30-谈谈对Socket的理解" class="headerlink" title="30.谈谈对Socket的理解"></a>30.谈谈对Socket的理解</h3><ul>
+<li><p>socket很直白的翻译是：套接字；套接字就是ip地址和端口号的组合，网络通信的本质就是socket通信；通信就需要客户端和服务端，两端都需要有一个socket,一个发送，一个接收；socket之间的数据传输是以IO流的形式进行的； 客户端发送完之后write  需要加一句shutdownOutput();就不会一直阻塞，可以让服务端知道已经发送完了，我可以响应和回复你了</p>
+</li>
+<li><p><img src="https://i.imgur.com/K31bi71.jpg" alt=""></p>
+</li>
+</ul>
+<h3 id="31-网络编程"><a href="#31-网络编程" class="headerlink" title="31.网络编程"></a>31.网络编程</h3><ul>
+<li><p>TCP/IP协议是一个四层协议： 有数据—&gt;才有网络(IP)—&gt;才能传输（TCP UDP）—&gt;才能应用</p>
+</li>
+<li><p>U字型封装传输数据</p>
+</li>
+<li><p>IP地址：身份证号+GPS定位计算机位置的功能  （注：自己访问自己，127.0.0.1/localhost）</p>
+</li>
+<li><p>端口号：区分进程，一个程序一个进程，一个进程占用一个端口号 ：0—65535（0—1023给服务通信进程占用，其他进程从1024—65535选择）</p>
+</li>
+<li><p>IP地址+端口号===网络套接字</p>
+</li>
+<li><p>域名可以理解为：域名映射IP地址，域名就是IP地址的第二表示方式</p>
+</li>
+<li><p>通信协议的作用就是：规范数据包装和传输的格式，方便接收之后进行拆装获得数据，不能瞎几把来，不对口</p>
+</li>
+<li><ul>
+<li><img src="https://i.imgur.com/kzdV2Pa.jpg" alt=""></li>
+</ul>
+</li>
+<li><p>DNS就是域名解析服务器，将我们输入的域名解析成IP地址，再用IP地址去找到这部计算机，然后访问</p>
+</li>
+<li><p><img src="https://i.imgur.com/qUGrXhO.jpg" alt=""></p>
+</li>
+<li><p>“三次握手”建立TCP连接</p>
+</li>
+<li><p>UDP协议：<img src="https://i.imgur.com/PFhlAdP.jpg" alt=""></p>
+</li>
+<li><p>URL：可以理解为资源文件地址！！！迅雷下载的时候就是去 URL地址那里拿文件的， &lt;传输协议&gt;：//&lt;主机名&gt;：&lt;端口号&gt;/&lt;文件名&gt;</p>
+</li>
+<li><p>获取URL资源：openStream;  如果要输出数据：URLConnection，可以把数据传到url那里</p>
+</li>
+</ul>
+<h3 id="32-8大排序的时间复杂度和算法代码"><a href="#32-8大排序的时间复杂度和算法代码" class="headerlink" title="32.8大排序的时间复杂度和算法代码"></a>32.8大排序的时间复杂度和算法代码</h3><ul>
+<li><h3 id="33-JNI"><a href="#33-JNI" class="headerlink" title="33.JNI"></a>33.JNI</h3></li>
+<li><p>JNI的全称就是 Java native interface（java本地开发接口），相当于一个桥梁，本质上是一个协议，让java可以调用C语言和C++代码，并且可以让C语言调用java；使用JNI的原因是因为有效目标功能，用C语言或者C++来实现会更加的高效，性能更好，例如视频解码，3D渲染；ndk就是本地开发工具包；</p>
+</li>
+<li><p>编写带有native方法的Java类, 使用javac工具编译Java类,使用javah来生成与native方法对应的头文件，实现相应的头文件, 并编译为动态链接库(windows下是.dll, linux下是.so)</p>
+</li>
+</ul>
+<h3 id="34-说说你的亮点，最值得分享的。"><a href="#34-说说你的亮点，最值得分享的。" class="headerlink" title="34.说说你的亮点，最值得分享的。"></a>34.说说你的亮点，最值得分享的。</h3>
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/01/10/数据结构选择题/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="FeishengQiu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="FeishengQiu">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/01/10/数据结构选择题/" itemprop="url">数据结构选择题</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-10T00:30:35+08:00">
+                2018-01-10
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="数据结构选择题"><a href="#数据结构选择题" class="headerlink" title="数据结构选择题"></a>数据结构选择题</h2><h3 id="1-算法的有穷性是指算法必须能在执行有限个步骤之后终止"><a href="#1-算法的有穷性是指算法必须能在执行有限个步骤之后终止" class="headerlink" title="1.算法的有穷性是指算法必须能在执行有限个步骤之后终止"></a>1.算法的有穷性是指算法必须能在执行有限个步骤之后终止</h3><ul>
+<li><p>算法的设计可以避开具体的计算机程序设计语言，但算法的实现必须借助程序设计语言中提供的数据类型及其算法。数据结构和算法是计算机科学的两个重要支柱。它们是一个不可分割的整体。算法在运行过程中需辅助存储空间的大小称为算法的空间复杂度。算法的有穷性是指一个算法必须在执行有限的步骤以后结束。</p>
+</li>
+<li><p>：算法有穷限步终</p>
+</li>
+</ul>
+<h3 id="2-以下数据结构中不属于线性数据结构的是-。"><a href="#2-以下数据结构中不属于线性数据结构的是-。" class="headerlink" title="2.以下数据结构中不属于线性数据结构的是__。"></a>2.以下数据结构中不属于线性数据结构的是<strong>__</strong>。</h3><ul>
+<li><p>二叉树；线性表、栈和队列等数据结构所表达和处理的数据以线性结构为组织形式。栈是一种特殊的线性表，这种线性表只能在固定的一端进行插入和删除操作，允许插入和删除的一端称为栈顶，另一端称为栈底。一个新元素只能从栈顶一端进入，删除时，只能删除栈顶的元素，即刚刚被插入的元素。所以栈又称后进先出表（Last In First Out）；队列可看作是插入在一端进行，删除在另一端进行的线性表，允许插入的一端称为队尾，允许删除的一端称为队头。在队列中，只能删除队头元素，队列的最后一个元素一定是最新入队的元素。因此队列又称先进先出表（First In First Out）。</p>
+</li>
+<li><p>线性表=栈+队列（区别在于栈固定一端插入和删除，队列是队头删，队尾插）</p>
+</li>
+<li><p>：表彰队列</p>
+</li>
+</ul>
+<h3 id="3-在一棵二叉树上第5层的结点数最多是-。"><a href="#3-在一棵二叉树上第5层的结点数最多是-。" class="headerlink" title="3.在一棵二叉树上第5层的结点数最多是__。"></a>3.在一棵二叉树上第5层的结点数最多是<strong>__</strong>。</h3><ul>
+<li><p>2·（4）=16个</p>
+</li>
+<li><p>根据二叉树的性质：二叉树第i（i≥1）层上至多有2i-1个结点。得到第5层的结点数最多是16</p>
+</li>
+<li><p>：二叉二爱减一个</p>
+</li>
+</ul>
+<h3 id="4-在深度为5的满二叉树中，叶子结点的个数为-。"><a href="#4-在深度为5的满二叉树中，叶子结点的个数为-。" class="headerlink" title="4.在深度为5的满二叉树中，叶子结点的个数为__。"></a>4.在深度为5的满二叉树中，叶子结点的个数为<strong>__</strong>。</h3><ul>
+<li>所谓满二叉树是指这样的一种二叉树：除最后一层外，每层上的所有结点都有两个子结点。这就是说，在满二叉树中，每一层上的结点数都达到最大值，即在满二叉树的第K层上有2K-1个结点，且深度为m的满二叉树有2m个结点。</li>
+<li><p>在满二叉树中，最后一层的结点个数就是叶子结点的个数，本题中深度为5，故叶子结点数为25-1=24=16。</p>
+</li>
+<li><p>：叶子个数为底层</p>
+</li>
+</ul>
+<h3 id="5"><a href="#5" class="headerlink" title="5."></a>5.</h3><ul>
+<li><p>所谓中序遍历是指在访问根结点、遍历左子树与遍历右子树这三者中，首先遍历左子树，然后访问根结点，最后遍历右子树；并且在遍历左、右子树时，仍然先遍历左子树，然后访问根结点，最后遍历右子树。</p>
+</li>
+<li><p>DBEAFC</p>
+</li>
+<li><p>：中序遍历左根右</p>
+</li>
+</ul>
+<h3 id="6-算法一般应该具有的基本特征-。"><a href="#6-算法一般应该具有的基本特征-。" class="headerlink" title="6.算法一般应该具有的基本特征__。"></a>6.算法一般应该具有的基本特征<strong>__</strong>。</h3><ul>
+<li><p>1、可行性2、确定性3、有穷性 4、拥有足够的情报</p>
+</li>
+<li><p>:确定可行有穷情</p>
+</li>
+</ul>
+<h3 id="7-希尔排序法属于哪一种类型的排序法-。"><a href="#7-希尔排序法属于哪一种类型的排序法-。" class="headerlink" title="7.希尔排序法属于哪一种类型的排序法__。"></a>7.希尔排序法属于哪一种类型的排序法<strong>__</strong>。</h3><ul>
+<li><p>希尔排序法的基本思想是：将整个无序序列分割成若干小的子序列分别进行插入排序。所以希尔排序法属于插入类排序，但它对简单插入排序做了很大的改进。</p>
+</li>
+<li><p>：希尔爱插入</p>
+</li>
+</ul>
+<h3 id="8-下列关于队列的叙述中正确的是-。"><a href="#8-下列关于队列的叙述中正确的是-。" class="headerlink" title="8.下列关于队列的叙述中正确的是__。"></a>8.下列关于队列的叙述中正确的是<strong>__</strong>。</h3><ul>
+<li><p>队列是指允许在一端进行插入、而在另一端进行删除的线性表。它又称为”先进先出”或”后进后出”的线性表，体现了”先来先服务”的原则。</p>
+</li>
+<li><p>:先进先出来队列</p>
+</li>
+</ul>
+<h3 id="9-在计算机中，算法是指-。"><a href="#9-在计算机中，算法是指-。" class="headerlink" title="9.在计算机中，算法是指__。"></a>9.在计算机中，算法是指<strong>__</strong>。</h3><ul>
+<li><p>计算机算法是指解题方案的准确而完整的描述，它有以下几个基本特征：可行性、确定性、有穷性和拥有足够的情报。</p>
+</li>
+<li><p>：算法准确而完整</p>
+</li>
+</ul>
+<h3 id="10-栈和队列的共同点是-。"><a href="#10-栈和队列的共同点是-。" class="headerlink" title="10.栈和队列的共同点是__。"></a>10.栈和队列的共同点是<strong>__</strong>。</h3><ul>
+<li><p>只允许在端点处插入和删除元素</p>
+</li>
+<li><p>栈和队列都是一种特殊的操作受限的线性表，只允许在端点处进行插入和删除。二者的区别是：栈只允许在表的一端进行插入或删除操作，是一种”后进先出”的线性表；而队列只允许在表的一端进行插入操作，在另一端进行删除操作，是一种”先进先出”的线性表。</p>
+</li>
+<li><p>队列栈端点</p>
+</li>
+</ul>
+<h3 id="11-在下列几种排序方法中，要求内存量最大的是-。"><a href="#11-在下列几种排序方法中，要求内存量最大的是-。" class="headerlink" title="11.在下列几种排序方法中，要求内存量最大的是__。"></a>11.在下列几种排序方法中，要求内存量最大的是<strong>__</strong>。</h3><ul>
+<li>解：归并排序</li>
+<li><p>快速排序的基本思想是，通过一趟排序将待排序记录分割成独立的两部分，其中一部分记录的关键字均比另一部分记录的关键字小，再分别对这两部分记录继续进行排序，以达到整个序列有序；插入排序的基本操作是指将无序序列中的各元素依次插入到已经有序的线性表中，从而得到一个新的序列；选择排序的基本思想是：扫描整个线性表，从中选出最小的元素，将它交换到表的最前面（这是它应有的位置），然后对剩下的子表采用同样的方法，直到表空为止；归并排序是将两个或两个以上的有序表组合成一个新的有序表。</p>
+</li>
+<li><p>内内最大为归并</p>
+</li>
+</ul>
+<h3 id="12-栈底至栈顶依次存放元素A、B、C、D，在第五个元素E入栈前，栈中元素可以出栈，则出栈序列可能是-。"><a href="#12-栈底至栈顶依次存放元素A、B、C、D，在第五个元素E入栈前，栈中元素可以出栈，则出栈序列可能是-。" class="headerlink" title="12.栈底至栈顶依次存放元素A、B、C、D，在第五个元素E入栈前，栈中元素可以出栈，则出栈序列可能是__。"></a>12.栈底至栈顶依次存放元素A、B、C、D，在第五个元素E入栈前，栈中元素可以出栈，则出栈序列可能是<strong>__</strong>。</h3><ul>
+<li>DCBEA</li>
+<li>简单</li>
+</ul>
+<h3 id="13-线性表的顺序存储结构和线性表的链式存储结构分别是-。"><a href="#13-线性表的顺序存储结构和线性表的链式存储结构分别是-。" class="headerlink" title="13.线性表的顺序存储结构和线性表的链式存储结构分别是__。"></a>13.线性表的顺序存储结构和线性表的链式存储结构分别是<strong>__</strong>。</h3><ul>
+<li>随机存取的存储结构、顺序存取的存储结构</li>
+<li><p>这里的随机和顺序存储指的是对某个位置的特定元素的访问（赋值或拿出来），可不可以一步到位，直接访问，数组就是一步到位可以访问，随机==随时</p>
+</li>
+<li><p>:顺序存随机，链式存顺序</p>
+</li>
+</ul>
+<h3 id="14-在单链表中，增加头结点的目的是-。"><a href="#14-在单链表中，增加头结点的目的是-。" class="headerlink" title="14.在单链表中，增加头结点的目的是__。"></a>14.在单链表中，增加头结点的目的是<strong>__</strong>。</h3><ul>
+<li><p>方便运算的实现：头结点不仅标识了表中首结点的位置，而且根据单链表（包含头结点）的结构，只要掌握了表头，就能够访问整个链表，因此增加头结点目的是为了便于运算的实现。</p>
+</li>
+<li><p>补充：整个数据结构的相互关系</p>
+</li>
+<li><img src="https://i.imgur.com/uwKzN01.jpg" alt=""></li>
+<li><p>栈和队列也是可以使用链式存储，因为它们是线性表</p>
+</li>
+<li><p>：头结便运算</p>
+</li>
+</ul>
+<h3 id="15-算法分析的目的是-。"><a href="#15-算法分析的目的是-。" class="headerlink" title="15.算法分析的目的是__。"></a>15.算法分析的目的是<strong>__</strong>。</h3><ul>
+<li><p>分析算法的目的就是要降低算法的时间复杂度和空间复杂度，提高算法的执行效率。</p>
+</li>
+<li><p>：算分提效率</p>
+</li>
+</ul>
+<h3 id="16-n个顶点的强连通图的边数至少有-。"><a href="#16-n个顶点的强连通图的边数至少有-。" class="headerlink" title="16.n个顶点的强连通图的边数至少有__。"></a>16.n个顶点的强连通图的边数至少有<strong>__</strong>。</h3><ul>
+<li><p>n</p>
+</li>
+<li><p>:强连n点对n边</p>
+</li>
+</ul>
+<h3 id="17-已知数据表A中每个元素距其最终位置不远，为节省时间，应采用的算法是-。"><a href="#17-已知数据表A中每个元素距其最终位置不远，为节省时间，应采用的算法是-。" class="headerlink" title="17.已知数据表A中每个元素距其最终位置不远，为节省时间，应采用的算法是__。"></a>17.已知数据表A中每个元素距其最终位置不远，为节省时间，应采用的算法是<strong>__</strong>。</h3><ul>
+<li><p>直接插入排序</p>
+</li>
+<li><p>：不远最终位，直插为省时</p>
+</li>
+</ul>
+<h3 id="18-用链表表示线性表的优点是-。"><a href="#18-用链表表示线性表的优点是-。" class="headerlink" title="18.用链表表示线性表的优点是__。"></a>18.用链表表示线性表的优点是<strong>__</strong>。</h3><ul>
+<li>便于插入和删除操作</li>
+<li><p>链式存储结构克服了顺序存储结构的缺点：它的结点空间可以动态申请和释放；它的数据元素的逻辑次序靠结点的指针来指示，不需要移动数据元素。故链式存储结构下的线性表便于插入和删除操作。</p>
+</li>
+<li><p>：链表便插删</p>
+</li>
+</ul>
+<h3 id="19-数据的存储结构是指-。"><a href="#19-数据的存储结构是指-。" class="headerlink" title="19.数据的存储结构是指__。"></a>19.数据的存储结构是指<strong>__</strong>。</h3><ul>
+<li><p>数据的逻辑结构在计算机存储空间中的存放形式称为数据的存储结构（也称数据的物理结构）。</p>
+</li>
+<li><p>：数存则为间数逻</p>
+</li>
+</ul>
+<h3 id="20-下列关于栈的描述中错误的是-。"><a href="#20-下列关于栈的描述中错误的是-。" class="headerlink" title="20.下列关于栈的描述中错误的是__。"></a>20.下列关于栈的描述中错误的是<strong>__</strong>。</h3><ul>
+<li><p>栈只能顺序存储（错误），只是一般情况下用得比较多的是顺序存储</p>
+</li>
+<li><p>栈具有记忆作用；对栈的插入与删除操作中，不需要改变栈底指针</p>
+</li>
+<li>栈是一种特殊的线性表，这种线性表只能在固定的一端进行插入和删除操作，允许插入和删除的一端称为栈顶，另一端称为栈底。一个新元素只能从栈顶一端进入，删除时，只能删除栈顶的元素，即刚刚被插入的元素。所以栈又称先进后出表（FILO-First In Last Out）。线性表可以顺序存储，也可以链式存储，而栈是一种线性表，也可以采用链式存储结构。</li>
+</ul>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/01/08/Java简答题/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1831,6 +1831,326 @@ sp（与刻度无关的像素）：与dp类似，但是可以根据用户的字�
 <li>:自动提升类型int，编译器会强报错；增加运算特处理</li>
 </ul>
 <h3 id="题7：OK-char里面存储的本质是：数字；然后每个数字代表Unicode编码字符集中的一个字符，Unicode字符集包含了中文汉字，当然可以存储一个中文汉字"><a href="#题7：OK-char里面存储的本质是：数字；然后每个数字代表Unicode编码字符集中的一个字符，Unicode字符集包含了中文汉字，当然可以存储一个中文汉字" class="headerlink" title="题7：OK:char里面存储的本质是：数字；然后每个数字代表Unicode编码字符集中的一个字符，Unicode字符集包含了中文汉字，当然可以存储一个中文汉字"></a>题7：OK:char里面存储的本质是：数字；然后每个数字代表Unicode编码字符集中的一个字符，Unicode字符集包含了中文汉字，当然可以存储一个中文汉字</h3><h3 id="题8：OK-左移3位，CPU支持位运算，效率最高"><a href="#题8：OK-左移3位，CPU支持位运算，效率最高" class="headerlink" title="题8：OK:左移3位，CPU支持位运算，效率最高"></a>题8：OK:左移3位，CPU支持位运算，效率最高</h3><h3 id="题9：OK：默写一下代码"><a href="#题9：OK：默写一下代码" class="headerlink" title="题9：OK：默写一下代码"></a>题9：OK：默写一下代码</h3><h3 id="题10：OK：分类讨论，是引用不能变，所指向的对象的内容可以变：例如-final-Student-student1-new-Student-“xiaoming”"><a href="#题10：OK：分类讨论，是引用不能变，所指向的对象的内容可以变：例如-final-Student-student1-new-Student-“xiaoming”" class="headerlink" title="题10：OK：分类讨论，是引用不能变，所指向的对象的内容可以变：例如 final Student student1=new Student(“xiaoming”);"></a>题10：OK：分类讨论，是引用不能变，所指向的对象的内容可以变：例如 final Student student1=new Student(“xiaoming”);</h3><h3 id="题11：Ok-比较的是两个变量的值是否相等，如果比较的变量是基本数据类型，则直接比较，如果是引用类型，则比较的是两个对象的首地址，这时候涉及到两块内存，……equals方法涉及的就是重不重写的问题，如果重写，例如String的equals-比较的就是两个字符串的内容是否相同，即对象内容是否相同；如果不重写，继承的就是Object类的equals方法，跟-操作符一样，比较的就是两个对象的首地址是否相同"><a href="#题11：Ok-比较的是两个变量的值是否相等，如果比较的变量是基本数据类型，则直接比较，如果是引用类型，则比较的是两个对象的首地址，这时候涉及到两块内存，……equals方法涉及的就是重不重写的问题，如果重写，例如String的equals-比较的就是两个字符串的内容是否相同，即对象内容是否相同；如果不重写，继承的就是Object类的equals方法，跟-操作符一样，比较的就是两个对象的首地址是否相同" class="headerlink" title="题11：Ok:==比较的是两个变量的值是否相等，如果比较的变量是基本数据类型，则直接比较，如果是引用类型，则比较的是两个对象的首地址，这时候涉及到两块内存，……equals方法涉及的就是重不重写的问题，如果重写，例如String的equals,比较的就是两个字符串的内容是否相同，即对象内容是否相同；如果不重写，继承的就是Object类的equals方法，跟==操作符一样，比较的就是两个对象的首地址是否相同"></a>题11：Ok:==比较的是两个变量的值是否相等，如果比较的变量是基本数据类型，则直接比较，如果是引用类型，则比较的是两个对象的首地址，这时候涉及到两块内存，……equals方法涉及的就是重不重写的问题，如果重写，例如String的equals,比较的就是两个字符串的内容是否相同，即对象内容是否相同；如果不重写，继承的就是Object类的equals方法，跟==操作符一样，比较的就是两个对象的首地址是否相同</h3><h3 id="题12：OK-实例变量必须创建对象后才能通过这个对象来使用，因为实例变量是属于某个对象的属性，只有创建对象才能分配内存空间，才能使用这个实例变量；静态变量是依赖类而创建的，不依赖对象，直接分配空间，用类名就可以直接调用-举例子"><a href="#题12：OK-实例变量必须创建对象后才能通过这个对象来使用，因为实例变量是属于某个对象的属性，只有创建对象才能分配内存空间，才能使用这个实例变量；静态变量是依赖类而创建的，不依赖对象，直接分配空间，用类名就可以直接调用-举例子" class="headerlink" title="题12：OK:实例变量必须创建对象后才能通过这个对象来使用，因为实例变量是属于某个对象的属性，只有创建对象才能分配内存空间，才能使用这个实例变量；静态变量是依赖类而创建的，不依赖对象，直接分配空间，用类名就可以直接调用+举例子"></a>题12：OK:实例变量必须创建对象后才能通过这个对象来使用，因为实例变量是属于某个对象的属性，只有创建对象才能分配内存空间，才能使用这个实例变量；静态变量是依赖类而创建的，不依赖对象，直接分配空间，用类名就可以直接调用+举例子</h3><h3 id="题13：OK"><a href="#题13：OK" class="headerlink" title="题13：OK"></a>题13：OK</h3><h3 id="题14：OK：答区别的时候，先分别回答分别是什么，然后再答彼此间的联系，-举例"><a href="#题14：OK：答区别的时候，先分别回答分别是什么，然后再答彼此间的联系，-举例" class="headerlink" title="题14：OK：答区别的时候，先分别回答分别是什么，然后再答彼此间的联系，+举例"></a>题14：OK：答区别的时候，先分别回答分别是什么，然后再答彼此间的联系，+举例</h3><h3 id="题15：OK-Math里有三个跟取整有关系的API：ceil向上取整，floor向下取整，round是四舍五入，-0-5向下取整"><a href="#题15：OK-Math里有三个跟取整有关系的API：ceil向上取整，floor向下取整，round是四舍五入，-0-5向下取整" class="headerlink" title="题15：OK:Math里有三个跟取整有关系的API：ceil向上取整，floor向下取整，round是四舍五入，+0.5向下取整"></a>题15：OK:Math里有三个跟取整有关系的API：ceil向上取整，floor向下取整，round是四舍五入，+0.5向下取整</h3><h3 id="题16：小问题"><a href="#题16：小问题" class="headerlink" title="题16：小问题"></a>题16：小问题</h3><h3 id="题17：OK-4321"><a href="#题17：OK-4321" class="headerlink" title="题17：OK:4321"></a>题17：OK:4321</h3><h3 id="题18：OK：重写只能改方法体，权限修饰符，小异常；父类private的方法重写不了；重载的注意点是不能通过访问权限，修饰符，抛异常来重载"><a href="#题18：OK：重写只能改方法体，权限修饰符，小异常；父类private的方法重写不了；重载的注意点是不能通过访问权限，修饰符，抛异常来重载" class="headerlink" title="题18：OK：重写只能改方法体，权限修饰符，小异常；父类private的方法重写不了；重载的注意点是不能通过访问权限，修饰符，抛异常来重载"></a>题18：OK：重写只能改方法体，权限修饰符，小异常；父类private的方法重写不了；重载的注意点是不能通过访问权限，修饰符，抛异常来重载</h3><h3 id="题19：OK-不可重写，但可重载，因为不可继承"><a href="#题19：OK-不可重写，但可重载，因为不可继承" class="headerlink" title="题19：OK:不可重写，但可重载，因为不可继承"></a>题19：OK:不可重写，但可重载，因为不可继承</h3><h3 id="题20：OK：抽象类与普通类的唯一区别就是不能创建对象和允许有abstract方法，其他的继承与接口功能都一样可以实现，可以使用匿名内部类或者子类来重写抽象方法创建实例，就算可以实例化，没有方法体，也没有意义！！！"><a href="#题20：OK：抽象类与普通类的唯一区别就是不能创建对象和允许有abstract方法，其他的继承与接口功能都一样可以实现，可以使用匿名内部类或者子类来重写抽象方法创建实例，就算可以实例化，没有方法体，也没有意义！！！" class="headerlink" title="题20：OK：抽象类与普通类的唯一区别就是不能创建对象和允许有abstract方法，其他的继承与接口功能都一样可以实现，可以使用匿名内部类或者子类来重写抽象方法创建实例，就算可以实例化，没有方法体，也没有意义！！！"></a>题20：OK：抽象类与普通类的唯一区别就是不能创建对象和允许有abstract方法，其他的继承与接口功能都一样可以实现，可以使用匿名内部类或者子类来重写抽象方法创建实例，就算可以实例化，没有方法体，也没有意义！！！</h3><h3 id="题21：OK：super-clone-先复制父类的成员，再复制到自己？？？"><a href="#题21：OK：super-clone-先复制父类的成员，再复制到自己？？？" class="headerlink" title="题21：OK：super.clone();先复制父类的成员，再复制到自己？？？"></a>题21：OK：super.clone();先复制父类的成员，再复制到自己？？？</h3><h3 id="题22：OK：封装（模块化思想，降低耦合性，防止程序相互依赖而带来的变动影响）-继承（提高代码的复用性和编码效率）-多态"><a href="#题22：OK：封装（模块化思想，降低耦合性，防止程序相互依赖而带来的变动影响）-继承（提高代码的复用性和编码效率）-多态" class="headerlink" title="题22：OK：封装（模块化思想，降低耦合性，防止程序相互依赖而带来的变动影响）+继承（提高代码的复用性和编码效率）+多态"></a>题22：OK：封装（模块化思想，降低耦合性，防止程序相互依赖而带来的变动影响）+继承（提高代码的复用性和编码效率）+多态</h3><h3 id="题23：OK-父类或者接口定义的引用变量可以指向子类或者具体实现类的实例对象，而程序调用的方法在运行时才动态绑定：例如-Person-p-new-Student-“小明”-；-p-getName-调用的就是Student的getName-方法，很多时候可以减少形参类型而增加的方法数量"><a href="#题23：OK-父类或者接口定义的引用变量可以指向子类或者具体实现类的实例对象，而程序调用的方法在运行时才动态绑定：例如-Person-p-new-Student-“小明”-；-p-getName-调用的就是Student的getName-方法，很多时候可以减少形参类型而增加的方法数量" class="headerlink" title="题23：OK:父类或者接口定义的引用变量可以指向子类或者具体实现类的实例对象，而程序调用的方法在运行时才动态绑定：例如 Person p=new Student(“小明”)； p.getName();调用的就是Student的getName()方法，很多时候可以减少形参类型而增加的方法数量"></a>题23：OK:父类或者接口定义的引用变量可以指向子类或者具体实现类的实例对象，而程序调用的方法在运行时才动态绑定：例如 Person p=new Student(“小明”)； p.getName();调用的就是Student的getName()方法，很多时候可以减少形参类型而增加的方法数量</h3><h3 id="题24：OK：抽象类的最大应用就是：抽象基类，子类各自重写其他abstract方法完成自己的业务，相同的业务用final方法来修饰即可，可以大大提高代码的复用性（抽象类的构造器是为了留着去初始化其他的变量）"><a href="#题24：OK：抽象类的最大应用就是：抽象基类，子类各自重写其他abstract方法完成自己的业务，相同的业务用final方法来修饰即可，可以大大提高代码的复用性（抽象类的构造器是为了留着去初始化其他的变量）" class="headerlink" title="题24：OK：抽象类的最大应用就是：抽象基类，子类各自重写其他abstract方法完成自己的业务，相同的业务用final方法来修饰即可，可以大大提高代码的复用性（抽象类的构造器是为了留着去初始化其他的变量）"></a>题24：OK：抽象类的最大应用就是：抽象基类，子类各自重写其他abstract方法完成自己的业务，相同的业务用final方法来修饰即可，可以大大提高代码的复用性（抽象类的构造器是为了留着去初始化其他的变量）</h3><h3 id="题25：OK：static-因为一个abstract方法没有方法体。静态方法需要对方法体执行内容分配空间，所以不能同static共存；native-是把方法移交给本地操作系统，而abstract是移交给子类实现，相互矛盾"><a href="#题25：OK：static-因为一个abstract方法没有方法体。静态方法需要对方法体执行内容分配空间，所以不能同static共存；native-是把方法移交给本地操作系统，而abstract是移交给子类实现，相互矛盾" class="headerlink" title="题25：OK：static:因为一个abstract方法没有方法体。静态方法需要对方法体执行内容分配空间，所以不能同static共存；native:是把方法移交给本地操作系统，而abstract是移交给子类实现，相互矛盾"></a>题25：OK：static:因为一个abstract方法没有方法体。静态方法需要对方法体执行内容分配空间，所以不能同static共存；native:是把方法移交给本地操作系统，而abstract是移交给子类实现，相互矛盾</h3><h3 id="题26：OK：匿名-不给出具体的子类或实现类的名称，只有对象实体；内部类特点：可以在两个地方定义，可以访问外部类的成员变量，不能定义静态成员：成员内部类，局部内部类，静态内部类，匿名内部类（不能加修饰符）"><a href="#题26：OK：匿名-不给出具体的子类或实现类的名称，只有对象实体；内部类特点：可以在两个地方定义，可以访问外部类的成员变量，不能定义静态成员：成员内部类，局部内部类，静态内部类，匿名内部类（不能加修饰符）" class="headerlink" title="题26：OK：匿名==不给出具体的子类或实现类的名称，只有对象实体；内部类特点：可以在两个地方定义，可以访问外部类的成员变量，不能定义静态成员：成员内部类，局部内部类，静态内部类，匿名内部类（不能加修饰符）"></a>题26：OK：匿名==不给出具体的子类或实现类的名称，只有对象实体；内部类特点：可以在两个地方定义，可以访问外部类的成员变量，不能定义静态成员：成员内部类，局部内部类，静态内部类，匿名内部类（不能加修饰符）</h3><h3 id="题27：OK：除了静态内部类比较特殊，只能访问外部类的静态变量，其他的内部类都能访问外部类的成员变量（引用-调用）"><a href="#题27：OK：除了静态内部类比较特殊，只能访问外部类的静态变量，其他的内部类都能访问外部类的成员变量（引用-调用）" class="headerlink" title="题27：OK：除了静态内部类比较特殊，只能访问外部类的静态变量，其他的内部类都能访问外部类的成员变量（引用==调用）"></a>题27：OK：除了静态内部类比较特殊，只能访问外部类的静态变量，其他的内部类都能访问外部类的成员变量（引用==调用）</h3><h3 id="题28：OK-匿名内部类必须继承其他类或实现接口（new-Thread-…-继承的就是Thread，匿名-真正的子类名没给出来）"><a href="#题28：OK-匿名内部类必须继承其他类或实现接口（new-Thread-…-继承的就是Thread，匿名-真正的子类名没给出来）" class="headerlink" title="题28：OK:匿名内部类必须继承其他类或实现接口（new Thread(){…..},继承的就是Thread，匿名==真正的子类名没给出来）"></a>题28：OK:匿名内部类必须继承其他类或实现接口（new Thread(){…..},继承的就是Thread，匿名==真正的子类名没给出来）</h3><h3 id="题29-OK：super-getClass-getClass-所以答案当然是Test"><a href="#题29-OK：super-getClass-getClass-所以答案当然是Test" class="headerlink" title="题29.OK：super.getClass()==getClass():所以答案当然是Test"></a>题29.OK：super.getClass()==getClass():所以答案当然是Test</h3><h3 id="题30-OK"><a href="#题30-OK" class="headerlink" title="题30.OK"></a>题30.OK</h3><h3 id="题31-OK-画图就非常的清晰"><a href="#题31-OK-画图就非常的清晰" class="headerlink" title="题31.OK:画图就非常的清晰"></a>题31.OK:画图就非常的清晰</h3><h3 id="题32-OK"><a href="#题32-OK" class="headerlink" title="题32.OK"></a>题32.OK</h3><h3 id="题33-OK-一个或者两个？”xy”本身也算一个对象？"><a href="#题33-OK-一个或者两个？”xy”本身也算一个对象？" class="headerlink" title="题33.OK:一个或者两个？”xy”本身也算一个对象？"></a>题33.OK:一个或者两个？”xy”本身也算一个对象？</h3><h3 id="题34：OK-一个可变，一个不可变，然后String重写了equals-和hashCode-方法"><a href="#题34：OK-一个可变，一个不可变，然后String重写了equals-和hashCode-方法" class="headerlink" title="题34：OK:一个可变，一个不可变，然后String重写了equals()和hashCode()方法"></a>题34：OK:一个可变，一个不可变，然后String重写了equals()和hashCode()方法</h3><h3 id="题35-OK-String-result-s-split-“-”"><a href="#题35-OK-String-result-s-split-“-”" class="headerlink" title="题35.OK: String[] result=s.split(“,”);"></a>题35.OK: String[] result=s.split(“,”);</h3><h3 id="题36-OK：String-length-数组-length属性；集合：size（）方法"><a href="#题36-OK：String-length-数组-length属性；集合：size（）方法" class="headerlink" title="题36.OK：String:length();数组[]:length属性；集合：size（）方法"></a>题36.OK：String:length();数组[]:length属性；集合：size（）方法</h3><h3 id="题37-OK-String常量常量常量运算处理之前可以在编译时就自动合并，只创建一个对象"><a href="#题37-OK-String常量常量常量运算处理之前可以在编译时就自动合并，只创建一个对象" class="headerlink" title="题37.OK:String常量常量常量运算处理之前可以在编译时就自动合并，只创建一个对象"></a>题37.OK:String常量常量常量运算处理之前可以在编译时就自动合并，只创建一个对象</h3><h3 id="题38-OK"><a href="#题38-OK" class="headerlink" title="题38.OK:"></a>题38.OK:</h3><h3 id="题39-OK-finally中的代码比return和break语句后执行"><a href="#题39-OK-finally中的代码比return和break语句后执行" class="headerlink" title="题39.OK:finally中的代码比return和break语句后执行"></a>题39.OK:finally中的代码比return和break语句后执行</h3><h3 id="题40-OK"><a href="#题40-OK" class="headerlink" title="题40.OK"></a>题40.OK</h3><h3 id="题41：运行时异常就是程序运行过程中可能出现的非正常状态，例如：空指针引用异常，类型强制转换异常，算术运算异常，数组下标越界异常，不必强制try-catch或throws声明-编译时异常：IO异常，文件未找到异常-要try-catch捕获或throws声明"><a href="#题41：运行时异常就是程序运行过程中可能出现的非正常状态，例如：空指针引用异常，类型强制转换异常，算术运算异常，数组下标越界异常，不必强制try-catch或throws声明-编译时异常：IO异常，文件未找到异常-要try-catch捕获或throws声明" class="headerlink" title="题41：运行时异常就是程序运行过程中可能出现的非正常状态，例如：空指针引用异常，类型强制转换异常，算术运算异常，数组下标越界异常，不必强制try catch或throws声明;编译时异常：IO异常，文件未找到异常,要try catch捕获或throws声明"></a>题41：运行时异常就是程序运行过程中可能出现的非正常状态，例如：空指针引用异常，类型强制转换异常，算术运算异常，数组下标越界异常，不必强制try catch或throws声明;编译时异常：IO异常，文件未找到异常,要try catch捕获或throws声明</h3><h3 id="题42：OK-Throwable类是所有异常或错误的父类，它有两个子类：Error和Exception，分别表示错误和异常。其中异常Exception分为运行时异常-RuntimeException-和编译时异常，可以通过抛出异常，捕获异常对象，让程序来解决异常问题；但是error一般指的是JVM出现的严重问题，例如内存溢出，系统奔溃，程序无法自己处理错误，必须人为去修改有问题的代码；"><a href="#题42：OK-Throwable类是所有异常或错误的父类，它有两个子类：Error和Exception，分别表示错误和异常。其中异常Exception分为运行时异常-RuntimeException-和编译时异常，可以通过抛出异常，捕获异常对象，让程序来解决异常问题；但是error一般指的是JVM出现的严重问题，例如内存溢出，系统奔溃，程序无法自己处理错误，必须人为去修改有问题的代码；" class="headerlink" title="题42：OK:Throwable类是所有异常或错误的父类，它有两个子类：Error和Exception，分别表示错误和异常。其中异常Exception分为运行时异常(RuntimeException)和编译时异常，可以通过抛出异常，捕获异常对象，让程序来解决异常问题；但是error一般指的是JVM出现的严重问题，例如内存溢出，系统奔溃，程序无法自己处理错误，必须人为去修改有问题的代码；"></a>题42：OK:Throwable类是所有异常或错误的父类，它有两个子类：Error和Exception，分别表示错误和异常。其中异常Exception分为运行时异常(RuntimeException)和编译时异常，可以通过抛出异常，捕获异常对象，让程序来解决异常问题；但是error一般指的是JVM出现的严重问题，例如内存溢出，系统奔溃，程序无法自己处理错误，必须人为去修改有问题的代码；</h3><h3 id="题43：OK：Throwable-error-exception-分别有哪些，如何处理"><a href="#题43：OK：Throwable-error-exception-分别有哪些，如何处理" class="headerlink" title="题43：OK：Throwable,error,exception,分别有哪些，如何处理"></a>题43：OK：Throwable,error,exception,分别有哪些，如何处理</h3><h3 id="题44：OK-针引用异常，类型强制转换异常，算术运算异常，数组下标越界异常"><a href="#题44：OK-针引用异常，类型强制转换异常，算术运算异常，数组下标越界异常" class="headerlink" title="题44：OK:针引用异常，类型强制转换异常，算术运算异常，数组下标越界异常"></a>题44：OK:针引用异常，类型强制转换异常，算术运算异常，数组下标越界异常</h3><h3 id="题45：throw-用在方法体内；throws用在方法声明处"><a href="#题45：throw-用在方法体内；throws用在方法声明处" class="headerlink" title="题45：throw:用在方法体内；throws用在方法声明处"></a>题45：throw:用在方法体内；throws用在方法声明处</h3><h3 id="GET-POST"><a href="#GET-POST" class="headerlink" title="GET.POST"></a>GET.POST</h3>
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/01/01/Android简答题/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="FeishengQiu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="FeishengQiu">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/01/01/Android简答题/" itemprop="url">Android简答题</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-01T00:30:35+08:00">
+                2018-01-01
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="Android一阶"><a href="#Android一阶" class="headerlink" title="Android一阶"></a>Android一阶</h2><h3 id="1-请简要介绍Android的四大组件（定义是什么，功能是什么）-Android中Activity-Intent-Content-Provider-Service各有什么区别-说出他们各自的定义和功能即可"><a href="#1-请简要介绍Android的四大组件（定义是什么，功能是什么）-Android中Activity-Intent-Content-Provider-Service各有什么区别-说出他们各自的定义和功能即可" class="headerlink" title="1.请简要介绍Android的四大组件（定义是什么，功能是什么）/Android中Activity, Intent, Content Provider, Service各有什么区别(说出他们各自的定义和功能即可)"></a>1.请简要介绍Android的四大组件（定义是什么，功能是什么）/Android中Activity, Intent, Content Provider, Service各有什么区别(说出他们各自的定义和功能即可)</h3><ul>
+<li>Activity：一种可以包含用户界面的组件，主要和用户进行交互</li>
+<li>Service: 一种可以在后台执行长时间运行操作而没有用户界面的应用组件</li>
+<li>Broadcast Receive:可以在应用程序之间传输信息，通过发送Intent来传送我们的目标数据</li>
+<li>Content Provider:内容提供者，它是用在不同的应用程序之间共享数据时，可以把一个应用的数据提供给其他的应用使用。</li>
+<li><p>(常 见 的 Activity 类 型 有 FragmentActivitiy ， ListActivity ，TabAcitivty 等)</p>
+</li>
+<li><p>ASBC</p>
+<h3 id="2-描述一下Activity的生命周期"><a href="#2-描述一下Activity的生命周期" class="headerlink" title="2.描述一下Activity的生命周期"></a>2.描述一下Activity的生命周期</h3></li>
+<li><p>Activity的生命周期有4种状态</p>
+</li>
+<li>运行状态：活动处于返回栈的栈顶，完全可见</li>
+<li>暂停状态：活动不处于栈顶，但仍然可见，例如切换的活动B是一个对话框形式的活动，活动A不会被完全覆盖</li>
+<li>停止状态：活动不在栈顶，完全不可见</li>
+<li>销毁状态：活动从返回栈移除</li>
+<li>然后Activity的生命周期对应着7大回调方法： onCreate(),onStart(),onResume(),onPause(),onStop(),OnRestart(),onDestroy()</li>
+<li><p>(完整生存期，可见生存期，前台生存期)</p>
+</li>
+<li><p>运行暂停，停止销毁</p>
+</li>
+</ul>
+<h3 id="3-如何保存-Activity-的状态-内存不足时系统会杀掉后台的Activity，若需要进行一些临时状态的保存，在哪个方法进行？（内存不足、用户直接按Home键）"><a href="#3-如何保存-Activity-的状态-内存不足时系统会杀掉后台的Activity，若需要进行一些临时状态的保存，在哪个方法进行？（内存不足、用户直接按Home键）" class="headerlink" title="3.如何保存 Activity 的状态/内存不足时系统会杀掉后台的Activity，若需要进行一些临时状态的保存，在哪个方法进行？（内存不足、用户直接按Home键）"></a>3.如何保存 Activity 的状态/内存不足时系统会杀掉后台的Activity，若需要进行一些临时状态的保存，在哪个方法进行？（内存不足、用户直接按Home键）</h3><ul>
+<li><p>可以重写 onSaveInstanceState()这个方 法，onSaveInstanceState()方法接受一个 Bundle 类型的参数, 我们可以将状态数据存储到这个Bundle对象中，（键值对的形式）即使Activity被摧毁了，在onCreate方法重新被调用的时候，我们可以从savedInstanceState中取出保存的数据，恢复状态</p>
+</li>
+<li><p>：A存临态为 SI</p>
+</li>
+</ul>
+<h3 id="4-两个-Activity-之间跳转时必然会执行的是哪几个方法"><a href="#4-两个-Activity-之间跳转时必然会执行的是哪几个方法" class="headerlink" title="4.两个 Activity 之间跳转时必然会执行的是哪几个方法"></a>4.两个 Activity 之间跳转时必然会执行的是哪几个方法</h3><ul>
+<li><p>例如活动 A跳转到 活动 B，首先活动A会调用onPause()方法，然后B调用onCreate()，onStart(),onResume();如果活动B完全覆盖了窗体，A完全不可见，就会调用onStop（）方法，如果B没有完全覆盖，例如是一个对话框形式的活动，A就不会调用onStop()方法，根据情况而定</p>
+</li>
+<li><p>：A转B，C四，R四</p>
+</li>
+</ul>
+<h3 id="5-横竖屏切换时-Activity-的生命周期"><a href="#5-横竖屏切换时-Activity-的生命周期" class="headerlink" title="5.横竖屏切换时 Activity 的生命周期"></a>5.横竖屏切换时 Activity 的生命周期</h3><ul>
+<li><p>不设置 Activity 的 android:configChanges 时，切屏默认首先销毁当前Activity，然后重新加载，回调各个生命周期方法；设置 Activity android:configChanges=”orientation|keyboardHiddenscreenSize”时，切屏不会重新调用各个生命周期，只会执行 onConfigurationChanged 方法。</p>
+</li>
+<li><p>横竖屏切配config，orikeyboardHiscree</p>
+</li>
+</ul>
+<h3 id="6-如何将一个-Activity-设置成窗口的样式"><a href="#6-如何将一个-Activity-设置成窗口的样式" class="headerlink" title="6.如何将一个 Activity 设置成窗口的样式"></a>6.如何将一个 Activity 设置成窗口的样式</h3><ul>
+<li><p>只需要给我们的 Activity 配置如下属性即可，android:theme=”@android:style/Theme.Dialog”</p>
+</li>
+<li><p>:窗口Them呆儿</p>
+</li>
+</ul>
+<h3 id="7-如-何-退-出-Activity-？-如-何-安-全-退-出-已-调-用-多-个-Activity-的Application？"><a href="#7-如-何-退-出-Activity-？-如-何-安-全-退-出-已-调-用-多-个-Activity-的Application？" class="headerlink" title="7.如 何 退 出 Activity ？ 如 何 安 全 退 出 已 调 用 多 个 Activity 的Application？"></a>7.如 何 退 出 Activity ？ 如 何 安 全 退 出 已 调 用 多 个 Activity 的Application？</h3><ul>
+<li>1.首先最简单的当然是直接调用finish（）方法，back键</li>
+<li>2.记录打开的Activity:我们可以创建一个ActivityCollector的类，然后里面创建一个Activity的集合，然后把所有的Activity添加进去，再写一个总的finishAll()方法，里面是一个for循环来finish所有的Activity</li>
+<li>3.发送特定广播：在需要结束应用时，发送一个特定的广播，每个 Activity 收到广播后，调用finish（）方法，关闭活动即可</li>
+</ul>
+<h3 id="8-Activity的启动模式有？-Activity-的四种启动模式，singletop-和-singletask-区别是什么？-介绍Activity的几中启动模式，并简单说说自己的理解或者使用场景"><a href="#8-Activity的启动模式有？-Activity-的四种启动模式，singletop-和-singletask-区别是什么？-介绍Activity的几中启动模式，并简单说说自己的理解或者使用场景" class="headerlink" title="8.Activity的启动模式有？/Activity 的四种启动模式，singletop 和 singletask 区别是什么？/介绍Activity的几中启动模式，并简单说说自己的理解或者使用场景"></a>8.Activity的启动模式有？/Activity 的四种启动模式，singletop 和 singletask 区别是什么？/介绍Activity的几中启动模式，并简单说说自己的理解或者使用场景</h3><ul>
+<li>standard：默认模式，在这个模式下，都会默认创建一个新的实例，因此可以有多个相同的实例，也允许多个相同Activity叠加。</li>
+<li>singleTop：如果Activity在栈顶的时候，启动相同的Activity，不会创建新的实例，而会调用onNewIntent方法</li>
+<li>singleTask：只有一个实例。在同一个应用程序中启动他的时候，若Activity不存在，则会在当前task创建一个新的实例，若存在，则会把task中在其之上的其它Activity destory掉并调用它的onNewIntent方法。（主页的Activity很常用）</li>
+<li>singleInstance：只有一个实例，并且这个实例独立运行在一个task中，这个task只有这个实例，不允许有别的Activity存在。</li>
+</ul>
+<h3 id="9-Android-中的-Context-Activity，Appliction-有什么区别"><a href="#9-Android-中的-Context-Activity，Appliction-有什么区别" class="headerlink" title="9.Android 中的 Context, Activity，Appliction 有什么区别"></a>9.Android 中的 Context, Activity，Appliction 有什么区别</h3><ul>
+<li>Activity 和 Application 都是 Context 的子类；</li>
+<li>Context是一个抽象类，从字面上理解就是上下文的意思，在实际应用中它也确实是起到了管理上下文环境中各个参数和变量的作用，方便我们可以简单的访问到各种资源。具体实现类是（ContextIml）</li>
+<li>不同：维护的生命周期不同。 Context 维护的是当前的 Activity 的生命周期，Application 维护<br>的是整个应用程序的生命周期。</li>
+<li>（使用 context 的时候，小心内存泄露，防止内存泄露，注意一下几个方面；不要让生命周期长的对象引用 activity context，即保证引用 activity 的对象要与 activity 本身生命周期是一样的；对于生命周期长的对象，可以使用 application，context）</li>
+</ul>
+<h3 id="10-两个-Activity-之间传递数据，除了-intent，广播接收者，contentprovider-还有啥？"><a href="#10-两个-Activity-之间传递数据，除了-intent，广播接收者，contentprovider-还有啥？" class="headerlink" title="10.两个 Activity 之间传递数据，除了 intent，广播接收者，contentprovider 还有啥？"></a>10.两个 Activity 之间传递数据，除了 intent，广播接收者，contentprovider 还有啥？</h3><ul>
+<li>利用 static 静态数据，public static 成员变量</li>
+<li>外部存储：File 文件存储；SharedPreferences ；Sqlite 数据库</li>
+</ul>
+<h3 id="11-你知道onNewIntent吗"><a href="#11-你知道onNewIntent吗" class="headerlink" title="11.*你知道onNewIntent吗"></a>11.*你知道onNewIntent吗</h3><ul>
+<li>活动B是之前打开过的Activity，现在处于onPause、onStop 状态的话，其他应用再发送Intent的话，执行顺序为：onNewIntent，onRestart，onStart，onResume。</li>
+</ul>
+<h3 id="12-除了用Intent-去启动一个Activity，还有其他方法吗"><a href="#12-除了用Intent-去启动一个Activity，还有其他方法吗" class="headerlink" title="12.*除了用Intent 去启动一个Activity，还有其他方法吗"></a>12.*除了用Intent 去启动一个Activity，还有其他方法吗</h3><ul>
+<li>使用adb shell am 命令启动一个activity；am发送一个广播，使用action</li>
+</ul>
+<h3 id="13-Service-Service-是否在-main-thread-中执行-service-里面是否能执行耗时的操作"><a href="#13-Service-Service-是否在-main-thread-中执行-service-里面是否能执行耗时的操作" class="headerlink" title="13.Service:Service 是否在 main thread 中执行, service 里面是否能执行耗时的操作?"></a>13.Service:Service 是否在 main thread 中执行, service 里面是否能执行耗时的操作?</h3><ul>
+<li>Service 和 activity 是运行在当前应用程序所在进程的 main thread(UI 主线程)里面。</li>
+<li>service 里面不能执行耗时的操作(网络请求,拷贝数据库,大文件 )</li>
+<li>特殊情况下可以去AndroidManifest里面去配置它的进程</li>
+</ul>
+<h3 id="14-Activity-怎么和-Service-绑定，怎么在-Activity-中启动自己对应的Service？"><a href="#14-Activity-怎么和-Service-绑定，怎么在-Activity-中启动自己对应的Service？" class="headerlink" title="14.Activity 怎么和 Service 绑定，怎么在 Activity 中启动自己对应的Service？"></a>14.Activity 怎么和 Service 绑定，怎么在 Activity 中启动自己对应的Service？</h3><ul>
+<li>Activity 通过 bindService(Intent service, ServiceConnection conn, BIND_AUTO_CREATE)跟 Service 进行绑定，当绑定成功的时候 （Service 会将代理对象通过回调的形式传给 conn，这样我们就拿到了Service 提供的服务代理对象。）绑定成功的话就会回调onServiceConnected这个方法</li>
+<li>般情况下如果想获取Service 的服务对象那么肯定需要通过 bindService（）方法；如果仅仅只是为了开启一个后台任务那么可以使用 startService（）方法。</li>
+</ul>
+<h3 id="15-比较两种开启服务的区别"><a href="#15-比较两种开启服务的区别" class="headerlink" title="15.比较两种开启服务的区别"></a>15.比较两种开启服务的区别</h3><ul>
+<li>startService:如果服务已经开启，不会重复的执行onCreate(), 而是会调用onStartCommand()。服务停止的时候调用 onDestory()。一旦服务开启跟调用者(开启者)就没有任何关系了。Activity退出了，销毁了，服务还在后台长期的运行。而且Activity不能调用服务里面的方法。</li>
+<li>bind的方式开启服务，绑定服务，调用者挂了，服务也会跟着挂掉。绑定者可以调用服务里面的方法</li>
+</ul>
+<h3 id="16-请描述一下-Service-的生命周期"><a href="#16-请描述一下-Service-的生命周期" class="headerlink" title="16.请描述一下 Service 的生命周期"></a>16.请描述一下 Service 的生命周期</h3><ul>
+<li>非 绑 定 模 式 ： 当 第 一 次 调 用 startService 的 时 候 执 行 的 方 法 依 次 为 onCreate() 、onStartCommand()，当 Service 关闭的时候调用 onDestory 方法。</li>
+<li>第一次 bindService（）的时候，执行的方法为 onCreate()、onBind(）解除绑定的时候会执行 onUnbind()、onDestory()。</li>
+<li>我们在开发的过程中还必须注意 Service 实例只会有一个，也就是说如果当前要启动的 Service 已经存在了那么就不会再次创建该 Service 当然也不会调用 onCreate（）方法。一个 Service 可以被多个客户进行绑定，只有所有的绑定对象都执行了 onUnBind（）方法后该Service 才会销毁</li>
+</ul>
+<h3 id="17-什么是-IntentService？有何优点？"><a href="#17-什么是-IntentService？有何优点？" class="headerlink" title="17.什么是 IntentService？有何优点？"></a>17.什么是 IntentService？有何优点？</h3><ul>
+<li>因为Service是运行在主线程的，所以当我们需要在Service里面执行一些耗时的操作，我们就必须要开启线程，在onStartCommand()回调方法里开启线程和重写run方法.start;然后还需要在里面加stopSelf()让服务执行完毕后自动停止（所以总共2步）</li>
+<li>为了更加方便的开启线程和自动停止服务，我们就可以使用IntentService；创建独立的 worker 线程来处理所有的 Intent 请求和onHandleIntent()方法实现的代码；我们只要重写onHandleIntent()方法即可，执行完毕后会自动停止服务（没看过源码，但是有用打印日志的方式验证了一下线程不一样，执行完毕后就自动停止服务，无需调用 stopSelf()方法停止 Service），可以避免ANR问题，又方便开线程和自动停止服务</li>
+</ul>
+<h3 id="18-说说-Activity、Intent、Service-是什么关系"><a href="#18-说说-Activity、Intent、Service-是什么关系" class="headerlink" title="18.说说 Activity、Intent、Service 是什么关系"></a>18.说说 Activity、Intent、Service 是什么关系</h3><ul>
+<li>其中 Activity 和 Service 都是 Android 四大组件<br>之一。他俩都是 Context 类的子类 ContextWrapper 的子类，因此他俩可以算是兄弟关系吧。不过<br>兄弟俩各有各自的本领，Activity 负责用户界面的显示和交互，Service 负责后台任务的处理。Activity<br>和 Service 之间可以通过 Intent 传递数据，因此可以把 Intent 看作是通信使者。</li>
+</ul>
+<h3 id="19-Service-里面可以弹吐司么"><a href="#19-Service-里面可以弹吐司么" class="headerlink" title="19.Service 里面可以弹吐司么"></a>19.Service 里面可以弹吐司么</h3><ul>
+<li>可以的。弹吐司有个条件就是得有一个 Context 上下文，而 Service 本身就是 Context 的子类，因<br>此在 Service 里面弹吐司是完全可以的。比如我们在 Service 中完成下载任务后可以弹一个吐司通知<br>用户。</li>
+</ul>
+<h3 id="20-什么是-Service？为什么需要Service"><a href="#20-什么是-Service？为什么需要Service" class="headerlink" title="20.什么是 Service？为什么需要Service"></a>20.什么是 Service？为什么需要Service</h3><ul>
+<li>Service的出现可以理解为是Activity的补充，实现Activity实现不了的功能，即使应用关闭和切换应用B，应用A的Service还能继续运行，从而执行一些耗时，长期运行的后台任务，例如下载,播放音乐（我们打开应用B做别的操作）音乐播放、下载、上传大文件、定时关闭应用等功能。这些功能如果放到Activity中做的话，那Activity退出被销毁了的话，那这些功能也就停止了，这显然是不符合我们的设计要求的，所以要将他们放在Service中去执行。</li>
+</ul>
+<h3 id="21-在-service-的生命周期方法-onstartConmand-可不可以执行网络操作？如何在-service-中执行网络操作？"><a href="#21-在-service-的生命周期方法-onstartConmand-可不可以执行网络操作？如何在-service-中执行网络操作？" class="headerlink" title="21.在 service 的生命周期方法 onstartConmand()可不可以执行网络操作？如何在 service 中执行网络操作？"></a>21.在 service 的生命周期方法 onstartConmand()可不可以执行网络操作？如何在 service 中执行网络操作？</h3><ul>
+<li>可以直接在 Service 中执行网络操作,在 onStartCommand()方法中可以执行网络操作</li>
+<li>如果需要在服务中进行耗时操作，可以选择IntentService， IntentService是Service的子类，用来处理异步请求。</li>
+</ul>
+<h3 id="22-注册Service需要注意什么"><a href="#22-注册Service需要注意什么" class="headerlink" title="22.注册Service需要注意什么"></a>22.注册Service需要注意什么</h3><ul>
+<li>ervice还是运行在主线程当中的，所以如果需要执行一些复杂的逻辑操作，最好在服务的内部手动创建子线程进行处理，否则会出现UI线程被阻塞的问题，出现ANR的问题</li>
+</ul>
+<h3 id="23-Service与Activity怎么实现通信"><a href="#23-Service与Activity怎么实现通信" class="headerlink" title="23.Service与Activity怎么实现通信"></a>23.Service与Activity怎么实现通信</h3><ul>
+<li>service里面添加一个继承Binder的内部类，并添加相应的逻辑方法；重写Service的onBind方法，返回我们刚刚定义的那个内部类实例；重写onServiceConnection，onServiceConnected时调用逻辑方法 绑定服务</li>
+</ul>
+<h3 id="24-Broadcast-Receiver-请描述一下-BroadcastReceiver"><a href="#24-Broadcast-Receiver-请描述一下-BroadcastReceiver" class="headerlink" title="24.Broadcast Receiver:请描述一下 BroadcastReceiver"></a>24.Broadcast Receiver:请描述一下 BroadcastReceiver</h3><ul>
+<li>BroadCastReceiver 是 Android 四大组件之一，主要用于接收系统或者应用程序发送的广播事件</li>
+<li>广播分两种：标准广播和有序广播；标准异步执行，效率高，无法截断；有序同步执行，优先级高的广播可以先接收到，可以截断广播；</li>
+<li>在我们的项目中经常使用广播接收者接收系统通知，比如开机启动、sd 挂载、低电量、监听网络情况</li>
+</ul>
+<h3 id="25-在-manifest-和代码中如何静态注册和使用-BroadcastReceiver"><a href="#25-在-manifest-和代码中如何静态注册和使用-BroadcastReceiver" class="headerlink" title="25.在 manifest 和代码中如何静态注册和使用 BroadcastReceiver"></a>25.在 manifest 和代码中如何静态注册和使用 BroadcastReceiver</h3><ul>
+<li>在清单文件中注册广播接收者称为静态注册，在代码中注册称为动态注册。静态注册的广播接收者只要 app 在系统中运行则一直可以接收到广播消息，动态注册的广播接收者当注册的 Activity 或者 Service 销毁了那么就接收不到广播了。这就是静态注册和动态注册的区别</li>
+<li>静态注册的过程：在清单文件里的application标签内进行注册，AS自动生成&lt;receiver标签，然后在里面加入<intent-filter>标签，再嵌套一个目标广播的action值，例如开机是BOOT_COMPLETED,然后再加相对应的监听广播的权限</intent-filter></li>
+<li>动态注册的过程：新建一个类继承BroadcastReceiver,然后重写onReceive方法，然后在Activity里面创建这个类的实例，再调用registerReceiver（实例，intentFilter）就可以完成注册，不过记得要手动取消注册，调用unregisterReceiver（实例）方法，一般写在onDestroy方法里</li>
+</ul>
+<h3 id="26-BroadCastReceiver-的生命周期"><a href="#26-BroadCastReceiver-的生命周期" class="headerlink" title="26.BroadCastReceiver 的生命周期"></a>26.BroadCastReceiver 的生命周期</h3><ul>
+<li>广播接收者的生命周期非常短暂的，在接收到广播的时候创建，onReceive()方法结束之后销毁；</li>
+<li>广播接收者中不要做一些耗时的工作，否则会弹出 Application No Response 错误对话框；不能超过10秒</li>
+<li>最好也不要在广播接收者中创建子线程做耗时的工作，因为广播接收者被销毁后进程就成为了空进程，很容易被系统杀掉；（耗时的放在服务里比较好）</li>
+</ul>
+<h3 id="27-Android-引入广播机制的用意"><a href="#27-Android-引入广播机制的用意" class="headerlink" title="27.Android 引入广播机制的用意"></a>27.Android 引入广播机制的用意</h3><ul>
+<li>首先Android的四大组件之间，有时候是相互依存的关系，例如Activity绑定服务，有时候又是一种补充关系，Service我们可以理解为是对Activity的补充，引入广播机制可以方便四大组件的信息和数据交互。</li>
+<li>程序间互通消息(例如在自己的应用程序内监听系统的网络变换)</li>
+</ul>
+<h3 id="28-怎么发送广播"><a href="#28-怎么发送广播" class="headerlink" title="28.怎么发送广播"></a>28.怎么发送广播</h3><ul>
+<li>发送标准广播：Intent intent =new Intent(“自定义广播值/或者已存在的广播值”)；sendBroadcast(intent);</li>
+<li>发送有序广播：Intent intent =new Intent(“自定义广播值/或者已存在的广播值”)；sendOrderedBroadcast(intent);</li>
+<li>即：把广播值存储到intent中，然后调用sendBroadcast或者sendOrderedBroadcast</li>
+</ul>
+<h3 id="29-使用本地广播"><a href="#29-使用本地广播" class="headerlink" title="29.使用本地广播"></a>29.使用本地广播</h3><ul>
+<li>为了本程序携带关键性数据的广播不被其他程序获取，解决安全问题，我们将使用本地广播</li>
+<li>一样是新建一个类继承自BroadcastReceiver作为广播接收器才能接收广播（本质上是重写onReceive方法，执行接收到广播之后的逻辑），然后静态注册，清单文件里加入广播的action值即可</li>
+<li>再在Activity里面加一个LocalBroadcastManager的实例（LocalBroadcastManager.getInstance(this)）,用这个本地广播的实例来发送含有广播action值的intent即可；</li>
+<li>反正一个要send（intent(广播值)）,一个要接收，注册那个广播值，onReceiver来执行目标动作</li>
+</ul>
+<h3 id="30-请介绍下-ContentProvider-是如何实现数据共享的"><a href="#30-请介绍下-ContentProvider-是如何实现数据共享的" class="headerlink" title="30.请介绍下 ContentProvider 是如何实现数据共享的"></a>30.请介绍下 ContentProvider 是如何实现数据共享的</h3><ul>
+<li>在 Android 中如果想将自己应用的数据（一般多为数据库中的数据）提供给第三发应用，那么<br>我们可以通过 ContentProvider 来实现了。使用的时候首先自定义一个类继承ContentProvider，然后覆写 query、insert、update、delete 等方法。因为其是四大组件之一因此必须在 AndroidManifest 文件中进行注册。参数uri由两部分组成：authority,一般取包名；path：数据库的表来代替，然后Uri.parse成uri对象</li>
+<li>访问内容提供器的数据时：需要借助ContentResolver类，getContentResolver可以得到这个实例；然后调用query(),insert（）进行CRUD操作</li>
+</ul>
+<h3 id="31-为什么要用-ContentProvider？它和-sql-的实现上有什么差别？"><a href="#31-为什么要用-ContentProvider？它和-sql-的实现上有什么差别？" class="headerlink" title="31.为什么要用 ContentProvider？它和 sql 的实现上有什么差别？"></a>31.为什么要用 ContentProvider？它和 sql 的实现上有什么差别？</h3><ul>
+<li>ContentProvider 屏蔽了数据存储的细节,内部实现对用户完全透明,用户只需要关心操作数据的uri 就可以了，ContentProvider 可以实现不同 app 之间共享。</li>
+<li>区别：Sql 也有增删改查的方法，但是 sql 只能查询本应用下的数据库。而 ContentProvider 还可<br>以去增删改查本地文件，跨程序共享数据</li>
+</ul>
+<h3 id="32-说说-ContentProvider、ContentResolver、ContentObserver-之间的关系"><a href="#32-说说-ContentProvider、ContentResolver、ContentObserver-之间的关系" class="headerlink" title="32.说说 ContentProvider、ContentResolver、ContentObserver 之间的关系"></a>32.说说 ContentProvider、ContentResolver、ContentObserver 之间的关系</h3><ul>
+<li>ContentProvider 内容提供者，<strong>用于对外提供数据</strong></li>
+<li>ContentResolver 内容解析者，用于<strong>获取</strong>内容提供者提供的数据</li>
+<li>ContentObserver 内容监听器，可以监听数据的改变状态</li>
+</ul>
+<h3 id="33-请介绍下-Android-的数据存储方式（要去大概看一下）"><a href="#33-请介绍下-Android-的数据存储方式（要去大概看一下）" class="headerlink" title="33.请介绍下 Android 的数据存储方式（要去大概看一下）"></a>33.请介绍下 Android 的数据存储方式（要去大概看一下）</h3><ul>
+<li>File 存储；SharedPreference 存储；SQLiteDataBase 存储；ContentProvider 存储；网络存储</li>
+</ul>
+<h3 id="34-Intent-Intent-传递数据时，可以传递哪些类型数据"><a href="#34-Intent-Intent-传递数据时，可以传递哪些类型数据" class="headerlink" title="34.Intent:Intent 传递数据时，可以传递哪些类型数据"></a>34.Intent:Intent 传递数据时，可以传递哪些类型数据</h3><ul>
+<li>8种基本数据类型及其数组</li>
+<li>String及其数组</li>
+<li>实现了Parcelable接口的对象及其数组 </li>
+<li>实现了 Serializable接口的对象及其数组</li>
+</ul>
+<h3 id="35-Serializable-和-Parcelable-的区别"><a href="#35-Serializable-和-Parcelable-的区别" class="headerlink" title="35.Serializable 和 Parcelable 的区别"></a>35.Serializable 和 Parcelable 的区别</h3><ul>
+<li>在使用内存的时候，Parcelable 类比 Serializable 性能高，所以推荐使用 Parcelable 类</li>
+<li>Parcelable 不能使用在要将数据存储在磁盘上的情况。尽管 Serializable 效率低点，但在这<br>种情况下，还是建议你用 Serializable 。</li>
+<li>Serializable 的实现，只需要实现 Serializable 即可。这只是给对象打了一个标记，系统会<br>自动将其序列化。</li>
+<li>Parcelabel 的实现，需要在类中添加一个静态成员变量 CREATOR，这个变量需要继承<br>Parcelable.Creator 接口。</li>
+<li>所谓序列化：可以形象的把它理解为把Java对象内存中的数据采编成一串二进制的数据，然后把这些数据存放在可以可以持久化的数据设备上，如磁盘。当需要还原这些数据的时候，在通过反序列化的过程，把对象又重新还原到内存中。</li>
+</ul>
+<h3 id="36-请描述一下-Intent-和-IntentFilter"><a href="#36-请描述一下-Intent-和-IntentFilter" class="headerlink" title="36.请描述一下 Intent 和 IntentFilter"></a>36.请描述一下 Intent 和 IntentFilter</h3><ul>
+<li>Intent我们可以理解为消息，主要作用是实现Activity间的切换，也可以实现四大组件之间的通信，传递数据，非常有用</li>
+<li>IntentFilter可以理解为一个匹配系统，主要由三个参数：Action: 动作，Data: 数据，Category : 而外的附加信息；而且Android系统预定义了一些Action值，以大写的ACTION开头；</li>
+</ul>
+<h3 id="37-Fragment-Fragment-跟-Activity-之间是如何传值的"><a href="#37-Fragment-Fragment-跟-Activity-之间是如何传值的" class="headerlink" title="37.Fragment:Fragment 跟 Activity 之间是如何传值的"></a>37.Fragment:Fragment 跟 Activity 之间是如何传值的</h3><ul>
+<li>使用fragment：首先自定义fragment的类继承Fragment，然后view=inflater.inflate来加载碎片的布局，之后类和布局绑定成功，碎片（控件完成），然后再当成控件嵌套到activity.xml里面去，android:name=””写的就是类名</li>
+<li>在 Fragment 中可以直接通过 getActivity（）方法获取到其绑定的 Activity 对象，这样就可以调用 Activity 的方法了</li>
+<li>在 Activity 中可以通过如下方法获取到：得到实例后就可以通信了<br>Fragment 实例<br>FragmentManager fragmentManager = getFragmentManager();<br>Fragment fragment = fragmentManager.findFragmentByTag(tag);<br>Fragment fragment = fragmentManager.findFragmentById(id);</li>
+</ul>
+<h3 id="38-描述一下-Fragment-的生命周期"><a href="#38-描述一下-Fragment-的生命周期" class="headerlink" title="38.描述一下 Fragment 的生命周期"></a>38.描述一下 Fragment 的生命周期</h3><ul>
+<li>onAttach()—onCreate()—onCreateView()—onActivityCreated()—onStart()—onResume()—onStop()—onDestroyView()—onDestroy()—onDetach()</li>
+</ul>
+<h3 id="39-Fragment-的-replace-和-add-方法的区别"><a href="#39-Fragment-的-replace-和-add-方法的区别" class="headerlink" title="39.Fragment 的 replace 和 add 方法的区别"></a>39.Fragment 的 replace 和 add 方法的区别</h3><ul>
+<li>Fragment 的容器一个 FrameLayout，add 的时候是把所有的 Fragment 一层一层的叠加到了<br>FrameLayout 上了，而 replace 的话首先将该容器中的其他 Fragment 去除掉然后将当前 Fragment<br>添加到容器中。</li>
+<li>add方法的fragment的生命周期不会变化，relpace会变，每次都会执行上一个 Fragment 的 onDestroyView，新 Fragment的 onCreateView、onStart、onResume 方法。</li>
+</ul>
+<h3 id="40-Fragment的好处"><a href="#40-Fragment的好处" class="headerlink" title="40.Fragment的好处"></a>40.Fragment的好处</h3><ul>
+<li>Fragment 可以使你能够将 activity 分离成多个可重用的组件，每个都有它自己的生命周期和UI。</li>
+<li>Fragment 可以轻松得创建动态灵活的 UI 设计，可以适应于不同的屏幕尺寸。从手机到平板电<br>脑。</li>
+<li>Fragment 解决 Activity 间的切换不流畅，轻量切换。</li>
+</ul>
+<h3 id="41-如何切换-fragement-不重新实例化"><a href="#41-如何切换-fragement-不重新实例化" class="headerlink" title="41. 如何切换 fragement,不重新实例化"></a>41. 如何切换 fragement,不重新实例化</h3><ul>
+<li>正确的切换方式是 add()，切换时 hide()，add()另一个 Fragment；再次切换时，只需 hide()当前，<br>show()另一个。</li>
+</ul>
+<h3 id="42-ListView-如何提高其效率？"><a href="#42-ListView-如何提高其效率？" class="headerlink" title="42.ListView 如何提高其效率？"></a>42.ListView 如何提高其效率？</h3><ul>
+<li>如果convertView为null,则使用LayoutInflater去加载布局</li>
+<li>convertView 不为空，重复利用已经创建的 view</li>
+<li>自定义静态类 ViewHolder，减少 findViewById 的次数</li>
+</ul>
+
           
         
       
@@ -2519,326 +2839,6 @@ sp（与刻度无关的像素）：与dp类似，但是可以根据用户的字�
 <li>未设置Activity的android:configChanges属性，切换屏幕横纵方向时会重新调用onCreate()方法</li>
 <li>当再次启动某个launchMode设置为singletask的Activity，它的onNewIntent()方法会被触发</li>
 <li>：configchange调Cre；singleTask触NewIntent</li>
-</ul>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/01/01/Android简答题/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="FeishengQiu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="FeishengQiu">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/01/01/Android简答题/" itemprop="url">Android简答题</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-01T00:30:35+08:00">
-                2018-01-01
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="Android一阶"><a href="#Android一阶" class="headerlink" title="Android一阶"></a>Android一阶</h2><h3 id="1-请简要介绍Android的四大组件（定义是什么，功能是什么）-Android中Activity-Intent-Content-Provider-Service各有什么区别-说出他们各自的定义和功能即可"><a href="#1-请简要介绍Android的四大组件（定义是什么，功能是什么）-Android中Activity-Intent-Content-Provider-Service各有什么区别-说出他们各自的定义和功能即可" class="headerlink" title="1.请简要介绍Android的四大组件（定义是什么，功能是什么）/Android中Activity, Intent, Content Provider, Service各有什么区别(说出他们各自的定义和功能即可)"></a>1.请简要介绍Android的四大组件（定义是什么，功能是什么）/Android中Activity, Intent, Content Provider, Service各有什么区别(说出他们各自的定义和功能即可)</h3><ul>
-<li>Activity：一种可以包含用户界面的组件，主要和用户进行交互</li>
-<li>Service: 一种可以在后台执行长时间运行操作而没有用户界面的应用组件</li>
-<li>Broadcast Receive:可以在应用程序之间传输信息，通过发送Intent来传送我们的目标数据</li>
-<li>Content Provider:内容提供者，它是用在不同的应用程序之间共享数据时，可以把一个应用的数据提供给其他的应用使用。</li>
-<li><p>(常 见 的 Activity 类 型 有 FragmentActivitiy ， ListActivity ，TabAcitivty 等)</p>
-</li>
-<li><p>ASBC</p>
-<h3 id="2-描述一下Activity的生命周期"><a href="#2-描述一下Activity的生命周期" class="headerlink" title="2.描述一下Activity的生命周期"></a>2.描述一下Activity的生命周期</h3></li>
-<li><p>Activity的生命周期有4种状态</p>
-</li>
-<li>运行状态：活动处于返回栈的栈顶，完全可见</li>
-<li>暂停状态：活动不处于栈顶，但仍然可见，例如切换的活动B是一个对话框形式的活动，活动A不会被完全覆盖</li>
-<li>停止状态：活动不在栈顶，完全不可见</li>
-<li>销毁状态：活动从返回栈移除</li>
-<li>然后Activity的生命周期对应着7大回调方法： onCreate(),onStart(),onResume(),onPause(),onStop(),OnRestart(),onDestroy()</li>
-<li><p>(完整生存期，可见生存期，前台生存期)</p>
-</li>
-<li><p>运行暂停，停止销毁</p>
-</li>
-</ul>
-<h3 id="3-如何保存-Activity-的状态-内存不足时系统会杀掉后台的Activity，若需要进行一些临时状态的保存，在哪个方法进行？（内存不足、用户直接按Home键）"><a href="#3-如何保存-Activity-的状态-内存不足时系统会杀掉后台的Activity，若需要进行一些临时状态的保存，在哪个方法进行？（内存不足、用户直接按Home键）" class="headerlink" title="3.如何保存 Activity 的状态/内存不足时系统会杀掉后台的Activity，若需要进行一些临时状态的保存，在哪个方法进行？（内存不足、用户直接按Home键）"></a>3.如何保存 Activity 的状态/内存不足时系统会杀掉后台的Activity，若需要进行一些临时状态的保存，在哪个方法进行？（内存不足、用户直接按Home键）</h3><ul>
-<li><p>可以重写 onSaveInstanceState()这个方 法，onSaveInstanceState()方法接受一个 Bundle 类型的参数, 我们可以将状态数据存储到这个Bundle对象中，（键值对的形式）即使Activity被摧毁了，在onCreate方法重新被调用的时候，我们可以从savedInstanceState中取出保存的数据，恢复状态</p>
-</li>
-<li><p>：A存临态为 SI</p>
-</li>
-</ul>
-<h3 id="4-两个-Activity-之间跳转时必然会执行的是哪几个方法"><a href="#4-两个-Activity-之间跳转时必然会执行的是哪几个方法" class="headerlink" title="4.两个 Activity 之间跳转时必然会执行的是哪几个方法"></a>4.两个 Activity 之间跳转时必然会执行的是哪几个方法</h3><ul>
-<li><p>例如活动 A跳转到 活动 B，首先活动A会调用onPause()方法，然后B调用onCreate()，onStart(),onResume();如果活动B完全覆盖了窗体，A完全不可见，就会调用onStop（）方法，如果B没有完全覆盖，例如是一个对话框形式的活动，A就不会调用onStop()方法，根据情况而定</p>
-</li>
-<li><p>：A转B，C四，R四</p>
-</li>
-</ul>
-<h3 id="5-横竖屏切换时-Activity-的生命周期"><a href="#5-横竖屏切换时-Activity-的生命周期" class="headerlink" title="5.横竖屏切换时 Activity 的生命周期"></a>5.横竖屏切换时 Activity 的生命周期</h3><ul>
-<li><p>不设置 Activity 的 android:configChanges 时，切屏默认首先销毁当前Activity，然后重新加载，回调各个生命周期方法；设置 Activity android:configChanges=”orientation|keyboardHiddenscreenSize”时，切屏不会重新调用各个生命周期，只会执行 onConfigurationChanged 方法。</p>
-</li>
-<li><p>横竖屏切配config，orikeyboardHiscree</p>
-</li>
-</ul>
-<h3 id="6-如何将一个-Activity-设置成窗口的样式"><a href="#6-如何将一个-Activity-设置成窗口的样式" class="headerlink" title="6.如何将一个 Activity 设置成窗口的样式"></a>6.如何将一个 Activity 设置成窗口的样式</h3><ul>
-<li><p>只需要给我们的 Activity 配置如下属性即可，android:theme=”@android:style/Theme.Dialog”</p>
-</li>
-<li><p>:窗口Them呆儿</p>
-</li>
-</ul>
-<h3 id="7-如-何-退-出-Activity-？-如-何-安-全-退-出-已-调-用-多-个-Activity-的Application？"><a href="#7-如-何-退-出-Activity-？-如-何-安-全-退-出-已-调-用-多-个-Activity-的Application？" class="headerlink" title="7.如 何 退 出 Activity ？ 如 何 安 全 退 出 已 调 用 多 个 Activity 的Application？"></a>7.如 何 退 出 Activity ？ 如 何 安 全 退 出 已 调 用 多 个 Activity 的Application？</h3><ul>
-<li>1.首先最简单的当然是直接调用finish（）方法，back键</li>
-<li>2.记录打开的Activity:我们可以创建一个ActivityCollector的类，然后里面创建一个Activity的集合，然后把所有的Activity添加进去，再写一个总的finishAll()方法，里面是一个for循环来finish所有的Activity</li>
-<li>3.发送特定广播：在需要结束应用时，发送一个特定的广播，每个 Activity 收到广播后，调用finish（）方法，关闭活动即可</li>
-</ul>
-<h3 id="8-Activity的启动模式有？-Activity-的四种启动模式，singletop-和-singletask-区别是什么？-介绍Activity的几中启动模式，并简单说说自己的理解或者使用场景"><a href="#8-Activity的启动模式有？-Activity-的四种启动模式，singletop-和-singletask-区别是什么？-介绍Activity的几中启动模式，并简单说说自己的理解或者使用场景" class="headerlink" title="8.Activity的启动模式有？/Activity 的四种启动模式，singletop 和 singletask 区别是什么？/介绍Activity的几中启动模式，并简单说说自己的理解或者使用场景"></a>8.Activity的启动模式有？/Activity 的四种启动模式，singletop 和 singletask 区别是什么？/介绍Activity的几中启动模式，并简单说说自己的理解或者使用场景</h3><ul>
-<li>standard：默认模式，在这个模式下，都会默认创建一个新的实例，因此可以有多个相同的实例，也允许多个相同Activity叠加。</li>
-<li>singleTop：如果Activity在栈顶的时候，启动相同的Activity，不会创建新的实例，而会调用onNewIntent方法</li>
-<li>singleTask：只有一个实例。在同一个应用程序中启动他的时候，若Activity不存在，则会在当前task创建一个新的实例，若存在，则会把task中在其之上的其它Activity destory掉并调用它的onNewIntent方法。（主页的Activity很常用）</li>
-<li>singleInstance：只有一个实例，并且这个实例独立运行在一个task中，这个task只有这个实例，不允许有别的Activity存在。</li>
-</ul>
-<h3 id="9-Android-中的-Context-Activity，Appliction-有什么区别"><a href="#9-Android-中的-Context-Activity，Appliction-有什么区别" class="headerlink" title="9.Android 中的 Context, Activity，Appliction 有什么区别"></a>9.Android 中的 Context, Activity，Appliction 有什么区别</h3><ul>
-<li>Activity 和 Application 都是 Context 的子类；</li>
-<li>Context是一个抽象类，从字面上理解就是上下文的意思，在实际应用中它也确实是起到了管理上下文环境中各个参数和变量的作用，方便我们可以简单的访问到各种资源。具体实现类是（ContextIml）</li>
-<li>不同：维护的生命周期不同。 Context 维护的是当前的 Activity 的生命周期，Application 维护<br>的是整个应用程序的生命周期。</li>
-<li>（使用 context 的时候，小心内存泄露，防止内存泄露，注意一下几个方面；不要让生命周期长的对象引用 activity context，即保证引用 activity 的对象要与 activity 本身生命周期是一样的；对于生命周期长的对象，可以使用 application，context）</li>
-</ul>
-<h3 id="10-两个-Activity-之间传递数据，除了-intent，广播接收者，contentprovider-还有啥？"><a href="#10-两个-Activity-之间传递数据，除了-intent，广播接收者，contentprovider-还有啥？" class="headerlink" title="10.两个 Activity 之间传递数据，除了 intent，广播接收者，contentprovider 还有啥？"></a>10.两个 Activity 之间传递数据，除了 intent，广播接收者，contentprovider 还有啥？</h3><ul>
-<li>利用 static 静态数据，public static 成员变量</li>
-<li>外部存储：File 文件存储；SharedPreferences ；Sqlite 数据库</li>
-</ul>
-<h3 id="11-你知道onNewIntent吗"><a href="#11-你知道onNewIntent吗" class="headerlink" title="11.*你知道onNewIntent吗"></a>11.*你知道onNewIntent吗</h3><ul>
-<li>活动B是之前打开过的Activity，现在处于onPause、onStop 状态的话，其他应用再发送Intent的话，执行顺序为：onNewIntent，onRestart，onStart，onResume。</li>
-</ul>
-<h3 id="12-除了用Intent-去启动一个Activity，还有其他方法吗"><a href="#12-除了用Intent-去启动一个Activity，还有其他方法吗" class="headerlink" title="12.*除了用Intent 去启动一个Activity，还有其他方法吗"></a>12.*除了用Intent 去启动一个Activity，还有其他方法吗</h3><ul>
-<li>使用adb shell am 命令启动一个activity；am发送一个广播，使用action</li>
-</ul>
-<h3 id="13-Service-Service-是否在-main-thread-中执行-service-里面是否能执行耗时的操作"><a href="#13-Service-Service-是否在-main-thread-中执行-service-里面是否能执行耗时的操作" class="headerlink" title="13.Service:Service 是否在 main thread 中执行, service 里面是否能执行耗时的操作?"></a>13.Service:Service 是否在 main thread 中执行, service 里面是否能执行耗时的操作?</h3><ul>
-<li>Service 和 activity 是运行在当前应用程序所在进程的 main thread(UI 主线程)里面。</li>
-<li>service 里面不能执行耗时的操作(网络请求,拷贝数据库,大文件 )</li>
-<li>特殊情况下可以去AndroidManifest里面去配置它的进程</li>
-</ul>
-<h3 id="14-Activity-怎么和-Service-绑定，怎么在-Activity-中启动自己对应的Service？"><a href="#14-Activity-怎么和-Service-绑定，怎么在-Activity-中启动自己对应的Service？" class="headerlink" title="14.Activity 怎么和 Service 绑定，怎么在 Activity 中启动自己对应的Service？"></a>14.Activity 怎么和 Service 绑定，怎么在 Activity 中启动自己对应的Service？</h3><ul>
-<li>Activity 通过 bindService(Intent service, ServiceConnection conn, BIND_AUTO_CREATE)跟 Service 进行绑定，当绑定成功的时候 （Service 会将代理对象通过回调的形式传给 conn，这样我们就拿到了Service 提供的服务代理对象。）绑定成功的话就会回调onServiceConnected这个方法</li>
-<li>般情况下如果想获取Service 的服务对象那么肯定需要通过 bindService（）方法；如果仅仅只是为了开启一个后台任务那么可以使用 startService（）方法。</li>
-</ul>
-<h3 id="15-比较两种开启服务的区别"><a href="#15-比较两种开启服务的区别" class="headerlink" title="15.比较两种开启服务的区别"></a>15.比较两种开启服务的区别</h3><ul>
-<li>startService:如果服务已经开启，不会重复的执行onCreate(), 而是会调用onStartCommand()。服务停止的时候调用 onDestory()。一旦服务开启跟调用者(开启者)就没有任何关系了。Activity退出了，销毁了，服务还在后台长期的运行。而且Activity不能调用服务里面的方法。</li>
-<li>bind的方式开启服务，绑定服务，调用者挂了，服务也会跟着挂掉。绑定者可以调用服务里面的方法</li>
-</ul>
-<h3 id="16-请描述一下-Service-的生命周期"><a href="#16-请描述一下-Service-的生命周期" class="headerlink" title="16.请描述一下 Service 的生命周期"></a>16.请描述一下 Service 的生命周期</h3><ul>
-<li>非 绑 定 模 式 ： 当 第 一 次 调 用 startService 的 时 候 执 行 的 方 法 依 次 为 onCreate() 、onStartCommand()，当 Service 关闭的时候调用 onDestory 方法。</li>
-<li>第一次 bindService（）的时候，执行的方法为 onCreate()、onBind(）解除绑定的时候会执行 onUnbind()、onDestory()。</li>
-<li>我们在开发的过程中还必须注意 Service 实例只会有一个，也就是说如果当前要启动的 Service 已经存在了那么就不会再次创建该 Service 当然也不会调用 onCreate（）方法。一个 Service 可以被多个客户进行绑定，只有所有的绑定对象都执行了 onUnBind（）方法后该Service 才会销毁</li>
-</ul>
-<h3 id="17-什么是-IntentService？有何优点？"><a href="#17-什么是-IntentService？有何优点？" class="headerlink" title="17.什么是 IntentService？有何优点？"></a>17.什么是 IntentService？有何优点？</h3><ul>
-<li>因为Service是运行在主线程的，所以当我们需要在Service里面执行一些耗时的操作，我们就必须要开启线程，在onStartCommand()回调方法里开启线程和重写run方法.start;然后还需要在里面加stopSelf()让服务执行完毕后自动停止（所以总共2步）</li>
-<li>为了更加方便的开启线程和自动停止服务，我们就可以使用IntentService；创建独立的 worker 线程来处理所有的 Intent 请求和onHandleIntent()方法实现的代码；我们只要重写onHandleIntent()方法即可，执行完毕后会自动停止服务（没看过源码，但是有用打印日志的方式验证了一下线程不一样，执行完毕后就自动停止服务，无需调用 stopSelf()方法停止 Service），可以避免ANR问题，又方便开线程和自动停止服务</li>
-</ul>
-<h3 id="18-说说-Activity、Intent、Service-是什么关系"><a href="#18-说说-Activity、Intent、Service-是什么关系" class="headerlink" title="18.说说 Activity、Intent、Service 是什么关系"></a>18.说说 Activity、Intent、Service 是什么关系</h3><ul>
-<li>其中 Activity 和 Service 都是 Android 四大组件<br>之一。他俩都是 Context 类的子类 ContextWrapper 的子类，因此他俩可以算是兄弟关系吧。不过<br>兄弟俩各有各自的本领，Activity 负责用户界面的显示和交互，Service 负责后台任务的处理。Activity<br>和 Service 之间可以通过 Intent 传递数据，因此可以把 Intent 看作是通信使者。</li>
-</ul>
-<h3 id="19-Service-里面可以弹吐司么"><a href="#19-Service-里面可以弹吐司么" class="headerlink" title="19.Service 里面可以弹吐司么"></a>19.Service 里面可以弹吐司么</h3><ul>
-<li>可以的。弹吐司有个条件就是得有一个 Context 上下文，而 Service 本身就是 Context 的子类，因<br>此在 Service 里面弹吐司是完全可以的。比如我们在 Service 中完成下载任务后可以弹一个吐司通知<br>用户。</li>
-</ul>
-<h3 id="20-什么是-Service？为什么需要Service"><a href="#20-什么是-Service？为什么需要Service" class="headerlink" title="20.什么是 Service？为什么需要Service"></a>20.什么是 Service？为什么需要Service</h3><ul>
-<li>Service的出现可以理解为是Activity的补充，实现Activity实现不了的功能，即使应用关闭和切换应用B，应用A的Service还能继续运行，从而执行一些耗时，长期运行的后台任务，例如下载,播放音乐（我们打开应用B做别的操作）音乐播放、下载、上传大文件、定时关闭应用等功能。这些功能如果放到Activity中做的话，那Activity退出被销毁了的话，那这些功能也就停止了，这显然是不符合我们的设计要求的，所以要将他们放在Service中去执行。</li>
-</ul>
-<h3 id="21-在-service-的生命周期方法-onstartConmand-可不可以执行网络操作？如何在-service-中执行网络操作？"><a href="#21-在-service-的生命周期方法-onstartConmand-可不可以执行网络操作？如何在-service-中执行网络操作？" class="headerlink" title="21.在 service 的生命周期方法 onstartConmand()可不可以执行网络操作？如何在 service 中执行网络操作？"></a>21.在 service 的生命周期方法 onstartConmand()可不可以执行网络操作？如何在 service 中执行网络操作？</h3><ul>
-<li>可以直接在 Service 中执行网络操作,在 onStartCommand()方法中可以执行网络操作</li>
-<li>如果需要在服务中进行耗时操作，可以选择IntentService， IntentService是Service的子类，用来处理异步请求。</li>
-</ul>
-<h3 id="22-注册Service需要注意什么"><a href="#22-注册Service需要注意什么" class="headerlink" title="22.注册Service需要注意什么"></a>22.注册Service需要注意什么</h3><ul>
-<li>ervice还是运行在主线程当中的，所以如果需要执行一些复杂的逻辑操作，最好在服务的内部手动创建子线程进行处理，否则会出现UI线程被阻塞的问题，出现ANR的问题</li>
-</ul>
-<h3 id="23-Service与Activity怎么实现通信"><a href="#23-Service与Activity怎么实现通信" class="headerlink" title="23.Service与Activity怎么实现通信"></a>23.Service与Activity怎么实现通信</h3><ul>
-<li>service里面添加一个继承Binder的内部类，并添加相应的逻辑方法；重写Service的onBind方法，返回我们刚刚定义的那个内部类实例；重写onServiceConnection，onServiceConnected时调用逻辑方法 绑定服务</li>
-</ul>
-<h3 id="24-Broadcast-Receiver-请描述一下-BroadcastReceiver"><a href="#24-Broadcast-Receiver-请描述一下-BroadcastReceiver" class="headerlink" title="24.Broadcast Receiver:请描述一下 BroadcastReceiver"></a>24.Broadcast Receiver:请描述一下 BroadcastReceiver</h3><ul>
-<li>BroadCastReceiver 是 Android 四大组件之一，主要用于接收系统或者应用程序发送的广播事件</li>
-<li>广播分两种：标准广播和有序广播；标准异步执行，效率高，无法截断；有序同步执行，优先级高的广播可以先接收到，可以截断广播；</li>
-<li>在我们的项目中经常使用广播接收者接收系统通知，比如开机启动、sd 挂载、低电量、监听网络情况</li>
-</ul>
-<h3 id="25-在-manifest-和代码中如何静态注册和使用-BroadcastReceiver"><a href="#25-在-manifest-和代码中如何静态注册和使用-BroadcastReceiver" class="headerlink" title="25.在 manifest 和代码中如何静态注册和使用 BroadcastReceiver"></a>25.在 manifest 和代码中如何静态注册和使用 BroadcastReceiver</h3><ul>
-<li>在清单文件中注册广播接收者称为静态注册，在代码中注册称为动态注册。静态注册的广播接收者只要 app 在系统中运行则一直可以接收到广播消息，动态注册的广播接收者当注册的 Activity 或者 Service 销毁了那么就接收不到广播了。这就是静态注册和动态注册的区别</li>
-<li>静态注册的过程：在清单文件里的application标签内进行注册，AS自动生成&lt;receiver标签，然后在里面加入<intent-filter>标签，再嵌套一个目标广播的action值，例如开机是BOOT_COMPLETED,然后再加相对应的监听广播的权限</intent-filter></li>
-<li>动态注册的过程：新建一个类继承BroadcastReceiver,然后重写onReceive方法，然后在Activity里面创建这个类的实例，再调用registerReceiver（实例，intentFilter）就可以完成注册，不过记得要手动取消注册，调用unregisterReceiver（实例）方法，一般写在onDestroy方法里</li>
-</ul>
-<h3 id="26-BroadCastReceiver-的生命周期"><a href="#26-BroadCastReceiver-的生命周期" class="headerlink" title="26.BroadCastReceiver 的生命周期"></a>26.BroadCastReceiver 的生命周期</h3><ul>
-<li>广播接收者的生命周期非常短暂的，在接收到广播的时候创建，onReceive()方法结束之后销毁；</li>
-<li>广播接收者中不要做一些耗时的工作，否则会弹出 Application No Response 错误对话框；不能超过10秒</li>
-<li>最好也不要在广播接收者中创建子线程做耗时的工作，因为广播接收者被销毁后进程就成为了空进程，很容易被系统杀掉；（耗时的放在服务里比较好）</li>
-</ul>
-<h3 id="27-Android-引入广播机制的用意"><a href="#27-Android-引入广播机制的用意" class="headerlink" title="27.Android 引入广播机制的用意"></a>27.Android 引入广播机制的用意</h3><ul>
-<li>首先Android的四大组件之间，有时候是相互依存的关系，例如Activity绑定服务，有时候又是一种补充关系，Service我们可以理解为是对Activity的补充，引入广播机制可以方便四大组件的信息和数据交互。</li>
-<li>程序间互通消息(例如在自己的应用程序内监听系统的网络变换)</li>
-</ul>
-<h3 id="28-怎么发送广播"><a href="#28-怎么发送广播" class="headerlink" title="28.怎么发送广播"></a>28.怎么发送广播</h3><ul>
-<li>发送标准广播：Intent intent =new Intent(“自定义广播值/或者已存在的广播值”)；sendBroadcast(intent);</li>
-<li>发送有序广播：Intent intent =new Intent(“自定义广播值/或者已存在的广播值”)；sendOrderedBroadcast(intent);</li>
-<li>即：把广播值存储到intent中，然后调用sendBroadcast或者sendOrderedBroadcast</li>
-</ul>
-<h3 id="29-使用本地广播"><a href="#29-使用本地广播" class="headerlink" title="29.使用本地广播"></a>29.使用本地广播</h3><ul>
-<li>为了本程序携带关键性数据的广播不被其他程序获取，解决安全问题，我们将使用本地广播</li>
-<li>一样是新建一个类继承自BroadcastReceiver作为广播接收器才能接收广播（本质上是重写onReceive方法，执行接收到广播之后的逻辑），然后静态注册，清单文件里加入广播的action值即可</li>
-<li>再在Activity里面加一个LocalBroadcastManager的实例（LocalBroadcastManager.getInstance(this)）,用这个本地广播的实例来发送含有广播action值的intent即可；</li>
-<li>反正一个要send（intent(广播值)）,一个要接收，注册那个广播值，onReceiver来执行目标动作</li>
-</ul>
-<h3 id="30-请介绍下-ContentProvider-是如何实现数据共享的"><a href="#30-请介绍下-ContentProvider-是如何实现数据共享的" class="headerlink" title="30.请介绍下 ContentProvider 是如何实现数据共享的"></a>30.请介绍下 ContentProvider 是如何实现数据共享的</h3><ul>
-<li>在 Android 中如果想将自己应用的数据（一般多为数据库中的数据）提供给第三发应用，那么<br>我们可以通过 ContentProvider 来实现了。使用的时候首先自定义一个类继承ContentProvider，然后覆写 query、insert、update、delete 等方法。因为其是四大组件之一因此必须在 AndroidManifest 文件中进行注册。参数uri由两部分组成：authority,一般取包名；path：数据库的表来代替，然后Uri.parse成uri对象</li>
-<li>访问内容提供器的数据时：需要借助ContentResolver类，getContentResolver可以得到这个实例；然后调用query(),insert（）进行CRUD操作</li>
-</ul>
-<h3 id="31-为什么要用-ContentProvider？它和-sql-的实现上有什么差别？"><a href="#31-为什么要用-ContentProvider？它和-sql-的实现上有什么差别？" class="headerlink" title="31.为什么要用 ContentProvider？它和 sql 的实现上有什么差别？"></a>31.为什么要用 ContentProvider？它和 sql 的实现上有什么差别？</h3><ul>
-<li>ContentProvider 屏蔽了数据存储的细节,内部实现对用户完全透明,用户只需要关心操作数据的uri 就可以了，ContentProvider 可以实现不同 app 之间共享。</li>
-<li>区别：Sql 也有增删改查的方法，但是 sql 只能查询本应用下的数据库。而 ContentProvider 还可<br>以去增删改查本地文件，跨程序共享数据</li>
-</ul>
-<h3 id="32-说说-ContentProvider、ContentResolver、ContentObserver-之间的关系"><a href="#32-说说-ContentProvider、ContentResolver、ContentObserver-之间的关系" class="headerlink" title="32.说说 ContentProvider、ContentResolver、ContentObserver 之间的关系"></a>32.说说 ContentProvider、ContentResolver、ContentObserver 之间的关系</h3><ul>
-<li>ContentProvider 内容提供者，<strong>用于对外提供数据</strong></li>
-<li>ContentResolver 内容解析者，用于<strong>获取</strong>内容提供者提供的数据</li>
-<li>ContentObserver 内容监听器，可以监听数据的改变状态</li>
-</ul>
-<h3 id="33-请介绍下-Android-的数据存储方式（要去大概看一下）"><a href="#33-请介绍下-Android-的数据存储方式（要去大概看一下）" class="headerlink" title="33.请介绍下 Android 的数据存储方式（要去大概看一下）"></a>33.请介绍下 Android 的数据存储方式（要去大概看一下）</h3><ul>
-<li>File 存储；SharedPreference 存储；SQLiteDataBase 存储；ContentProvider 存储；网络存储</li>
-</ul>
-<h3 id="34-Intent-Intent-传递数据时，可以传递哪些类型数据"><a href="#34-Intent-Intent-传递数据时，可以传递哪些类型数据" class="headerlink" title="34.Intent:Intent 传递数据时，可以传递哪些类型数据"></a>34.Intent:Intent 传递数据时，可以传递哪些类型数据</h3><ul>
-<li>8种基本数据类型及其数组</li>
-<li>String及其数组</li>
-<li>实现了Parcelable接口的对象及其数组 </li>
-<li>实现了 Serializable接口的对象及其数组</li>
-</ul>
-<h3 id="35-Serializable-和-Parcelable-的区别"><a href="#35-Serializable-和-Parcelable-的区别" class="headerlink" title="35.Serializable 和 Parcelable 的区别"></a>35.Serializable 和 Parcelable 的区别</h3><ul>
-<li>在使用内存的时候，Parcelable 类比 Serializable 性能高，所以推荐使用 Parcelable 类</li>
-<li>Parcelable 不能使用在要将数据存储在磁盘上的情况。尽管 Serializable 效率低点，但在这<br>种情况下，还是建议你用 Serializable 。</li>
-<li>Serializable 的实现，只需要实现 Serializable 即可。这只是给对象打了一个标记，系统会<br>自动将其序列化。</li>
-<li>Parcelabel 的实现，需要在类中添加一个静态成员变量 CREATOR，这个变量需要继承<br>Parcelable.Creator 接口。</li>
-<li>所谓序列化：可以形象的把它理解为把Java对象内存中的数据采编成一串二进制的数据，然后把这些数据存放在可以可以持久化的数据设备上，如磁盘。当需要还原这些数据的时候，在通过反序列化的过程，把对象又重新还原到内存中。</li>
-</ul>
-<h3 id="36-请描述一下-Intent-和-IntentFilter"><a href="#36-请描述一下-Intent-和-IntentFilter" class="headerlink" title="36.请描述一下 Intent 和 IntentFilter"></a>36.请描述一下 Intent 和 IntentFilter</h3><ul>
-<li>Intent我们可以理解为消息，主要作用是实现Activity间的切换，也可以实现四大组件之间的通信，传递数据，非常有用</li>
-<li>IntentFilter可以理解为一个匹配系统，主要由三个参数：Action: 动作，Data: 数据，Category : 而外的附加信息；而且Android系统预定义了一些Action值，以大写的ACTION开头；</li>
-</ul>
-<h3 id="37-Fragment-Fragment-跟-Activity-之间是如何传值的"><a href="#37-Fragment-Fragment-跟-Activity-之间是如何传值的" class="headerlink" title="37.Fragment:Fragment 跟 Activity 之间是如何传值的"></a>37.Fragment:Fragment 跟 Activity 之间是如何传值的</h3><ul>
-<li>使用fragment：首先自定义fragment的类继承Fragment，然后view=inflater.inflate来加载碎片的布局，之后类和布局绑定成功，碎片（控件完成），然后再当成控件嵌套到activity.xml里面去，android:name=””写的就是类名</li>
-<li>在 Fragment 中可以直接通过 getActivity（）方法获取到其绑定的 Activity 对象，这样就可以调用 Activity 的方法了</li>
-<li>在 Activity 中可以通过如下方法获取到：得到实例后就可以通信了<br>Fragment 实例<br>FragmentManager fragmentManager = getFragmentManager();<br>Fragment fragment = fragmentManager.findFragmentByTag(tag);<br>Fragment fragment = fragmentManager.findFragmentById(id);</li>
-</ul>
-<h3 id="38-描述一下-Fragment-的生命周期"><a href="#38-描述一下-Fragment-的生命周期" class="headerlink" title="38.描述一下 Fragment 的生命周期"></a>38.描述一下 Fragment 的生命周期</h3><ul>
-<li>onAttach()—onCreate()—onCreateView()—onActivityCreated()—onStart()—onResume()—onStop()—onDestroyView()—onDestroy()—onDetach()</li>
-</ul>
-<h3 id="39-Fragment-的-replace-和-add-方法的区别"><a href="#39-Fragment-的-replace-和-add-方法的区别" class="headerlink" title="39.Fragment 的 replace 和 add 方法的区别"></a>39.Fragment 的 replace 和 add 方法的区别</h3><ul>
-<li>Fragment 的容器一个 FrameLayout，add 的时候是把所有的 Fragment 一层一层的叠加到了<br>FrameLayout 上了，而 replace 的话首先将该容器中的其他 Fragment 去除掉然后将当前 Fragment<br>添加到容器中。</li>
-<li>add方法的fragment的生命周期不会变化，relpace会变，每次都会执行上一个 Fragment 的 onDestroyView，新 Fragment的 onCreateView、onStart、onResume 方法。</li>
-</ul>
-<h3 id="40-Fragment的好处"><a href="#40-Fragment的好处" class="headerlink" title="40.Fragment的好处"></a>40.Fragment的好处</h3><ul>
-<li>Fragment 可以使你能够将 activity 分离成多个可重用的组件，每个都有它自己的生命周期和UI。</li>
-<li>Fragment 可以轻松得创建动态灵活的 UI 设计，可以适应于不同的屏幕尺寸。从手机到平板电<br>脑。</li>
-<li>Fragment 解决 Activity 间的切换不流畅，轻量切换。</li>
-</ul>
-<h3 id="41-如何切换-fragement-不重新实例化"><a href="#41-如何切换-fragement-不重新实例化" class="headerlink" title="41. 如何切换 fragement,不重新实例化"></a>41. 如何切换 fragement,不重新实例化</h3><ul>
-<li>正确的切换方式是 add()，切换时 hide()，add()另一个 Fragment；再次切换时，只需 hide()当前，<br>show()另一个。</li>
-</ul>
-<h3 id="42-ListView-如何提高其效率？"><a href="#42-ListView-如何提高其效率？" class="headerlink" title="42.ListView 如何提高其效率？"></a>42.ListView 如何提高其效率？</h3><ul>
-<li>如果convertView为null,则使用LayoutInflater去加载布局</li>
-<li>convertView 不为空，重复利用已经创建的 view</li>
-<li>自定义静态类 ViewHolder，减少 findViewById 的次数</li>
 </ul>
 
           
