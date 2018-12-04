@@ -1,0 +1,768 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="Java二级算法实现1.给定一个整数数组 nums 和一个目标值 target，请你在该数组中找出和为目标值的 两个 整数。 给定 nums = [2, 7, 11, 15], target = 9 因为 nums[0] + nums[1] = 2 + 7 = 9,所以返回 [0, 1]  解答：从数组的第一个数开始遍历，与目标值的差就是我们要找的第二个数，然后把它作为哈希表的key,第一个数的数">
+<meta name="keywords" content="Android Developer">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java二级算法实现">
+<meta property="og:url" content="http://yoursite.com/2018/04/27/Java二级算法实现/index.html">
+<meta property="og:site_name" content="FeishengQiu">
+<meta property="og:description" content="Java二级算法实现1.给定一个整数数组 nums 和一个目标值 target，请你在该数组中找出和为目标值的 两个 整数。 给定 nums = [2, 7, 11, 15], target = 9 因为 nums[0] + nums[1] = 2 + 7 = 9,所以返回 [0, 1]  解答：从数组的第一个数开始遍历，与目标值的差就是我们要找的第二个数，然后把它作为哈希表的key,第一个数的数">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-12-04T05:39:14.444Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Java二级算法实现">
+<meta name="twitter:description" content="Java二级算法实现1.给定一个整数数组 nums 和一个目标值 target，请你在该数组中找出和为目标值的 两个 整数。 给定 nums = [2, 7, 11, 15], target = 9 因为 nums[0] + nums[1] = 2 + 7 = 9,所以返回 [0, 1]  解答：从数组的第一个数开始遍历，与目标值的差就是我们要找的第二个数，然后把它作为哈希表的key,第一个数的数">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/04/27/Java二级算法实现/"/>
+
+
+
+
+
+  <title>Java二级算法实现 | FeishengQiu</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">FeishengQiu</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">Keep learning all the time</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/04/27/Java二级算法实现/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="FeishengQiu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="FeishengQiu">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Java二级算法实现</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-04-27T00:30:35+08:00">
+                2018-04-27
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="Java二级算法实现"><a href="#Java二级算法实现" class="headerlink" title="Java二级算法实现"></a>Java二级算法实现</h2><h3 id="1-给定一个整数数组-nums-和一个目标值-target，请你在该数组中找出和为目标值的-两个-整数。"><a href="#1-给定一个整数数组-nums-和一个目标值-target，请你在该数组中找出和为目标值的-两个-整数。" class="headerlink" title="1.给定一个整数数组 nums 和一个目标值 target，请你在该数组中找出和为目标值的 两个 整数。"></a>1.给定一个整数数组 nums 和一个目标值 target，请你在该数组中找出和为目标值的 两个 整数。</h3><ul>
+<li>给定 nums = [2, 7, 11, 15], target = 9</li>
+<li><p>因为 nums[0] + nums[1] = 2 + 7 = 9,所以返回 [0, 1]</p>
+</li>
+<li><p>解答：从数组的第一个数开始遍历，与目标值的差就是我们要找的第二个数，然后把它作为哈希表的key,第一个数的数组下标为key的值，然后put哈希表里面去，然后以数组的第二个数的值作为key检验，如果是cantain在里面的，说明就是前面某个数所需要的加数，然后根据nums[i]来索取那个数组下标值i，时间复杂度为O（n），hashMap的好处就是一次执行，两种效果（检key和put key），降低时间复杂度</p>
+</li>
+<li><p>:HashMap肯key扑key </p>
+</li>
+</ul>
+<ul>
+<li>class Solution {</li>
+</ul>
+<pre><code>public  int[] twoSum(int[] nums, int target) {
+
+      int[] rs = new int[]{-1, -1};
+
+    if (nums == null || nums.length &lt;= 1)
+        return rs;
+
+    Map&lt;Integer, Integer&gt; hashMap = new HashMap&lt;&gt;();
+
+    for (int i = 0; i &lt; nums.length; i++) {
+        if (hashMap.containsKey(nums[i])) {
+            rs[0] = hashMap.get(nums[i]);
+            rs[1] = i;
+            return rs;
+        } else {
+            hashMap.put(target - nums[i], i);
+        }
+    }
+
+    return rs;
+
+}
+</code></pre><p>}</p>
+<h3 id="2-给出一个-32-位的有符号整数，你需要将这个整数中每位上的数字进行反转"><a href="#2-给出一个-32-位的有符号整数，你需要将这个整数中每位上的数字进行反转" class="headerlink" title="2.给出一个 32 位的有符号整数，你需要将这个整数中每位上的数字进行反转"></a>2.给出一个 32 位的有符号整数，你需要将这个整数中每位上的数字进行反转</h3><ul>
+<li>输入: 123，输出: 321</li>
+<li><p>输入: -123，输出: -321</p>
+</li>
+<li><p>：b得length（）幂，a得n取模，最后加加权</p>
+</li>
+<li><p>class Solution {</p>
+</li>
+</ul>
+<pre><code>public int reverse(int x) {
+   long a = 0;  
+   int b =0;  
+
+    //目的是为了后面的幂运算服务
+   if(x&gt;=0){  
+       b=(x+&quot;&quot;).length();//正数  
+       }  
+   else{  
+       b=(x+&quot;&quot;).length()-1;//负数有一个负号
+       }  
+   while (x!=0){  
+       for(int i=0;i&lt;b;i++){  
+           int a1 = x%10;//当前最后一位数字 ，负数则显示的是负数-25%10 等于 -5 
+           x=(x-a1)/10;//把最后一位数字剔除掉的新数字，这样写比x=x/10要更准确，因为负数向下取整，会错误
+           a += (int) (a1*Math.pow(10,b-i-1));  //相当于将每次的最后一位乘以当前位在十进制中的权重。234 = 2*10^2+3*10^1+4*10^0
+       }  
+   }  
+   if((a&gt;Math.pow(2,31)-1)||(a&lt;(-1)*Math.pow(2,31))){  //超过范围的返回0
+       return 0;  
+   }  
+   return (int) a; 
+   }
+</code></pre><p>}</p>
+<h3 id="3-判断回文数"><a href="#3-判断回文数" class="headerlink" title="3.判断回文数"></a>3.判断回文数</h3><ul>
+<li>输入: 121，输出: true</li>
+<li>输入: -121，输出: false，解释: 从左向右读, 为 -121 。 从右向左读, 为 121- 。因此它不是一个回文数。</li>
+</ul>
+<ul>
+<li><p>：负否定，转字符，b搭e</p>
+</li>
+<li><p>class Solution {</p>
+<p>  public boolean isPalindrome(int x) {</p>
+<pre><code>if(x&lt;0){
+    return false;
+}
+</code></pre></li>
+</ul>
+<pre><code>    String tempS=String.valueOf(x);
+    int begin=0,end=tempS.length()-1;
+
+    while(begin&lt;end){
+
+        if(tempS.charAt(begin)==tempS.charAt(end)){
+            begin++;
+            end--;
+        }else{
+            return false;
+        }
+    }
+
+    return true;
+}
+</code></pre><p>}</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/03/10/Java灵感2整理/" rel="next" title="Java灵感2整理">
+                <i class="fa fa-chevron-left"></i> Java灵感2整理
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/05/28/Java编程一级实现/" rel="prev" title="Java编程一级实现">
+                Java编程一级实现 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpg"
+                alt="FeishengQiu" />
+            
+              <p class="site-author-name" itemprop="name">FeishengQiu</p>
+              <p class="site-description motion-element" itemprop="description">Android Java</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">17</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Java二级算法实现"><span class="nav-number">1.</span> <span class="nav-text">Java二级算法实现</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-给定一个整数数组-nums-和一个目标值-target，请你在该数组中找出和为目标值的-两个-整数。"><span class="nav-number">1.1.</span> <span class="nav-text">1.给定一个整数数组 nums 和一个目标值 target，请你在该数组中找出和为目标值的 两个 整数。</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-给出一个-32-位的有符号整数，你需要将这个整数中每位上的数字进行反转"><span class="nav-number">1.2.</span> <span class="nav-text">2.给出一个 32 位的有符号整数，你需要将这个整数中每位上的数字进行反转</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-判断回文数"><span class="nav-number">1.3.</span> <span class="nav-text">3.判断回文数</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">FeishengQiu</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

@@ -1,0 +1,816 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="下载第三方库，导入库，关联库1.github下载SlidingMenu的demo https://github.com/jfeinstein10/SlidingMenu  2.解压进入该文件的libray目录，复制本地存放地址 E:\安卓参考的demo资料\北京新闻\1.上课资源\day1\资料\SlidingMenu-master\library  3.Android studio:New—&amp;g">
+<meta name="keywords" content="Android Developer">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SlidingMenu库的导入&amp;&amp;第三方框架导入总结">
+<meta property="og:url" content="http://yoursite.com/2018/10/18/SlidingMenu/index.html">
+<meta property="og:site_name" content="FeishengQiu">
+<meta property="og:description" content="下载第三方库，导入库，关联库1.github下载SlidingMenu的demo https://github.com/jfeinstein10/SlidingMenu  2.解压进入该文件的libray目录，复制本地存放地址 E:\安卓参考的demo资料\北京新闻\1.上课资源\day1\资料\SlidingMenu-master\library  3.Android studio:New—&amp;g">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-12-04T05:38:05.739Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="SlidingMenu库的导入&amp;&amp;第三方框架导入总结">
+<meta name="twitter:description" content="下载第三方库，导入库，关联库1.github下载SlidingMenu的demo https://github.com/jfeinstein10/SlidingMenu  2.解压进入该文件的libray目录，复制本地存放地址 E:\安卓参考的demo资料\北京新闻\1.上课资源\day1\资料\SlidingMenu-master\library  3.Android studio:New—&amp;g">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/10/18/SlidingMenu/"/>
+
+
+
+
+
+  <title>SlidingMenu库的导入&&第三方框架导入总结 | FeishengQiu</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">FeishengQiu</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">Keep learning all the time</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/10/18/SlidingMenu/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="FeishengQiu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="FeishengQiu">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">SlidingMenu库的导入&&第三方框架导入总结</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-10-18T22:30:54+08:00">
+                2018-10-18
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="下载第三方库，导入库，关联库"><a href="#下载第三方库，导入库，关联库" class="headerlink" title="下载第三方库，导入库，关联库"></a>下载第三方库，导入库，关联库</h2><h3 id="1-github下载SlidingMenu的demo"><a href="#1-github下载SlidingMenu的demo" class="headerlink" title="1.github下载SlidingMenu的demo"></a>1.github下载SlidingMenu的demo</h3><blockquote>
+<p><a href="https://github.com/jfeinstein10/SlidingMenu" target="_blank" rel="noopener">https://github.com/jfeinstein10/SlidingMenu</a></p>
+</blockquote>
+<h3 id="2-解压进入该文件的libray目录，复制本地存放地址"><a href="#2-解压进入该文件的libray目录，复制本地存放地址" class="headerlink" title="2.解压进入该文件的libray目录，复制本地存放地址"></a>2.解压进入该文件的libray目录，复制本地存放地址</h3><blockquote>
+<p>E:\安卓参考的demo资料\北京新闻\1.上课资源\day1\资料\SlidingMenu-master\library</p>
+</blockquote>
+<h3 id="3-Android-studio"><a href="#3-Android-studio" class="headerlink" title="3.Android studio:"></a>3.Android studio:</h3><p>New—&gt;Import Moudle—&gt;粘贴库的本地地址<br>—&gt;改Module name(就是导入后库的名称) :SlidingMenu_library<br>—&gt;点击Ok即可</p>
+<h3 id="4-修改SlidingMenu-library的build-gradle："><a href="#4-修改SlidingMenu-library的build-gradle：" class="headerlink" title="4.修改SlidingMenu_library的build.gradle："></a>4.修改SlidingMenu_library的build.gradle：</h3><p>首先注释掉最上面的buidscript结构体，用不上；修改SDK和support库的版本即可，点击try again，出现一个bug：retrun (float)FloatMath.sin(f), 直接把FloatMath改成Math即可，修改完毕</p>
+<h3 id="5-关联库："><a href="#5-关联库：" class="headerlink" title="5.关联库："></a>5.关联库：</h3><p>目录app右键—&gt;Open Moudle Settings—&gt;（右上）Dependencies—&gt;(右上)绿色+号—&gt;选择SlidingMenu_library，点击Ok,OK</p>
+<h3 id="6-finish"><a href="#6-finish" class="headerlink" title="6.finish();"></a>6.finish();</h3><h3 id="7-API介绍："><a href="#7-API介绍：" class="headerlink" title="7.API介绍："></a>7.API介绍：</h3><ul>
+<li>获取SlidingMenu实例，第一种形式直接通过 new 的形式获取SlidingMenu<blockquote>
+<p>SlidingMenu mSlidingMenu = new SlidingMenu(this);</p>
+</blockquote>
+</li>
+</ul>
+<ul>
+<li>设置 SlidingMenu 的属性,设置菜单的滑出形式 右 左 左右(存在二级菜单),调用API：setMode</li>
+</ul>
+<blockquote>
+<p>mSlidingMenu.setMode(SlidingMenu.LEFT_RIGHT);</p>
+</blockquote>
+<ul>
+<li><p>设置手势控制菜单的模式:调用API：setTouchModeAbove</p>
+<p>  1.TOUCHMODE_MARGIN 边缘</p>
+<p>  2.TOUCHMODE_FULLSCREEN 整个屏幕</p>
+<p>  3.TOUCHMODE_NONE 禁止通过手势控制菜单显示/隐藏</p>
+</li>
+</ul>
+<blockquote>
+<p>mSlidingMenu.setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);</p>
+</blockquote>
+<ul>
+<li><p>设置菜单的宽度 推荐使用下面俩个方法 可以通过在配置文件中设置值单位为dp </p>
+<p>  1.setBehindOffsetRes</p>
+<p>  2.setBehindWidthRes</p>
+<p> 区别：第一个方法是设置菜单距离屏幕的偏移量 （菜单宽度 = 屏幕宽度 - 偏移量），第二个方法是直接设置菜单宽度</p>
+</li>
+</ul>
+<blockquote>
+<p>mSlidingMenu.setBehindWidthRes(R.dimen.slidingmenu_width);</p>
+</blockquote>
+<p>   说明：将菜单添加到Activity指定菜单的区域，SLIDING_CONTENT 菜单在内容区域    SLIDING_WINDOW 菜单在整个屏幕，不存在ActionBar的时候 没有区别</p>
+<ul>
+<li>设置二级菜单 可以指定 id 或者是 View</li>
+</ul>
+<blockquote>
+<p> setSecondaryMenu</p>
+</blockquote>
+<ul>
+<li>设置菜单阴影背景</li>
+</ul>
+<blockquote>
+<p>setShadowDrawable</p>
+</blockquote>
+<ul>
+<li>设置菜单阴影背景宽度</li>
+</ul>
+<blockquote>
+<p>setShadowWidth</p>
+</blockquote>
+<blockquote>
+<p>setShadowWidthRes</p>
+</blockquote>
+<ul>
+<li>设置二级菜单阴影背景</li>
+</ul>
+<blockquote>
+<p>setSecondaryShadowDrawable</p>
+</blockquote>
+<ul>
+<li>控制一级菜单隐藏/显示</li>
+</ul>
+<blockquote>
+<p>toggle</p>
+</blockquote>
+<ul>
+<li>开启淡入淡出效果</li>
+</ul>
+<blockquote>
+<p>setFadeEnabled</p>
+</blockquote>
+<ul>
+<li>设置淡入淡出效果 0.0f - 1.0f 值越大效果越明显</li>
+</ul>
+<blockquote>
+<p>setFadeDegree</p>
+</blockquote>
+<ul>
+<li>菜单关闭监听</li>
+</ul>
+<blockquote>
+<p>setOnClosedListener</p>
+</blockquote>
+<ul>
+<li>菜单打开监听</li>
+</ul>
+<blockquote>
+<p>setOnOpenedListener</p>
+</blockquote>
+<ul>
+<li>控制菜单和视图之间的移动速度比</li>
+</ul>
+<blockquote>
+<p>setBehindScrollScale</p>
+</blockquote>
+<hr>
+<h2 id="第三方框架（第三方库）导入Android-Studio的所有方式"><a href="#第三方框架（第三方库）导入Android-Studio的所有方式" class="headerlink" title="第三方框架（第三方库）导入Android Studio的所有方式"></a>第三方框架（第三方库）导入Android Studio的所有方式</h2><h3 id="1-直接谷歌搜素目标库的’compile……’值，然后直接在APP的build-gradle里面添加compile依赖值"><a href="#1-直接谷歌搜素目标库的’compile……’值，然后直接在APP的build-gradle里面添加compile依赖值" class="headerlink" title="1.直接谷歌搜素目标库的’compile……’值，然后直接在APP的build.gradle里面添加compile依赖值"></a>1.直接谷歌搜素目标库的’compile……’值，然后直接在APP的build.gradle里面添加compile依赖值</h3><ul>
+<li><p>条件：此时需要联网,gradle才能远程下载该库，添加到APP中</p>
+</li>
+<li><p>缺点：此时目标库的位置是在build目录下的，不能修改目标库的文件和样式，只能调用API，不能修改</p>
+</li>
+<li><p>分析：一般情况下，我们都是直接调用API，很少去改目标库的样式，除非有特殊需求，很多情况下都可以用这种方法导入库，因为方便简单，直接，不用去改build.gradle，可以采纳</p>
+</li>
+</ul>
+<h3 id="2-下载jar包，导入jar包"><a href="#2-下载jar包，导入jar包" class="headerlink" title="2.下载jar包，导入jar包"></a>2.下载jar包，导入jar包</h3><ul>
+<li><p>复制粘贴jar包到libs目录</p>
+</li>
+<li><p>右键jar包，add as library才能关联库直接使用</p>
+</li>
+<li><p>分析：不一定有jar包，不过其他方式失败的时候，也可以采用此种方式导入库</p>
+</li>
+</ul>
+<h3 id="3-下载了demo库"><a href="#3-下载了demo库" class="headerlink" title="3.下载了demo库"></a>3.下载了demo库</h3><ul>
+<li><p>打开目标库的本地文件到library目录，<strong>复制本地地址</strong></p>
+</li>
+<li><p><strong>AS</strong>：New—&gt;Import Moudle—&gt;粘贴库的本地地址<br>—&gt;改Module name(就是导入后库的名称) :SlidingMenu_library<br>—&gt;点击Ok即可</p>
+</li>
+<li><p><strong>修改库的SDK</strong>:首先注释掉最上面的buidscript结构体，用不上；修改SDK和support库的版本即可，点击try again，出现一个bug：retrun (float)FloatMath.sin(f), 直接把FloatMath改成Math即可，修改完毕</p>
+</li>
+<li><p><strong>关联库</strong>：目录app右键—&gt;Open Moudle Settings—&gt;（右上）Dependencies—&gt;(右上)绿色+号—&gt;选择SlidingMenu_library，点击Ok,OK（此步骤的作用是添加到app的build.gradle的依赖）</p>
+</li>
+<li><p>可能需要改一下过时的方法</p>
+</li>
+</ul>
+<h3 id="4-下载了sample"><a href="#4-下载了sample" class="headerlink" title="4.下载了sample"></a>4.下载了sample</h3><ul>
+<li><p>打开目标库的本地文件到sample目录，复制本地地址</p>
+</li>
+<li><p>New—&gt;Import Moudle—&gt;粘贴sample的本地地址<br>—&gt;改Module name(就是导入后sample的名称) :XUtils3_sample<br>—&gt;点击Ok即可</p>
+</li>
+<li><p>修改build.gradle的SDK版本</p>
+</li>
+<li><p>以后记得提前修改sample的library的名称，方便查询和修改，点击打开sample所带的目标库的build.gradle：留下一个apply ‘libray’  android结构体 dependencies结构体  其他全部注释掉</p>
+</li>
+<li><p>就可以运行sample了</p>
+</li>
+<li><p><strong>关联库</strong>：目录app右键—&gt;Open Moudle Settings—&gt;（右上）Dependencies—&gt;(右上)绿色+号—&gt;选择SlidingMenu_library，点击Ok,OK（此步骤的作用是添加到app的build.gradle的依赖）</p>
+</li>
+<li><p>第三方库的使用，可能还需要添加权限，切记注意是否需要权限，否则一直debug不出来</p>
+</li>
+</ul>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/09/25/MainActivity框架/" rel="next" title="北京新闻项目API记录">
+                <i class="fa fa-chevron-left"></i> 北京新闻项目API记录
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpg"
+                alt="FeishengQiu" />
+            
+              <p class="site-author-name" itemprop="name">FeishengQiu</p>
+              <p class="site-description motion-element" itemprop="description">Android Java</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">17</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#下载第三方库，导入库，关联库"><span class="nav-number">1.</span> <span class="nav-text">下载第三方库，导入库，关联库</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-github下载SlidingMenu的demo"><span class="nav-number">1.1.</span> <span class="nav-text">1.github下载SlidingMenu的demo</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-解压进入该文件的libray目录，复制本地存放地址"><span class="nav-number">1.2.</span> <span class="nav-text">2.解压进入该文件的libray目录，复制本地存放地址</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-Android-studio"><span class="nav-number">1.3.</span> <span class="nav-text">3.Android studio:</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-修改SlidingMenu-library的build-gradle："><span class="nav-number">1.4.</span> <span class="nav-text">4.修改SlidingMenu_library的build.gradle：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-关联库："><span class="nav-number">1.5.</span> <span class="nav-text">5.关联库：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-finish"><span class="nav-number">1.6.</span> <span class="nav-text">6.finish();</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-API介绍："><span class="nav-number">1.7.</span> <span class="nav-text">7.API介绍：</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第三方框架（第三方库）导入Android-Studio的所有方式"><span class="nav-number">2.</span> <span class="nav-text">第三方框架（第三方库）导入Android Studio的所有方式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-直接谷歌搜素目标库的’compile……’值，然后直接在APP的build-gradle里面添加compile依赖值"><span class="nav-number">2.1.</span> <span class="nav-text">1.直接谷歌搜素目标库的’compile……’值，然后直接在APP的build.gradle里面添加compile依赖值</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-下载jar包，导入jar包"><span class="nav-number">2.2.</span> <span class="nav-text">2.下载jar包，导入jar包</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-下载了demo库"><span class="nav-number">2.3.</span> <span class="nav-text">3.下载了demo库</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-下载了sample"><span class="nav-number">2.4.</span> <span class="nav-text">4.下载了sample</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">FeishengQiu</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
